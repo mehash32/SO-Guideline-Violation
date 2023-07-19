@@ -1,0 +1,2661 @@
+Id,PostTypeId,AcceptedAnswerId,ParentId,CreationDate,DeletionDate,Score,ViewCount,Body,OwnerUserId,OwnerDisplayName,LastEditorUserId,LastEditorDisplayName,LastEditDate,LastActivityDate,Title,Tags,AnswerCount,CommentCount,FavoriteCount,ClosedDate,CommunityOwnedDate,ContentLicense
+"4845175","1","","","2011-01-30 20:05:27","","1","2926","<p>So I have created a model in Ogre3D and this model is made up of a number of triangles of arbitrary rotation and position. I would like to ""unwrap"" the model like many modelling programs do so that all of the triangles are mapped to 2d (x,y) but the triangle sizes are maintained. This is for applying decals. The reason the triangle sizes must be maintained so that when the texture is applied there isn't any stretching.</p>
+
+<p>This was the direction I was thinking of going in but I am having trouble visualizing it and achieving the correct algorithms:</p>
+
+<pre><code>//Verticies will have a converted bool;
+
+func( triangle x):
+     for each of x's vertices:
+           map to x,y coordinates if not converted;
+           check other triangles for common vertex if so call func(common_tri);
+</code></pre>
+
+<p>Once this returns there will be a converted version of all of the triangles so that they are all unwrapped and placeable on the texture, where I am having trouble is the mapping to x,y space. I'm not sure how to get a triangle in 3d space to 2d space so that it maintains all of its attributes (like going from an angled view to a perpedicular view of the surface) Any help would be greatly appreciated.</p>
+","480901","","1118321","","2015-03-03 12:31:14","2015-03-03 12:31:14","Unwrapping a polygon from 3d to 2d space (using triangles) for texture coordinates","<c++><model><3d><geometry><uv-mapping>","1","7","0","","","CC BY-SA 2.5"
+"4845177","1","6809747","","2011-01-30 20:05:30","","1","386","<p>everyone. I have a perplexing interaction between contracts, pex, and quickgraph and would be very grateful for advice from the more knowledgeable. I have boiled it down to a repro case where commenting out one contract makes the false negative go away, but I have been unable to diagnose it with the debugger in the time allowed because the subject code (quickgraph) has side-effects in property-getters, meaning that the debugger executes the side effects when displaying the values of the properties, interfering with the actual order of execution. </p>
+
+<p>First a little background, then the specifics, then a pointer to a project to download and try out, should you be so inclined as to dig in! </p>
+
+<p>I installed Pex &amp; Moles </p>
+
+<p><a href=""http://research.microsoft.com/en-us/projects/pex/downloads.aspx"" rel=""nofollow"">http://research.microsoft.com/en-us/projects/pex/downloads.aspx</a></p>
+
+<p>and CodeContracts for .NET 4.0</p>
+
+<p><a href=""http://research.microsoft.com/en-us/projects/contracts/"" rel=""nofollow"">http://research.microsoft.com/en-us/projects/contracts/</a></p>
+
+<p>I downloaded, via nuget, the most recent version of QuickGraph, which is all built for .NET 3.5. I pruned it to the minimum I needed, went into Project Properties for all, updated them all to .NET 4.0 from .NET 3.5 Client Profile, fixed one source breaking change (which was trivial and very, very unlikely to have any connection to my problem). I then went to the Code Contracts tab on every project page and enabled all static and dynamic options.</p>
+
+<p><a href=""http://quickgraph.codeplex.com/releases/view/55262"" rel=""nofollow"">http://quickgraph.codeplex.com/releases/view/55262</a> </p>
+
+<p>The project has 192 unit tests, many of them Pex-generated (very nice!). To run the tests, get my project zip file from</p>
+
+<p><a href=""http://dl.dropbox.com/u/1997638/QuickGraph.zip"" rel=""nofollow"">http://dl.dropbox.com/u/1997638/QuickGraph.zip</a></p>
+
+<p>Make sure you have Pex &amp; Moles and Contracts from the links above. Open the solution, Rebuild everything, then, at the solution level, ""Run All Tests In Solution"" (control-R, A). All will pass. Then go to line 49 of IImplicitUndirectedGraphContracts.cs and uncomment the Contract under the large comment (inserted by me). One test, Prim12240WithDelegate will fail.</p>
+
+<p>That test exercises a graph constructor that builds edges on-the-fly by calling a user-supplied delegate in the property-getters for Edges and EdgeCount. Cute. But something goes wrong with the Contract on line 49 of IImplicitUndirecteGraphContracts.cs. </p>
+
+<p>This is a false negative, because if I comment out this contract, the test passes. In trying to follow this in the debugger, it has something to do with the timing of the creation of the Edges in the property getters. I haven't been able to disentangle this, however, because the debugger calls these getters, the subject code calls them, the contracts code calls them, maybe statically, maybe dynamically, I just plain got lost trying to follow it, and thought I'd bring the question up to those who understand the details of contract execution better than I.</p>
+
+<p>Here is the offending contract; commenting it out makes the unit test succeed:</p>
+
+<pre><code>[Pure]
+  IEnumerable&lt;TEdge&gt; IImplicitUndirectedGraph&lt;TVertex, TEdge&gt;.AdjacentEdges(TVertex v)
+  {
+    IImplicitUndirectedGraph&lt;TVertex, TEdge&gt; ithis = this;
+    Contract.Requires(v != null);
+    Contract.Requires(ithis.ContainsVertex(v));
+    Contract.Ensures(Contract.Result&lt;IEnumerable&lt;TEdge&gt;&gt;() != null);
+~~~~~~&gt; Contract.Ensures(
+      Enumerable.All(
+        Contract.Result&lt;IEnumerable&lt;TEdge&gt;&gt;(),
+        edge =&gt; 
+          edge != null &amp;&amp; 
+          ithis.ContainsEdge(edge.Source, edge.Target) &amp;&amp; 
+          (edge.Source.Equals(v) || edge.Target.Equals(v))
+        )
+      );
+    return default(IEnumerable&lt;TEdge&gt;);
+  }
+</code></pre>
+","520997","","","","","2011-07-24 21:08:18","False Negative Unit Test with Pex, Contracts, and QuickGraph","<unit-testing><c#-4.0><pex><contracts><quickgraph>","1","0","","","","CC BY-SA 2.5"
+"4845179","1","","","2011-01-30 20:06:22","","0","211","<p>Have CVS repository for an application, with several modules: </p>
+
+<ul>
+<li>application code
+<li>documentation
+<li>unit test scripts. 
+</ul>
+
+<p>I need to plan how to migrate to git.
+I would like help to understand if creating one repository for each module is a good option.</p>
+
+<p>regards</p>
+","560443","","149841","","2011-04-15 09:19:33","2011-04-15 09:19:33","Moving CVS modules to right GIT item","<git><cvs><migrate>","2","0","","","","CC BY-SA 2.5"
+"4845181","1","4845285","","2011-01-30 20:06:47","","1","1183","<p>I am currently looking at parts of a string like this ;</p>
+
+<pre><code>            if (thisChar == 'a')
+            [self a];
+
+        else if (thisChar == 'b')
+            [self b];
+
+        else if (thisChar == 'c')
+            [self c];
+</code></pre>
+
+<p>.........</p>
+
+<pre><code>        else if (thisChar == '0')
+        [self zero];
+
+    else if (thisChar == '1')
+        [self one];
+
+    else if (thisChar == '2')
+        [self two];
+
+    else if (thisChar == '3')
+        [self three];
+</code></pre>
+
+<p>......... </p>
+
+<pre><code>            else if (thisChar == '.')
+        [self period];
+
+    else if (thisChar == ',')
+        [self comma];
+
+    else if (thisChar == '?')
+        [self qmark];
+</code></pre>
+
+<p>The problem arises though when I come to </p>
+
+<pre><code>else if (thisChar == ''')
+        [self three];
+</code></pre>
+
+<p>What I want is the ' (apostrophe) sign but it won't let me do it. I know the reason why, but I don't know a way round it. Would doing this help?</p>
+
+<pre><code>NSString *apostropheString = [[NSString alloc] initWithFormat:@""'""];
+
+unichar apostrophe = [apostropheString characterAtIndex:0];
+</code></pre>
+
+<p>Could I use an isEqualToString?</p>
+
+<pre><code>if ([apostrophe isEqualToString: thisChar]) 
+</code></pre>
+
+<p>Any help would be greatly appreciated!</p>
+
+<hr>
+
+<p>I have found a way around it by doing the following;</p>
+
+<p>1). Create an NNString with a single character which is an apostrophe</p>
+
+<pre><code>NSString *apostropheString = [[NSString alloc] initWithFormat:@""'""];
+</code></pre>
+
+<p>2). Get it to convert it to a unichar called ""app"", as it is zero-indexed and there is only         one character the index is 0.</p>
+
+<pre><code>unichar app = [apostropheString characterAtIndex:0];
+</code></pre>
+
+<p>3). I then say if ""thisChar"" is equal to ""app"" run ""qmark""</p>
+
+<pre><code>else if (thisChar == app)
+        [self qmark];
+</code></pre>
+
+<p>I hope this helps for anyone with the same problem!</p>
+","595162","","595162","","2011-01-30 20:27:12","2011-01-30 20:27:12","Apostrophe Unichar Comparison Problems","<iphone><objective-c><sdk><nsstring><unichar>","1","1","0","","","CC BY-SA 2.5"
+"4845187","1","28027894","","2011-01-30 20:07:37","","0","577","<p>I'm writing a small Ruby program to list directory differences between two folder locations.  </p>
+
+<p>I'm using <code>Dir[""path""]</code>, which returns an array. I'm iterating over that array to put it into a hash map to make it more searchable, which works ok.</p>
+
+<p>I was just curious if: </p>
+
+<ol>
+<li>There is a better function I should be using to get this hashmap, or</li>
+<li>If there is a native way to get a hashmap from an array.</li>
+</ol>
+
+<p>Edit: I looked around a bit on SO and found people offering the suggestion of using a Set instead.  I'll go with that for now instead of the hashmap.</p>
+","3613","","128421","","2011-01-30 22:18:02","2015-01-19 15:18:58","Ruby: getting a hash of file names and directories","<ruby><arrays><search><hashmap>","1","2","","","","CC BY-SA 2.5"
+"4845188","1","","","2011-01-30 20:08:22","","0","1236","<p>I have a window based application. What is the simplest way to switch from one view to another in this type of application?</p>
+","165547","","","","","2020-01-22 13:48:55","How to switch from one view to another?","<iphone><ipad><ios>","2","4","","","","CC BY-SA 2.5"
+"4845191","1","4845259","","2011-01-30 20:08:34","","1","3194","<p>I have a collection like this:</p>
+
+<pre><code>{ ""_id"" : ObjectId(""4d45bd25957a15b80702d4e4""), ""codenum"" : 10, ""payment"" : [
+ {
+  ""pcode"" : 100,
+  ""amount"" : 10000
+ },
+ {
+  ""pcode"" : 101,
+  ""amount"" : 6000
+ }
+], ""age"" : 70 }
+</code></pre>
+
+<p>Notice that payment array is embedded in this collection. Now, I would like to retrieve only payment code matching 101 in the find response.</p>
+
+<p>Giving a query like this:</p>
+
+<pre><code>db.test.find({""codenum"":10, ""payment.pcode"": 101}, 
+             {""codenum"":1, ""payment.pcode"":1, ""payment.amount"":1})
+</code></pre>
+
+<p>will get my entire document including other payment pcodes as well, as in the above display.</p>
+
+<p>However, <strong><em>I require a response something like this:</em></strong></p>
+
+<pre><code>{ ""_id"" : ObjectId(""4d45bd25957a15b80702d4e4""), ""codenum"" : 10, ""payment"" : [
+ {
+  ""pcode"" : 101,
+  ""amount"" : 6000
+ }
+] }
+</code></pre>
+
+<p>Is this possible in mongodb?</p>
+
+<p>In update(), there is a positional match that can be used like ""payment.$.amount"" to set the matching field based on the condition.</p>
+
+<p>May be MongoDB can support the query like this:</p>
+
+<pre><code>db.test.find({""codenum"":10, ""payment.pcode"": 101}, 
+             {""payment.$.pcode"": 1, ""payment.$.amount"":1})
+</code></pre>
+
+<p>which would then give only those entries that match the condition given.</p>
+
+<p>Any thoughts?</p>
+","172854","","142162","","2011-01-30 20:10:26","2013-12-19 06:11:26","MongoDB query to limit values based on condition","<arrays><mongodb>","2","0","0","","","CC BY-SA 2.5"
+"4845192","1","4845213","","2011-01-30 20:08:45","","2","892","<p>I know doing a <code>new(std::no_throw)</code> will set pointer to <code>NULL</code> if it failed.
+I also know that a normal <code>new</code> will throw a <code>std::bad_alloc</code> exception if it failed.</p>
+
+<p>Will the normal <code>new</code> also set the pointer to <code>NULL</code> if it throws? Or should I set it to <code>NULL</code> in the <code>catch()</code> block?</p>
+","964135","","6165833","","2017-08-03 10:14:34","2017-08-03 10:14:34","Does new set pointer to NULL if it throws std::bad_alloc?","<c++><null><new-operator><allocation><bad-alloc>","2","0","","","","CC BY-SA 3.0"
+"4845194","1","4845225","","2011-01-30 20:09:04","","1","244","<p>I wrote a simple screen-scraper to help me make vocabulary flash cards for my Greek class. It scrapes the words from an online dictionary, and outputs them in a format that my flash card manager can understand.</p>
+
+<p>I don't want to bombard the dictionary with requests every time I run the scraper, so I cache each page to my hard drive the first time I load them (of course, this also makes it much faster). I've never done any caching before, so I'm not sure what best practices for this sort of thing are. Here is my solution:</p>
+
+<pre><code>using System;
+using System.IO;
+using System.Net;
+using System.Web;
+
+public class PerseusDocument
+{
+    readonly string url;
+
+    public PerseusDocument (string url)
+    {
+        this.url = url;
+
+        ... // (load the DOM with a third-party library)
+    }
+
+    static string cacheUrl;
+    static string CacheUrl {
+        get {
+            if (cacheUrl == null) {
+                cacheUrl = Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.LocalApplicationData), ""perseus"");
+                Directory.CreateDirectory (cacheUrl);
+            }
+
+            return cacheUrl;
+        }
+    }
+
+    string FullCacheUrl {
+        get { return Path.Combine (CacheUrl, HttpUtility.UrlEncode (url)); }
+    }
+
+    bool IsCached {
+        get { return File.Exists (FullCacheUrl); }
+    }
+
+    string Html {
+        get {
+            if (IsCached)
+                return File.ReadAllText (FullCacheUrl);
+
+            WebClient client = new WebClient ();
+            string html = client.DownloadString (url);
+
+            using (StreamWriter file = new StreamWriter (FullCacheUrl))
+                file.Write (html);
+
+            return html;
+        }
+    }
+}
+</code></pre>
+
+<p>In other words, I simply check if a file with the same name as the url exists in the cache. If so, I load it, if not, I save the html to a new file. Are there any glaring issues with doing things this way?</p>
+","105084","","105084","","2011-01-30 21:17:20","2011-01-30 21:17:20","Is this a bad way to cache pages for my screen-scraper?","<c#><http><caching><mono><screen-scraping>","1","0","0","","","CC BY-SA 2.5"
+"4845198","1","4845893","","2011-01-30 20:09:58","","151","160104","<p>When I try to compile my c++ project using Visual Studio 2010 in either Win32 or x64 mode I get the following error:</p>
+
+<p><code>&gt;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\winnt.h(135): fatal error C1189: #error :  ""No Target Architecture""</code></p>
+
+<p>My preprocessor definitions say WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</p>
+
+<p>What is causing this error and how do I fix it?</p>
+
+<pre><code>// winnt.h: lines 127-136, MSVS says this is an inactive preprocessor block
+#if defined(_WIN64)
+
+#if defined(_AMD64_)
+#define PROBE_ALIGNMENT( _s ) TYPE_ALIGNMENT( DWORD )
+#elif defined(_IA64_)
+#define PROBE_ALIGNMENT( _s ) (TYPE_ALIGNMENT( _s ) &gt; TYPE_ALIGNMENT( DWORD ) ? \
+                              TYPE_ALIGNMENT( _s ) : TYPE_ALIGNMENT( DWORD ))
+#else
+#error ""No Target Architecture""
+#endif
+</code></pre>
+
+<p>Update: I created a new msvs project and copied my code to it. I no longer have <code>error : ""No Target Architecture""</code>, but now I have a bunch of compile errors involving winnt.h and winbase.h and no compile errors involving any of my files. Is it possible these files are corrupted? Do I need to reinstall MSVS 2010?</p>
+
+<p>Update 2: So I narrowed down my problem and found that it is <code>#include &lt;WinDef.h&gt;</code> that is causing all of my compile errors with winnt.h but I still don't know how to fix it.</p>
+","595525","","595525","","2021-01-04 16:19:02","2023-05-14 22:01:18","Fatal error: ""No Target Architecture"" in Visual Studio","<c++><windows><visual-studio><visual-c++><compiler-errors>","15","5","0","","","CC BY-SA 3.0"
+"4845201","1","4845625","","2011-01-30 20:10:26","","7","12924","<p>I have a very basic situation:</p>
+
+<p>I have a table with around 5k rows:</p>
+
+<pre><code>CREATE TABLE ""words"" (""id"" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , ""name"" TEXT NOT NULL , ""def"" TEXT NOT NULL, ""rand"" INTEGER)
+</code></pre>
+
+<p>Which I periodically update using ""UPDATE words SET rand=random()""</p>
+
+<p>In android, when I create a cursor using rawQuery() using the following:</p>
+
+<pre><code>SELECT w.id, w.name, w.def, w.rand FROM words w ORDER BY w.rand ASC;
+</code></pre>
+
+<p>The returned cursor does not iterate in the correct order. E.g. it will output columns with rand values in the following order:</p>
+
+<pre><code>-1298882092
+-2138143484
+-1115732861
+118839193
+...
+</code></pre>
+
+<p>Does anyone know whats going on here? Shouldn't this work? If I run the exact same query in SQLiteManager it returns the results in the correct order, so this seems to be android/cursor specific.</p>
+
+<p>UPDATE:</p>
+
+<p>Here is the code in android, I have tried multiple ways:</p>
+
+<p>Attempt 1:</p>
+
+<pre><code>Cursor cursor = db.rawQuery(""SELECT w.id, w.name, w.def, w.rand FROM words w ORDER BY w.rand ASC"", new String[]{});
+</code></pre>
+
+<p>Attempt 2:</p>
+
+<pre><code>Cursor cursor = db.query(""words"", new String[]{""id"", ""name"", ""def"", ""rand""},
+            null, null, null, null, ""rand ASC"");
+</code></pre>
+
+<p>In both cases I iterate like the following:</p>
+
+<pre><code>while(cursor.moveToNext()) {
+    ...
+    Log.i(""Test"", cursor.getInt(3));
+    ...
+}
+</code></pre>
+","80617","","4294399","","2021-12-29 22:51:52","2021-12-29 22:51:52","Android SQLite negative values with ORDER BY","<android><sql><sqlite><android-cursor>","2","5","0","","","CC BY-SA 4.0"
+"4845202","1","4845315","","2011-01-30 20:10:31","","3","12163","<p>I want to generate thumbnails of websites. I found a few sites that handle it with an API, such as <a href=""http://www.websnapr.com/"" rel=""nofollow"">http://www.websnapr.com/</a></p>
+
+<p>How can this be done with PHP so I can handle all of the requests on my server?</p>
+","237885","","","","","2013-06-11 18:36:17","Create thumbnails from URLs using PHP","<php><html><web>","4","1","0","","","CC BY-SA 2.5"
+"4845203","1","","","2011-01-30 20:10:34","","0","187","<p>I am using the following commands in my .htaccess file to remove the .php extension from the url on my pages. The code used was found in <a href=""https://stackoverflow.com/questions/4588022/htaccess-to-remove-php-extension-godaddy"">this</a> question.</p>
+
+<pre><code>RewriteEngine on 
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME}\.php -f 
+RewriteRule ^(.*)$ $1.php
+</code></pre>
+
+<p>When I test this by typing mydomain.com/page into my browser it duplicates my domain name and returns mydomain.com/mydomain/page which ultimately returns a 404 error.  What am I doing wrong? If it helps, site is hosted on Hostmonster.com.</p>
+","596042","","-1","","2017-05-23 12:26:57","2011-02-01 00:05:48","Duplicate name when using .htaccess to remove .php","<.htaccess>","2","0","","","","CC BY-SA 2.5"
+"4845204","1","4849649","","2011-01-30 20:10:35","","10","5058","<p>I'm currently grading assignments for a course on SML. I've written some test cases to automatically check correctness of functions in the students' assignments, and I'd like to be able to import their code and then run the test cases against that code. I'm imagining something similar to python import semantics. Right now, the best solution I have is to copy-paste this code at the bottom of each assignment. Is this possible with SML?</p>
+","366856","","","","","2011-01-31 10:12:10","How to import code in SML?","<sml>","2","0","","","","CC BY-SA 2.5"
+"4845208","1","4846904","","2011-01-30 20:11:03","","6","9282","<p>Does anyone know any knowledge of using this:</p>
+<p><code>- (void) startMonitoringForRegion:(CLRegion *)region desiredAccuracy:(CLLocationAccuracy)accuracy</code></p>
+<p>I am trying to implement it into my project but:</p>
+<p><code>- (void) locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region</code></p>
+<p>is never being called?</p>
+<p>Does anyone have any example code or know why this is happening?</p>
+<p>My code is as follows. I created a method like this in my own LocationManager class:</p>
+<pre><code> - (void) locationManagerStartMonitoringRegion:(CLRegion *)region withAccuracy:(CLLocationAccuracy)accuracy {
+    NSLog(@&quot;Start Monitoring&quot;);
+    [locationManager startMonitoringForRegion:region desiredAccuracy:accuracy];
+    NSLog(@&quot;Monitored Regions: %i&quot;, [[locationManager monitoredRegions] count]);
+}
+</code></pre>
+<p>I then call it like this:</p>
+<pre><code>CLLocationCoordinate2D coordinates = CLLocationCoordinate2DMake(51.116261, -0.853758);     
+CLRegion *grRegion = [[CLRegion alloc] initCircularRegionWithCenter:coordinates radius:150 identifier:[NSString stringWithFormat:@&quot;grRegion%i&quot;, value]];
+
+[locationManager locationManagerStartMonitoringRegion:grRegion withAccuracy:kCLLocationAccuracyBest];
+</code></pre>
+<p>I get NSLog's of:</p>
+<blockquote>
+<p>2011-01-30 19:52:26.409 TestingLocation[10858:307] Start Monitoring</p>
+<p>2011-01-30 19:52:27.103 TestingLocation[10858:307] Monitored Regions:</p>
+</blockquote>
+<p>But never get an NSLog from:</p>
+<pre><code> - (void) locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region     {
+    NSLog(@&quot;Entered Region&quot;);
+}
+</code></pre>
+<p>or</p>
+<pre><code> - (void) locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {
+    NSLog(@&quot;monitoringDidFailForRegion: %@&quot;,error);
+}
+</code></pre>
+<p>Thanks</p>
+","413436","","-1","","2020-06-20 09:12:55","2015-03-11 07:12:20","Core Location region monitoring","<iphone><objective-c><ios4><cllocationmanager><cllocation>","5","4","0","","","CC BY-SA 2.5"
+"4845211","1","4845263","","2011-01-30 20:12:03","","20","21239","<p>In my iPad app, I want a second view to appear within the main when the user clicks a button. The new view will be smaller than the first, and darken the background when it is displayed. I want the top two corners of the new view to appear rounded, but using cornerRadius sets all of them rounded. How can I make just two corners rounded?</p>
+","537247","","","","","2018-08-10 12:27:22","Just two rounded corners?","<iphone><objective-c><ipad><rounded-corners>","3","0","0","2013-07-04 12:19:55","","CC BY-SA 2.5"
+"4845212","1","","","2011-01-30 20:12:13","","1","1021","<p>i need help how to develop validation rule for next case...</p>
+
+<p>my cakephp web form contains several dynamically generated checkboxes. end user must select at least one of them.</p>
+
+<p>none of those checkboxes are fields in db table.</p>
+
+<p>can you help me how to create validation rule for that?</p>
+
+<p>tried to do by adding in model something like </p>
+
+<pre><code>var $validate = array(
+    'topic' =&gt; array(
+      'rule' =&gt; 'myRule',
+      'message' =&gt; 'Check on at least one checkbox'
+    )
+)
+
+function myRule() {
+  //just give me false to know it works...
+  return false;
+}
+</code></pre>
+
+<p>also, for that case, how to place error message, below those checkboxes?</p>
+
+<p>tnx in adv!</p>
+","198003","","198003","","2011-01-30 20:20:49","2011-01-31 00:44:09","Custom filed validation in CakePHP","<cakephp><validation><cakephp-1.3>","1","0","","","","CC BY-SA 2.5"
+"4845215","1","24162238","","2011-01-30 20:13:07","","74","82321","<p>I am creating an extension that will download a mp3 file off a website. I am trying to do this by creating a new tab with the link to the mp3 file, but chrome keeps opening it inside the player instead of downloading it. Is there any way I can create a pop-up to ask the user to ""save-as"" the file?</p>
+","516476","","516476","","2016-12-22 22:39:27","2019-10-07 00:42:14","Making a Chrome Extension download a file","<javascript><html><google-chrome><google-chrome-extension>","5","1","0","","","CC BY-SA 3.0"
+"4845217","1","4849824","","2011-01-30 20:13:29","","1","1554","<p>Several developers need to use InstallShield to build and test their code,
+but we have only a single-station InstallShield license.<br />
+We need an idea, a legal way to enable each developer to build his installation from his workstation, as part of an Ant script run, whenever he wants.<br />
+Perhaps run IS through some kind of a service, that manages a queue of remote requests?<br />
+Assume it takes Installshield about 30 seconds to build an installation.<br />
+Edit: we use CruiseControl for CI, but we want to enable a developer to build a test installation <strong>before</strong> committing his changes to SVN. </p>
+","326855","","326855","","2011-01-31 07:43:02","2011-01-31 10:31:21","How to enable several remote developers to share one InstallShield station?","<project-management><service><installshield>","2","0","","","","CC BY-SA 2.5"
+"4845219","1","4845250","","2011-01-30 20:14:11","","127","170162","<p>When I try to run my Tomcat I get a message:</p>
+
+<pre><code>Server Tomcat v6.0 Server at localhost was unable to start within 45 seconds. If the server requires more time, try increasing the timeout in the server editor.
+</code></pre>
+
+<p>Where is this server editor? I didn't find it in windows preference server.</p>
+
+<p>I am using Eclipse 3.6.</p>
+","264419","","4032703","","2018-01-30 15:27:12","2018-12-27 04:40:50","Change Tomcat Server's timeout in Eclipse","<eclipse><tomcat>","10","0","0","","","CC BY-SA 3.0"
+"4845220","1","4845240","","2011-01-30 20:14:18","","0","65","<p>I don't mean .load() since I don't want to display the file's contents. Instead I want to store the contents in a string so I can perform string manipulation on it. Is this possible?</p>
+","595688","","","","","2011-01-30 20:17:28","Is it possible to store the contents of a text file into a string in jQuery?","<jquery>","1","0","","","","CC BY-SA 2.5"
+"4845224","1","","","2011-01-30 20:14:45","","0","1004","<p><br>
+  I'm having some cross-browser positioning problems. I've got a short bio element and I'd like for the .bio_name element to go over the image. Using the styles below, I've got it working in all prevalent browsers (those used in Adobe's Browserlab) except Safari 4.0, and IE 7 (in IE 8 it work great though). What changed from Safari 3 to Safari 4/IE 7 t0 IE 8? </p>
+
+<p><a href=""http://picasaweb.google.com/lh/photo/nj7tzSTHZKINj3uSzOvJbA?feat=directlink"" rel=""nofollow"">Example of error</a></p>
+
+<p>I have a structure like this:  </p>
+
+<pre><code>&lt;div id=""some_id"" class=""bio""&gt;  
+&lt;h3&gt;  
+&lt;img src=""http://www.hello.com/some.jpg"" alt=""blah"" /&gt;  
+&lt;a name=""person""&gt;&lt;/a&gt;  
+&lt;/h3&gt;  
+&lt;div class=""bio_info""&gt;  
+&lt;h3 class=""bio_name""&gt;First Last&lt;/h3&gt;  
+blah  
+&lt;div class=""add_bio""&gt;blah more&lt;/div&gt;  
+&lt;/div&gt;  
+&lt;span class=""add_bio_toggle""&gt;more&lt;/span&gt;  
+&lt;/div&gt;  
+</code></pre>
+
+<p>and it's styled like this:  </p>
+
+<pre><code> .bio{    
+   position: relative;  
+   min-height: 175px;  
+   }  
+
+.bio img{  
+   float: left;  
+   margin-right: 10px;  
+   width: 160px;  
+   height: 143px;  
+   vertical-align:text-top;  
+   margin-top:10px; align:left;  
+   }  
+
+  .bio_info{  
+   margin-top: -40px;  
+   }  
+
+.bio_info h3{  
+   line-height: -1px;    
+   margin-top: 7px;  
+   }  
+
+.add_bio_toggle{  
+   display: block;   
+   cursor: pointer;  
+   color: blue;  
+   } 
+</code></pre>
+","91748","","","","","2011-01-30 20:36:08","image text alignment, cross-browser-compatibility question","<css><internet-explorer><safari><cross-browser>","1","0","0","","","CC BY-SA 2.5"
+"4845226","1","4882194","","2011-01-30 20:15:03","","2","3957","<p>I have 2 levels of <code>UITableViews</code> in a Navigation Hierarchy. On the first page is a <code>UITableView</code> that displays all the instances of <code>Equipment</code> using a <code>NSFetchedResultsController</code> which works great. On the second page I want to get back all the <code>Note</code> entities for a specific piece of <code>Equipment</code> so I can show them in a <code>tableView</code>.</p>
+
+<p>How do I write a <code>NSPredicate</code> to only return the relevant notes?</p>
+
+<p><img src=""https://i.stack.imgur.com/9Tyxm.png"" alt=""Table Relationship""></p>
+
+<pre><code>- (NSFetchedResultsController *)fetchedResultsController {
+
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+
+    //Init Fetch Request
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+
+    //Entity the NSFetchedResultsController will be managing
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@""Note"" 
+                                              inManagedObjectContext:self.myContext];
+    [fetchRequest setEntity:entity];
+
+    //Sort Descriptors
+    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@""noteTime"" 
+                                                                    ascending:YES];//Primary Sort
+    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@""noteText"" 
+                                                                    ascending:YES];//Secondary Sort
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor1, 
+                                                                sortDescriptor2, 
+                                                                nil];
+
+    //Set Sort Descriptors
+    [fetchRequest setSortDescriptors:sortDescriptors];
+
+    // limit Fetch to notes that belong to myEquipment
+    //self
+   // NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@""item.name like '%@'"", self.item.name]];
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:PREDICATE GOES HERE];
+    [fetchRequest setPredicate:predicate];
+
+
+
+    [fetchRequest setFetchBatchSize:10];
+
+    NSFetchedResultsController *frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest    
+                                                                          managedObjectContext:self.myContext 
+                                                                            sectionNameKeyPath:nil 
+                                                                                     cacheName:@""Equipment""];
+    //Set the Delegate Property
+    frc.delegate = self;
+    _fetchedResultsController = frc; 
+
+    //Release Local Memory
+    [sortDescriptor1 release];
+    [sortDescriptor2 release];
+    [sortDescriptors release];
+    [fetchRequest release];
+
+    return _fetchedResultsController;
+} 
+</code></pre>
+","519493","","836407","","2011-10-09 08:21:22","2013-09-09 00:38:57","How to write an NSPredicate For CoreData to-many relationship","<core-data><nsfetchedresultscontroller><nspredicate>","1","0","","","","CC BY-SA 3.0"
+"4845227","1","5193719","","2011-01-30 20:15:16","","0","326","<p>I use listviews to display lists of elements on the pages of my aspx website.
+Now every time i use a listview a left margin of 37px left to the elements in the listview appears even tough i don't use one. If i display an element without the listview this doesn't appear, but when i put that div that contains the element in a listview it appears.</p>
+
+<pre><code>&lt;asp:ListView ID=""ListView1"" runat=""server"" DataSourceID=""SqlData1""&gt;
+    &lt;LayoutTemplate&gt;
+        &lt;ul&gt;
+            &lt;asp:PlaceHolder ID=""itemPlaceholder"" runat=""server"" /&gt;
+        &lt;/ul&gt;
+     &lt;/LayoutTemplate&gt;
+     &lt;ItemTemplate&gt;
+         &lt;div id=""artmic""&gt;
+            &lt;asp:HyperLink ID=""HyperLink1"" runat=""server"" &gt;&lt;/asp:HyperLink&gt;                         
+         &lt;/div&gt;
+     &lt;/ItemTemplate&gt;
+&lt;/asp:ListView&gt;
+</code></pre>
+
+<p>Is this a bug? Does anyone know how i could fix this?</p>
+","559933","","256196","","2011-09-14 12:12:11","2011-09-14 12:12:11","Weird left margin appears if using a listview","<c#><.net><asp.net><listview>","2","2","","","","CC BY-SA 3.0"
+"4845228","1","","","2011-01-30 20:15:27","","0","793","<p>I have a dropdown list with name pid and a submit button in my form. when submit button is clicked i want to pass the value selected in the dropdown list (pid) to this var target_id in the javascript.</p>
+
+<pre><code>&lt;script&gt;
+function send(fid)
+{
+var uid=fid;
+alert('ID IS: '+uid);
+}
+&lt;/script&gt;
+
+echo ""&lt;select name='pid'&gt;"";
+//this is in a for loop
+echo ""&lt;option value="".$id.""&gt;"".$id.""&lt;/option&gt;"";
+//for loop ends
+&lt;/select&gt;
+&lt;input type='submit' value='send' name='send' onclick='send(pid)' id='send'/&gt;
+</code></pre>
+
+<p>what am i doing wrong here?</p>
+","370657","","","","","2011-01-30 20:45:16","pass php variable to javascript","<php><javascript>","3","2","","2014-05-19 15:27:36","","CC BY-SA 2.5"
+"4845229","1","","","2011-01-30 20:15:45","","0","338","<p>I'm struggling with developing an Eclipse plugin. In general, you should be able to select some lines of Java code in the Java editor, then click a button and do something with the selected code.</p>
+
+<p>How can I actually access this particular Java editor and the selection from the plugin? As a skeleton, I'm using this simple Hello World example, which adds a button to the toolbar, popping up a dialog box when clicking it.</p>
+
+<p>The only thing I have is an instance of <code>IWorkbenchWindow</code>. Using this API, I will get an <code>IEditorPart</code> calling <code>window.getActivePage().getActiveEditor()</code>, which seems to be pretty useless for my purpose ...</p>
+
+<p>Any help is highly appreciated</p>
+
+<p>Cheers
+  -Frank</p>
+","596031","","","","","2014-05-02 11:14:20","Programming an Eclipse plugin, how to access a Java Editor's active selection?","<editor><eclipse-plugin><selection>","2","0","0","","","CC BY-SA 2.5"
+"4845231","1","","","2011-01-30 20:16:14","","2","431","<p>I have a view that does something like this:</p>
+
+<pre><code>objectBase = MyModel.objects.filter(startDate__range=(start,end))
+automatedObjects = objectBase.filter(automated = True).count()
+userCreatedObjects = objectBase.filter(userCreated = True).count()
+bookObjects = objectBase.filter(subClass = 'book').count()
+pageObjects = objectBase.filter(subClass = 'page').count()
+allObjectsCount = objectBase.count()
+</code></pre>
+
+<p>I am using 1.2.4 and the latest postgres</p>
+
+<p>Anyways, I have about 20 different ways I need to filter my objectBase that filtered by date, and I noticed that each SQL query filters by date. Is there a more efficient way to make the subsequent queries not have to filter by date? Would there be a speed difference? </p>
+
+<p>Also what do you think would be the best method for caching the objectBase query since theoretically it could hold hundreds or thousands of objects for the dates filtered and the likely hood of the start, end dates being the same for a request is very unlikely. </p>
+
+<p>like say somebody could request the stats between dates t1 and t2, and then later request t3 to t4 where t1 &lt; t3 &lt; t2 and t2 &lt; t4 so there is some overlap. Is there a way to cache it so where there is overlap between the requests that it would have to access the db for it?</p>
+
+<p>sorry if this seems like a hefty request, but any help would be appreciated. </p>
+","401658","","","","","2011-01-30 23:09:59","Optimizing django DB access when you perform multiple filters different times on one base QuerySet that filtered daterange","<django><django-models>","2","0","0","","","CC BY-SA 2.5"
+"4845238","1","","","2011-01-30 20:16:57","","1","524","<p>Folks,</p>
+
+<p>There is a panel which contains 2 components: a label and a TreeView. The hierarchy, obviously, looks like this:</p>
+
+<pre>panel1  // handles Enter event
+   - label1
+   - treeView1</pre>
+
+<p>I need to do some UI updates when user starts interacting with any of these 3 controls. My attempted strategy was to catch the <code>Enter</code> event of the <code>panel1</code>, which would fire when user clicks the label or the TreeView. This way, I would write only a single event handler instead of several. While it worked for the TreeView, it didn't work for the label. When I click the label, I don't get the <code>Enter</code> event on the panel. What’s different about the label control?</p>
+
+<p>I could handle the Click event of the label. At the same time, I wonder if there is a more elegant solution.</p>
+
+<p>Any suggestion, insight or reference is really appreciated! <br><br>
+- Nick</p>
+
+<p>P.S.  I'm running VS2008 and .NET 3.5 </p>
+","279844","","279844","","2011-02-01 05:50:53","2011-02-01 05:50:53","How does WinForms label control handle focus?","<winforms><events><focus><label>","0","0","0","","","CC BY-SA 2.5"
+"4845239","1","4845279","","2011-01-30 20:17:06","","48","29838","<p>I am currently working in a Django project for which I need access to the admin area for local development, but want to disable it in the deployed site (for security reasons, among others).</p>
+
+<p>How can I achieve this programmatically (<em>ie</em> using <code>settings.py</code>).</p>
+
+<p>Many thanks.</p>
+","143732","","143732","","2011-01-30 20:30:45","2020-04-22 20:36:47","How can I disable Django's admin in a deployed project, but keep it for local development?","<python><django>","3","0","0","","","CC BY-SA 2.5"
+"4845242","1","4845280","","2011-01-30 20:17:44","","2","256","<p>Hey guys, 
+I was wondering when you create a new website project in ASP.NET and it comes with that login and register page by default, do people actually use these basic pages for a website?  More specifically, is it very common to use the login controls and the CreateUserWizard?  Are these controls the basis of any user account login?  I want to learn it, but i feel like if most people don't even use it then there's no point for me to learn these controls and how they work.</p>
+","372519","","265143","","2011-01-30 20:26:34","2011-01-30 20:27:32","Question about Visual Studio 2010's built in web application","<c#><asp.net><visual-studio-2010>","2","0","","","","CC BY-SA 2.5"
+"4845245","1","4845331","","2011-01-30 20:17:57","","1","2198","<p>I want to swap either rows or columns in an array of arrays (i.e. a matrix). I have found this swap method online, and I extended it with my <code>mutate</code> function, where the <code>board.matrix</code> is the array of arrays:</p>
+
+<pre><code># Swap to elements of an Array
+def swap!(a,b)
+  self[a], self[b] = self[b], self[a]
+  self
+end
+
+def mutate(board)
+  matrix = board.matrix
+  random = rand
+  rand_a = rand(matrix.length-1)
+  rand_b = rand(matrix.length-1)
+
+  puts ""Old one:""
+  board.print_matrix
+  # We have a 50:50 chance of swapping either columns or rows
+  if random &lt;= 0.5
+    # Swap columns: Transpose first
+    puts ""Swapping columns #{rand_a} and #{rand_b}...""
+    temp = matrix.transpose
+    temp.swap!(rand_a, rand_b)
+    matrix = temp.transpose
+  else
+    # Just swap rows
+    puts ""Swapping rows #{rand_a} and #{rand_b}...""
+    matrix.swap!(rand_a, rand_b)
+  end
+  puts ""New one:""
+  board.print_matrix
+end
+</code></pre>
+
+<p>Now it does what it should for rows:</p>
+
+<pre><code>Old one:
+X  X  0  0  
+0  0  0  0  
+X  X  0  0  
+0  0  0  0  
+
+Swapping rows 1 and 0...
+New one:
+0  0  0  0  
+X  X  0  0  
+X  X  0  0  
+0  0  0  0
+</code></pre>
+
+<p>But it doesn't for columns. Why is that?</p>
+
+<pre><code>Old one:
+0  X  X  0  
+0  0  X  0  
+X  0  0  0  
+0  0  0  0  
+
+Swapping columns 1 and 0...
+New one:
+0  X  X  0  
+0  0  X  0  
+X  0  0  0  
+0  0  0  0
+</code></pre>
+","435093","","435093","","2011-01-30 20:24:19","2011-01-30 20:35:49","Swapping either Columns or Rows in a Ruby Matrix","<ruby><arrays><matrix><multidimensional-array><transpose>","2","0","","","","CC BY-SA 2.5"
+"4845246","1","4845591","","2011-01-30 20:18:09","","111","92748","<p>I've watched several presentations of EF Code First and haven't seen how EFCF works with stored procedures.</p>
+
+<p>How can I declare a method that will use some sp? Can I pass an entity to a method that calls sp without manually mapping entity properties to sp parameters?</p>
+
+<p>Also, what happens if I change my model? Would it drop my sp while recreating table from model? And what about triggers?</p>
+
+<p>If these things are not supported, are there any plans to support them in future?</p>
+","576752","","13302","","2011-01-30 21:24:25","2018-07-11 19:58:47","Does Entity Framework Code First support stored procedures?","<c#><entity-framework><stored-procedures><code-first>","5","2","0","","","CC BY-SA 2.5"
+"4845247","1","","","2011-01-30 20:18:11","","0","410","<p>On Android devices when you click or long press on an empty area of a home screen, the Add to Home Activity/dialog opens up allowing you to choose from different options to put on the home screen.</p>
+
+<p>I have a notification that goes off at the status bar, what I want to do is when that notification is clicked I want to open the Add to Home Activity.</p>
+
+<p>The notification is working fine. </p>
+
+<p>Is there an activity name.class that I could set as the target of the notification when clicked?</p>
+
+<p>I checked <a href=""https://android.googlesource.com/platform/packages/apps/Launcher/+/master/src/com/android/launcher/Launcher.java#1688"" rel=""nofollow noreferrer"">Android Launcher source code</a>.</p>
+
+<p>I found this:</p>
+
+<pre><code>    if (mWorkspace.allowLongPress()) {
+1747             if (cellInfo.cell == null) {
+1748                 if (cellInfo.valid) {
+1749                     // User long pressed on empty space
+1750                     mWorkspace.setAllowLongPress(false);
+1751                     showAddDialog(cellInfo);
+1752                 }
+1753             } else {
+1754                 if (!(cellInfo.cell instanceof Folder)) {
+1755                     // User long pressed on an item
+1756                     mWorkspace.startDrag(cellInfo);
+1757                 }
+1758             }
+1759         }
+1760         return true;
+</code></pre>
+
+<p>Most certainly <code>showAddDialog(cellInfo)</code> brings up the Add to Home screen. </p>
+
+<p>Any ideas on how do I go about implementing this for my requirement above.</p>
+","447886","","1000551","","2017-08-03 09:06:26","2017-08-03 09:06:45","How to Call ""Add to Home"" Activity in Android?","<java><android><android-source>","1","1","","","","CC BY-SA 3.0"
+"4845255","1","","","2011-01-30 20:19:45","","1","603","<p>I have a small game (5 classes) being developed in XNA. There are balls bouncing around the window, moving at right-angles when colliding with the sides of the window. The user creates a marquee by dragging the mouse anywhere in the window. When the marquee is created and confirmed, every time a ball hits the marquee it is to be removed. I have my balls in a 2-d array, and I wondered how to remove the balls from this type of array. Currently I am doing the following:</p>
+
+<pre><code>Rectangle ball = new Rectangle((moveBallX - 4), (moveBallY - 4), moveBallX, moveBallY);
+Rectangle marquee = new Rectangle(tempInitialX, tempInitialY, tempWidth, tempHeight);
+if (ball.Intersects(marquee))
+{
+    balls[rowIndex, columnIndex].SetRed(0);
+    balls[rowIndex, columnIndex].SetGreen(0);
+    balls[rowIndex, columnIndex].SetBlue(0);
+}
+</code></pre>
+
+<p>This makes the balls that enter the marquee black, so as they become invisible. I want to do other things with the code such as display the number of balls remaining on the board, so being able to remove the items from the array would be useful.</p>
+
+<p>Thanks for your time.</p>
+","371482","","41956","","2011-01-30 20:42:05","2011-02-20 23:35:17","How do I remove items from a 2-d array based on randomised conditions?","<c#><.net><xna>","2","2","","","","CC BY-SA 2.5"
+"4845260","1","","","2011-01-30 20:20:07","","11","7090","<p>Last week I participated in round 1b of the Facebook Hacker cup.</p>
+
+<p>One of the problems was basically the <a href=""http://en.wikipedia.org/wiki/Josephus_problem"" rel=""nofollow"">Josephus problem</a></p>
+
+<p>I've studied the Josephus problem before as a discrete math problem, so I basically understand how to get the recurrence:</p>
+
+<pre><code>f(n,k) = (f(n-1,k) + k) mod n, with f(1,k) = 0
+</code></pre>
+
+<p>But that didn't work in the Facebook Hacker Cup, because the max value of n was 10^12.  The mak value of k was 10^4.</p>
+
+<p>Wikipedia mentions an approach when k is small and n is large.  Basically remove people from a single round, and then renumber.
+But it's not described much and I don't understand why the renumbering works.</p>
+
+<p>I looked at sample working source code for the solution, but I still don't understand that final portion.</p>
+
+<pre><code>long long joseph (long long n,long long k) {
+    if (n==1LL) return 0LL;
+    if (k==1LL) return n-1LL;
+    if (k&gt;n) return (joseph(n-1LL,k)+k)%n;
+    long long cnt=n/k;
+    long long res=joseph(n-cnt,k);
+    res-=n%k;
+    if (res&lt;0LL) res+=n;
+    else res+=res/(k-1LL);
+    return res;
+}
+</code></pre>
+
+<p>The part I really don't understand is starting from <code>res-=n%k</code> (and the lines thereafter).  How do you derive that that is the way to adjust the result?</p>
+
+<p>Could someone show the reasoning behind how this is derived?  Or a link that derives it?
+(I didn't find any info on UVA or topcoder forums)</p>
+","596044","","1014938","","2015-01-21 19:17:47","2016-07-30 20:24:09","Josephus for large n (Facebook Hacker Cup)","<algorithm><math><josephus>","1","9","0","","","CC BY-SA 3.0"
+"4845262","1","","","2011-01-30 20:20:28","","0","1162","<p>I am using Reporting Services (SSRS) to a small application I am doing. I would like to create a custom dataset that is the result of a join of two tables. I found an article where the guy did it, but I could not understand how:
+<a href=""http://www.codeproject.com/KB/silverlight/SLReporting.aspx"" rel=""nofollow"">http://www.codeproject.com/KB/silverlight/SLReporting.aspx</a></p>
+
+<p>I found also this MSDN page:
+<a href=""http://msdn.microsoft.com/en-us/library/ms160345.aspx"" rel=""nofollow"">http://msdn.microsoft.com/en-us/library/ms160345.aspx</a>
+but I can't get to the ""The Query page of the Dataset Properties dialog box opens.""</p>
+
+<p>How can I do that? Do I have to do a SP in the database?</p>
+
+<p>Thanks,
+Oscar</p>
+","504331","","504331","","2011-01-31 09:56:06","2011-03-03 13:57:45","Create a custom dataset for a report","<ssrs-2008>","1","1","","","","CC BY-SA 2.5"
+"4845264","1","4845283","","2011-01-30 20:21:31","","3","233","<p>I've just realised the error of my ways in a bit of code that fills up a c 2 dimensional array.</p>
+
+<p>I declared the array like this:</p>
+
+<pre><code>int myArray[5][5];
+</code></pre>
+
+<p>..but mistakenly set a value with:</p>
+
+<pre><code>*myArray[3,4] = 10;
+</code></pre>
+
+<p>..when it should have been:</p>
+
+<pre><code>myArray[3][4] = 10;
+</code></pre>
+
+<p>Ok, the first line is a mistake but it compiled and ran, albeit with very strange results. (ie, when I tried to print out the contents of *myArray[3,4], it had the wrong value in)</p>
+
+<p><strong>Can someone explain what exactly that first assignment statement is <em>doing</em>?</strong></p>
+
+<p>edit: I originally tried to use:</p>
+
+<pre><code>myArray[3,4] = 10;
+</code></pre>
+
+<p>..which threw a compiler error about me trying to assign an int to a *int type. I guess it evaluated 3,4 to 4 as per the answer below and figured that I was trying to add 4 to a pointer so should be using pointer addressing to access the array.</p>
+","104189","","104189","","2011-01-30 21:56:55","2011-01-30 21:56:55","Explain why these two multi-dimensional arrays seem like valid syntax yet only one gives expected results?","<c><arrays><multidimensional-array>","2","0","","","","CC BY-SA 2.5"
+"4845267","1","","","2011-01-30 20:21:58","","2","422","<p>I'm trying to modify the content/article display detail and I'm not sure it that's done from the admin or from the xx.tpl.php file...(and if so which one)</p>
+
+<p>I have something like this (in a custom theme done by someone else..I'm just continuing the work):
+Text By: XXX
+Date published : YYY</p>
+
+<p>Ipsum lorem ..x.x.x.x.x.x.
+.x.x.x.x.x.x.xx..x.x.x.x.x</p>
+
+<p>Comments</p>
+
+<p>I want to move the text by and date.. below the text body.. </p>
+","249071","","","","","2011-01-30 20:46:14","simple drupal 6 question, how to move Author and Date info at the bottom of the page","<drupal-6><customization><drupal-themes>","1","0","","","","CC BY-SA 2.5"
+"4845270","1","4845293","","2011-01-30 20:22:18","","0","121","<p>I have many different PHP-files. Because it is a Wordpress theme I need to include all my functions into a class to avoid collisions.</p>
+
+<p>What I want is having the theme name as a ""prefix"" (first part of the class name). <strong>Is it possible to use the same class for all functions even if they are in different PHP files?</strong></p>
+
+<p><strong>This is how it might look:</strong></p>
+
+<pre><code>myfunctions.php
+myfunctions_extra.php
+</code></pre>
+
+<p>""myfunctions.php"" includes a function <code>test</code> that is added to <code>class my_class</code>.</p>
+
+<p>""myfunctions_extra.php"" includes a function <code>test2</code> that should be added to <code>class my_class</code> as well.</p>
+
+<p>Is it possible? How?</p>
+","148496","","","","","2011-01-30 21:13:23","Add included PHP function to a class?","<php>","4","1","","","","CC BY-SA 2.5"
+"4845272","1","4845445","","2011-01-30 20:22:44","","1","481","<p>We have developed a web app using ASP.NET, .NET 3.5 and SQL Server 2008. It runs on IIS on a Windows Server 2008 R2 server. It has a feature by which, under some circumstances, the app sends email to the user's registered email address using classes in System.Net.Mail. It usually works fine: a few seconds after the email is sent by our application, the user has the email message in his/her inbox.</p>
+
+<p>However, in some cases, the user never gets the email message. This happens in an apparent random fashion, and we haven't been able to detect any patterns. We have checked spam filters and folders, and made sure that the email addresses are OK. In one instance, we had two users from the same company, with addresses abc@company.co.uk and xyz@company.co.uk; one of them gets his emails perfectly, whereas the other never gets them.</p>
+
+<p>Any idea of where to start debugging this? Thank you.</p>
+","210818","","","","","2011-01-30 22:03:27","Emails sent but never received","<asp.net><email>","2","2","0","","","CC BY-SA 2.5"
+"4845273","1","4845297","","2011-01-30 20:22:51","","2","3131","<p>Sample of javascript code:</p>
+
+<pre><code>function a() {
+    this.array1 = [];
+    this.addToArray = function(name) {
+        this.array1.push(new b(name));
+        return true;
+    }
+    this.searchForName = function(name) {
+        for(var i in this.array1) {
+            alert(i.name);
+        }
+    }
+    function b(name) {
+        this.name = name;
+    }
+}
+</code></pre>
+
+<p>I included this javascript file in an html document. Inside script tags of an html document I have this code: </p>
+
+<pre><code>var myObject = new a();
+myObject.addToArray(""test1"");
+myObject.searchForName(""test1"");
+</code></pre>
+
+<p>Running this code, I would expect an alert with <code>""test1""</code> in it to pop up, but instead it pops up as undefined. The debugger in Chrome, however, shows that there is an array inside of myObject with an item 0 that has a name of <code>""test1""</code>. When I use breakpoints to test the code, it shows that at the moment the alert is called, <em>i.name is undefined</em>. What is wrong with this?</p>
+","596051","","1906862","","2012-12-25 01:57:01","2012-12-25 01:57:01","Searching through an array of objects, properties of the objects being undefined?","<javascript><arrays><object><properties><dynamic-arrays>","2","0","","","","CC BY-SA 3.0"
+"4845274","1","5193176","","2011-01-30 20:23:07","","0","520","<p><img src=""https://i.stack.imgur.com/EMOuq.jpg"" alt=""Bundles""></p>
+
+<p>So I'm using RMI in an Eclipse RCP application. The classloader of RMI and OSGI hate each other so much, but I could solve my first problem <a href=""https://stackoverflow.com/questions/4650619/eclipse-rcp-rmi-and-bundles"">here</a>.</p>
+
+<p>My server application consists of the <strong>Server</strong> bundle, which depends on <strong>Core</strong>. Additionally the bundle <strong>Map</strong> is loaded, using an extension point of core (<strong>DataUpdate</strong>).</p>
+
+<p>Similarly the <strong>Client</strong> is started depending on <strong>Core</strong> and loading <strong>Map</strong> as a plugin.</p>
+
+<p>Now sending a <strong>User</strong> from the client to the <strong>Server</strong> poses no problem anymore (solved issue above). Sadly the reverse doesn't work. The <strong>Client</strong> is stored as Callback on the <strong>Server</strong> and should receive <strong>DataUpdate</strong> objects. Those are created in the <strong>Map</strong> bundle on the server and sent via RMI. When I receive them on the client side I get the ominous ClassNotFound exception. I do the same as on the server: </p>
+
+<pre><code>Thread.currentThread().setContextClassLoader(
+                this.getClass().getClassLoader());
+</code></pre>
+
+<p>But this doesn't help. Also to start both server and client my start parameters are: </p>
+
+<pre><code>-consoleLog -Djava.security.policy=java.policy -Djava.rmi.server.codebase=file:${workspace_loc}
+</code></pre>
+
+<p>And in the client I set the security manager to a personal implementation which allows everything.</p>
+
+<p>So does anyone have an idea, why the class is not found?</p>
+","414883","","-1","","2017-05-23 12:30:39","2011-03-04 11:35:15","RMI callbacks in Eclipse RCP","<callback><eclipse-rcp><classloader><rmi>","1","0","","","","CC BY-SA 2.5"
+"4845278","1","","","2011-01-30 20:23:48","","1","1535","<p>I need to develop a system where there'll be around 50 WPF GUI clients running on desktop machines. The main GUI displays a large data grid which gets updated around 500 times a second. It's critical that every GUI grid always displays the same data. To achieve this a single c# serverside program will hold in-memory the primary data grid which will be updated around 500 times a second. I then need to push the updates out the GUIs as fast as possible.</p>
+
+<p>My question is; What's the best way to publish the data? and Is there any open-source libs to do this?</p>
+
+<p>... think multicast over tcp? Are there any c# multicast data replication libs out there which maintain a single master in-memory data table and replicate it out to client programs?</p>
+
+<p>Thanks</p>
+","596053","","","","","2011-08-12 19:13:31","What's the best way to push realtime data from a serverside c# program to multiple WPF clients?","<c#><tcp><distributed-computing><multicast>","2","2","","","","CC BY-SA 2.5"
+"4845284","1","","","2011-01-30 20:24:54","","0","502","<p>I am opening a URL in new window . </p>
+
+<p>Like :</p>
+
+<pre><code>var win = window.open(""http://google.com"") ;
+</code></pre>
+
+<p>I want to somehow access the DOM of the opened document in that popup . </p>
+
+<p>Is it possible to inject JS cross-domain ?.</p>
+
+<p>Thanks .</p>
+","349297","","","","","2011-01-31 09:38:17","Adobe Air - Injecting javascript to popup window","<javascript><popup><air><cross-domain>","1","0","","","","CC BY-SA 2.5"
+"4845287","1","","","2011-01-30 20:26:03","","1","67","<p>I'm using python, and I was wondering how do I output characters to specific positions in the terminal (im using windows for this)</p>
+","596054","","1000551","","2018-07-16 11:49:56","2018-07-16 11:49:56","outputting characters to a spot in the terminal in python","<python><text><terminal><character>","1","0","","","","CC BY-SA 2.5"
+"4845290","1","4845533","","2011-01-30 20:26:31","","2","17423","<p>I've got a table in MySQL lets just say for example its got two fields Username, GameName and Score.
+I want to calculate the rank of a user for an indivudal game name so I could do the query</p>
+
+<pre><code>SELECT * FROM scores WHERE `GameName` = 'Snake' ORDER BY `Score` DESC
+</code></pre>
+
+<p>to get a list of all users in order of highest to lowest and assign a number to each user.</p>
+
+<p>But is there an easier way to get the rank for an indivdual user rather than selecting the entire table as that doesn't seem too efficient.</p>
+
+<p>Thanks</p>
+","354012","","451969","","2011-01-30 21:17:55","2020-09-17 07:34:55","Calculating rank in PHP/MySQL","<php><mysql><ranking>","8","2","0","","","CC BY-SA 2.5"
+"4845292","1","4849805","","2011-01-30 20:26:50","","0","779","<p>I'm looking for how to download the source XML file of an RSS feed in cocoa touch to make an offline mode for my XML parser app.
+Does anyone know how to do it?
+My app is designed for iOS 4.2.1 (not earlier) and i'm running XCode 3.2.5.</p>
+
+<p>Thanks you for all your future answers to my question :)</p>
+","522366","","","","","2011-01-31 10:29:14","How can I download the source XML file of an RSS feed in cocoa touch?","<xml><cocoa-touch><ios><download><offline-mode>","1","0","","","","CC BY-SA 2.5"
+"4845296","1","4846235","","2011-01-30 20:27:22","","4","1738","<p>I understand the View and ViewModel portions of MVVM, but what I'm still really fuzzy on is how you connect your application to data sources on the Internet (say you're grabbing some XML or JSON from the web), and specifically, where that code goes in your application. Can someone provide or link to some example code or a tutorial that walks you through setting up a simple WPF (or Silverlight) application that fetches data from the Web?</p>
+","334053","","","","","2011-01-30 23:22:25","MVVM Tutorial/Example Code with internet connectivity","<c#><wpf><mvvm>","1","1","0","","","CC BY-SA 2.5"
+"4845298","1","4845323","","2011-01-30 20:27:26","","18","17129","<p>I see a lot of bundles here I'd like to get my hands on </p>
+
+<p><a href=""http://svn.textmate.org/trunk/Bundles/"" rel=""noreferrer"">http://svn.textmate.org/trunk/Bundles/</a></p>
+
+<p>The problem is I don't know how to install them. I've read the section 5 of manual dedicated to bundles, but there's no example how to install those from SVN.</p>
+
+<p>I see the existing ones have the extension .tmbundle, but those on SVN are done differently. </p>
+","508809","","31671","","2012-10-30 10:09:07","2013-07-03 20:59:58","TextMate - How to install a bundle?","<textmate><textmatebundles>","3","0","0","","","CC BY-SA 3.0"
+"4845302","1","","","2011-01-30 20:27:57","","2","10105","<p>I want to implement a simple VoIP system which can achieve following;</p>
+
+<ol>
+<li>The user uploads a mp3 or wav file and gives a phone number.</li>
+<li>the given phone number is dialed, when the phone is picked, the uploaded mp3/wav file is played. once the whole file is played, the call is hung up.</li>
+</ol>
+
+<p>i want to know if there is any opensource library which supports this?? or an opensource software using which i can achieve this?</p>
+","544513","","21234","","2011-01-30 20:42:01","2013-04-30 00:38:06","play audio file over VoIP","<audio><voip>","3","2","0","","","CC BY-SA 2.5"
+"4845310","1","4845677","","2011-01-30 20:28:43","","2","2592","<p>I'm trying to make a java program that prompt Login for the user and then some options and actions in the program will be available depend on the user permission. so for example , some user can print the picture other can not. </p>
+
+<p>I'm sure this thing have been done many times. I'm looking for a tutorial or code sample to start with. I search in the interent but I couldn't find anything useful. Please help me </p>
+
+<p>Thank you </p>
+","559170","","","","","2011-01-31 09:48:07","setup Login System and privilege and permission for Java","<java><user-interface><swing><authentication><module>","3","2","","","","CC BY-SA 2.5"
+"4845311","1","4853189","","2011-01-30 20:28:53","","3","4290","<p>I want to establish tcp connection between iphone and PC. On PC QTspServer is running and working (was tested with other client application). </p>
+
+<p>Here is the connection method i'm using on iphone:</p>
+
+<pre><code>- (IBAction)connectToServer:(id)sender {
+    CFReadStreamRef read = NULL;
+    CFWriteStreamRef write = NULL;
+
+    NSString *host = @""192.168.1.169"";
+
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)host, 1000, &amp;read, &amp;write);
+    CFWriteStreamOpen(write);
+    int k = 0;
+}
+</code></pre>
+
+<p>The server on PC is not reacting. Any help is appropriate</p>
+
+<p>By the way: Server is nothing more then a QTcpServer with replemented <code>incomingConnection</code> method. Here is the <code>main</code> function on server side:</p>
+
+<pre><code>int main(int argc, char **argv)
+{
+QApplication app(argc, argv);
+AbstractServer server;
+server.listen(QHostAddress::Any, 1000);
+QLabel label(""Hello server"");
+label.setFixedSize(400, 400);
+label.show();
+return app.exec();
+}
+</code></pre>
+","585928","","585928","","2011-01-30 22:16:50","2011-01-31 16:17:30","iphone tcp connection","<iphone><objective-c><qt><networking><tcp>","2","7","0","","","CC BY-SA 2.5"
+"4845319","1","","","2011-01-30 20:30:05","","0","90","<p>Hi I have the following code</p>
+
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;script type=""text/javascript""&gt;
+var xmlhttp;
+var allSearchResults = [];
+function loadXMLDoc(url,cfunc)
+{
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject(""Microsoft.XMLHTTP"");
+  }
+xmlhttp.onreadystatechange=cfunc;
+xmlhttp.open(""GET"",url,true);
+xmlhttp.send();
+}
+function myFunction(paramm)
+{
+loadXMLDoc(""ajax_info.txt"",function()
+  {
+  if (xmlhttp.readyState==4 &amp;&amp; xmlhttp.status==200)
+    {
+    var txt=xmlhttp.responseText;
+
+    if (txt.match(paramm)!= -1){
+            //store all instances in allSearchResults array Here
+     }
+        else{
+            document.getElementById(""myDiv"").innerHTML = paramm;
+            }
+
+    }
+  });
+}
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div id=""myDiv""&gt;&lt;h2&gt;Let AJAX change this text&lt;/h2&gt;&lt;/div&gt;
+&lt;button type=""button"" onclick=""myFunction('CXS101289')""&gt;Change Content&lt;/button&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>ajax_info.txt</p>
+
+<pre><code>CXS101289_5_R1A06_100628150914
+CXS101289_5_R1A06_100628343414
+CXS10rfe_5_R1A06_100628150955
+CXS101349_5_R1A06_100628150432
+CXS154f89_5_R1A06_100628150914
+CXS101289_5_R1A06_10062456914
+CXS101369_5_R1A06_100628150914
+CXS15679_5_R1A06_100628150914
+</code></pre>
+
+<p>So I want to search this file for the ""CXS101289"". So after I have run this method, the ""allsearchResults"" array shall contain <code>[""CXS101289_5_R1A06_100628343414"",""CXS101289_5_R1A06_100628343414"",""CXS101289_5_R1A06_10062456914""]</code></p>
+
+<p>Any smart idea on how to implement this?</p>
+","564716","","142162","","2011-01-30 20:32:25","2011-01-30 20:45:58","How to search a large String","<javascript><html><xmlhttprequest>","2","0","","","","CC BY-SA 2.5"
+"4845325","1","","","2011-01-30 20:31:25","","0","80","<p>I have a sort of a canvas on my site, (not canvas though for the need of support in IE) where images are loaded to and modified.<br>
+At the end of the process I'd like to take all the files used in the canvas and connect them into a (bigger) jpg.<br>
+My thoughts were to collect all the relative positions of the images and use it to reposition them on the new file.
+I should add as well that one of the files is a background image.<br>
+layers should not count more than lets say 4 including the background.<br>
+on top of that i needed to jpg-ize a text layer as well but for that I have a php script, if anyone has an efficient way to do it I'll be glad to see it as well. </p>
+","596046","","3041194","","2013-12-20 06:48:10","2013-12-20 06:48:10","combining few jpgs(and a txt) to a single jpg file","<php><image-processing><filemerge>","2","0","","","","CC BY-SA 3.0"
+"4845326","1","4845365","","2011-01-30 20:31:35","","1","1302","<p>I'm trying to implement CSVLib in an Air application and am getting an error that seems wholly illogical to me. </p>
+
+<p>""1120: Access of undefined property csv."" 
+and 
+""1120: Access of undefined property completeHandler.""</p>
+
+<p>The only thing I can think is it's not importing the csv class properly, or the class itself is broken somehow?  I know my import path is correct because I typed it out directly based on automatic hinting.  The code below is copied directly from the how-to wiki on the csv lib site.</p>
+
+<p>Or is there something special you need to do to get external actionscript classes to work in flashbuilder?</p>
+
+<pre><code>    &lt;fx:Script&gt;
+        &lt;![CDATA[
+            import com.shortybmc.*;
+            import com.shortybmc.data.parser.CSV;
+
+            var csv:CSV = new CSV();
+            csv.addEventListener (Event.COMPLETE, completeHandler);
+            csv.load (new URLRequest('example-2.csv'));
+            function completeHandler (event: Event)
+            {
+                trace ( csv.data.join('\r') );
+                // do something ...
+            }
+        ]]&gt;
+    &lt;/fx:Script&gt;
+</code></pre>
+","530585","","","","","2011-01-30 20:36:39","How to use external actionscript classes in FlashBuilder (thought I knew)","<actionscript-3><class><csv><flash-builder><external-script>","1","0","","","","CC BY-SA 2.5"
+"4845332","1","4851700","","2011-01-30 20:32:15","","12","18940","<p>I am sort of new to TDD. I have started creating the properties I need on the view model as plain auto property.</p>
+
+<pre><code>public string Firstname { get; set; }
+</code></pre>
+
+<p>Then I create a test</p>
+
+<pre><code>[TestMethod]
+[Tag(""Property"")]
+public void FirstNameTest()
+{
+    ViewModel = new CustomerViewModel();
+    ViewModel.PropertyChanged += (s, e) =&gt;
+                                     {
+                                         Assert.AreEqual(""Firstname"", e.PropertyName);
+                                         Assert.AreEqual(""Test"", ViewModel.Firstname);
+                                     };
+    ViewModel.Firstname = ""Test"";
+}
+</code></pre>
+
+<p>Then I would extend the actual implementation to make the test pass like this:</p>
+
+<pre><code>public string Firstname
+{
+    get { return _contact.FirstName; }
+    set
+    {
+        if (_contact.FirstName == value)
+            return;
+
+        _contact.FirstName = value;
+
+        RaisePropertyChanged(() =&gt; Firstname);
+    }
+}
+</code></pre>
+
+<p>The problem I have is that test still passes for the Aut property. Any tip for me how i could improve my process?</p>
+","92153","","41956","","2012-03-06 08:43:32","2017-10-09 11:47:36","Unit testing the Viewmodel","<c#><.net><silverlight><unit-testing><tdd>","6","1","0","","","CC BY-SA 3.0"
+"4845337","1","4845779","","2011-01-30 20:33:17","","3","229","<p>About 2 months ago I was setting up an Android development environment, and noticed a warning on the Android SDK page that stated ""There are known issues with the ADT plugin running with Eclipse 3.6. Please stay on 3.5 until further notice."" - so 
+I posted a question here about this and from the responses decided, to install Eclipse ver 3.5</p>
+
+<p>I never saw a notice that  it was safe to upgrade, but...<br>
+- The warning is now missing from the Android SDK page<br>
+- I thought I read (maybe I'm wrong, because I can't find it now) a comment that some of the Android tutorials were now assuming Eclipse ver 3.6.1 </p>
+
+<ol>
+<li>Can I assume it is now safe to upgrade to Android 3.6.1 ?</li>
+<li>The Eclipse IDE for Java Developers download page still seems to be at 3.6.0 ?</li>
+</ol>
+
+<p>Comments Welcome</p>
+","515453","","","","","2011-01-30 21:53:03","Is it time to upgrare to eclipse to ver 3.6.xxx","<android><eclipse>","4","0","","","","CC BY-SA 2.5"
+"4845338","1","4845461","","2011-01-30 20:33:28","","2","355","<p>I am writing a decimal multiplier in C++. The multiplier is implemented by taking two integers represented as vectors of digits. Each vector stores its digits in reverse order, for easier representation by powers of ten. For example, 3497 = 3 * 10^3 + 4 * 10^2 + 9 * 10^1 + 7 *10^0 and is stored in a vector as {7, 9, 4, 3}. Thus, each index of the vector represents that digit's respective power of ten in the integer.</p>
+
+<p>However, I'm having some bugs in my multiplication. 1-digit x 1-digit and 2-digit x 1-digit multiplication work perfectly, but it breaks down at 2-digit x 2-digit. I'm fairly certain that fixing this bug would fix all the other bugs with n-digit x m-digit. My code for both my multiplication and addition methods are below.</p>
+
+<pre><code>vector&lt;int&gt; multiply(vector&lt;int&gt; &amp;a, vector&lt;int&gt; &amp;b) {
+    // check for emptiness
+    if(a.size() == 0)
+        return b;
+    else if(b.size() == 0)
+        return a;
+
+    unsigned int i; // increment counter
+
+    // compensate for size differences
+    if(a.size() &gt; b.size())
+        for(i = 0; i &lt; a.size()-b.size(); ++i)
+            b.push_back(0);
+    else
+        for(i = 0; i &lt; b.size()-a.size(); ++i)
+            a.push_back(0);
+
+    int c = 0; // carry value
+    int temp; // temporary integer
+    vector&lt;int&gt; p; // product vector
+    vector&lt;int&gt; s; // sum vector
+    s.push_back(0); // initialize to 0
+
+    // multiply each digit of a by an index of b
+    for(i = 0; i &lt; b.size(); ++i) {
+        // skip digits of 0
+        if(b[i] == 0)
+            continue;
+
+        p.resize(i,0); // resize p and add 0s
+
+        // multiply b[i] by each digit of a
+        for(unsigned int j = 0; j &lt; a.size(); ++j) {
+            temp = c + b[i] * a[j]; // calculate temporary value
+
+            // two cases
+            if(temp &gt; 9) {
+                c = temp / 10; // new carry
+                p.push_back(temp % 10);
+            }
+            else {
+                c = 0;
+                p.push_back(temp);
+            }
+        }
+
+        // append carry if relevant
+        if(c != 0)
+            p.push_back(c);
+
+        // sum p and s
+        s = add(p, s);
+        p.clear(); // empty p
+    }
+
+    return s; // return summed vector (total product)
+}
+
+vector&lt;int&gt; add(vector&lt;int&gt; &amp;a, vector&lt;int&gt; &amp;b) {
+    // check for emptiness
+    if(a.size() == 0)
+        return b;
+    else if(b.size() == 0)
+        return a;
+
+    unsigned int i; // increment counter
+
+    // compensate size differences
+    if(a.size() &gt; b.size())
+        for(i = 0; i &lt; a.size()-b.size(); ++i)
+            b.push_back(0);
+    else
+        for(i = 0; i &lt; b.size()-a.size(); ++i)
+            a.push_back(0);
+
+    int c = 0; // carry value
+    vector&lt;int&gt; s; // sum vector
+    int temp; // temporary value
+
+    // iterate through decimal vectors
+    for(i = 0; i &lt; a.size(); ++i) {
+        temp = c + a[i] + b[i]; // sum three terms
+
+        // two cases
+        if(temp &gt; 9) {
+            c = temp / 10; // new carry
+            s.push_back(temp % 10); // push back remainder
+        }
+        else {
+            c = 0;
+            s.push_back(temp);
+        }
+    }
+
+    // append carry if relevant
+    if(c != 0)
+        s.push_back(c);
+
+    return s; // return sum
+}
+</code></pre>
+
+<p>A few test cases:</p>
+
+<p>45 * 16 returns 740 (should be 720)
+34 * 18 returns 542 (should be 532)
+67 * 29 returns 2003 (should be 1943)
+28 * 12 returns 336 (correct)</p>
+
+<p>The only problem I could think of would be an issue with the carries, but everything seems to check out as I walk through the code. Can anyone see the error? Or am I taking the wrong approach to this entirely?</p>
+","596058","","","","","2011-01-30 22:44:46","Bugs in a Decimal Multiplier","<c++><vector><math><multiplication>","2","1","","","","CC BY-SA 2.5"
+"4845339","1","","","2011-01-30 20:33:31","","24","34608","<p>I am trying to utilize Zlib for text compression.</p>
+
+<p>For example I have a string <code>T='blah blah blah blah'</code> I need to compress it for this string. I am using <code>S=zlib.compress(T)</code> to compress it. Now what I want is to get the non-binary form  of <code>S</code> so that I can decompress <code>T</code> but in a different program.</p>
+
+<p>Thanks!</p>
+
+<p>EDIT: I guess I got a method to solve what I wanted. Here is the method:</p>
+
+<pre><code>import zlib, base64
+text = 'STACK OVERFLOW STACK OVERFLOW STACK OVERFLOW STACK OVERFLOW STACK OVERFLOW STACK OVERFLOW STACK OVERFLOW STACK OVERFLOW STACK OVERFLOW STACK OVERFLOW '
+code =  base64.b64encode(zlib.compress(text,9))
+print code
+</code></pre>
+
+<p>Which gives:</p>
+
+<pre><code>eNoLDnF09lbwD3MNcvPxD1cIHhxcAE9UKaU=
+</code></pre>
+
+<p>Now I can copy this code to a different program to get the original variable back:</p>
+
+<pre><code>import zlib, base64
+s='eNoLDnF09lbwD3MNcvPxD1cIHhxcAE9UKaU='
+data = zlib.decompress(base64.b64decode(s))
+print data
+</code></pre>
+
+<p><strong>Please suggest if you are aware of any other compression method which would give better results that are consistent with the above code</strong>.</p>
+","324553","","1681480","","2018-10-08 20:50:26","2023-02-07 12:32:06","How do you compress a string, and get a string back using zlib?","<python><compression>","2","5","0","","","CC BY-SA 4.0"
+"4845342","1","4845359","","2011-01-30 20:33:55","","0","208","<p><br>
+Is this theoretical query possible in hibernate?</p>
+
+<pre><code>Person personQuery = new Person();//(@Entity)
+personQuery.setId(5);
+List&lt;Person&gt; persons = personQuery.get(""="").fetch();
+</code></pre>
+
+<p>meaning </p>
+
+<pre><code>SELECT * from person WHERE id=5
+</code></pre>
+
+<p>When things are simple I want to work with beans(Entities) and not HQL.<br>
+Is there an API that supports that?</p>
+","169150","","","","","2011-01-30 20:43:38","Hibernate - fetch by bean","<java><hibernate><javabeans>","2","0","","","","CC BY-SA 2.5"
+"4845346","1","4845403","","2011-01-30 20:34:23","","3","735","<p>I am currently working on a software project which uses SQL Server database to store data. Since there are some plans to move away from SQL Server to Oracle, one of the requirements is to build pluggable database layer.</p>
+
+<p>So my question is what is the best way to do it?</p>
+","231259","","13302","","2011-01-30 20:54:13","2011-02-12 17:54:14","Suggestions for pluggable database layer","<c#><architecture><data-access-layer>","4","0","0","","","CC BY-SA 2.5"
+"4845348","1","5104058","","2011-01-30 20:34:32","","10","3259","<p>Is there any way to access the id of the auto increment for use inside the query.</p>
+
+<p>for instance Wordpress puts the id of the insert in the GUID of the same row, is there any way i can access the id that the row will take during the insertion.</p>
+
+<p>Or maybe there is some quick way for me to find out what the current AI counter is at, so I know what the one going in will be?</p>
+
+<p>I need this because I am trying to backfill the WP posts table into a new custom post type I am using, and I need to have the id of the insert to put inside the GUID column.</p>
+","301635","","301635","","2011-01-30 21:10:51","2015-07-09 12:53:40","accessing ID of mysql insert during the insert","<php><mysql>","7","1","0","","","CC BY-SA 2.5"
+"4845351","1","4845389","","2011-01-30 20:34:49","","3","288","<p>I have three tables: <code>categories</code>, <code>content_info</code>, and <code>content</code>.  </p>
+
+<ul>
+<li>The <code>categories</code> table contains the category's <code>id</code> and the ID of its <code>parent</code> category.</li>
+<li>The <code>content_info</code> contains two columns: <code>entry_id</code> for the post's ID and <code>cat_id</code> for the ID of the post's category.</li>
+<li>The <code>content</code> table contains multiple columns about the post - such as <code>ID</code>, <code>title</code>, etc.</li>
+</ul>
+
+<p>I have a variable in the URL called parent_id which corresponds to the <code>parent</code> of a category.  I want to list all the POSTS (not CATEGORIES) which belong to a category with a <code>parent</code> of the parent_id value.</p>
+
+<p>For example, say the parent_id value is 5.  Each post might belong to a category with an ID of 20, but that category belongs to the parent category (whose ID is 5). I want to list all the posts who belong to categories with a <code>parent</code> value of whatever the current parent_id happens to be.</p>
+
+<p>Is there a way of doing this with MySQL joins instead of changing the PHP?</p>
+","427992","","427992","","2013-01-26 23:15:28","2013-01-26 23:15:28","Multiple database joins","<php><sql><mysql><database><join>","2","0","","","","CC BY-SA 2.5"
+"4845354","1","4845381","","2011-01-30 20:35:12","","0","268","<p>Let's say I have a site where a reporting page will contain user-specific daily reports.</p>
+
+<p>By default, the user lands on today's report but then if he clicks on a calendar control and selects a new date, a new report will load for that day. What I want to do is use sessions as a cache for reports. The first time he loads a report for a day, it's loaded from the database into the session and then from the session to the page. Each time he loads a new report for a date, the logic first checks to see if this particular report is in the session and only if it's not is it loaded from the DB. A report has about 15 columns and is made up of about 300-500 rows per day. What will be stored in the session is a dictionary of lists of objects, with the date as the key and the list as the value. I'm using InProc session. I'm also considering storing several other dictionaries as well for other lists of objects.</p>
+
+<p>Is this an efficient way to make the most of the .net framework? If it doesn't actually improve performance over making calls to the data source, will it make it slower? I'm looking to build something that'll scale to about 500-1000 simultaneous users or so.</p>
+
+<p>Thanks.</p>
+","565968","","565968","","2011-01-31 00:52:49","2011-01-31 00:52:49","using sessions: am I abusing it?","<asp.net>","2","9","","","","CC BY-SA 2.5"
+"4845370","1","","","2011-01-30 20:36:55","","0","91","<p>For example, i have a ListBox with my Employees, via binding.</p>
+
+<p>I want to color all the Employees that earn more than 10,000$.</p>
+
+<p>Thanks</p>
+","596061","","546730","","2011-01-30 21:07:43","2011-01-30 23:04:37","Set other property of selected objects in ListBox","<c#><wpf><listbox>","1","0","","","","CC BY-SA 2.5"
+"4845372","1","","","2011-01-30 20:37:01","","3","7436","<p>How do I get a reference to the main thread from another thread in C# ?</p>
+
+<p>Why this is needed ? Take for example an assembly loaded to a console application. This assembly raises another thread that wants to wait (join) on the main thread of the console application. How will it do that ?</p>
+
+<p>I thought of this way: In visual studio 2010 you can inspect threads information while debugging. One of the columns in the threads window is the category that specifies if the thread is a worker thread or main thread. Is it possible to get this information ?</p>
+
+<p>Or this way: What about getting the name of the function which is the entry point (main thread ?) and than iterate all threads in current process. How can I obtain this information ?</p>
+
+<p>Thanks.</p>
+","193620","","189516","","2011-01-30 20:49:08","2011-01-30 20:49:08","Reference to main thread in C#","<c#><multithreading><reference><program-entry-point>","2","3","","","","CC BY-SA 2.5"
+"4845375","1","4848657","","2011-01-30 20:38:19","","0","398","<p>I am planning to develop a game which is actually a 2D collect'em up style game. There will be not much real time graphic synthesis, mostly there will be sprites floating around.</p>
+
+<p>I know what I ask does not have a ""%100 right"" answer, but just want to hear opinions, when do you recommend using OpenGL, when to go straight with moving NSObjects on the screen with animations?</p>
+","192936","","44729","","2015-07-31 04:06:15","2015-07-31 04:06:15","When to use OpenGL at iOS","<ios><graphics><opengl-es>","2","0","","","","CC BY-SA 2.5"
+"4845380","1","4845416","","2011-01-30 20:39:08","","7","4793","<p>I have a ""Find Files"" function in my program that will find text files with the .ged suffix that my program reads. I display the found results in an explorer-like window that looks like this:</p>
+
+<p><img src=""https://i.stack.imgur.com/t9DbY.jpg"" alt=""enter image description here""></p>
+
+<p>I use the standard FindFirst / FindNext methods, and this works very quickly. The 584 files shown above are found and displayed within a couple of seconds.</p>
+
+<p>What I'd now like to do is add two columns to the display that shows the ""Source"" and ""Version"" that are contained in each of these files. This information is found usually within the first 10 lines of each file, on lines that look like:</p>
+
+<pre><code>1 SOUR FTM
+2 VERS Family Tree Maker (20.0.0.368)
+</code></pre>
+
+<p>Now I have no problem parsing this very quickly myself, and that is not what I'm asking.</p>
+
+<p>What I need help with is simply how to most quickly load the first 10 or so lines from these files so that I can parse them.</p>
+
+<p>I have tried to do a StringList.LoadFromFile, but it takes too much time loading the large files, such at those above 1 MB. </p>
+
+<p>Since I only need the first 10 lines or so, how would I best get them?</p>
+
+<p>I'm using Delphi 2009, and my input files might or might not be Unicode, so this needs to work for any encoding.</p>
+
+<hr>
+
+<p>Followup:  Thanks Antonio,</p>
+
+<p>I ended up doing this which works fine:</p>
+
+<pre><code>var
+  CurFileStream: TStream;
+  Buffer: TBytes;
+  Value: string;
+  Encoding: TEncoding;
+
+try
+  CurFileStream := TFileStream.Create(folder + FileName, fmOpenRead);
+  SetLength(Buffer, 256);
+  CurFileStream.Read(Buffer[0], 256);
+  TEncoding.GetBufferEncoding(Buffer, Encoding);
+  Value := Encoding.GetString(Buffer);
+  ...
+  (parse through Value to get what I want)
+  ...
+finally
+  CurFileStream.Free;
+end;
+</code></pre>
+","30176","","30176","","2011-02-01 03:44:02","2011-02-01 13:25:42","How Can I Efficiently Read The FIrst Few Lines of Many Files in Delphi","<delphi><file-io><large-files>","5","2","0","","","CC BY-SA 2.5"
+"4845386","1","","","2011-01-30 20:39:31","","1","1656","<p><p>using JavaScript, it is much needed to get some pages from the web using without actually moving from the current page and hidden from the user's eyes.
+<p>To request a web page without showing it to the user, it is easy to use XMLHttpRequest but it has its own limitations most importantly it does not retrieve cross-domain pages very well. For security reasons the browsers (Mozilla FireFox 3.6+ in my case) retrieve a header from the target site and if the referrer's location is allowed access in that header, only then will the browser continue getting the target web page and JavaScript can only then parse the retrieved info.
+<p>This causes the XMLHttpRequest to work with some pages and not work with others <b>if</b> you are trying to access <b>cross-domain</b> pages. Of course it works well if you need to retrieve the information from the same location as the referrer page where the XMLHttpRequest is located.
+<p>This is a big problem, when <b>security</b> is not really no 1 priority. For example, imagine writing a script for retrieving live data from a statistics-producing web site or imagine a bot that needs to retrieve data from an online gaming web-site.
+<p>Now, <i>how can JavaScript be used to get pages from other domains (cross-domain reference)?</i>
+<p>I thought maybe we could find a plug-in that does the job (of course after installation upon user's permission) and then use its properties by JS and eliminate the need for XMLHttpRequest. <b>Do you know any such plug-in or another roundabout for this problem? (ie get cross-domain data by JS without XMLHttpRequest)</b> <i>of course we cannot use XMLHttpRequest as we don't have any control over the target page headers and we obviously want to hide the whole process from the user</i></p>
+","596063","","","","","2011-01-30 21:10:01","How can we use JavaScript for cross-domain getting of a web page Without the use of XMLHttpRequest? Is there a plug-in that could do this?","<javascript><security><plugins><xmlhttprequest><cross-domain>","2","1","","","","CC BY-SA 2.5"
+"4845394","1","4846851","","2011-01-30 20:41:14","","6","1807","<p>I have an image in the form of a byte array in java. I'm trying to upload that image to my Ruby on Rails app, which makes use of Paperclip gem. My Rails model looks like this:</p>
+
+<pre><code>class App &lt; ActiveRecord::Base
+  has_attached_file :image
+end
+</code></pre>
+
+<p>When I execute the java code, I get <code>HHTTP/1.1 302 Found</code> response my rails app. 
+<strong>Updated java HTTP-Post method.</strong> 
+Here's the new java code that I am using for HTTP-Post:</p>
+
+<pre><code>public void postFile(byte[] image) throws ClientProtocolException, IOException{
+    HttpClient httpclient = new DefaultHttpClient();
+    httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+    HttpPost httppost = new HttpPost(""http://localhost:3000/apps"");
+
+    ContentBody cb = new ByteArrayBody(image, ""image/jpg"", ""icon.jpg"");
+    //ContentBody cb = new InputStreamBody(new ByteArrayInputStream(image), ""image/jpg"", ""icon.jpg"");
+
+    MultipartEntity mpentity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+    mpentity.addPart(""image"", cb);
+    httppost.setEntity(mpentity);
+
+    HttpResponse response = httpclient.execute(httppost);
+    System.out.println(response.getStatusLine());
+}
+</code></pre>
+
+<p>Here's the new debug on the rails console:</p>
+
+<pre><code>Started POST ""/apps"" for 127.0.0.1 at Mon Jan 31 00:26:07 +0000 2011
+Processing by AppsController#create as HTML
+Parameters: {""image""=&gt;#&lt;ActionDispatch::Http::UploadedFile:0x1041491c8 @content_type=nil, @original_filename=""icon.jpg"", @headers=""Content-Disposition: form-data; name=\""image\""; filename=\""icon.jpg\""\r\n"", @tempfile=#&lt;File:/var/folders/NU/NUcfnxwVHmmnVUo9JUdNok+++TI/-Tmp-/RackMultipart20110131-3735-1ylugl7-0&gt;&gt;}
+SQL (0.1ms)  BEGIN
+SQL (1.0ms)  describe `apps`
+AREL (0.4ms)  INSERT INTO `apps` (`appName`, `image_file_size`, `created_at`, `image_updated_at`, `image_file_name`, `image_content_type`, `updated_at`) VALUES (NULL, NULL, '2011-01-31 00:26:07', NULL, NULL, NULL, '2011-01-31 00:26:07')
+[paperclip] Saving attachments.
+SQL (1.3ms)  COMMIT
+Redirected to http://localhost:3000/apps/36
+Completed 302 Found in 18ms
+</code></pre>
+
+<p>Uploading images directly from the browser works like a charm. Here's the implementation of controller/apps_controller.rb:</p>
+
+<pre><code>def create
+  @app = App.new(params[:app])
+
+  respond_to do |format|
+    if @app.save
+      format.html { redirect_to(@app, :notice =&gt; 'App was successfully created.') }
+      format.xml  { render :xml =&gt; @app, :status =&gt; :created, :location =&gt; @app }
+      format.json  { render :json =&gt; @app, :status =&gt; :created, :location =&gt; @app }        
+    else
+      format.html { render :action =&gt; ""new"" }
+      format.xml  { render :xml =&gt; @app.errors, :status =&gt; :unprocessable_entity }
+      format.json  { render :json =&gt; @app.errors, :status =&gt; :unprocessable_entity }        
+    end
+  end
+end
+</code></pre>
+
+<p>Where am I going wrong? </p>
+","406930","","406930","","2011-01-31 01:06:28","2011-01-31 01:19:32","HTTP-POST an image to Ruby on Rails app","<java><ruby-on-rails-3><paperclip><http-post>","1","4","","","","CC BY-SA 2.5"
+"4845406","1","4846062","","2011-01-30 20:43:16","","5","2716","<p>I have been having problems with my F-Spot database for a while, but nothing crippling. Now, however, it seems like I do; I can't even launch F-Spot, since it crashes on startup. Checking the console, what breaks it is a <code>UriFormatException</code> with the message ""System.UriFormatException: URI scheme must start with a letter and must consist of one of alphabet, digits, '+', '-' or '.' character."". This is running on Mono 2.4.4.0, not Microsoft's runtime.</p>
+
+<p>Basically, I'm trying to find out what exact data rows are broken, so I can either repair them, or file a bug report against F-Spot. (I have been meddling around in the database file directly before, which might have caused this trouble - either way, it'd seem like it should handle something like that better than by crashing hard, but at this very moment I'm more interested in fixing the data than the exact reason why the failure is not being handled in a slightly more graceful manner.) The database is a SQLite3 file, and running it manually in the command-line <code>sqlite3</code> application, I can select both against table metadata as well as the data tables themselves. Yet, I get an unhandled exception <code>System.ApplicationException: file is encrypted or is not a database</code> from Mono.Data.SqliteClient.SqliteConnection.Open() from a simple test application that is all but nothing other than a copy-paste from <a href=""http://www.mono-project.com/SQLite"" rel=""noreferrer"">the official guide for SQLite and Mono</a>. Linking against System.Data.dll and Mono.Data.SqliteClient.dll, I'm copying the relevant code here as well for completeness:</p>
+
+<pre><code>public static void Main(string[] args) {
+   string connectionString = ""URI=file:f-spot.photos.db"";
+   IDbConnection dbcon;
+   dbcon = (IDbConnection) new SqliteConnection(connectionString);
+   dbcon.Open();
+   dbcon.Close();
+   dbcon = null;
+}
+</code></pre>
+
+<p>The database file is definitely there, and working fine (sqlite3 itself has no complaints about it). Googling nets me lots of pages comparing various small-sized database engines, and hints at the file perhaps being a SQLite2 database. However, AFAIK I have no SQLite2 libraries on my system, and <code>file</code> specifically claims that the file is a ""SQLite 3.x database"". Not only that, F-Spot versions newer than 0.3.5 <a href=""http://f-spot.org/FAQ"" rel=""noreferrer"">require SQLite 3</a>, and I'm on version 0.6.2, and have been for a long while now. Am I trying to read it using the wrong API, or is by any chance the DSN wrong?</p>
+
+<p>Any suggestions on what to try would be appreciated. Sure I can use <code>sqlite3</code> to extract the data, save it to text files, then parse those, but that introduces another couple of layers of uncertainty that I'd really rather avoid if possible by using as close to the same API as F-Spot as I can to access the data.</p>
+","486504","","","","","2012-10-25 18:26:05","Reading a SQLite3 database from a simple Mono/C# application?","<c#><mono><sqlite>","1","0","0","","","CC BY-SA 2.5"
+"4845407","1","","","2011-01-30 20:43:17","","0","469","<p>i'am trying to add favicon for bookmark bar, best way is to see what happens is try to bookmark markerr.com ""easy translate"" button to your bookmark... And you will note that there is no favicon for ""Translate""</p>
+
+<p>Any suggestion how to add favicon to this? </p>
+
+<p>Thank you.</p>
+","596064","","","","","2011-01-30 20:53:33","Add favicon for bookmark bar from drag n drop javascript link","<javascript>","1","0","","","","CC BY-SA 2.5"
+"4845410","1","7770651","","2011-01-30 20:43:39","","69","278747","<p>I don't know what's wrong with it.. I can't find where the error is, commenting out the implementation doesn't resolve the error either.</p>
+
+<p><strong>Header File</strong></p>
+
+<pre><code>#ifndef MAIN_SAVITCH_SEQUENCE_H
+#define MAIN_SAVITCH_SEQUENCE_H
+#include &lt;cstdlib&gt;  // Provides size_t
+
+namespace main_savitch_3
+{
+    class sequence
+    {
+    public:
+        // TYPEDEFS and MEMBER CONSTANTS
+        typedef double value_type;
+        typedef std::size_t size_type;
+        static const size_type CAPACITY = 30;
+        // CONSTRUCTOR
+        sequence( );
+        // MODIFICATION MEMBER FUNCTIONS
+        void start( );
+        void advance( );
+        void insert(const value_type&amp; entry);
+        void attach(const value_type&amp; entry);
+        void remove_current( );
+        // CONSTANT MEMBER FUNCTIONS
+        size_type size( ) const;
+        bool is_item( ) const;
+        value_type current( ) const;
+    private:
+        value_type data[CAPACITY];
+        size_type used;
+        size_type current_index;
+    };
+}
+
+#endif
+</code></pre>
+
+<p><strong>Source</strong></p>
+
+<pre><code>#include ""sequence1.h""
+#include &lt;assert.h&gt;
+
+namespace main_savitch_3
+{
+
+    // Default constructer - sequence is empty
+    sequence::sequence()
+    {
+        used = current_index = 0;
+    }
+
+
+    // Start the iteration
+    void sequence::start()
+    {
+        current_index = 0;
+    }
+    // Iterate
+    void sequence::advance()
+    {
+        current_index++;
+    }
+
+
+    // Number of items in the sequence
+    sequence::size_type sequence::size() const
+    {
+        return used;
+    }
+    // Checks if there is a current item
+    bool sequence::is_item() const
+    {
+        return current_index &lt;= used &amp;&amp; used &gt; 0;
+    }
+    // Returns the current value
+    sequence::value_type sequence::current() const
+    {
+        assert(is_item()); // no current item
+        return data[current_index];
+    }
+
+
+    // Adds an item BEFORE the current index
+    void sequence::insert(const value_type&amp; entry)
+    {
+        assert(entry != 0); // pointer is invalid
+        assert(current_index &lt; sequence::CAPACITY); // no room to add an item
+
+        // move items up - starting with the last item and working down to the current item
+        // arrays start at 0, so the -1 adjusts it
+        for (size_type i = used - 1; i &gt;= current_index; i--)
+            data[i + 1] = data[i];
+
+        data[current_index] = entry;
+    }
+    // Adds an item AFTER the current index
+    void sequence::attach(const value_type&amp; entry)
+    {
+        assert(entry != 0); // pointer is invalid
+        assert(current_index &lt; sequence::CAPACITY); // no room to add an item
+
+        // move items up - starting with the last item and working down to the current item
+        // arrays start at 0, so the -1 adjusts it
+        for (size_type i = used - 1; i &gt; current_index; i--)
+            data[i + 1] = data[i];
+
+        if (current_index = 0)
+            data[used] = entry;
+        else
+            data[current_index + 1] = entry;
+    }
+    // Removes the current item
+    void sequence::remove_current()
+    {
+        for (size_type i = current_index; i &lt; used; i++)
+            data[i] = data[i + 1];
+    }
+
+}
+</code></pre>
+","264675","","","","","2022-01-25 17:55:04","error LNK2019: unresolved external symbol _main referenced in function ___tmainCRTStartup","<c++><linker>","16","7","0","","","CC BY-SA 2.5"
+"4845417","1","","","2011-01-30 20:44:52","","1","314","<p>I made a site which can be browsed both as non-deep linked version for non-javascript users (<code>somesite.com?state</code>) and a deep-link version for javascript-enabled users (<code>somesite.com#state</code>). <strong><em>Note</em></strong>: both of these versions give the same content except in one version, the content is populated by PHP, and in other by javascript.</p>
+
+<p>It works perfectly however when a javascript-enabled user browses the site and wants to share a link on Facebook such as (<code>somesite.com#someotherstate</code>), the Facebook can't parse the proper content of the page since it can't deal with hash parameters for deep-linking.</p>
+
+<p>So, other then putting a separate ""Share"" button on the page which will give explicitly a non-deep linked version of the URL (<code>somesite.com?someotherstate</code>) for the user to copy and share on Facebook, how does the industry go about with this issue?</p>
+
+<p><strong>UPDATE</strong></p>
+
+<p>I noticed that Facebook implemented Google Ajax methodology. Can't find official statement though.</p>
+","485844","","485844","","2011-05-13 23:26:24","2011-05-13 23:26:24","How to deal with sharing deep-linked sites URLs?","<parsing><sharing><deep-linking>","0","0","0","","","CC BY-SA 3.0"
+"4845418","1","16051440","","2011-01-30 20:44:56","","37","11836","<p>The full description of memoryview can be found <a href=""http://docs.python.org/dev/library/stdtypes.html#memoryview"" rel=""noreferrer"">here</a>:</p>
+<blockquote>
+<p>Create a <code>memoryview</code> that references <em>obj</em>. <em>obj</em> must support the buffer protocol. Built-in objects that support the buffer protocol include <code>bytes</code> and <code>bytearray</code>.</p>
+<p>A <code>memoryview</code> has the notion of an <em>element</em>, which is the atomic memory unit handled by the originating object <em>obj</em>. For many simple types such as <code>bytes</code> and <code>bytearray</code>, an element is a single byte, but other types such as <code>array.array</code> may have bigger elements.</p>
+</blockquote>
+","264250","","-1","","2020-06-20 09:12:55","2015-10-06 21:14:52","When should a memoryview be used?","<python><python-3.x><memoryview>","2","1","0","2016-09-15 08:26:26","","CC BY-SA 3.0"
+"4845421","1","","","2011-01-30 20:45:17","","2","497","<p>I want to create a class that can only have one instance. If I try to make another instance of the class, it will return the first instance.</p>
+","527962","","527962","","2011-01-30 20:53:18","2011-01-30 22:03:14","How to return same instance for every class initialization in C++?","<c++><oop><class><instance>","3","1","","","","CC BY-SA 2.5"
+"4845430","1","4999498","","2011-01-30 20:46:41","","1","149","<p>I'm trying to prove something in Fitch and i'm stuck on one step, i have:</p>
+
+<pre><code>1.  Cube(a) &lt;-&gt; a = a
+</code></pre>
+
+<p>and i want to derive <code>2. Cube(a)</code> from that.</p>
+
+<p>I know it's possible because i can use <code>Ana Con</code> on 2. and selecting 1. as premise and it says it's valid.<br>
+Is there anyone who can tell me how to do this without using <code>Ana Con</code>?</p>
+","538047","","","","","2011-02-15 02:56:37","Deriving Cube(a) from Cube(a) <-> a = a (Fitch)","<computer-science><first-order-logic><fitch-proofs>","1","5","","","","CC BY-SA 2.5"
+"4845432","1","4845444","","2011-01-30 20:46:51","","0","51","<p>I've just noticed that javascript elements aren't working correctly on the website. They are working, however, they only work on one page, and not site-wide.</p>
+
+<p><a href=""http://www.radonsystems.net"" rel=""nofollow"">http://www.radonsystems.net</a></p>
+
+<p>Javascript elements, such as menu hovering, work on that page. Additionally, so does the jQuery fancybox [click on live chat].</p>
+
+<p>No go to <a href=""http://www.radonsystems.net/business/profile.2"" rel=""nofollow"">http://www.radonsystems.net/business/profile.2</a>, notice that the menu hover and live chat fancybox doesn't work.</p>
+
+<p>Any ideas?</p>
+","114865","","","","","2011-01-30 20:48:58","Javascript not working on pages, but the home page","<javascript><html>","1","0","","","","CC BY-SA 2.5"
+"4845438","1","","","2011-01-30 20:47:54","","3","386","<p>Yet another installment of the weekly code-bowling game as the previous incarnation is over a week old and fairly well explored by now. As a refresher:</p>
+
+<blockquote>
+  <p>Code-Bowling is a challenge for
+  writing the most obscure, unoptimized,
+  horrific and bastardized code
+  possible. Basically, the exact
+  opposite of Code-Golf.</p>
+</blockquote>
+
+<p><strong>The Challenge</strong>:</p>
+
+<p>Create a program that takes a sequence of numbers, and determines if they are in an ascending order.</p>
+
+<p><strong>Example</strong>:</p>
+
+<pre><code>$ ./myprogram 1 2 7 10 14
+true
+
+$ ./myprogram 7 2 0 1
+false
+</code></pre>
+
+<p><strong>Rules</strong>:</p>
+
+<p>There really are none. It can be a console application, it can be a webpage, it can be whatever. It just needs to be a stand-alone program that accepts numbers and returns numbers. The format and methods are 100% up to you.</p>
+
+<p>So have fun, and let's see the bastardized solutions you can come up with!</p>
+","570166","","334849","","2013-09-26 13:47:02","2013-09-26 13:47:02","Make an application that determines if a sequence of numbers is sorted","<language-agnostic><sequence>","7","3","0","","","CC BY-SA 2.5"
+"5136393","1","5136397","","2011-02-27 22:14:16","","18","5330","<p>Why does the following code output the same memory location everytime?</p>
+
+<pre><code>int x;
+for (x = 0; x &lt; 10; x++) {
+    int y = 10;
+    printf(""%p\n"", &amp;y);
+}
+</code></pre>
+
+<p>I thought that the memory location should change as each time the for-loop is run, the variable is new.</p>
+","137081","","","","","2011-02-27 22:31:48","For-loop Local Variables in C","<c>","4","0","0","","","CC BY-SA 2.5"
+"5136395","1","","","2011-02-27 22:14:56","","1","324","<p>I am stuck here..:( I am trying to execute an temp.exe file from Perl script. </p>
+
+<p>I tried using the following: </p>
+
+<p>1) </p>
+
+<pre><code>         $pid=  open( CMD, ""| exp.exe  &gt; C:\exp_out.txt"" );
+         print CMD ""arg1\n"";
+         print CMD ""arg2\n"";
+         print CMD ""arg3\n"";
+</code></pre>
+
+<p>Now this exp.exe keeps running in the background without any problem. but if I want to close it and start it again it starts the exp.exe but does not provide input arguments to the exp.exe</p>
+
+<p>Closing:</p>
+
+<pre><code>         system(""taskkill /F /T /pid $pid"");` 
+</code></pre>
+
+<p>Now this is a part of 2 sub routines open and close...</p>
+
+<p>I also tried Open2;Win32::Process;
+Open2 is stuck at exp.exe and Win32::Process I dont know how to pass multiple arguments. </p>
+","513786","","327563","","2011-05-03 19:19:07","2011-05-03 19:19:07","detach .exe from perl main script","<perl>","1","1","","","","CC BY-SA 3.0"
+"5136404","1","","","2011-02-27 22:17:14","","0","1453","<p>First of all, kindly look at my design,</p>
+
+<p>I have two tables
+T1(a,b,c,d)- a is primary key
+T2(a,e) where (a,e) is composite primary key
+             a is the foreign key referencing T1(a)</p>
+
+<p>T1 - T2 relationship is one to many.</p>
+
+<p>So I created three classes</p>
+
+<ol>
+<li><p>C1 for T1
+It has five fields - 
+a,b,c,d, c2Set with setters &amp; getters</p></li>
+<li><p>C2 for T2
+It has two fields- c1,c3 of type C1, C3 respectively- with setters &amp; getters</p></li>
+<li><p>C3 I am defining C3 to represent composite primary key of T2
+It has two fields (a,e) with setters &amp; getters</p></li>
+</ol>
+
+<p>I am using following annotations to define hibernate mappings in classes C1,C2,C3 respectively</p>
+
+<p>1.</p>
+
+<pre><code>@Entity
+@Table(name = ""T1"", schema = ""dbo"", uniqueConstraints = { @UniqueConstraint(columnNames = ""a"") })
+
+@Id
+@Column(name = ""a"", unique = true, nullable = false)
+
+@Transient
+private Set&lt;C2&gt; c2Set = new HashSet&lt;C2&gt;();
+
+@OneToMany(fetch = FetchType.EAGER, mappedBy = ""c1"")
+    public Set&lt;C2&gt; getC2Set() {
+        return c2Set;
+    }
+</code></pre>
+
+<p>2.</p>
+
+<pre><code>@Entity     
+@Table(name=""T2"", schema = ""dbo"") 
+
+@Id
+public C3 getC3() {
+        return c3;
+    }
+
+private C1 c1;
+@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = ""a"",insertable= false, updatable=false)
+    public C1 getC1() {
+        return c1;
+    }
+</code></pre>
+
+<p>3.</p>
+
+<pre><code>@Embeddable
+
+@Column(name = ""a"")
+    public String getA() {
+        return a;
+    }
+
+@Column(name=""e"")
+    public String getE() {
+        return e;
+    }
+
+
+@Service
+public class C1ServiceImpl implements C1Service {
+
+    @Autowired
+    @Qualifier(""transactionProxy"")
+    private GenericDAO genericDAO;
+
+
+    public GenericDAO getGenericDAO() {
+        return genericDAO;
+    }
+
+    public void setGenericDAO(GenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
+    }
+
+
+    @Override
+    public void registerC1() {
+
+        C1 c1=new C1();
+        c1.setA(""aValue"");
+                c1.setB(""someValue"");
+                c1.setC(""someValue"");
+                c1.setD(""someValue"");
+
+        C3 compositeKey1 = new C3();
+        compositeKey1.setA(""aValue"");
+        compositeKey1.setE(""e1"");
+
+                C3 compositeKey2 = new C3();
+        compositeKey1.setA(""aValue"");
+        compositeKey1.setE(""e2"");
+
+
+        C2 c2_1=new C2();
+        c2_1.setC3(compositeKey1);
+
+                C2 c2_2=new C2();
+        c2_2.setC3(compositeKey2);
+
+
+
+
+        Set&lt;C2&gt; eSet = new HashSet&lt;C2&gt;();
+        eSet.add(c2_1);
+        eSet.add(c2_2);
+
+        c1.setRoles(eSet);----------------------Important
+
+        genericDAO.registerUser(c1);
+    }       
+
+    }
+
+
+
+
+
+@Repository
+@Transactional
+public class HibernateDAO implements GenericDAO {
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    private Session currentSession() {
+        return sessionFactory.getCurrentSession();
+    }
+
+    @Override
+    public void registerC1(C1 c1) {
+        Session session = currentSession();
+        session.beginTransaction();
+        session.save(c1);----------------------------------------- Here I feel insertion should happen in both T1 &amp; T2 tables. What should I should I do, should I insert into T2 in                                                                            the same way as I am doing for T1 
+        session.getTransaction().commit();
+
+    }
+
+
+
+
+}
+
+
+
+&lt;bean id=""dataSource"" class=""org.apache.commons.dbcp.BasicDataSource""
+        destroy-method=""close""&gt;
+        &lt;property name=""driverClassName"" value=""com.microsoft.sqlserver.jdbc.SQLServerDriver"" /&gt;
+        &lt;property name=""url""
+            value=""XXXXXXXXXXXXXXXXXXXXXXX"" /&gt;
+        &lt;property name=""username"" value=""dddddd"" /&gt;
+        &lt;property name=""password"" value=""eeeeee"" /&gt;
+    &lt;/bean&gt;
+    &lt;bean id=""sessionFactory""
+        class=""org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean""&gt;
+        &lt;property name=""dataSource"" ref=""dataSource"" /&gt;
+        &lt;property name=""packagesToScan"" value=""&lt;package in which C1,C2,C3,Generic DAO, HibernateDAO live&gt;"" /&gt;
+        &lt;property name=""annotatedClasses""&gt;
+     &lt;list&gt;
+       &lt;value&gt;Fully qualified name of C1&lt;/value&gt;
+     &lt;/list&gt;
+   &lt;/property&gt;
+
+        &lt;property name=""hibernateProperties""&gt;
+            &lt;props&gt;
+                &lt;prop key=""hibernate.current_session_context_class""&gt;thread&lt;/prop&gt;
+                &lt;prop key=""hibernate.transaction.factory_class""&gt;org.hibernate.transaction.JDBCTransactionFactory
+                &lt;/prop&gt;
+                &lt;prop key=""dialect""&gt;org.hibernate.dialect.SQLServerDialect&lt;/prop&gt;
+                &lt;prop key=""hibernate.show_sql""&gt;true&lt;/prop&gt;
+            &lt;/props&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+
+    &lt;bean id=""myTxManager""
+        class=""org.springframework.orm.hibernate3.HibernateTransactionManager""&gt;
+        &lt;property name=""sessionFactory"" ref=""sessionFactory"" /&gt;
+    &lt;/bean&gt;
+    &lt;bean id=""transactionProxy""
+        class=""org.springframework.transaction.interceptor.TransactionProxyFactoryBean""&gt;
+        &lt;property name=""proxyTargetClass"" value=""true"" /&gt;
+        &lt;property name=""transactionManager""&gt;
+            &lt;ref bean=""myTxManager"" /&gt;
+        &lt;/property&gt;
+        &lt;property name=""transactionAttributes""&gt;
+            &lt;props&gt;
+                &lt;prop key=""*""&gt;PROPAGATION_REQUIRED&lt;/prop&gt;
+            &lt;/props&gt;
+        &lt;/property&gt;
+        &lt;property name=""target""&gt;
+            &lt;bean class=""fully qualified name of HibernateDAO""&gt;
+                &lt;property name=""sessionFactory"" ref=""sessionFactory"" /&gt;
+        &lt;/bean&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+</code></pre>
+
+<p>I have a problem when I am inserting(saving) data. Data into T1 is getting inserted but no insertion is happening in T2( which I think should happen automatically here) ?
+Please tell me where I am doing things wrongly.
+And, I want to learn more about Hibernate Annotations. Can anyone point me to some useful online resources.</p>
+
+<p>And, is it good to separate a form bean from entity class?
+Please tell me the resources where I can get to learn about</p>
+","636893","","","","","2011-03-01 18:40:33","Hibernate annotations-Question on one to many relationship with composite primary key","<hibernate><spring>","1","0","","","","CC BY-SA 2.5"
+"5136407","1","","","2011-02-27 22:17:23","","9","11371","<p>I am looking for sending data from server in a compressed format to client(with ajax requests), and than decompress that data with a browser?
+Is there a library for this?</p>
+
+<p>I am not looking for compressing javascript files!</p>
+
+<p>EDIT: I think question was not clear enough, i don't want to compress html files, i want to store some compressed LZMA files or any other compression format on server(like an obj file), and then i need to decompress them after i got it with AJAX. Not simultaneous compression/decompression with gzip. Opening already zipeed files after getting them with Javascript. </p>
+","283417","","1033581","","2018-10-28 18:11:53","2018-10-28 18:11:53","Is there a library available for compression in Javascript","<javascript><compression><lzma>","5","5","0","2016-03-06 21:42:55","","CC BY-SA 4.0"
+"5136408","1","5136550","","2011-02-27 22:17:44","","1","361","<p>hey guys, i have a usercontrol within the default email compose form, I want to get the mailitem of that window.</p>
+
+<p>Is there an easy way to do this?</p>
+","589639","","","","","2021-08-25 19:10:15","How to access MailItem from UserControl?","<visual-studio-2010><vsto><outlook-2010>","2","0","","","","CC BY-SA 2.5"
+"5136414","1","5136502","","2011-02-27 22:18:34","","4","2445","<p>My website's registration page was getting hammered by spambots to the tune of 1 fake registration attempts a day (hammered relative to my overall traffic! ha).</p>
+
+<p>As registration fires off confirmation emails, I wanted to lock this down if possible.</p>
+
+<p>I went ahead and implemented the hidden form input screen (address, phone, etc) and now my site automatically redirects to spambot.php if the ""sensors"" are tripped.</p>
+
+<p><strong>This has been working great...</strong></p>
+
+<p>but I'm curious about the after effects. I've got my Google Analytics javascript nugget in the spambot.php page, but it has only registered 1 pageview in the past month. Meanwhile, my host's AWStats logs indicate 19 pageviews -- which would seem about right considering past history.</p>
+
+<p>Which makes me wonder - do spambots generally ignore javascript?</p>
+","188930","","","","","2011-02-27 22:31:21","do Spambots ignore javascript?","<javascript><spam-prevention><spam><bots>","1","1","","","","CC BY-SA 2.5"
+"5136415","1","","","2011-02-27 22:18:36","","2","5499","<p>I am trying to embed a video with the following code to avoid launching the youtube app and stay in my app:</p>
+
+<pre><code>-(void)embedYouTube:(NSString*)url frame:(CGRect)frame {  
+
+ NSString* embedHTML = @""&lt;iframe type=\""text/html\"" width=\""64\"" height=\""39\"" src=\""http://www.youtube.com/embed/j8Bc7eRTdWY\"" frameborder=\""0\""&gt;&lt;/iframe&gt;"";
+    if(videoView == nil) {          
+        videoView = [[UIWebView alloc] initWithFrame:frame];  
+        [movieDescView addSubview:videoView];  
+    }  
+    [videoView loadHTMLString:embedHTML baseURL:nil];  
+}
+</code></pre>
+
+<p>The problem is when I clicked on the play icon, it opens the youtube website with my uiwebview asking to install some web app . I would like to prevent this web app pop up to show or start the video full screen. Actually, any solution to show a youtube video without exiting my app would do.</p>
+","421366","","","","","2013-03-19 18:43:18","Problem embedding an youtube video on iphone","<iphone><iframe><uiwebview><youtube>","5","0","","","","CC BY-SA 2.5"
+"5136418","1","5136428","","2011-02-27 22:18:50","","10","70115","<pre><code>int[] arr = int[100];
+listBox1.DataSource = arr;
+void ComboBox1SelectedIndexChanged(object sender, EventArgs e)
+{
+    .....//some processes
+    listBox1.DataSource = null;
+    listBox1.DataSource = arr;
+}
+
+is not working,
+</code></pre>
+
+<p>also,</p>
+
+<pre><code>listBox1.Refresh(); is not working,
+</code></pre>
+
+<p>also,</p>
+
+<pre><code>listBox1.Update(); is not working,
+</code></pre>
+
+<p><br />
+i know i can use <code>BindingList&lt;T&gt;</code> but i have to work with only array.</p>
+
+<p>can you help me how can i refresh listbox?</p>
+","603127","","","","","2023-02-03 05:09:24","listbox Refresh() in c#","<c#><listbox><refresh>","10","0","0","","","CC BY-SA 2.5"
+"5136419","1","5136722","","2011-02-27 22:19:07","","0","300","<p>Here's my code:</p>
+
+<pre><code>#include &lt;vector_types.h&gt;
+#define sizeOfGrid   5
+__global__ void stuff( float3 *grid ) {
+    grid[0].x = 0.4f; //PROBLEM HERE?!
+}
+int main( void ) {
+    float3 *grid[sizeOfGrid];
+    float3 *dev_grid;
+    HANDLE_ERROR(cudaMalloc( (void**)&amp;dev_grid, sizeOfGrid*sizeof(float3)));
+    for(int i = 0; i &lt; sizeOfGrid; i++)
+    {
+        grid[i] = new float3();
+        grid[i]-&gt;x = 1.3f;
+        grid[i]-&gt;y = 1.3f;
+        grid[i]-&gt;z = 1.3f;
+    }
+
+
+    HANDLE_ERROR(cudaMemcpy(dev_grid, grid, sizeOfGrid * sizeof(float3), cudaMemcpyHostToDevice));
+    stuff&lt;&lt;&lt;sizeOfGrid, 1&gt;&gt;&gt; (dev_grid);
+    cudaMemcpy(grid, dev_grid, sizeOfGrid*sizeof(float3), cudaMemcpyDeviceToHost);
+    cudaFree(dev_grid);
+}
+</code></pre>
+
+<p>Right now it's just a test program, not meant to do anything useful. Compiles and runs fine, but it doesn't seem to be setting grid[0] correctly. Is it because I'm setting the grid[0] wrong in the device code?</p>
+","505259","","","","","2011-02-27 23:08:39","Problem with CUDA program","<c++><c><cuda>","1","0","","","","CC BY-SA 2.5"
+"5136420","1","5136538","","2011-02-27 22:19:12","","0","174","<p>I want to view styled text, for example in html (not html file, just html string). I've tried using JEditorPane but it's so difficult, is there any more simple way?</p>
+","636478","","6782","","2011-02-27 22:31:50","2011-02-27 22:36:55","What is the simplest way to view styled text (e.g. in HTML) in a Java application?","<java><styledtext>","1","3","","","","CC BY-SA 2.5"
+"5136421","1","","","2011-02-27 22:19:21","","0","337","<p>TapkuLibrary is an open source iOS framework built on Cocoa and UIKit intended for broad use in applications. I am attempting to use the TKCalendarMonthTableViewController to immitate a calendar in my app. I checked out their demo app and they do NOT use .nib files, so it is all programmically. </p>
+
+<p>I am attempting to use this view in a tab bar application. Interface builder dosnt allow you to select TKCalendarMonthTableViewController as a class. </p>
+
+<p>From my understanding this should work</p>
+
+<pre><code>UIViewController *vc;
+vc = [[Calendar alloc] initWithSunday:NO];
+[self.navigationController pushViewController:vc animated:YES];
+[vc release];
+</code></pre>
+
+<p>But where should I call this code, if this is correct?</p>
+","561940","","","","","2011-02-28 04:04:54","TKCalendarMonthTableViewController in tab bar view","<iphone><objective-c><ios4><calendar>","1","0","0","","","CC BY-SA 2.5"
+"5136422","1","5136617","","2011-02-27 22:19:29","","5","866","<p>I'm looking at moving from Delphi 2007 (purchased by my employer) to Delphi XE Starter Edition (purchased by me because my employer is moving away from Delphi) for some open source/hobby work.  So, price is definitely a concern.</p>
+
+<p>Delphi XE Starter Edition doesn't appear to have the integrated DUnit stuff.  Are there any recommendations for testing frameworks that will work well with XE Starter?  The framework must be automatible; for example, it must must be runnable by a Continuous Integration System such as Hudson or CruiseControl.  Of course, free would be best.  Integration directly into the IDE would also be handy, but not a requirement.  </p>
+","97831","","91299","","2011-02-27 22:35:06","2011-02-28 01:05:50","What testing framework/unit testing to use with Delphi XE Starter Edition","<delphi><unit-testing><automated-tests>","3","0","0","","","CC BY-SA 2.5"
+"5136433","1","5137829","","2011-02-27 22:20:50","","6","29109","<p>So, I'm building an implementation of List for a programming exercise. So far I have this:</p>
+
+<pre><code>#include &lt;iostream&gt; 
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+template &lt;class T&gt; class Link;
+template &lt;class T&gt; class List_iterator;
+
+template &lt;class T&gt; 
+class List
+{
+public:
+   typedef List_iterator&lt;T&gt; iterator;
+
+   List();
+   List(const List&lt;T&gt; &amp; l);
+   ~List();
+
+   bool empty() const;
+   unsigned int size() const; 
+   T &amp; back() const;
+   T &amp; front() const;
+   void push_front(const T &amp; x);
+   void push_back(const T &amp; x);
+   void pop_front();
+   void pop_back();
+   iterator begin() const;
+   iterator end() const;
+   void insert(iterator pos, const T &amp; x);
+   void erase(iterator &amp; pos); 
+   List&lt;T&gt; &amp; operator=(const List&lt;T&gt; &amp; l);
+
+protected:
+   Link&lt;T&gt; * first_link;
+   Link&lt;T&gt; * last_link;
+   unsigned int my_size;
+};
+
+template &lt;class T&gt;
+List&lt;T&gt;::List()
+{
+        first_link = 0;
+        last_link = 0;
+        my_size = 0;
+}
+
+template &lt;class T&gt;
+List&lt;T&gt;::List(const List &amp; l)
+{
+        first_link = 0;
+        last_link = 0;
+        my_size = 0;
+        for (Link&lt;T&gt; * current = l.first_link; current != 0; current = current -&gt; next_link)
+                push_back(current -&gt; value);
+}
+
+template &lt;class T&gt;
+typename List&lt;T&gt;::iterator List&lt;T&gt;::begin() const
+{
+        return iterator(first_link);
+}
+
+template &lt;class T&gt; 
+class Link 
+{
+private:
+   Link(const T &amp; x): value(x), next_link(0), prev_link(0) {}//pg. 204 
+
+   T value;     
+   Link&lt;T&gt; * next_link;
+   Link&lt;T&gt; * prev_link;
+
+   friend class List&lt;T&gt;;
+   friend class List_iterator&lt;T&gt;;
+};
+
+template &lt;class T&gt; class List_iterator
+{
+public:
+   typedef List_iterator&lt;T&gt; iterator;
+
+   List_iterator(Link&lt;T&gt; * source_link): current_link(source_link) { }
+   List_iterator(): current_link(0) { }
+   List_iterator(List_iterator&lt;T&gt; * source_iterator): current_link(source_iterator.current_link) { }
+
+   T &amp; operator*();  // dereferencing operator
+   iterator &amp; operator=(const iterator &amp; rhs);
+   bool operator==(const iterator &amp; rhs) const;
+   bool operator!=(const iterator &amp; rhs) const;
+   iterator &amp; operator++(); 
+   iterator operator++(int);
+   iterator &amp; operator--(); 
+   iterator operator--(int); 
+
+protected:
+   Link&lt;T&gt; * current_link;
+
+   friend class List&lt;T&gt;;
+};
+
+template &lt;class T&gt;
+T &amp; List_iterator&lt;T&gt;::operator*()
+{
+        return current_link -&gt; value;
+}
+
+template &lt;class T&gt;
+List_iterator&lt;T&gt; &amp; List_iterator&lt;T&gt;::operator++()
+{
+        current_link = current_link -&gt; next_link;
+        return *this;
+}
+
+template &lt;class T&gt;
+void List&lt;T&gt;::push_back(const T &amp; x)
+{
+    link&lt;T&gt; * last_link = new link&lt;T&gt; (x);
+    if (empty())
+    first_link = last_link;
+    else 
+    {
+        last_link-&gt;prev_link = last_link;
+        last_link-&gt;prev_link = last_link;
+    last_link = last_link;
+    }
+}
+
+template &lt;class T&gt;
+typename List&lt;T&gt;::iterator List&lt;T&gt;::end() const
+{
+        return iterator(last_link);
+}
+
+int main()
+{
+   List&lt;int&gt; l;
+
+   l.push_back(44);  // list = 44
+   l.push_back(33);  // list = 44, 33
+   l.push_back(11);  // list = 44, 33, 11
+   l.push_back(22);  // list = 44, 33, 11, 22
+
+   List&lt;int&gt; m(l);
+
+   List&lt;int&gt;::iterator itr(m.begin());
+   while (itr != m.end()) {
+        cout &lt;&lt; *itr &lt;&lt; endl;
+        itr++;
+   }
+}`
+</code></pre>
+
+<p>I'm having a lot of trouble with my push_back() function and I'm not quite sure what's wrong. Can anyone point out my errors?</p>
+
+<p><strong>Updated Code In Progress:</strong></p>
+
+<pre><code>#include &lt;iostream&gt; 
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+template &lt;class T&gt; class Link;
+template &lt;class T&gt; class List_iterator;
+
+template &lt;class T&gt; 
+class List
+{
+public:
+   typedef List_iterator&lt;T&gt; iterator;
+
+   List();
+   List(const List&lt;T&gt; &amp; l);
+   ~List();
+
+   bool empty() const;
+   unsigned int size() const; 
+   T &amp; back() const;
+   T &amp; front() const;
+   void push_front(const T &amp; x);
+   void push_back(const T &amp; x);
+   void pop_front();
+   void pop_back();
+   iterator begin() const;
+   iterator end() const;
+   void insert(iterator pos, const T &amp; x);
+   void erase(iterator &amp; pos); 
+   List&lt;T&gt; &amp; operator=(const List&lt;T&gt; &amp; l);
+
+protected:
+   Link&lt;T&gt; * first_link;
+   Link&lt;T&gt; * last_link;
+   unsigned int my_size;
+};
+
+template &lt;class T&gt;
+List&lt;T&gt;::List()
+{
+        first_link = 0;
+        last_link = 0;
+        my_size = 0;
+}
+
+template &lt;class T&gt;
+List&lt;T&gt;::List(const List &amp; l)
+{
+        first_link = 0;
+        last_link = 0;
+        my_size = 0;
+        for (Link&lt;T&gt; * current = l.first_link; current != 0; current = current -&gt; next_link)
+                push_back(current -&gt; value);
+}
+
+template &lt;class T&gt;
+typename List&lt;T&gt;::iterator List&lt;T&gt;::begin() const
+{
+        return iterator(first_link);
+}
+
+template &lt;class T&gt; 
+class Link 
+{
+private:
+   Link(const T &amp; x): value(x), next_link(0), prev_link(0) {}//pg. 204 
+
+   T value;     
+   Link&lt;T&gt; * next_link;
+   Link&lt;T&gt; * prev_link;
+
+   friend class List&lt;T&gt;;
+   friend class List_iterator&lt;T&gt;;
+};
+
+template &lt;class T&gt; class List_iterator//pg.207
+{
+public:
+   typedef List_iterator&lt;T&gt; iterator;
+
+   List_iterator(Link&lt;T&gt; * source_link): current_link(source_link) { }
+   List_iterator(): current_link(0) { }
+   List_iterator(List_iterator&lt;T&gt; * source_iterator): current_link(source_iterator.current_link) { }
+
+   T &amp; operator*();  // dereferencing operator
+   iterator &amp; operator=(const iterator &amp; rhs);
+   bool operator==(const iterator &amp; rhs) const;
+   bool operator!=(const iterator &amp; rhs) const;
+   iterator &amp; operator++(); 
+   iterator operator++(int);
+   iterator &amp; operator--(); 
+   iterator operator--(int); 
+
+protected:
+   Link&lt;T&gt; * current_link;
+
+   friend class List&lt;T&gt;;
+};
+
+template &lt;class T&gt;
+T &amp; List_iterator&lt;T&gt;::operator*()
+{
+        return current_link -&gt; value;
+}
+
+template &lt;class T&gt;
+List_iterator&lt;T&gt; &amp; List_iterator&lt;T&gt;::operator++()
+{
+        current_link = current_link -&gt; next_link;
+        return *this;
+}
+
+template &lt;class T&gt;
+void List&lt;T&gt;::push_back(const T &amp; x)
+{
+    Link&lt;T&gt; * new_link = new Link&lt;T&gt; (x);
+    if (first_link = 0)
+    first_link = last_link = new_link;
+    else
+    {
+    new_link-&gt;prev_link = last_link;
+        last_link-&gt;next_link = new_link;    
+        last_link = new_link;
+    }
+    my_size++;
+}
+
+template &lt;class T&gt;
+typename List&lt;T&gt;::iterator List&lt;T&gt;::end() const
+{
+        return iterator(last_link);
+}
+
+template &lt;class T&gt;
+List &lt;T&gt;::~List()
+{
+    Link &lt;T&gt; * first = first_link;
+    while (first != 0)
+    {
+    Link &lt;T&gt; * next = first-&gt;next_link;
+        delete first;
+    first = next;
+    }
+}
+
+template&lt;class T&gt;
+bool List_iterator&lt;T&gt;::operator==(const iterator &amp; rhs) const
+{
+    return ( this-&gt;current_link == rhs.current_link ); 
+}
+
+template &lt;class T&gt;
+bool List_iterator&lt;T&gt;::operator!=(const iterator &amp; rhs) const
+{
+    return !( *this == rhs );
+}
+
+int main()
+{
+   List&lt;int&gt; l;
+
+   l.push_back(44);  // list = 44
+   l.push_back(33);  // list = 44, 33
+   l.push_back(11);  // list = 44, 33, 11
+   l.push_back(22);  // list = 44, 33, 11, 22
+
+   List&lt;int&gt; m(l);
+
+   List&lt;int&gt;::iterator itr(m.begin());
+   while (itr != m.end()) {
+        cout &lt;&lt; *itr &lt;&lt; endl;
+        ++itr;
+   }
+}
+</code></pre>
+","585315","","585315","","2011-02-28 04:18:00","2011-02-28 04:18:00","C++ List Implementation","<c++><list>","3","3","0","","","CC BY-SA 2.5"
+"5136440","1","5136469","","2011-02-27 22:22:06","","0","1340","<p>I'm creating a simple security protocol for a website. In the login form, the user inputs their username and password. However, when the information is sent as $_GET or $_POST it has no security at all, e.g: <a href=""http://www.mysite.com/sendinfo.php?user=blah&amp;pass=password123"" rel=""nofollow"">http://www.mysite.com/sendinfo.php?user=blah&amp;pass=password123</a> . Is there anyway to encrypt data clientside before sending it to the server? Thank you!</p>
+","604137","","","","","2011-02-27 22:34:06","Is there anyway to encrypt POST/GET variables before sending them?","<php><javascript>","1","5","","","","CC BY-SA 2.5"
+"5136443","1","5136745","","2011-02-27 22:22:16","","0","669","<p>So I have a DH-hosted domain where I'd like to keep all my git repos at git.mydomain.com, and git is installed on the server, as well as locally using msysgit on Windows.  I'm using TortoiseGit, have put a putty generated key on my server so I can use ssh and initialized a bare git repository at myproj.git.  However, when I try to clone a local version I keep getting this message and have no idea how to debug it or even how to understand it since I know that myproj.git is a git repository.</p>
+
+<pre><code>git.exe clone  --progress -v  ""ssh://user@git.mydomain.com/repos/myproj.git"" ""C:\repos\myproj""
+
+Cloning into C:\repos\myproj...
+fatal: 'repos/myproj.git' does not appear to be a git repository
+fatal: The remote end hung up unexpectedly
+</code></pre>
+
+<p>It asks me for my password at user@git.mydomain.com so I know the key is working, or at least I think it is, so I'm just confused as to why I would be getting this message even though it is a git repos.</p>
+
+<p>Thanks for the help!</p>
+","636899","","","","","2011-02-27 23:13:17","Having trouble with setting up Git/TortoiseGit and Dreamhost","<git><dreamhost><tortoisegit>","1","0","","","","CC BY-SA 2.5"
+"5136447","1","","","2011-02-27 22:22:46","","173","559763","<p>How do I go about computing a factorial of an integer in Python?</p>
+","636900","","63550","","2022-01-06 22:14:58","2022-10-27 15:37:23","Function for factorial in Python","<python>","10","0","0","","","CC BY-SA 4.0"
+"5136449","1","5136475","","2011-02-27 22:23:00","","2","143","<p>If I open www.google.com in chrome  and then I clear history and open www.google.com in another chrome page ,how can I distinguish these 2 web site? Is there something in one instance of browser which make it unique from other one?(same browser and same web page but 2 windows)</p>
+","623906","","623906","","2011-02-27 23:13:59","2011-02-27 23:13:59","2 instances of one web page in 2 windows","<browser>","2","0","","","","CC BY-SA 2.5"
+"5136457","1","5136667","","2011-02-27 22:24:33","","1","65","<p>Have just started to get into CakePHP since a couple of weeks back. I have some experience with MVC-frameworks, but this problem holds me back a bit.</p>
+
+<p>I am currently working on a model <code>foo</code>, containing a primary id and some attributes. Since a complete history of the changes of <code>foo</code> is necessary, the content of <code>foo</code> is saved in the table <code>foo_content</code>. The two tables are connected through <code>foo_content.foo_id = foo.id</code>, in Cake with a <code>foo hasMany foo_content</code>-relationship.</p>
+
+<p>To track the versions of <code>foo</code>, <code>foo_content</code> also contains the column <code>version</code>, and <code>foo</code> itself the field <code>currentVersion</code>. The version is an number incremented by one everytime the user updates <code>foo</code>. This is an older native PHP-app btw, to be rewritten on top of Cake. 9 times out of 10 in the app, the most recent version (<code>foo.currentVersion</code>) is the db-entry that need to be represented in the frontend.</p>
+
+<p>My question is simply: is there someway of representing this directly in the model? Or does this kind of logic simply need to be defined in the controller?</p>
+
+<p>Most grateful for your help!</p>
+","636901","","727208","","2013-09-16 15:41:18","2013-09-16 15:41:18","Representing versions of objects with CakePHP","<php><cakephp><cakephp-model>","1","0","0","","","CC BY-SA 2.5"
+"5136462","1","5144951","","2011-02-27 22:24:45","","4","3522","<p>I'd like to add name-labels for regions on an spplot().</p>
+
+<p>Example:</p>
+
+<pre><code>load(url('http://gadm.org/data/rda/FRA_adm0.RData'))
+FR &lt;- gadm
+FR &lt;- spChFIDs(FR, paste(""FR"", rownames(FR), sep = ""_""))
+load(url('http://gadm.org/data/rda/CHE_adm0.RData'))
+SW &lt;- gadm
+SW &lt;- spChFIDs(SW, paste(""SW"", rownames(SW), sep = ""_""))
+load(url('http://gadm.org/data/rda/DEU_adm0.RData'))
+GE &lt;- gadm
+GE &lt;- spChFIDs(GE, paste(""GE"", rownames(GE), sep = ""_""))
+
+df &lt;- rbind(FR, SW, GE)
+
+## working
+plot(df)
+text(getSpPPolygonsLabptSlots(df), labels = c(""FR"", ""SW"", ""GE""))
+
+
+## not working
+spplot(df[1-2,])
+text((getSpPPolygonsLabptSlots(df), labels = c(""FR"", ""SW""))
+</code></pre>
+
+<p>The second one probably doesn't work because of lattice!?
+However, I need the spplot-functionality.
+How would I get the labels on the plot?</p>
+","263589","","210916","","2013-11-16 18:19:28","2013-11-16 18:19:28","country-labels on spplot()","<r><graphics><maps><lattice>","2","1","","","","CC BY-SA 2.5"
+"5136465","1","5136587","","2011-02-27 22:25:27","","0","119","<pre><code>if(location[0] &lt;= 'H' || location[0] &gt;= 'A' 
+&amp;&amp; location[1] &lt;= 8 || location[1] &gt;= 1)
+</code></pre>
+
+<p>I am checking to see if the first indice is between 'A' and 'H' and the second indice is between 1 - 8. </p>
+
+<p>so the argument would = 1 if the user entered { A, 1 }
+-1 if the user entered { J, 1 }</p>
+","636824","","469935","","2011-02-27 22:28:24","2011-02-28 01:36:13","What is wrong with my logic?","<c++>","7","2","","","","CC BY-SA 2.5"
+"5136466","1","5136556","","2011-02-27 22:25:36","","3","3138","<p>I'm trying to build a multi-app site using CodeIgniter. The individual applications need to be able to share model methods, helpers, libraries, etc. The documentation on CI's site (see: <a href=""http://codeigniter.com/wiki/Multiple_Applications/"" rel=""nofollow"">http://codeigniter.com/wiki/Multiple_Applications/</a>) seems to assume that resources do not need to be shared between the applications.</p>
+
+<p>Does anyone know what I need to do to make this work?</p>
+","253976","","555384","","2011-02-28 14:31:57","2014-04-14 11:25:19","CodeIgniter: Multiple Applications, how to share resources?","<php><codeigniter><dry><codeigniter-2>","1","0","0","","","CC BY-SA 2.5"
+"5136467","1","5136509","","2011-02-27 22:25:39","","2","3811","<p>I was working on java HashMaps and found that it adds values to the head of the list. For example ,</p>
+
+<p>hm.put(mike,2);
+hm.put(andrew,3);</p>
+
+<p>Now,if i print the hasmap using iterator,i get </p>
+
+<p>andrew 3</p>
+
+<p>mike 2</p>
+
+<p>I want the items to be added in the FIFO fashion rather than LIFO fashion ... Is there a way to do it?</p>
+","2183516","","","","","2011-02-27 22:32:06","Java HashMap adds value to the head of the list","<java><hashmap>","3","1","0","","","CC BY-SA 2.5"
+"5136471","1","5136508","","2011-02-27 22:26:11","","3","2537","<p>Is it remotely sane to apply the <strong>C</strong> preprocessor to the same codebase multiple times (specifically, twice in sequence?)</p>
+
+<p>For instance, having declarations such as the following:</p>
+
+<pre><code>##define DECLARE(FILE) # define DECLARATIONS \
+                       #   include FILE \
+                       # undef DECLARATIONS
+</code></pre>
+
+<p>Have you ever seen such an idiom before? If so, what codebase? Can you link it? What sort of patterns would be followed to compile a project doing something like this? Can the CPP as it stands be made to do this, or do I need to write a meta-preprocessor to “hide” the single-hash declarations while processing the double-hash declarations, and so on?</p>
+","31897","","4370109","","2016-03-11 11:04:52","2016-03-11 11:04:52","Multi-pass C preprocessor","<c-preprocessor><project-management>","3","5","","2019-07-05 07:12:58","","CC BY-SA 3.0"
+"5136479","1","5136514","","2011-02-27 22:27:39","","16","27196","<p>I'm trying to install the ruby gem for curl (curb) on Ubuntu 10.10, but during the installation, I get the error:</p>
+
+<pre><code>/usr/bin/ld: cannot find -lcurl
+</code></pre>
+
+<p>But curl is installed! apt-get install curl says I've got the newest version. There is no curl-dev either.</p>
+
+<p>I'm getting these kinds of errors all the time, with curl, with libxml, with readline, and I have no idea what's going on. Something is wrong with my installation of Ubuntu, but I don't know what, I don't know where to look, I don't know what to google for, and I don't know how to fix it.</p>
+
+<p>Help would be deeply appreciated.</p>
+
+<p>EDIT: this is in my /usr/lib dir for libcurl:</p>
+
+<pre><code>lrwxrwxrwx  1 root root      19 2011-02-18 23:15 libcurl-gnutls.so.3 -&gt; libcurl-gnutls.so.4
+lrwxrwxrwx  1 root root      23 2011-02-18 23:15 libcurl-gnutls.so.4 -&gt; libcurl-gnutls.so.4.2.0
+-rw-r--r--  1 root root  339880 2010-06-23 09:07 libcurl-gnutls.so.4.2.0
+lrwxrwxrwx  1 root root      12 2011-02-18 23:14 libcurl.so.3 -&gt; libcurl.so.4
+lrwxrwxrwx  1 root root      16 2011-02-18 23:14 libcurl.so.4 -&gt; libcurl.so.4.2.0
+-rw-r--r--  1 root root  360904 2010-06-23 09:07 libcurl.so.4.2.0
+</code></pre>
+","136","","136","","2011-02-27 22:34:00","2015-10-07 15:38:14","/usr/bin/ld: cannot find -lcurl","<linux><ubuntu><linker>","1","2","0","","","CC BY-SA 2.5"
+"5136498","1","","","2011-02-27 22:30:10","","0","177","<p>Hey So I have a project for school where I have to create a website and in the website there has to be a quiz. The questions are asking for numbers as answers, so I cannot use radio buttons. I know how to make textboxes and submit buttons but I dont think the box is getting the information, so I was wondering if someone could help me fix my code</p>
+
+<p>Here is the end of what I have</p>
+
+<p>*This is not the question I am asking this is just so I can get the code working </p>
+
+<pre><code>&lt;P&gt;&lt;INPUT TYPE=SUBMIT VALUE=""Submit""&gt; &lt;/FORM&gt;
+
+&lt;SCRIPT type=text/javascript&gt;
+
+&lt;/FORM&gt;function getAnswer(input) { if (input == ""3.14"") {alert (""Congradulations"")} else {alert (""No that's incorrect, please try again..."")}
+
+}
+
+
+&lt;/SCRIPT&gt;
+</code></pre>
+","636905","","327563","","2011-02-27 22:46:42","2012-03-05 12:14:38","HTML Textbox writing","<html>","2","3","0","","","CC BY-SA 2.5"
+"5136500","1","","","2011-02-27 22:31:05","","0","801","<p>I am writing a class and need to separate the declarations from the implementation, but I keep receiving ""undefined reference"" errors when compiling and linking my test program.  It works fine when I include the implementation in the .h file, so I believe I am doing something wrong in there.  I just can't figure out what.</p>
+
+<p><strong>Huge_Integer.h</strong></p>
+
+<pre><code>#ifndef HUGE_INTEGER_H
+#define HUGE_INTEGER_H
+
+#include &lt;vector&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+class Huge_Integer
+{
+   public:
+      Huge_Integer();
+      Huge_Integer(string);
+      void input();
+      string output();
+      void add(Huge_Integer);
+      void subtract(Huge_Integer);
+      bool is_equal_to(Huge_Integer);
+      bool is_not_equal_to(Huge_Integer);
+      bool is_greater_than(Huge_Integer);
+      bool is_less_than(Huge_Integer);
+      bool is_greater_than_or_equal_to(Huge_Integer);
+      bool is_less_than_or_equal_to(Huge_Integer);
+   private:
+      vector&lt;int&gt; value;
+};
+
+#endif
+</code></pre>
+
+<p><strong>Huge_Integer.cpp</strong></p>
+
+<pre><code>#include&lt;vector&gt;
+#include&lt;string&gt;
+#include&lt;iostream&gt;
+
+#include ""Huge_Integer.h""
+
+using namespace std;
+
+// all stubs for now...
+
+Huge_Integer::Huge_Integer()
+{
+   cout &lt;&lt; ""object created\n"";
+}
+
+Huge_Integer::Huge_Integer(string s)
+{
+   cout &lt;&lt; ""object created\n"";
+}
+
+//etc...
+</code></pre>
+
+<p>It also works if I put <code>#include ""Huge_Integer.cpp""</code> in my test file, but I shouldn't have to do that, right?</p>
+
+<p>I am using MinGW.</p>
+
+<p>Thanks in advance!</p>
+
+<p>Edit: Added stubs from my .cpp file</p>
+","478896","","365102","","2011-02-28 01:35:30","2011-02-28 01:35:30","Problem separating .h and .cpp file","<c++>","2","11","","","","CC BY-SA 2.5"

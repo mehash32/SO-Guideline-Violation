@@ -1,0 +1,3118 @@
+Id,PostTypeId,AcceptedAnswerId,ParentId,CreationDate,DeletionDate,Score,ViewCount,Body,OwnerUserId,OwnerDisplayName,LastEditorUserId,LastEditorDisplayName,LastEditDate,LastActivityDate,Title,Tags,AnswerCount,CommentCount,FavoriteCount,ClosedDate,CommunityOwnedDate,ContentLicense
+"19410270","1","21381538","","2013-10-16 17:48:00","","40","34924","<p>I have corpora of classified text. From these I create vectors. Each vector corresponds to one document. Vector components are word weights in this document computed as TFIDF values. Next I build a model in which every class is presented by a single vector. Model has as many vectors as there classes in the corpora. Component of a model vector is computed as mean of all component values taken from vectors in this class. For unclassified vectors I determine similarity with a model vector by computing cosine between these vectors.</p>
+
+<p>Questions: </p>
+
+<p>1) Can I use Euclidean Distance between unclassified and model vector to compute their similarity? </p>
+
+<p>2) Why Euclidean distance can not be used as similarity measure instead of cosine of angle between two vectors and vice versa?</p>
+
+<p>Thanks!</p>
+","2186716","","1480391","","2015-02-26 14:11:22","2019-01-03 06:13:37","Vector Space Model: Cosine Similarity vs Euclidean Distance","<vector><distance><euclidean-distance><trigonometry>","4","1","0","","","CC BY-SA 3.0"
+"19410271","1","","","2013-10-16 17:48:02","","-1","73","<p>I designed an iPhone web app that can also be accessed by the desktop. The design falls apart on the browser when it is only meant for the iphone. How can I stop users from accessing from a Desktop browser and only an iPhone?</p>
+","2512858","","","","","2013-10-16 17:56:03","How can I restrict desktop browser access to an iPhone web app?","<iphone><web-applications><browser>","2","0","","","","CC BY-SA 3.0"
+"19410275","1","","","2013-10-16 17:48:09","","5","805","<p>I'm having some problems with our feature specs. I currently suspect requirejs to be the evildoer. It seems that our specs (Rails with capybara-webkit) start running before all JavaScript files are loaded. Capybara-webkit allows me to evaluate Javascript in Webkit, and I would like to use that to make sure that everything is in place before I start the test run.</p>
+
+<p>Can I somehow query requirejs for the modules it loaded? Are there events I can listen to? Or can I inject a requirejs module at test runtime to set a global state that I can query from my tests (not really my preferred solution)?</p>
+
+<p>I'm not a requirejs expert and haven't implemented much of our JavaScript, but I need to fix it ;)</p>
+","362378","","","","","2013-12-28 15:45:13","In tests: Make sure all JS is loaded with requirejs","<requirejs><requirejs-rails>","2","0","0","","","CC BY-SA 3.0"
+"19410279","1","19413935","","2013-10-16 17:48:18","","1","124","<p>In MongoMapper, classes can inherit keys and methods from superclasses. Here I've written code to include an integer key ""baz"", and a naive sorting method to set its instances' baz values to sequential counting numbers.</p>
+
+<pre><code>require 'mongo_mapper'
+require './init/mongo_init' # Load database connection
+
+class Sortable
+    include MongoMapper::Document
+    key :baz, Integer
+
+    def self.sort_baz
+        counter = 0
+        Sortable.each do |record|
+            record.baz = counter
+            counter += 1
+            record.save
+        end
+    end
+end
+
+class Model &lt; Sortable
+    include MongoMapper::Document
+    key :foo, String
+    key :bar, String
+end
+
+Model.delete_all
+model1 = Model.new.save
+model2 = Model.new.save
+model3 = Model.new.save
+Model.sort_baz
+Model.all.each do |record|
+    puts record.inspect
+end
+</code></pre>
+
+<p>Here are the results:</p>
+
+<pre><code>#&lt;Model _id: BSON::ObjectId('525ecd73ab48655daa000001'), _type: ""Model"", baz: 0&gt;
+#&lt;Model _id: BSON::ObjectId('525ecd73ab48655daa000002'), _type: ""Model"", baz: 1&gt;
+#&lt;Model _id: BSON::ObjectId('525ecd73ab48655daa000003'), _type: ""Model"", baz: 2&gt;
+</code></pre>
+
+<p>Here's my question: I'm writing code with models that will want to inherit multiple types of functionalities, which in Ruby would suggest using Modules and includes, since Ruby doesn't support multiple inheritance. </p>
+
+<p>But MongoMapper documents have to be classes, not modules. In other words, this is what I'd like to do, but it won't work:</p>
+
+<pre><code>module Sortable
+    include MongoMapper::Document
+    key :baz, Integer
+
+    def self.sort_baz
+        counter = 0
+        self.each do |record|
+            record.baz = counter
+            counter += 1
+            record.save
+        end
+    end
+end
+
+module OtherFunctionality
+    include MongoMapper::Document
+    key :bam, Integer
+end
+
+class Model
+    include MongoMapper::Document
+    key :foo, String
+    key :bar, String
+    include Sortable
+    include OtherFunctionality
+end
+</code></pre>
+
+<p>Is there any way to cleanly combine multiple reusable sets of MongoMapper keys and class methods on a case-by-case basis?</p>
+","1489763","","1489763","","2013-10-16 19:44:38","2013-10-16 21:09:06","MongoMapper: composition of multiple sets of keys and methods?","<ruby><inheritance><mongomapper>","1","1","","","","CC BY-SA 3.0"
+"19410281","1","","","2013-10-16 17:48:21","","0","346","<p>This question is similar to me as this <a href=""https://stackoverflow.com/questions/5453336/plot-correlation-matrix-into-a-graph"">SO post.</a></p>
+
+<p>Sample data for the ratios:</p>
+
+<pre><code>n=50
+ratio1 &lt;- seq(0,1.5,(1.5-0)/(n-1))
+ratio2 &lt;- seq(0,2.5,(2.5-0)/(n-1))
+ratio3 &lt;- seq(0.5,4.5,(4.5-0.5)/(n-1))
+ratio4 &lt;- seq(1,3,(3-1)/(n-1))
+ratio5 &lt;- seq(0.7,2,(2-0.7)/(n-1))
+</code></pre>
+
+<p>To name the ratios: </p>
+
+<pre><code>rname &lt;- c(""a/b"",""c/d"",""e/f"",""g/h"",""i/j"") 
+</code></pre>
+
+<p>so the y-axis labels are <code>c(a,c,e,g,i)</code> and x-axis <code>c(b,d,f,h,j)</code></p>
+
+<p>Now, let's say the current measured values are:</p>
+
+<pre><code>measure.r &lt;- data.frame(c(0.7,1.5,3.3,2.5,1.5))
+colnames(measure.r) &lt;- C(""r1"",""r2"",""r3"",""r4"",""r5"")
+</code></pre>
+
+<p>Now, I would like to plot the measured value within each domain (ratio1, ratio2...etc.) as the referenced SO post about plotting correlation matrix.</p>
+
+<p>So I would like to express the current measured value position within the interval in a color (from green to red, where red means the the upper limit has been reached)</p>
+
+<p>I would like to have the 5 ratios plotted as the correlation matrix referenced here. Where each square would represent state of the measured value (via its color).</p>
+
+<p><img src=""https://i.stack.imgur.com/hiaXn.jpg"" alt=""enter image description here""></p>
+
+<p>I have tried to combine the boxplot <code>bwplot</code> and the lattice <code>levelplot</code> but unsuccessfully. </p>
+
+<p>Hope the above makes sense.  Please post any question you may have regarding the description above.</p>
+","2280536","","-1","","2017-05-23 12:28:04","2013-10-16 22:04:50","Plot ratios as correlation matrix in R","<r><plot><lattice>","1","2","","","","CC BY-SA 3.0"
+"19410283","1","19527313","","2013-10-16 17:48:35","","2","352","<p>I have a number of menus that point to the users registration component. Depending on where the user registers I redirect them accordingly with a custom plugin.</p>
+
+<pre><code>public function onUserAfterSave($user, $isnew, $success, $msg)
+{
+
+    //get the active menu item id so we can compare what plan we are on
+    $menu   = $app-&gt;getMenu();
+    $active   = $menu-&gt;getActive();
+    $activeId = $active-&gt;id;
+
+    //compare active page (i.e. what menu item are we on) with the parameter set in the plugin
+    //if it matches redirect accordingly - fallback is to always redirect to free plan
+    if ($activeId == $this-&gt;params-&gt;get('free-reg-menu'))
+    {
+        //redirect required to go to main page
+        JFactory::getApplication()-&gt;redirect(JRoute::_('page1'));
+    }
+    else if ($activeId == $this-&gt;params-&gt;get('bv-reg-menu')) 
+    {
+        //redirect to step 2 of main plan payment processing
+        JFactory::getApplication()-&gt;redirect(JRoute::_('page2'));
+    }
+    else if ($activeId == $this-&gt;params-&gt;get('prem-reg-menu'))
+    {
+        //redirect to step 2 of value plan payment processing
+        JFactory::getApplication()-&gt;redirect(JRoute::_('page3'));
+    }
+    else
+    {
+        //other stuff
+    }
+
+}
+</code></pre>
+
+<p>Depending on what menus were assigned in this plugin I redirect the user to a specific page. This all works quite well.</p>
+
+<p>My problem is when registration fails (ie. duplicate username, wrong matching passwords etc.) the page does a refresh due to the server side validation. This refresh brings the page away from the original link. It seem to redirect to the first registration menu page I created.</p>
+
+<p>For example: I'm on a registration page and I enter wrong credentials then the page refreshes to a completely different page. Any ideas? I guess an extension for AJAX registration might address this but I'd like to avoid that for now.</p>
+","1008103","","1008103","","2013-10-20 02:09:54","2013-10-22 20:08:11","Joomla plugin event with failed registration","<joomla><joomla2.5>","2","0","","","","CC BY-SA 3.0"
+"19410284","1","19410338","","2013-10-16 17:48:35","","-2","70","<p>I have a text that looks like this -></p>
+
+<pre><code>car, building, money, computer, new phone, media chat, google plus, desk, gym
+</code></pre>
+
+<p>Is there a way of putting each of these words in a <code>&lt;span&gt;&lt;/span&gt;</code> tag with jQuery..?</p>
+
+<p>Can't seem to find something like this in internet...</p>
+","1114910","","2266713","","2013-10-16 17:50:29","2013-10-16 18:05:03","put each word in a span with jQuery","<javascript><jquery>","4","2","","2013-10-17 04:22:26","","CC BY-SA 3.0"
+"19410290","1","19410423","","2013-10-16 17:48:50","","1","320","<p>First off, I am working in Access 2007.</p>
+
+<p>I have two queries that both aggregates by date.</p>
+
+<p>The first one returns an aggregated daily weighted return</p>
+
+<pre><code>SELECT Records.RecDate, Sum([YTD]*[Weight]) AS UnadjReturn
+FROM Records
+WHERE (((Records.[Class1])=""eq"") AND ((Records.[Class2])=""ce""))
+GROUP BY Records.RecDate;
+</code></pre>
+
+<p>Result:</p>
+
+<pre><code>RecDate UnadjReturn
+11/27/2012  0.060778036742704
+12/11/2012  0.075592752895318
+12/14/2012  7.47574641136453E-02
+</code></pre>
+
+<p>I also have another query that returns daily total class portfolio weight by summing the weight of all the assets in an asset class with respect to the entire portfolio:</p>
+
+<pre><code>SELECT Records.RecDate, Sum(Records.Weight) AS SumOfWeight
+FROM Records
+WHERE (((Records.[Class1])=""eq"") AND ((Records.[Class2])=""ce""))
+GROUP BY Records.RecDate;
+</code></pre>
+
+<p>which returns:</p>
+
+<pre><code>RecDate SumOfWeight
+11/27/2012  0.479327081236988
+12/11/2012  0.483075813390315
+12/14/2012  0.482791727874428
+</code></pre>
+
+<p>Now I would like to write a consolidated query that multiplies each day's <code>UnadjReturn</code> by <code>SumOfWeight</code>. I have tried <code>INNER JOIN</code> the two and then multiply the two variables as follows,</p>
+
+<pre><code>SELECT joined.RecDate, joined.UnadjReturn * joined.SumOfWeight as AdjReturn
+FROM joined
+(
+SELECT Records.RecDate, Sum([YTD]*[Weight]) AS UnadjReturn
+FROM Records
+WHERE (((Records.[Class1])=""eq"") AND ((Records.[Class2])=""ce""))
+GROUP BY Records.RecDate
+INNER JOIN
+(
+SELECT Records.RecDate, Sum(Records.Weight) AS SumOfWeight
+FROM Records
+WHERE (((Records.[Class1])=""eq"") AND ((Records.[Class2])=""ce""))
+GROUP BY Records.RecDate;
+) t2
+ON Records.RecDate = t2.RecDate
+AS joined
+)
+</code></pre>
+
+<p>This is not looking good at all. Any suggestions? I could do it by querying the two queries with another query, but I would like to take care of it in just one. </p>
+","2561430","","","","","2013-10-16 20:19:56","Consolidating 2 queries with an INNER JOIN and Get a calculated column from them","<sql><database><ms-access>","2","1","","","","CC BY-SA 3.0"
+"19410295","1","19411944","","2013-10-16 17:49:00","","0","1886","<p>I am going through some trouble with EF.
+In this model I would like to get an IEnumerable of all Products whose names match some string, but also the Products inside an Order whose name ALSO matches the same string, all of this without Product duplicates in the resulting IEnumerable.</p>
+
+<p>That is, a query that searches the same string and matches it against BOTH the Product's name and the Order's name and returns the matched Products.</p>
+
+<p>Thanks</p>
+
+<pre><code>      public class Order
+        {
+            public Order()
+            {             
+                OrderDetailList= new  List&lt;OrderDetail&gt;();
+            }
+
+            public int Id { get; set; }
+            public String orderName{ get; set; }            
+            public ICollection&lt;OrderDetail&gt; OrderDetailList{ get; set; }    
+        }
+
+ public class OrderDetail 
+    {
+
+        public int Id { get; set; }        
+
+        [ForeignKey(""Product_Id"")]
+        public Turno Product { get; set; }
+        public int Product_Id { get; set; }
+
+        public int numberOfItems{ get; set; }
+
+        [ForeignKey(""Order_Id"")]      
+        public Order Order { get; set; }
+        public int Order_Id { get; set; }
+   }
+
+
+
+ public class Product 
+    {
+        public Product()
+        {         
+            OrderDetail= new List&lt;OrderDetail&gt;();
+        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string codId { get; set; }
+        public ICollection&lt;OrderDetail&gt; OrderDetailList{ get; set; }
+}
+
+
+
+public class Context : DbContext
+    {
+        public Context()
+            : base(""Context"") { }            
+        public DbSet&lt;Order&gt; Orders { get; set; }
+        public DbSet&lt;OrderDetail&gt; OrderDetails { get; set; }
+        public DbSet&lt;Product&gt; Products { get; set; }
+    }
+</code></pre>
+","76370","","","","","2013-10-16 19:22:01","How to query multiple DbSets in a single LINQ statement","<c#><entity-framework><lambda><dbset>","2","0","","","","CC BY-SA 3.0"
+"19410298","1","","","2013-10-16 17:49:02","","1","597","<p>I upgraded to Visual Studio 2012 from Visual Studio 2010. My solution builds fine in Visual Studio 2010. However in Visual Studio 2012, a CLR enabled C++ project throws c2248 'CObject::CObject' : cannot access private member declared in class 'CObject' from an export class below. If I comment out AFX_CLASS_EXPORT for CParmArray, the project compiles without error. Or if I turn off CLR support, it also compiles without error. But these are not options since other projects in the solution will get link error when building.  </p>
+
+<p>What has changed in Visual Studio 2012 that could cause the problem? How do I correct the error?</p>
+
+<p>I appreciate any advice.</p>
+
+<p>compiler output:</p>
+
+<pre><code>1&gt;C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\atlmfc\include\afxtempl.h(262): error C2248: 'CObject::CObject' : cannot access private member declared in class 'CObject'
+ 1&gt;          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\atlmfc\include\afx.h(559) : see declaration of 'CObject::CObject'
+ 1&gt;          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\atlmfc\include\afx.h(534) : see declaration of 'CObject'
+ 1&gt;          This diagnostic occurred in the compiler generated function 'CArray&lt;TYPE,ARG_TYPE&gt;::CArray(const CArray&lt;TYPE,ARG_TYPE&gt; &amp;)'
+ 1&gt;          with
+ 1&gt;          [
+ 1&gt;              TYPE=int *,
+ 1&gt;              ARG_TYPE=int *&amp;
+ 1&gt;          ]
+</code></pre>
+
+<p>code:</p>
+
+<pre><code>class AFX_CLASS_EXPORT CParmArray : public CArray&lt;int, int* &amp;&gt;
+{
+public:
+  CParmArray();
+  CParmArray(const CParmArray&amp; testArray);
+  void operator=(const CParmArray&amp; testArray);
+  virtual ~CParmArray();
+};
+</code></pre>
+","2887403","","2887403","","2013-10-17 03:43:42","2017-02-01 10:58:45","C2248 error when compiling a CLR enabled C++ project in Visual Studio 2012","<c++><visual-studio-2012>","1","2","","","","CC BY-SA 3.0"
+"19410300","1","19457817","","2013-10-16 17:49:07","","25","29546","<p>In iOS 7 switches don't allow custom on/off images by default.  While I can still set them in the Interface Builder it doesn't show up.</p>
+
+<p><a href=""https://developer.apple.com/library/ios/documentation/userexperience/conceptual/TransitionGuide/TransitionGuide.pdf"">https://developer.apple.com/library/ios/documentation/userexperience/conceptual/TransitionGuide/TransitionGuide.pdf</a></p>
+
+<p>The transition guide merely notes that it isn't on by default anymore.  Presumably there is a way to change that so I do use the images I have.</p>
+","1159330","","","","","2016-09-06 08:16:53","Custom On/Off Image iOS 7.0 UI Switch","<ios><xcode><uiswitch>","3","2","0","","","CC BY-SA 3.0"
+"19410306","1","","","2013-10-16 17:49:33","","0","1133","<p>I am trying to use binary search to look for a string that contains a substring. </p>
+
+<pre><code>ArrayList&lt;String&gt; ch = new ArrayList&lt;String&gt;();
+    ch.add(""qwerty"");
+    ch.add(""asdfghjkl"");
+    ch.add(""c"");
+    ch.add(""d"");
+    ch.add(""e"");
+    Comparator&lt;String&gt; comparator = new Comparator&lt;String&gt;() {
+        public int compare(String node1, String node2) {
+            if (node1.contains(node2)) {
+                return 0;
+            }
+            return node1.indexOf(node2);
+        }
+    };
+
+
+    int pos2 = Collections.binarySearch(ch, ""sdf"", comparator);
+</code></pre>
+
+<p>Is it possible to use binarysearch instead of using loop. This is giving me an incorrect index.</p>
+
+<p>I am trying to avoid using a string.substring(x,y) where x and y is a fixed value.</p>
+","1713114","","","","","2013-10-16 18:11:51","Java - Comparator to search for substring","<java><search><comparator>","4","0","","","","CC BY-SA 3.0"
+"19410309","1","","","2013-10-16 17:49:40","","1","715","<p>Just want to know if I have singleton object which has non static map. Why objects in maps are going to pergem space and not in heap. I can see from Visual VM that with intersession of object in Map pergem space is increasing.</p>
+
+<p>What I was aware was only static variable and classes goes in pergem space rest all the objects should go to heap.</p>
+
+<p>Is this because of singleton pattern where singleton object is static hence the reference is pointing to heap but still have retain size in pergem?</p>
+
+<p>If this is the case what's the remedy to this problem. </p>
+","2887506","","","","","2013-10-16 21:36:17","Per Gem Out of memory for Singleton pattern","<java><performance><out-of-memory>","1","2","","","","CC BY-SA 3.0"
+"19410313","1","","","2013-10-16 17:50:01","","0","1869","<p>I read that UInt(1) refers to a 1-bit decimal literal. I'm confused about what UInt(0) could mean. It is used in a Counter code that goes as follows :-</p>
+
+<pre><code>package TutorialSolutions
+
+    import Chisel._
+
+    object Counter {`
+
+    `def wrapAround(n: UInt, max: UInt) = `    
+
+        Mux(n &gt; max, **UInt(0)**, n)
+
+        // ---------------------------------------- \\
+        // Modify this function to increment by the
+        // amt only when en is asserted
+        // ---------------------------------------- \\
+        def counter(max: UInt, en: Bool, amt: UInt) = {     
+        val x = Reg(init=**UInt(0, max.getWidth)**)
+        when (en) { x := wrapAround(x + amt, max) }
+
+
+        x   
+    }
+</code></pre>
+
+<p>Can someone explain the working of the two highlighted (bounded by asterisks) statements?</p>
+","2887471","","106092","","2013-10-17 11:51:06","2013-10-17 11:51:06","What does UInt(0) mean?","<scala><hardware><hdl><uint><chisel>","2","0","","","","CC BY-SA 3.0"
+"19410314","1","","","2013-10-16 17:50:09","","0","40","<p>In monitors, if a thread A goes to wait as some condition is false and if other thread B signals as condition is true and resets the condition so condition becomes false again. When thread A resumes execution should it check the condition? or should it proceed after that?</p>
+","2793286","","","","","2013-10-20 12:33:00","In monitors,after entering thread on wait should it again check the condition?","<multithreading>","1","1","","","","CC BY-SA 3.0"
+"19410319","1","19410477","","2013-10-16 17:50:19","","1","150","<p>I am attempting to get these two sub-routines running concurrently. When I fire the program I end up with:</p>
+
+<pre><code>Perl exited with active threads:
+    2 running and unjoined
+    0 finished and unjoined
+    0 running and detached
+</code></pre>
+
+<p>Nothing gets print onto console. I was expected while(1) to stay active until SIGTERM.</p>
+
+<h1>Thread</h1>
+
+<pre><code>use threads;
+
+my $t1 = threads-&gt;create( \&amp;sub2 );
+my $t2 = threads-&gt;create( \&amp;sub1 );
+
+sub sub2 {
+   my $dbh = get_connector();
+   while (1) {
+      print ""Worker 2 Running"";
+      sleep 2;
+   }
+}
+
+sub sub1 {
+   while (1) {
+      print ""Worker 1 Running"";
+      sleep 1;
+   }
+}
+</code></pre>
+
+<p>Can you spot the defect here!</p>
+","340390","","125389","","2013-10-16 18:15:59","2013-10-16 18:15:59","Concurrent sub-routines in Perl","<multithreading><perl>","2","3","","","","CC BY-SA 3.0"
+"19410320","1","","","2013-10-16 17:50:19","","0","211","<p>I want to create a TreeView that have 'ItemsSource=ObservableCollection..."".<br>
+I created a Style for TreeViewItem that contains DataGrid with controls bound to the items in the ObservableCollection. For example CheckBox that bound to a property of the item.  </p>
+
+<p>I want to create a Trigger that in case that the item property have specific value it will change property value of the control:</p>
+
+<pre><code>   &lt;Style TargetType=""{x:Type TreeViewItem}"" x:Key=""GridItemStyle"" x:Name=""GridItemStyle2""&gt;
+            &lt;Setter Property=""Template"" &gt;
+                &lt;Setter.Value&gt;
+                    &lt;ControlTemplate TargetType=""{x:Type TreeViewItem}""&gt;                        
+                        &lt;Border  Background=""Red"" BorderBrush=""Yellow"" BorderThickness=""3"" Margin=""2,10,0,0""&gt;
+                            &lt;StackPanel Background=""Red"" Margin=""10,10,10,10"" Orientation=""Horizontal""&gt;                                                                                                
+                                &lt;StackPanel.Triggers&gt;
+                                    &lt;Trigger Property=""{Binding IsSucceed}"" Value=""True""&gt;
+                                        &lt;Setter Property=""Background"" Value=""Blue""/&gt;
+                                    &lt;/Trigger&gt;
+                                &lt;/StackPanel.Triggers&gt;
+                                &lt;TextBlock Margin=""0,0,10,0"" Text=""{Binding Path=time, StringFormat={}\{0:dd/MM/yyyy hh:mm:ss:fff\}, Mode=OneWay}""/&gt;
+                                &lt;TextBlock Margin=""0,0,10,0"" Text=""{Binding milisecond}""/&gt;
+                                &lt;TextBlock Margin=""0,0,10,0"" Text=""{Binding address}""/&gt;
+                                &lt;TextBlock Margin=""0,0,10,0"" Text=""{Binding IsSucceed}""/&gt;
+                                &lt;TextBlock Margin=""0,0,10,0"" Text=""{Binding statues}""/&gt;
+                            &lt;/StackPanel&gt;
+                        &lt;/Border&gt;                       
+                    &lt;/ControlTemplate&gt;                                      
+                &lt;/Setter.Value&gt;
+            &lt;/Setter&gt;
+        &lt;/Style&gt;
+</code></pre>
+
+<p>The get exception in runtime because of the Trigger:  </p>
+
+<pre><code>  &lt;Trigger Property=""{Binding IsSucceed}"" Value=""True""&gt;
+       &lt;Setter Property=""Background"" Value=""Blue""/&gt;
+  &lt;/Trigger&gt;
+</code></pre>
+
+<p>How do I solve it?</p>
+","436862","","","","","2013-10-16 18:55:14","How do I bound style property to item value in WPF?","<c#><wpf><binding><styles><treeview>","2","0","","","","CC BY-SA 3.0"
+"19410322","1","","","2013-10-16 17:50:25","","4","4754","<p>I am going through (<a href=""https://stackoverflow.com/questions/14176499/change-xlib-window-background-color-with-c"">Change Xlib window background color with C++</a>) &amp; know to set the background color of XWindow. </p>
+
+<p>But how can I set the Alpha value of that Xwindow. I tried several things, but when I do read from XWindow, each pixel has Alpha as 0xff.</p>
+
+<p>Is there any way I can set this alpha as 0x00. Please provide some sample code.</p>
+","1409528","","-1","","2017-05-23 11:58:35","2015-07-01 19:46:47","Change Alpha value of pixels in Xlib window","<x11><pixel><xlib><alpha-transparency>","2","2","0","","","CC BY-SA 3.0"
+"19410324","1","","","2013-10-16 17:50:27","","2","546","<p>I have a program where i assert some fact. For example:</p>
+
+<pre><code>apple(red)
+dog(browm)
+desk(black)
+</code></pre>
+
+<p>I would like to create a clause in a file. For example:</p>
+
+<pre><code>  mylife(my):- 
+      apple(red),
+      dog(browm),
+      desk(black).
+</code></pre>
+
+<p>How can i do to write the fact in a file txt?</p>
+","2502488","","","","","2019-04-08 14:15:17","Save asserted facts in file as clause","<prolog>","1","0","","","","CC BY-SA 3.0"
+"19410327","1","","","2013-10-16 17:50:51","","1","628","<p>Folks</p>
+
+<p>My scenario : I have a login form. When I click the submit button, it should call a CGI script ""someurl?userName=user&amp;password=pwd"". Based on the script response, I should be able to forward my pages. </p>
+
+<p>The cgi script response would be,  when entered in browser manually, will display a table if the username and password are correct, else the script will display ""Please enter a valid username and password"".</p>
+
+<p>Can someone please explain me how to get the CGI script response using AJAX. </p>
+","2887487","","","","","2013-10-16 17:59:46","How to get the CGI Script response using AJAX","<javascript><jquery><ajax><cgi>","1","0","","","","CC BY-SA 3.0"
+"19410331","1","19420285","","2013-10-16 17:50:58","","0","1654","<p>I know there are some questions about this here, and I tried a lot of solutions around but i'm still stuck.
+I tried to use this <a href=""https://stackoverflow.com/questions/12235060/pagination-in-xsl"">pagination in xsl</a>
+and this <a href=""https://stackoverflow.com/questions/4858057/possible-to-split-xml-into-multiple-pages-with-xslt"">Possible to split XML into multiple pages with XSLT?</a> but don't get what I need,</p>
+
+<p>I need to create a pagination in my generated html, using a XML through a XSLT parser.</p>
+
+<p>XML file is like this</p>
+
+<pre><code>&lt;root&gt;
+    &lt;result&gt;
+        &lt;a&gt;field one&lt;/a&gt;
+        &lt;b&gt;field two&lt;/b&gt;
+        &lt;c&gt;field three&lt;/c&gt;
+    &lt;/result&gt;
+    &lt;result&gt;
+        &lt;a&gt;hello&lt;/a&gt;
+        &lt;b&gt;thanks&lt;/b&gt;
+        &lt;c&gt;for help&lt;/c&gt;
+    &lt;/result&gt;
+    &lt;result&gt;
+        &lt;a&gt;thank&lt;/a&gt;
+        &lt;b&gt;you&lt;/b&gt;
+        &lt;c&gt;!!&lt;/c&gt;
+    &lt;/result&gt;
+    ..... 
+&lt;/root&gt;
+</code></pre>
+
+<p>and my XSLT without pagination is this</p>
+
+<pre><code>&lt;xsl:stylesheet version=""1.0""
+    xmlns:xsl=""http://www.w3.org/1999/XSL/Transform"" xmlns:msxsl=""urn:schemas-microsoft-com:xslt""
+    xmlns:user=""http://mycompany.com/mynamespace""&gt;
+
+
+    &lt;xsl:output method=""html"" indent=""yes"" /&gt;
+
+    &lt;xsl:template match=""/""&gt;
+        &lt;html&gt;
+            &lt;body&gt;
+                &lt;xsl:apply-templates /&gt;
+            &lt;/body&gt;
+        &lt;/html&gt;
+    &lt;/xsl:template&gt;
+
+    &lt;xsl:template match=""root""&gt;
+                    &lt;xsl:for-each select=""result""&gt;
+                        &lt;div class=""list_item""&gt;
+                            &lt;div class=""dmv_line""&gt;
+                                &lt;div class=""box_text""&gt;
+                                    &lt;h2&gt;&lt;xsl:value-of select=""a""/&gt;&lt;/h2&gt;
+                                &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=""dmv_line""&gt;
+                                    &lt;div class=""box_text""&gt;
+                                        &lt;h2&gt;&lt;xsl:value-of select=""b""/&gt;&lt;/h2&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=""dmv_line""&gt;
+                                    &lt;div class=""box_text""&gt;
+                                        &lt;h2&gt;&lt;xsl:value-of select=""c""/&gt;&lt;/h2&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/xsl:for-each&gt;
+    &lt;/xsl:template&gt;
+
+
+&lt;/xsl:stylesheet&gt;
+</code></pre>
+
+<p>What I need is to create a <code>&lt;div&gt;</code> that encapsulate results 3 by 3 or 4 by 4, which I will make hide or visible in javascript later.. 
+Thanks</p>
+
+<p>[EDIT]:
+The HTML output, if I assume to make pagination 2 elements per page, and considering only the 3 elements in example, the output should be</p>
+
+<pre><code>&lt;-- page number one ---&gt;
+&lt;div id=""1""&gt;
+ &lt;div class=""list_item""&gt;
+     &lt;div class=""dmv_line""&gt;
+        &lt;div class=""box_text""&gt;
+            &lt;h2&gt;field one&lt;/h2&gt;
+        &lt;/div&gt;
+     &lt;/div&gt;
+    &lt;div class=""dmv_line""&gt;
+        &lt;div class=""box_text""&gt;
+            &lt;h2&gt;field two&lt;/h2&gt;
+        &lt;/div&gt;
+     &lt;/div&gt;
+     &lt;div class=""dmv_line""&gt;
+        &lt;div class=""box_text""&gt;
+            &lt;h2&gt;field three&lt;/h2&gt;
+        &lt;/div&gt;
+     &lt;/div&gt;
+    &lt;/div&gt;
+     &lt;div class=""list_item""&gt;
+         &lt;div class=""dmv_line""&gt;
+            &lt;div class=""box_text""&gt;
+                &lt;h2&gt;hello&lt;/h2&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+        &lt;div class=""dmv_line""&gt;
+            &lt;div class=""box_text""&gt;
+                &lt;h2&gt;thanks&lt;/h2&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+         &lt;div class=""dmv_line""&gt;
+            &lt;div class=""box_text""&gt;
+                &lt;h2&gt;for help&lt;/h2&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+ &lt;-- END OF page number one ---&gt;
+ &lt;-- page number two ---&gt;
+&lt;div id=""2""&gt;     
+     &lt;div class=""list_item""&gt;
+         &lt;div class=""dmv_line""&gt;
+            &lt;div class=""box_text""&gt;
+                &lt;h2&gt;thank&lt;/h2&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+        &lt;div class=""dmv_line""&gt;
+            &lt;div class=""box_text""&gt;
+                &lt;h2&gt;you&lt;/h2&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+         &lt;div class=""dmv_line""&gt;
+            &lt;div class=""box_text""&gt;
+                &lt;h2&gt;!!!&lt;/h2&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;  
+ &lt;-- END OF page number two ---&gt;
+</code></pre>
+","1768043","","-1","","2017-05-23 11:57:20","2013-10-17 08:28:18","Convert XML to HTML using XSLT Pagination","<html><xml><xslt><pagination>","1","1","","","","CC BY-SA 3.0"
+"19410333","1","","","2013-10-16 17:51:00","","1","490","<p>I got a Website here: <a href=""http://pixeld.bplaced.net/Workbench/"" rel=""nofollow"">Website</a>
+My Problem is, that the Body (witch I want to make to opacity 0 later) isn't over the whole site? It just stops at after the ""Block""-Section in the middle.
+When I remove the background-color in the html-part, the Body gets Fullscreen again.
+But I need the background-color for another reason. (I don't want to change this).</p>
+
+<p>I hope you can see/edit the source-code with your browser.</p>
+
+<p>I want it this way:
+<a href=""http://postimg.org/image/j2ec1sl9z/"" rel=""nofollow"">http://postimg.org/image/j2ec1sl9z/</a></p>
+
+<p><strong>SOLUTION!!!</strong>
+I cant answer my own question right now, so i have to do it this way:</p>
+
+<p>So, my Solution I found is:</p>
+
+<p>I set the height automatic onload with javascript.</p>
+
+<pre><code>var wheight = $(window).height();
+$(""body"").css(""height"", wheight);
+</code></pre>
+
+<p>Not the best Solution, but it works!</p>
+
+<p>Thanks for your help everyone!</p>
+","2886997","","2886997","","2013-10-16 18:32:51","2013-10-16 19:13:59","Body-size won't get 100%?","<html><css>","4","5","","","","CC BY-SA 3.0"
+"19410337","1","19410844","","2013-10-16 17:51:05","","1","285","<p>I'm working with an Infineon Tricore processor and I'm coming across an addressing mode that I've not seen before, then referring to a register in some of the instructions that I am confused by the following:</p>
+
+<pre><code>jz16.t d15:2, loc_6749A
+</code></pre>
+
+<p>Now from what I understand this instruction checks one bit to determine if the branch is taken or not (that's from the .t extension on the opcode). But what does d15:2 mean? I've only seen that used for ranges of bits, could it mean the second bit of d15?</p>
+
+<p>It is important to know that d15 contains a status register.</p>
+","1424125","","298225","","2013-10-16 18:15:09","2013-10-16 18:20:52","Assembly Language Syntax Confusion","<assembly><reverse-engineering>","1","2","","","","CC BY-SA 3.0"
+"19410342","1","","","2013-10-16 17:51:18","","1","1051","<p>This one has me stumped... there is a apparently something that breaks in jquery when I try appending a table inside of a another table td or th... hopefully there is someone with an answer</p>
+
+<p>This is simplified version of what I'm trying to do but should get the point across</p>
+
+<p>Example</p>
+
+<pre><code>&lt;table id=""myTable""&gt;
+    &lt;tr&gt;
+        &lt;td&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;script&gt;
+    $('#myTable td:last').append('&lt;table&gt;&lt;tr&gt;&lt;td&gt;Cell1&lt;/td&gt;&lt;td&gt;Cell2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;');
+&lt;/script&gt;
+</code></pre>
+
+<p>when you do this jquery will automatically take the rest of the table and insert it into the ""td"" instead of just inserting the table I appended. Its like it doesnt see the closing tag so everything from the rest of the table gets added to the ""td""</p>
+
+<p>Is there a work around or am I just doing this wrong?</p>
+
+<p>Any help would be greatly appreciated</p>
+","1905329","","1905329","","2013-10-16 18:08:15","2013-10-16 18:08:15","Jquery append a table inside of a td breaks","<javascript><jquery><html><append>","0","6","","","","CC BY-SA 3.0"
+"19410344","1","19414889","","2013-10-16 17:51:22","","0","457","<p>I have a <strong>view</strong>:</p>
+
+<pre><code>def Processinitialscan(request):
+    EnteredDomain = request.GET.get('domainNm')
+
+    #get raw output
+    getDomainLinksFromGoo = settings.GOOGLE_BASEURL_FOR_HARVEST+settings.GOO_RESULT_DOMAIN_QUERIED+EnteredDomain
+    rawGatheredGooOutput = mechanizeBrowser.open(getDomainLinksFromGoo)
+
+    beautifulSoupObj = BeautifulSoup(mechanizeBrowser.response().read()) #read the raw response
+    getFirstPageLinks = beautifulSoupObj.find_all('cite') #get first page of urls
+
+    pattern = re.compile('^.*start=')   #set regex to search on - find anything like: "" &lt;domain and path here&gt;start= ""
+    getRemainingPageUrls = beautifulSoupObj.find_all('a',attrs={'class': 'fl', 'href': pattern})
+
+    NumberOfUrlsFound = len(getRemainingPageUrls)
+
+    MaxUrlsToGather = ((NumberOfUrlsFound*10)+settings.GOOGLE_RESULT_AMT_ACCOUNT_FOR_PAGE_1) # +10 because 10 represents the urls on the first page
+
+    url_data = UrlData(NumberOfUrlsFound, pattern) 
+    #return HttpResponse(MaxUrlsToGather)
+
+    return render(request, 'VA/scan/process_scan.html', {
+        'url_data':url_data,'EnteredDomain':EnteredDomain,'getDomainLinksFromGoo':getDomainLinksFromGoo,
+        'getRemainingPageUrls' : getRemainingPageUrls, 'NumberOfUrlsFound':NumberOfUrlsFound,
+        'getFirstPageLinks' : getFirstPageLinks, 'MaxUrlsToGather' : MaxUrlsToGather
+    })
+</code></pre>
+
+<p>and a <strong>template</strong>:</p>
+
+<pre><code>{% block block_containercontent %}
+    {% autoescape on %}
+    &lt;h1&gt;{{ EnteredDomain }}&lt;/h1&gt;
+&lt;strong&gt;url used: &lt;/strong&gt;{{ getDomainLinksFromGoo }}&lt;br /&gt;
+&lt;hr&gt;
+&lt;br&gt;
+&lt;strong&gt;first page of links&lt;/strong&gt; {{ getFirstPageLinks }}
+&lt;hr&gt;
+&lt;br&gt;&lt;strong&gt;number of ""next"" links&lt;/strong&gt; {{ NumberOfUrlsFound }}
+&lt;hr&gt;
+&lt;br&gt;
+&lt;strong&gt;remaining urls:&lt;/strong&gt; {{ getRemainingPageUrls }}
+    {% if url_data.num_of_urls &gt; 1 %}
+    {% for url in url_data.url_list %}
+        {{ url }}
+    {% endfor %}
+{% endif %}
+    {% endautoescape %}
+
+{% endblock block_containercontent %}
+</code></pre>
+
+<p>This template outputs:</p>
+
+<pre><code>url used: https://www.google.com/search?q=site%3Aasite.com
+
+
+first page of links [&lt;cite&gt;www.google.com/webmasters/&lt;/cite&gt;, &lt;cite&gt;www.asite.com&lt;/cite&gt;, &lt;cite&gt;www.asite.com/blog/&lt;/cite&gt;, &lt;cite&gt;www.asite.com/blog/projects/&lt;/cite&gt;, &lt;cite&gt;www.asite.com/blog/category/internet/&lt;/cite&gt;, &lt;cite&gt;www.asite.com/blog/category/goals/&lt;/cite&gt;, &lt;cite&gt;www.asite.com/blog/category/uncategorized/&lt;/cite&gt;, &lt;cite&gt;www.asite.com/blog/why-i-left-facebook/2013/01/&lt;/cite&gt;, &lt;cite&gt;www.asite.com/blog/category/startups-2/&lt;/cite&gt;, &lt;cite&gt;www.asite.com/blog/category/goals/&lt;/cite&gt;, &lt;cite&gt;www.asite.com/blog/category/internet/&lt;/cite&gt;]
+
+
+number of ""next"" links 2
+</code></pre>
+
+<p><strong></strong></p>
+
+<p>My question: how do I utilize the <code>NumberOfUrlsFound</code> in a loop within the template to generate links like: <code>/search?q=site:entereddomain.com&amp;start=10</code>, <code>/search?q=site:entereddomain.com&amp;start=20</code>, then follow the links using beautifulsoup based on the value of NumberOfUrlsFound. So if NumberOfUrlsFound = 2, then urls <code>search?q=site:asite.com&amp;start=10</code>, <code>search?q=site:asite.com&amp;start=20</code> should be generated, furthermore:</p>
+
+<p>(puesdo code..):</p>
+
+<pre><code>if(NumberOfUrlsFound &gt; 1)
+    foreach(NumberOfUrlsFound)
+        # generate url with start=n+10  
+        ## asite.com?/search?start=10  
+        ## Then ...
+        ## asite.com?/search?start=20
+        ## and so on ..
+        # where n represents the previous number
+        # this n number is determined by `NumberOfUrlsFound` which might have a value of 2 for example
+        # this value of 2 represents a max value of start=20 value to generate urls on.
+</code></pre>
+","975947","","975947","","2013-10-17 01:35:32","2013-10-18 00:41:07","Foreach loop to get next page of links with BeautifulSoup/Mechanize/Python","<python><django><beautifulsoup><mechanize>","1","0","","","","CC BY-SA 3.0"
+"19410346","1","19410533","","2013-10-16 17:51:28","","0","3083","<p>I need to know if the code below will return iPad in case the device it's an iPad mini and not a regular iPad:</p>
+
+<pre><code>if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) 
+{
+  // The device is an iPad running iPhone 3.2 or later.
+}
+else {
+  // The device is an iPhone or iPod touch.
+}
+</code></pre>
+","1080760","","1080760","","2013-10-16 17:58:04","2013-10-16 18:02:25","How UIUserInterfaceIdiomPad will response to iPad mini","<ios><objective-c>","2","2","","","","CC BY-SA 3.0"
+"19410347","1","19670298","","2013-10-16 17:51:28","","0","3740","<p>In Eclipse, I tried geronimo-jpa_2.0_spec-1.0.jar > right click > Properties > Javadoc Location > Javadoc URL > Javadoc Location Path: <a href=""http://docs.oracle.com/javaee/7/api/javax/persistence/package-summary.html"" rel=""nofollow"">http://docs.oracle.com/javaee/7/api/javax/persistence/package-summary.html</a> > Validate...</p>
+
+<p>but it said it could not find package-list or index.html. I also removed the HTML file from the path and it still would not work. I could not find a JAR file to download either. I have Google plugin install BTW.</p>
+","148844","","","","","2013-11-15 15:24:56","Where can I download the JavaDoc for JPA 2.0?","<java><eclipse><jpa>","5","4","","","","CC BY-SA 3.0"
+"19410348","1","19410394","","2013-10-16 17:51:36","","1","1131","<p>I am trying to get input from user with a for loop but for example if user enters ""2"" as a ""noOfSubPattern"" loop does not wait for the second input. I cannot find what is wrong in my code.</p>
+
+<pre><code>    int noOfSubPattern;
+    String subPattern = """";
+    noOfSubPattern = scan.nextInt();        
+
+
+    for(int i = 0; i &lt; noOfSubPattern; i++)
+    {
+
+        subPattern += scan.nextLine();
+    }
+</code></pre>
+","2832388","","","","","2013-10-16 17:54:09","Taking multiple line input from user on java","<java><input>","1","0","","","","CC BY-SA 3.0"
+"19410352","1","","","2013-10-16 17:51:46","","0","536","<p>I am using <strong>iwidgets</strong> in my <strong>tcl</strong> script. Actually I am trying to learn how to use combobox and various such controls in tcl. So I copied a code from the net and tried to run it.
+<em>I have installed <strong>iwidgets</strong> package</em>.
+<em>I am using fedora 14</em></p>
+
+<p>when I try to run the script using the command -</p>
+
+<blockquote>
+  <p>wish comb.tcl</p>
+</blockquote>
+
+<p>I am getting the error -</p>
+
+<blockquote>
+  <p>error in startup script: invalid command name ""iwidgets:combobox"".</p>
+</blockquote>
+
+<p>So do I need to use something additional in the command? or do I need to install any more packages?  </p>
+","2128295","","","","","2013-10-17 08:25:45","error in running tcl file when used iwidgets","<tcl><tk-toolkit>","1","1","","","","CC BY-SA 3.0"
+"19410353","1","","","2013-10-16 17:51:49","","-2","46","<p>I am doing a simple project to prove my skills with iOS programming. I am trying to do a program in which you would enter a string, click submit and it would create a new label below with the text you entered. The more strings you would submit, the more labels would you have under each other. After I submit it the first time, nothing happens. If I submit a string second time, I get a BAD_EXEC error. Can you please help me out?</p>
+
+<pre><code>#import ""ViewController.h""
+
+@interface ViewController ()
+
+@end
+
+@implementation ViewController
+@synthesize infoLabel;
+@synthesize field;
+@synthesize saveButton;
+
+NSString *labelString = @""""; // this string will hold all of my strings together
+NSString *separator = @""|&lt;-&gt;|""; // this is the separator that will separate strings in labelString
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    [infoLabel release];
+    [field release];
+    [saveButton release];
+    [super dealloc];
+}
+
+- (IBAction)saveButton:(id)sender // when submit button is clicked
+{
+    if(!([field.text isEqualToString:@""""])) // check if anything was entered as the string
+    {
+        if([labelString isEqualToString:@""""]) labelString = field.text; // if nothing is in stored in strings, write the current input
+        else // if there already are some strings in there
+        {
+            NSString *temp = @"""";
+            temp = [NSString stringWithFormat:@""%@%@%@"", labelString, separator, field.text]; // prepare a new labelString to hold all my old strings + new one
+            labelString = temp; // replace prepared string with old one
+        }
+
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults]; // saving to database
+        [defaults setObject:labelString forKey:@""saveString""];
+
+        NSArray *labelText = [labelString componentsSeparatedByString:separator]; // create array of separated strings
+        UILabel *label[[labelText count]]; // create array of labels
+        for(int i = 0; i &lt; [labelText count]; i++) // cycle through all labels
+        {
+            label[i] = [[UILabel alloc] initWithFrame:CGRectMake(0, i * 20 + 20, 320, 20)]; // create a label for each string that will be on a certain position (descending)
+            label[i].text = labelText[i]; // set text for labol
+        }
+    }
+}
+
+@end
+</code></pre>
+","2874028","","1226963","","2013-10-16 17:53:34","2013-10-17 09:50:56","simple database (BAD_EXEC)","<ios><objective-c><database><label>","1","4","","","","CC BY-SA 3.0"
+"19410356","1","19411626","","2013-10-16 17:52:03","","-3","58","<p>I am trying to make a window with a view controller (which i guess is like GroupBox in .Net (fix me if i'm wrong..)) and i was trying to start the application on the simulator and it threw an exception.
+I am using storyboards.</p>
+
+<p>my code is:</p>
+
+<pre><code>//
+//  ViewController.m
+//  100FMPlayer
+//
+//  Created by Guy Kaplan on 7/14/13.
+//  Copyright (c) 2013 Guy Kaplan. All rights reserved.
+//
+#import ""Song.h""
+#import ""ViewController.h""
+
+@interface ViewController ()
+
+@end
+
+@implementation ViewController
+
+-(id)init
+{
+    self = [super init];
+    self.arSongsCollection = [[NSMutableArray alloc] init];
+
+    _tableView.delegate = self;
+    _tableView.dataSource = self.arSongsCollection;
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+    [_arSongsCollection addObject:[[Song alloc] initWithTitle:@""Song"" andArtist:@""Artist"" andURL:[NSURL URLWithString:@""http://songurl.com/song.mp3""]]];
+
+}
+
+@end
+</code></pre>
+","2836444","","1033581","","2017-08-03 13:09:51","2017-08-03 13:09:51","SIGABRT signal when launching app","<ios><uiviewcontroller><tableview>","1","1","","2014-02-28 20:40:40","","CC BY-SA 3.0"
+"19410357","1","19413603","","2013-10-16 17:52:04","","5","572","<p>By default, Java does <a href=""http://docs.oracle.com/javase/specs/jls/se7/html/jls-5.html#jls-5.6.2"" rel=""nofollow"">Binary Numeric Promotion</a> for primitives, but does not do the same thing for objects. Here's a quick test to demonstrate:</p>
+
+<pre><code>public static void main(String... args) {
+  if(100 == 100L) System.out.println(""first trial happened"");
+  if(Integer.valueOf(100).equals(Long.valueOf(100))) {
+    System.out.println(""second trial was true"");
+  } else {
+    System.out.println(""second trial was false"");
+  }
+  if(100D == 100L) System.out.println(""third trial, fun with doubles"");
+}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>first trial happened
+second trial was false
+third trial, fun with doubles
+</code></pre>
+
+<p>This is <em>obviously</em> correct behavior - an <code>Integer</code> is <strong>not</strong> a <code>Long</code>. However, does there exist a ""value equals"" for <code>Number</code> subclasses that would return true the same way that <code>100 == 100L</code> returns true? Or <code>100d == 100L</code>? In other words, is there a method (that is not <code>Object.equals</code>) that will do the equivalent of the Binary Numeric Promotion behavior for objects?</p>
+","1768232","","1768232","","2013-10-16 19:30:58","2022-09-29 13:20:25","Is there a number ""value equals""?","<java><numbers><equals><primitive>","4","3","","","","CC BY-SA 3.0"
+"19410361","1","19411660","","2013-10-16 17:52:25","","0","222","<p>Here is what I have:.</p>
+
+<pre><code>Con.close()
+Con.open()
+
+Query =""Update Products Set QOH = QOH - '"" &amp; txtQoH.text &amp; ""' Where Prod_ID ='""&amp; textbox1.text &amp; ""'""
+Command.ExecuteNonQuery()
+Con.Close().
+</code></pre>
+
+<p>Okay There, I'm trying to update a product quantity on hand once certain number of product is being purchased. So I've tried that and its not working, can somebody help me?</p>
+","2856097","","2422776","","2013-10-16 18:02:57","2013-10-16 19:47:32","SQL and VB.NET 2008 Query","<sql><vb.net>","3","2","","","","CC BY-SA 3.0"
+"19410364","1","19410853","","2013-10-16 17:52:39","","0","3808","<p>I want that a login form pops up, on a certain page.</p>
+
+<pre><code>&lt;a id=""test"" href=""#login_form""&gt;Click me&lt;/a&gt;
+
+    &lt;div style=""display:none""&gt;
+            &lt;form id=""login_form"" method=""post"" action=""parse_login.php""&gt;
+                &lt;p id=""login_error""&gt;Please login&lt;/p&gt;
+
+            &lt;table&gt;
+         &lt;tr&gt;&lt;td&gt;&lt;input type='text' name='username' placeholder=""username"" style=""width: 250px;"" /&gt;&lt;p /&gt;&lt;/tr&gt;&lt;/td&gt;
+                                &lt;tr&gt;&lt;td&gt;&lt;input type='password' name='password' placeholder=""password"" style=""width: 250px;"" /&gt;&lt;p /&gt;&lt;/tr&gt;&lt;/td&gt;
+                            &lt;/table&gt;
+                            &lt;div class=""logginbutton""&gt;&lt;button type='submit' name='submit' class=""button-small""&gt;Login&lt;/button&gt;
+                        &lt;/form&gt;
+                    &lt;/div&gt;
+</code></pre>
+
+<p>and JS is as follows:</p>
+
+<pre><code>$(""#test"").fancybox({
+    'scrolling'     : 'no',
+    'titleShow'     : false,
+    'onClosed'      : function() {
+        $(""#login_error"").hide();
+    }
+});
+
+
+$(""#login_form"").bind(""submit"", function() {
+
+    if ($(""#username"").val().length &lt; 1 || $(""#password"").val().length &lt; 1) {
+        $(""#login_error"").show();
+        $.fancybox.resize();
+        return false;
+    }
+
+    $.fancybox.showActivity();
+
+
+    return false;
+});
+</code></pre>
+
+<p>What i want is that, form should popup on page page load instead of onclick, and it should stay there till visitor logs in, so need to get rid of close sign.</p>
+
+<p><a href=""http://jsfiddle.net/CMdgb/"" rel=""nofollow"">Take a look on fiddle</a></p>
+","2447081","","2447081","","2013-10-17 02:22:14","2013-10-17 02:22:14","how to popup a form on page load?","<javascript><jquery><html><fancybox>","1","4","","","","CC BY-SA 3.0"
+"19410366","1","19411242","","2013-10-16 17:52:47","","0","310","<p>I want to send a get request in the background thread and have the following code:</p>
+
+<pre><code>public HttpResponse sendRequestInBackground(String clickUrl){
+    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+    StrictMode.setThreadPolicy(policy); 
+
+    HttpResponse response = null;
+    try {        
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet(clickUrl);
+            HttpContext context = new BasicHttpContext();
+            response = client.execute(request, context);
+            Log.d(""SEND_GET_REQUEST"", ""GET REQUEST SENT WITH URL: "" + clickUrl);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }  catch (Exception e){
+          e.printStackTrace();
+        }
+        return response;
+    }
+</code></pre>
+
+<p>But keep getting <code>java.lang.IllegalStateException: Scheme 'market' not registered.</code> Any ideas what I'm doing wrong?</p>
+","1375688","","","","","2013-10-16 18:41:56","Android - IllegalStateException when sending get request in background","<android><http><get>","4","1","","","","CC BY-SA 3.0"
+"19410367","1","","","2013-10-16 17:52:56","","0","3828","<pre><code>import cv2
+cam = cv2.VideoCapture(0)
+s, img = cam.read()
+
+winName = ""Movement Indicator""
+cv2.namedWindow(winName, cv2.CV_WINDOW_AUTOSIZE)
+
+while s:
+    cv2.imshow( winName,img )
+
+    s, img = cam.read()
+    hc = cv2.CascadeClassifier(""foo.xml"") #xml file for detection
+    faces = hc.detectMultiScale(img)
+    for face in faces:
+        cv2.rectangle(
+            img, (face[0], face[1]), (face[0] + face[2], face[0] + face[3]),
+            (255, 0, 0), 3
+        )
+
+    key = cv2.waitKey(10)
+    if key == 27:
+        cv2.destroyWindow(winName)
+        break
+</code></pre>
+","2887501","","1560062","","2013-10-16 18:00:29","2013-10-16 19:12:36","face detection is a bit slow. how do i improve the speed and efficiency and also how do i save the faces?","<python><opencv><webcam><face-detection>","2","3","","","","CC BY-SA 3.0"
+"19410373","1","","","2013-10-16 17:53:10","","4","3653","<p>If I had a string like the one below how would I split it at every 3rd character or any other specified character?</p>
+
+<pre><code>b = ""123456789""
+</code></pre>
+
+<p>The result would be this:</p>
+
+<pre><code>b = [""123"",""456"",""789""]
+</code></pre>
+
+<p>I've tried using these method: <code>b.split("""").each_slice(3).to_a</code></p>
+
+<p>But it results in this : <code>[[""1"", ""2"", ""3""], [""4"", ""5"", ""6""], [""7"", ""8"", ""9""]]</code></p>
+
+<p>Thank you for your help!</p>
+","2828423","","","","","2013-10-16 18:55:27","How do you slice or split a string on a certain character in Ruby?","<ruby><arrays><string>","6","0","","","","CC BY-SA 3.0"
+"19410377","1","19410776","","2013-10-16 17:53:21","","0","614","<p>I am working on a new Django application and would like to have functionality where one user makes a change and all other users viewing that database record receive the change.</p>
+
+<p>I have seen similar functionality in frameworks like Derby and Meteor.  Is this even possible using Django?</p>
+","1828110","","","","","2013-10-16 18:16:16","Is there a way to watch for changes to a Django model?","<python><django><django-models>","1","3","","","","CC BY-SA 3.0"
+"19410384","1","","","2013-10-16 17:53:42","","-1","110","<p>I'm currently doing twos complement in my course, using 8 bits I'm trying to complete this operation, its -85 + -44. I missed a lecture so I have tried to catch up on my own and this is what I have come up with, tell me if I'm right or wrong. </p>
+
+<pre><code>  -85    
+      85 =  01010101
+            10101010
+          +        1      
+           ---------  
+       -85= 10101011
+</code></pre>
+
+<p>So that's the first one.</p>
+
+<pre><code> -44    
+    44 = 00101100
+         11010011
+        +       1
+        ---------    
+     -44= 11010100
+</code></pre>
+
+<p>Then Adding them together.</p>
+
+<pre><code> -85  10101011
+ -44  11010100
+    + --------
+     101111111
+</code></pre>
+
+<p>So is that the answer? Do I remove the carry bit or keep it because it's 8bit?</p>
+","2448922","","2448922","","2013-10-16 19:09:29","2013-10-23 17:01:24","Twos complement enquiry","<twos-complement>","2","2","","","","CC BY-SA 3.0"
+"19410386","1","","","2013-10-16 17:53:47","","1","825","<p>I can't figure out how to use GPUImageMovieComposition with GPUImageMovieWriter (from <a href=""https://github.com/BradLarson/GPUImage"" rel=""nofollow"">GPUImage</a>), are there any examples on how to use it?</p>
+
+<p>Here's what I've tried, I've tested that the composition, videoComposition, and audioMix are are valid:</p>
+
+<pre><code>movieFile = [[GPUImageMovieComposition alloc] initWithComposition:composition andVideoComposition:videoComposition andAudioMix:audioMix];
+filter = [[GPUImagePixellateFilter alloc] init];
+
+[movieFile addTarget:filter];
+
+GPUImageView *filterView = (GPUImageView *)self.view;
+[filter addTarget:filterView];
+
+NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@""Documents/Movie.m4v""];
+unlink([pathToMovie UTF8String]); // If a file already exists, AVAssetWriter won't let you record new frames, so delete the old movie
+NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
+
+movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(640.0, 480.0)];
+[filter addTarget:movieWriter];
+
+movieWriter.shouldPassthroughAudio = YES;
+movieFile.audioEncodingTarget = movieWriter;
+[movieFile enableSynchronizedEncodingUsingMovieWriter:movieWriter];
+
+[movieWriter startRecording];
+[movieFile startProcessing];
+
+[movieWriter setCompletionBlock:^{
+    [filter removeTarget:movieWriter];
+    [movieWriter finishRecording];
+}];
+</code></pre>
+
+<p>Thank you in advance!</p>
+","2887531","","2887531","","2013-10-16 18:21:58","2013-10-24 04:42:08","How do you use GPUImageMovieComposition from GPUImage?","<ios><objective-c><gpuimage>","1","0","","","","CC BY-SA 3.0"
+"19410388","1","","","2013-10-16 17:53:47","","2","2275","<p>I'm building an interface to view a long list of PDF documents (in Chrome) which are all <code>&lt;embed&gt;</code>s.</p>
+
+<pre><code>&lt;embed width=""100%"" height=""100%"" name=""plugin"" src=""http://example.com/path/to/pdf/11749"" type=""application/pdf""&gt;
+</code></pre>
+
+<p>It works fine, but the console fills up with this (one for each embedded PDF):</p>
+
+<pre><code>Resource interpreted as Document but transferred with MIME type application/pdf: ""http://example.com/path/to/pdf/11749"".
+</code></pre>
+
+<p>I've seen this question asked before but never answered adequately. I don't want to install browser plugins or force downloads.</p>
+","1141918","","1141918","","2013-10-16 18:49:26","2013-10-16 21:02:25","How to embed PDF in chrome without error or warning","<html><http><google-chrome><pdf><http-headers>","1","1","","","","CC BY-SA 3.0"
+"19410393","1","","","2013-10-16 17:54:08","","0","104","<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+class Student{
+protected:
+    int roll_no;
+public:
+    void getNumber(){
+        cout &lt;&lt; ""Enter number\n"";
+        cin &gt;&gt; roll_no;
+    }
+    int putNumber(){
+        return roll_no;
+    }
+ };
+
+ class Test:public virtual Student{
+protected:
+    int m1,m2;
+public:
+Test(){
+    m1=m2=0;
+}
+Test(int a, int b){
+    m1=a;
+    m2=b;
+}
+void display(){
+    cout &lt;&lt; ""Mark 1: "" &lt;&lt; m1;
+    cout &lt;&lt; ""Mark 2: "" &lt;&lt; m2;
+}
+  };
+
+ class Sports:public virtual Student{
+protected:
+    int score;
+public:
+Sports(){
+    score=0;
+}
+Sports(int a){
+    score=a;
+}
+void display(){
+    cout &lt;&lt; ""Score: "" &lt;&lt; score;
+}
+};
+
+class Total:public virtual Test,public virtual Sports{
+private:
+    int total;
+public:
+    Total(){
+        total=0;
+    }
+    int display(){
+        total=m1+m2+score;
+        return total;
+    }
+};
+
+int main(){     
+Test ob1(10,20);
+Sports ob2(50);
+Total ob3;
+cout &lt;&lt; ob3.display() &lt;&lt; endl;
+}
+</code></pre>
+
+<p>Trying to implement a virtual base class Student. The question is to find the sum of the marks in the Test class and the score in the Sports class. However, i'm getting 0 as the output instead of 80.
+Can anyone please explain this?</p>
+","2887522","","2887522","","2013-10-16 18:03:22","2013-10-16 18:32:57","Weird Output Virtual Base Class","<c++><class><virtual>","2","2","","","","CC BY-SA 3.0"
+"19410395","1","19410613","","2013-10-16 17:54:14","","1","3493","<p>To start, I'm not very good at programming and am just a beginner so please keep that in mind with any responses.
+   My problem is with reverse geocoding using Google Maps v3. I have found plenty of examples on the internet and have gotten the basics of my map working, however the reverse geocoding part is frustrating me in that I simply cannot get it to work. I keep on getting an error of ""object HTMLDivElement"". The part of the code that I am having trouble with is:</p>
+
+<pre><code>  var geocoder = new google.maps.Geocoder();  
+
+  var point = new google.maps.LatLng(38.41054600530499, -112.85153749999995);
+    geocoder.geocode({ 'latLng': point }, function (results, status) {
+    if (status !== google.maps.GeocoderStatus.OK) {
+        alert(status);
+    }
+    // This is checking to see if the Geoeode Status is OK before proceeding
+    if (status == google.maps.GeocoderStatus.OK) {
+        console.log(results);
+        var address = (results[0].formatted_address);
+    }}
+    )
+  var marker = createMarker(point,""Marker 1"", point + ""&lt;br&gt; Closest Matching Address:"" + address)
+</code></pre>
+
+<p>The map still loads, yet the infobox reads ""38.41065600530499, -112.8515374999995; Closest Matching Address:[""object HTMLDivElement""]</p>
+
+<p>So what is it that I need to change? I'm certain that the code listed above has something wrong with it, but what exactly?</p>
+
+<p>Thanks for any and all help.</p>
+","2880787","","2880787","","2013-10-16 19:00:00","2013-10-16 19:00:00","Reverse Geocoding - Google Maps v3","<javascript><html><google-maps>","1","1","0","","","CC BY-SA 3.0"
+"19410397","1","19410559","","2013-10-16 17:54:20","","0","904","<p>I am working on an installer in InstallShield 2012 Spring. </p>
+
+<p>The installer is for an application built in .NET that built as ""Any CPU"" meaning it runs 32-bit on a 32-bit machine and 64-bit on a 64-bit machine. </p>
+
+<p>I would assume this means that application should always install to the Program Files folder, not the Program Files (x86) folder. I can't figure out a way to have the application install to the 64-bit Program Files folder without rendering the installer un-usable on 32-bit versions of windows.</p>
+
+<p>I tried simply changing the install path from ProgramFilesFolder to ProgramFiles64Folder but this do anything unless I also made the component 64-bit and set the installer to x64. (Thus making the installer 64-bit <strong>ONLY</strong>)</p>
+
+<p>Any idea how to make an installer never install to the (x86) folder or am I SOL?</p>
+","1778653","","1778653","","2013-10-16 18:36:30","2013-10-16 18:36:30","How to build InstallShield for .NET ""Any CPU"" App","<.net><installation><windows-installer><installshield>","1","0","","","","CC BY-SA 3.0"
+"19410398","1","","","2013-10-16 17:54:32","","38","40429","<p>I know that I can turn iOS devices into iBeacons (<a href=""https://stackoverflow.com/questions/19274286/can-an-ios7-device-act-as-an-ibeacon"">Can an iOS7 device act as an iBeacon?</a>). Unfortunately, I only have one device and my beacons have not arrived yet. So I was wondering how I could turn my MacBook Air (Mid-2011, does support Bluetooth 4.0) into an iBeacon for testing purposes. Are there any ready-made applications available like the airlocate for iOS? Thanks in advance!</p>
+","2887527","","-1","","2017-05-23 10:29:58","2017-03-17 14:58:26","Turn Macbook into iBeacon","<macos><bluetooth-lowenergy><ibeacon>","7","0","0","","","CC BY-SA 3.0"
+"19410400","1","","","2013-10-16 17:54:33","","1","248","<p>I have a programming problem related to transforming data from one form to another.</p>
+
+<p>I have an array of objects representing a table of data that needs to be transformed into a matrix for a visualization. I somehow avoided covering matrix math during my education, so apologies if my terminology is incorrect.</p>
+
+<hr>
+
+<p>More specifically, I have an array of objects representing formatted data:</p>
+
+<pre><code>var pokes = [
+    {source: ""Harry"", target: ""Maria"", type: ""poke""},
+    {source: ""Brin"", target: ""Serge"", type: ""poke""},
+    {source: ""Maria"", target: ""Brin"", type: ""poke""},
+    {source: ""Serge"", target: ""Simon"", type: ""poke""},
+    {source: ""Brin"", target: ""Serge"", type: ""poke""}
+];
+</code></pre>
+
+<p>And I need to turn it into a square matrix for use with a chord diagram, e.g.:</p>
+
+<pre><code>var matrix = [
+    [0, 5, 2, 1, 4],
+    [7, 0, 8, 4, 7],
+    [9, 4, 0, 3, 1],
+    [8, 5, 5, 0, 8],
+    [6, 3, 9, 2, 0]
+];
+</code></pre>
+
+<p>The length/width of the resulting matrix, n, equals the number of unique individuals in the array (Harry, Serge, etc), and the value in the corresponding cell (x, y) is the number of times person x poked person y. Each object in the pokes array represents one poke (the ""type"" property doesn't affect the construction of the matrix).  </p>
+
+<hr>
+
+<p>So, for example, the object:</p>
+
+<pre><code>{source: ""Brin"", target: ""Serge"", type: ""poke""}
+</code></pre>
+
+<p>would add 1 to the cell that represents (Brin, Serge).</p>
+
+<hr>
+
+<p>This is my pseudocode method:</p>
+
+<pre><code>Create array, people, containing list of unique people in pokes (both source and target).
+Create empty array, matrix.
+For each person in people:
+    Create an array, foo, of size people.length.
+    For each poke in pokes:  
+        If person == poke.source:
+            Add 1 to foo[x] where x is the index of poke.target in people.
+    Push foo into matrix.
+</code></pre>
+
+<p>I haven't progressed into real code because I am not sure that this method is:</p>
+
+<ol>
+<li>Correct</li>
+<li>Efficient/fast, especially if pokes.length approaches thousands</li>
+</ol>
+
+<p>Any advice would be appreciated;  especially if d3.js has a hidden method for creating matrices that I haven't spotted.</p>
+","1876846","","3052751","","2014-04-11 19:17:41","2014-09-12 14:29:26","Efficiently turning tabular data (array of objects) into a square matrix with JavaScript/d3.js","<javascript><matrix><d3.js><chord-diagram>","0","1","","","","CC BY-SA 3.0"
+"19410401","1","19532366","","2013-10-16 17:54:35","","0","233","<p>I'm making a game in AS3, using FlashDevelop. I'm trying to, as the title says, dynamically increase the size of the screen. It's a simple avoider-type game, so one of the upgrades I'm letting the player unlock is more space.</p>
+
+<p>I have my main, and that main has a single child. I'm trying to call an <code>UpgradeScreen()</code> function from that child. I've tried several permutations of <code>stage.stageWidth</code> and <code>stage.scaleX</code> and nothing has worked so far. Based on some of the responses to questions of this nature that I've found it looks like it's going to be more complicated than I was hoping.</p>
+
+<p>So, is what I'm trying possible? Should I have the child call a function in the main instead of trying to do it itself?</p>
+
+<p>Thanks in advance.</p>
+","2337409","","","","","2013-11-01 23:19:25","Dynamically changing screen size in AS3","<actionscript-3><flash>","1","5","","","","CC BY-SA 3.0"
+"19410403","1","","","2013-10-16 17:54:41","","0","1141","<p>I am trying to publish metadata for my SAML service provider in Weblogic 10.3.4. I am getting an error ""SAML2Service Unavailable"". Does anyone know the solution to this problem?</p>
+","2859802","","","","","2021-05-18 09:37:21","""SAML2Service Unavailable"" error on Weblogic","<weblogic><saml>","1","3","","","","CC BY-SA 3.0"
+"19410412","1","19410514","","2013-10-16 17:55:09","","0","60","<p>I'm fetching the DOM HTML with <code>$(selector).html();</code> and converting it into text with this operation <code>$(selector).empty().text($(selector).html());</code>.</p>
+
+<p>My problem is that <code>text();</code> converts the html into pure text without any formatting, is it possible to format the text into how it looks like in the dom?</p>
+
+<p>I am inserting everything into a pre element so doing html() making it think it should handle it like any other html tags.</p>
+
+<p>Like this:</p>
+
+<p><img src=""https://i.stack.imgur.com/wW0s7.png"" alt=""enter image description here""></p>
+
+<p>(without the arrow-hide function)</p>
+","2691741","","2691741","","2013-10-16 18:02:12","2013-10-16 18:02:52","Convert to text but keep dom layout","<javascript><jquery><html>","2","2","","","","CC BY-SA 3.0"
+"19410414","1","19419042","","2013-10-16 17:55:12","","0","75","<p>In my google app application I have Entity with <code>public String[] UserRoles;</code> field. How can I fetch records that have some specific string in this list?</p>
+
+<p>I mean, I'd like to write something like</p>
+
+<pre><code>ofy().load().type(ExampleEntity.class).filter(""UserRoles contains"", ""foo"").list()
+</code></pre>
+
+<p>Is it possible?</p>
+","401499","","","","","2013-10-17 05:39:38","Get entities containing specific value - objectify","<google-app-engine><objectify>","1","0","","","","CC BY-SA 3.0"
+"19410424","1","","","2013-10-16 17:55:40","","0","6638","<p>I have a batch file that have below code at the beginning                                      </p>
+
+<pre><code>@ECHO OFF
+net use x: \\server1\f$ /user:XXXXXX *   
+</code></pre>
+
+<p>When I run the batch file from cmd prompt, it is asking for password, and password is successfully validated, then it is saying <code>System error 1219 has occurred Multiple connections to server or shared resource by same user, using more than one username is not allowed</code>.</p>
+
+<p>But when I copy the same path from run command and press enter, then entered username and password, I am able to login into that server.</p>
+
+<p>Do I need to do anything in batch file?</p>
+","2883028","","472495","","2020-03-14 13:20:05","2022-03-06 14:32:04","How to connect to server from batch file","<windows><batch-file>","3","1","","","","CC BY-SA 4.0"
+"19410426","1","19410582","","2013-10-16 17:55:55","","0","281","<p>I'm creating a website currently where one of the features is allowing the user to edit any text in a <code>contenteditable</code> <code>div</code> that they would like. This text would later be posted in <code>json</code> format by <code>jQuery</code> to a <code>PHP</code> script which either inserts or updates the record in the mysql database.</p>
+
+<p>Everything is working fine in the English alphabet. But there will be multilingual users that will use the site. are there any languages that I would need to have special support for in any part of the process I described above? </p>
+
+<p>The main thing that I am worried about is the database collation/field type.</p>
+
+<p>I have tried to test this as well as possible but I was wondering if anyone has had any problems with characters from other languages. Thanks in advance.</p>
+","543693","","","","","2013-10-17 20:10:31","Multilingual characters in javascript, php, html, and mysql queries","<javascript><php><jquery><html><mysql>","2","0","0","","","CC BY-SA 3.0"
+"19410432","1","","","2013-10-16 17:56:26","","5","409","<p>I want to write a Bounded Priority Queue class. This is essentially a priority queue but has a bound on the number of elements that can be there in the queue. So, if I insert a new element and the queue is full, then I see if the element is greater than the top of the queue. If yes, then I discard the new element. If no, then I remove the top element and insert this new element (and the queue gets automatically reorganized). I have currently implemented BoundedPriorityQueue as derived from PriorityQueue having a ""maxCount"" member and I have overridden the add method and added the functionality I described above. I am wondering if I should consider doing it the composition way rather than the inheritance way. My current approach seems simple though.</p>
+
+<p>If I were to go for composition, then I have to derive from the AbstractQueue class, implement the methods and then compose the priority queue with it.</p>
+
+<p>Thanks,</p>
+
+<p>Venk</p>
+","1602248","","","","","2014-08-22 10:07:33","Bounded Priority Queue Inheritance vs Composition","<java><oop>","2","3","","","","CC BY-SA 3.0"
+"19410435","1","","","2013-10-16 17:56:37","","0","160","<p>I can't get this to work</p>
+
+<p><a href=""https://developers.google.com/gmail/actions/apps-script-tutorial"" rel=""nofollow"">https://developers.google.com/gmail/actions/apps-script-tutorial</a>  </p>
+
+<p>I'm following it verbatim.  </p>
+
+<p>When I receive the email from the script (from myself) the Action button is not visible in the inbox.  When I view the original message, I see:</p>
+
+<pre><code>Received-SPF: pass (google.com: domain of 3tNFeUggICGscKRPPRWbJTaO.LXVcKRPPRWbJTaO.LXV@maestro.bounces.google.com designates [my network IP address] as permitted sender) client-ip=[my network IP address];
+</code></pre>
+
+<p>I haven't registered yet / our goal is internal emails - but without registering I read sending to myself would work with valid SPF - what am I missing?
+thanks!!</p>
+","1426325","","2498327","","2013-10-16 18:04:07","2013-10-18 03:03:27","Actions Tutorial does not work despite SPF validation","<google-schemas>","1","1","","","","CC BY-SA 3.0"
+"19410445","1","","","2013-10-16 17:57:07","","3","167","<p>Look at the following JS code:</p>
+
+<pre><code>alert(myImgId.src);
+</code></pre>
+
+<p>and corresponding HTML:</p>
+
+<pre><code>&lt;img id=""myImgId"" src=""http://images4.wikia.nocookie.net/__cb20121128141533/logopedia/images/6/6f/Superman_logo.png""&gt;&lt;/img&gt;
+</code></pre>
+
+<p>What I expect would happen:
+A javascript error specifying that it cannot find variable <code>myImgId</code> , basically a sort of NPE while accessing object <code>src</code> of <code>myImgId</code>.</p>
+
+<p>What actually happens:
+Modern browsers(FF 17 &amp; above, chrome) pick up the DOM element with the given ID automatically.
+Older versions of browsers like FF 10 throw an error as expected. </p>
+
+<p>Can somebody explain what is happening over here?</p>
+
+<p><a href=""http://jsfiddle.net/divijvaidya13/AxV9R/"" rel=""nofollow"">JSFiddle link</a></p>
+","761662","","","","","2014-12-10 20:33:41","Undeclared variable in JS automatically picking up DOM objects","<javascript><html><browser>","2","3","","","","CC BY-SA 3.0"
+"19410448","1","19410588","","2013-10-16 17:57:09","","2","6523","<p>I have a HTML input button which submits a PHP form when it is clicked. The code for that is as follows:</p>
+
+<pre><code>&lt;input class=""rg_btn"" name=""submit"" value=""Register"" type=""submit"" /&gt;
+</code></pre>
+
+<p>However, when the user clicks that button, I want it to show a loading image for 3 seconds (I have the gif file) in the middle of the page then I want the form to actually process.</p>
+
+<p>How would I do this?</p>
+
+<p>Like what <a href=""http://www.mega.co.nz/#pro"" rel=""nofollow"">http://www.mega.co.nz/#pro</a> does when you click Buy Now</p>
+","861542","","","","","2013-10-16 18:07:43","Make gif loader show on click with JavaScript","<javascript><php><html><loading>","4","3","","","","CC BY-SA 3.0"
+"19410450","1","19410583","","2013-10-16 17:57:15","","0","1398","<p>I have map with multiple polygons, it works just fine on FF and Chrome but not on IE. Why is that and how can I fix this?</p>
+
+<pre><code>&lt;img src=""img/global/map-overlay.gif"" width=""1024"" height=""768"" usemap=""map"" border=""0"" style=""margin-top: -54px;"" /&gt;
+&lt;map name=""map""&gt;
+    &lt;area shape=""poly"" coords=""259,145,336,190,333,279,260,323,186,280,178,189"" href=""#win-more-business"" /&gt;
+    &lt;area shape=""poly"" coords=""428,146,506,189,507,276,430,320,357,279,354,187"" href=""#coordinate-multiple-disciplines"" /&gt;
+    &lt;area shape=""poly"" coords=""597,148,672,190,672,279,597,321,520,279,516,192"" href=""#streamline-workflows"" /&gt;
+    &lt;area shape=""poly"" coords=""766,146,842,193,843,275,768,323,685,279,690,192"" href=""#efficiently-manage-project-information"" /&gt;
+    &lt;area shape=""poly"" coords=""174,295,251,338,254,425,173,471,98,428,98,340"" href=""video_asset_view.html"" /&gt;
+    &lt;area shape=""poly"" coords=""348,293,421,339,420,426,343,472,269,428,266,336"" href=""#bim-for-electrict-infrastructure"" /&gt;
+    &lt;area shape=""poly"" coords=""601,339,680,294,756,335,757,423,680,470,601,424"" href=""#bim-for-infrastructure"" /&gt;
+    &lt;area shape=""poly"" coords=""773,336,850,294,927,336,928,427,851,471,773,426"" href=""#bim-for-construction"" /&gt;
+    &lt;area shape=""poly"" coords=""181,486,258,442,332,483,334,573,258,617,180,571"" href=""#increasing-client-satisfaction"" /&gt;
+    &lt;area shape=""poly"" coords=""427,442,502,485,505,574,426,618,351,573,347,482"" href=""#greater-efficiency-across-the-lifecycle"" /&gt;
+    &lt;area shape=""poly"" coords=""596,440,671,482,673,571,596,618,518,572,521,480"" href=""#improved-workflow-productivity"" /&gt;
+    &lt;area shape=""poly"" coords=""688,479,762,435,843,482,845,569,765,615,686,571"" href=""graph_asset_view.html"" /&gt;
+    &lt;area shape=""poly"" coords=""937,624,982,650,980,694,940,716,900,697,902,648"" class=""disableOnIframe"" href=""home.html"" /&gt;
+&lt;/map&gt;
+</code></pre>
+
+<p>Fiddle: <a href=""http://jsfiddle.net/c4EQD/"" rel=""nofollow"">http://jsfiddle.net/c4EQD/</a></p>
+
+<p>As you can see if you move your mouse around image it shows clickable items, not so much on IE.</p>
+","440611","","","","","2013-10-16 18:05:02","Polygon image map not working on IE","<html><internet-explorer>","1","0","","","","CC BY-SA 3.0"
+"19410454","1","19412071","","2013-10-16 17:57:23","","4","1000","<p>I have some text file with multiple lines block like</p>
+<pre><code>2011/01/01 13:13:13,&lt;AB&gt;, Some Certain Text,=,
+[    
+certain text
+         [
+                  0: 0 0 0 0 0 0 0 0 
+                  8: 0 0 0 0 0 0 0 0 
+                 16: 0 0 0 9 343 3938 9433 8756 
+                 24: 6270 4472 3182 2503 1768 1140 836 496 
+                 32: 326 273 349 269 144 121 94 82 
+                 40: 64 80 66 59 56 47 50 46 
+                 48: 64 35 42 53 42 40 41 34 
+                 56: 35 41 39 39 47 30 30 39 
+                 Total count: 12345
+        ]
+    certain text
+]
+some text
+2011/01/01 14:14:14,&lt;AB&gt;, Some Certain Text,=,
+[
+ certain text
+   [
+              0: 0 0 0 0 0 0 0 0 
+              8: 0 0 0 0 0 0 0 0 
+             16: 0 0 0 4 212 3079 8890 8941 
+             24: 6177 4359 3625 2420 1639 974 594 438 
+             32: 323 286 318 296 206 132 96 85 
+             40: 65 73 62 53 47 55 49 52 
+             48: 29 44 44 41 43 36 50 36 
+             56: 40 30 29 40 35 30 25 31 
+             64: 47 31 25 29 24 30 35 31 
+             72: 28 31 17 37 35 30 20 33 
+             80: 28 20 37 25 21 23 25 36 
+             88: 27 35 22 23 15 24 34 28
+             Total count: 123456 
+    ]
+    certain text
+some text
+]
+</code></pre>
+<p>Those variant-length blocks exist between text. I want to read out all numbers after : and keep them in individual arrays.
+In this case, there will be two arrays:</p>
+<blockquote>
+<p>array1 = { 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 9 343 3938 9433 8756 6270 4472 3182 2503 1768 1140 836 496 326 273 349 269 144 121 94 82 64 80 66 59 56 47 50 46 64 35 42 53 42 40 41 34 35 41 39 39 47 30 30 39 12345 }</p>
+<p>array2 = { 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4 212 3079 8890 8941 6177 4359 3625 2420 1639 974 594 438 323 286 318 296 206 132 96 85 65 73 62 53 47 55 49 52 29 44 44 41 43 36 50 36 40 30 29 40 35 30 25 31 47 31 25 29 24 30 35 31 28 31 17 37 35 30 20 33 28 20 37 25 21 23 25 36 27 35 22 23 15 24 34 28 123456 }</p>
+</blockquote>
+<p>I found lpeg may be a light-weighted way to achieve it. But I'm totally new to PEGs and LPeg. Please help!</p>
+","1366988","","-1","","2020-06-20 09:12:55","2015-12-28 00:16:29","Parsing out multiple lines with LPeg in Lua","<parsing><logging><lua><text-parsing><lpeg>","5","0","","","","CC BY-SA 3.0"
+"19410455","1","","","2013-10-16 17:57:27","","0","1623","<p>I'm having strange issue - I was trying to get cache manifest working, but It didn't load any files properly after reloading page - finally I decided to find working demo, but... found demo also doesn't work... </p>
+
+<p>Is there anything wrong with <a href=""http://html5demos.com/offlineapp"" rel=""nofollow"">this demo</a>, or there's just something wrong with my Chrome and Chromium. I'm getting error <code>Pending</code> on cached files and images are not displayed.</p>
+
+<p>I've also noticed that Firefox asks if I allow page to use offline storage, when Chrome/Chromium doesn't.</p>
+","2111737","","1418878","","2013-10-16 18:25:46","2013-10-17 03:18:37","html5 cache manifest doesn't work in Chrome/Chromium","<html><google-chrome><caching><offline-caching><manifest.cache>","1","2","","","","CC BY-SA 3.0"
+"19410459","1","","","2013-10-16 17:58:00","","0","1071","<p>I saw some sample code for parsing the UI Automation tree using VB.NET.  The code is here:</p>
+
+<pre><code>'' &lt;summary&gt; 
+''' Walks the UI Automation tree and adds the control type of each element it finds  
+''' in the control view to a TreeView. 
+''' &lt;/summary&gt; 
+''' &lt;param name=""rootElement""&gt;The root of the search on this iteration.&lt;/param&gt; 
+''' &lt;param name=""treeNode""&gt;The node in the TreeView for this iteration.&lt;/param&gt; 
+''' &lt;remarks&gt; 
+''' This is a recursive function that maps out the structure of the subtree beginning at the 
+''' UI Automation element passed in as rootElement on the first call. This could be, for example, 
+''' an application window. 
+''' CAUTION: Do not pass in AutomationElement.RootElement. Attempting to map out the entire subtree of 
+''' the desktop could take a very long time and even lead to a stack overflow. 
+''' &lt;/remarks&gt; 
+
+Private Sub WalkControlElements(ByVal rootElement As AutomationElement, ByVal treeNode As TreeNode)
+    ' Conditions for the basic views of the subtree (content, control, and raw)  
+    ' are available as fields of TreeWalker, and one of these is used in the  
+    ' following code. 
+
+    Dim elementNode As AutomationElement = TreeWalker.ControlViewWalker.GetFirstChild(rootElement)
+
+    While (elementNode IsNot Nothing)
+        Dim childTreeNode As TreeNode = treeNode.Nodes.Add(elementNode.Current.ControlType.LocalizedControlType)
+        WalkControlElements(elementNode, childTreeNode)
+        elementNode = TreeWalker.ControlViewWalker.GetNextSibling(elementNode)
+    End While 
+
+End Sub 'WalkControlElements
+</code></pre>
+
+<p>If I want to use this, I have to pass in the rootElement.  I'm wondering what the syntax for this is?  Using UISpy, I can see the class name is ""WindowsForm10.Window.8.app.0.378734a"".  </p>
+","2809207","","1070452","","2013-10-16 18:05:00","2013-11-04 10:14:25","How to specify root node of tree for UI Automation tree","<vb.net><user-interface><automation>","1","0","","","","CC BY-SA 3.0"
+"19410461","1","19411420","","2013-10-16 17:58:11","","1","341","<p>I'm learning iOS development and I'm looking at <code>UIGestureRecognizer</code>'s.</p>
+
+<p>I have a view. When you tap that view, I want to show a <code>UIPopoverController</code> and I also want it to act like a <code>UIButton</code> in that it ""highlights"" when you press it.</p>
+
+<p>The way I thought to do this was to use 2 <code>UIGestureRecognizer</code>'s - a <code>UITapGestureRecognizer</code> and a <code>UILongPressGestureRecognizer</code></p>
+
+<p>The problem I'm running into is the highlight method gets called immediately (which I want) but if I then move my finger far enough, the <code>UITapGestureRecognizer</code> gets cancelled. At that point, I want to call another method (<code>unhighlight</code>) to restore the <code>UIView</code>'s initial background color, but I'm lost on how to do this.</p>
+
+<p>I'm quite new to this, so this question is probably basic, and I appreciate any help that anybody can give me.</p>
+
+<p>In the <code>UIViewController</code>:</p>
+
+<pre><code>UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(togglePopover)];
+
+[self.view addGestureRecognizer:tap];
+
+UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(highlight)];
+press.minimumPressDuration = 0.f; //highlight immediately
+press.delegate = self; //set the delegate to self
+[self.view addGestureRecognizer:highlight];
+
+
+//the delegate part of the UIViewController
+- (BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldRecognizeSimultaneouslyWithOtherGestureRecognizer:(UIGestureRecognizer*)otherGestureRecognizer {
+  return YES; //allows allow simultaneous recognition of gestures on this view
+}
+</code></pre>
+","954940","","","","","2013-10-16 18:51:12","About UIGestureRecognizers","<ios><objective-c><uigesturerecognizer>","2","3","","","","CC BY-SA 3.0"
+"19410465","1","19411870","","2013-10-16 17:58:21","","0","73","<p>In CodeIgniter, when i go to a URI <code>example.com/index.php/blog/showitem/253</code>, it loads up the controller <code>blog</code> and executes the method <code>showitem(253)</code>. </p>
+
+<p>Is something like this possible with Reflection in Java. For example, i have a method <code>loadController(String controllerName, String method, Objects args...)</code>, which initializes the correct controller, with the correct method, and with a variable amount of arguments. </p>
+
+<p>I know i can initialize class from strings, invoke methods, but i'm stuck at variable amount of arguments. This is what i have now:</p>
+
+<pre><code>public static void switchController(String controllerName, String methodName, Object ... args)
+{
+try {
+    Class controller = Class.forName(""director.controllers."" + controllerName);
+    Method method = controller.getDeclaredMethod(methodName, Object[].class);
+    method.invoke(controller.newInstance(), args);
+</code></pre>
+
+<p>What i want is that i can to load the <code>NewsController</code> with the <code>showOne(int id)</code> method like this:</p>
+
+<pre><code>switchController(""NewsController"", ""showOne"", 124);
+</code></pre>
+
+<p>Is this possible and if yes, how?</p>
+","271070","","727208","","2013-10-16 18:15:34","2013-10-16 19:17:35","Invoking methods through reflection with variable amount of arguments","<java><codeigniter>","1","2","","","","CC BY-SA 3.0"
+"19410466","1","19411177","","2013-10-16 17:58:23","","-1","86","<p>The code is here:</p>
+
+<p>The event handler is supposed to make it so that when the user clicks a button, there is an alert and a prompt that asks for a number, then the program generates a grid with a number of boxes according to the number the user provided. Unfortunately, though, the event handler is not binding and the code within it is not working.<br>
+We are at odds why. </p>
+
+<p>Thanks for taking a look. </p>
+
+<p>EDIT 
+SORRY
+<a href=""http://codepen.io/pauldd91/pen/zxAhs"" rel=""nofollow"">http://codepen.io/pauldd91/pen/zxAhs</a></p>
+","2619997","","2619997","","2013-10-16 18:23:20","2013-10-16 18:38:05","event handler not binding","<javascript><jquery>","2","9","","","","CC BY-SA 3.0"
+"19410475","1","","","2013-10-16 17:59:05","","2","1456","<p>In my Rails app, I have a form that should be submitted through ajax (remote is set to true).  The form lets users either add an embedded video or upload a video file to the app.  I created the form by using bootstrap tabs in a modal.  </p>
+
+<p><img src=""https://i.stack.imgur.com/P1has.png"" alt=""enter image description here""></p>
+
+<p>When I submit an embedded video using the first tab in the form, the form is successfully processed as JS.  However, when I attempt to upload a video using the second tab in the form, the form is incorrectly processed as HTML.</p>
+
+<p>How can I ensure that the form is always processed as JS?</p>
+
+<p><strong>view:</strong></p>
+
+<pre><code>&lt;%= semantic_form_for Video.new,
+    :html =&gt; {:id =&gt; ""videoEmbedModal"", :class =&gt; ""modal hide fade embedModal""}, 
+    :remote =&gt; true do |video_form| %&gt;
+
+    &lt;%= video_form.input :project_id, :as =&gt; :hidden, :label =&gt; false, :input_html =&gt; {:value =&gt; @project.id} %&gt;
+       &lt;% if @step.new_record? %&gt;
+           &lt;%= video_form.input :step_id, :as =&gt; :hidden, :label =&gt; false, :input_html =&gt; {:value =&gt; -1} %&gt;
+           &lt;%= video_form.input :saved, :as =&gt; :hidden, :label =&gt; false, :input_html =&gt; {:value =&gt; false} %&gt;
+       &lt;% else %&gt;
+           &lt;%= video_form.input :step_id, :as =&gt; :hidden, :label =&gt; false, :input_html =&gt; {:value =&gt; @step.id} %&gt;
+           &lt;%= video_form.input :saved, :as =&gt; :hidden, :label =&gt; false, :input_html =&gt; {:value =&gt; true} %&gt;
+       &lt;% end %&gt;
+
+  &lt;div class=""modal-header""&gt;
+    &lt;h3&gt;Add a Video&lt;/h3&gt;
+  &lt;/div&gt;
+
+&lt;div class=""modal-body""&gt;
+
+  &lt;div class=""tabbable""&gt;
+    &lt;ul class=""nav nav-tabs"" id=""add_video_tabs""&gt;
+      &lt;li class=""active""&gt;
+        &lt;a href=""#embed_video""&gt;Embed Video&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;a href=""#upload_video""&gt;Upload Video&lt;/a&gt;
+      &lt;/li&gt;
+
+    &lt;/ul&gt;
+
+    &lt;div class=""tab-content"" style=""margin-top: 10px;""&gt;
+      &lt;% # add embedded video tab %&gt;
+      &lt;div class=""tab-pane active"" id=""embed_video""&gt;
+        &lt;%= video_form.label ""Video URL"", :class=&gt; ""label"" %&gt;&lt;span style=""font-size:smaller; color: #7E7E7E; margin-left:10px""&gt;We currently support Youtube and Vimeo&lt;/span&gt;
+        &lt;%= video_form.text_area :embed_url, 
+            :placeholder =&gt; ""Example: http://www.youtube.com/watch?v=bVj85o5hA_Q"", :rows=&gt;""2"", :cols=&gt;""50"" %&gt;
+
+      &lt;div class=""supportedVideo""&gt;
+        &lt;i class=""icon-youtube"" style=""font-size: 25px""&gt;&lt;/i&gt; &lt;%= image_tag ""icons/Vimeo.png"", :class=&gt;""vimeo_icon"" %&gt;&lt;br&gt;
+      &lt;/div&gt;
+
+      &lt;div class=""embedPreview""&gt;
+        &lt;h3&gt;Video Preview&lt;/h3&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+
+    &lt;% # upload video tab %&gt;
+    &lt;div class=""tab-pane"" id=""upload_video""&gt;
+      &lt;div class=""supported-video-files""&gt;
+        We support .mp4, .mov, and .avi video files.
+      &lt;/div&gt;
+      &lt;div id=""uploadVideoField""&gt;
+        &lt;%= video_form.file_field :video_path, :class=&gt;""video_file_upload_field"", :onchange=&gt; ""return validateFileExtension(this)"" %&gt;
+      &lt;/div&gt;
+      &lt;div class=""btn btn-warning btn-small"" style=""margin-top:10px; display:none;""&gt;Remove&lt;/div&gt;
+      &lt;br&gt;
+    &lt;/div&gt;
+
+
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=""modal-footer""&gt;
+  &lt;%= video_form.actions do %&gt;
+  &lt;%= video_form.action :cancel, :label =&gt; ""Close"", :as =&gt; :link,
+  :button_html =&gt; {:class =&gt; ""btn modal_close_btn"", :href =&gt; ""#"", 
+  :data =&gt; {:target =&gt; ""#videoEmbedModal"", :toggle =&gt; ""modal""}} %&gt;
+
+  &lt;%= video_form.action :submit, :label =&gt; ""Save"", :as =&gt; :button,
+  :button_html =&gt; {:class =&gt; ""btn btn-primary"", :id =&gt; ""video_submit"", :disable_with =&gt; ""Saving...""}, :disable_with =&gt; ""Saving..."" %&gt;
+  &lt;% end %&gt;
+  &lt;div class=""loadingIcon""&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;% end %&gt;
+</code></pre>
+
+<p><strong>Log messages for adding embedded video:</strong></p>
+
+<pre><code>Started POST ""/videos"" for 127.0.0.1 at 2013-10-16 13:52:51 -0400
+Processing by VideosController#create as JS
+  Parameters: {""utf8""=&gt;""✓"", ""authenticity_token""=&gt;""YuHlkYWPJK7oAkKXoLAebUQLGWuTrX/RMabOzLfITkM="", ""video""=&gt;{""project_id""=&gt;""13"", ""step_id""=&gt;""-1"", ""saved""=&gt;""false"", ""embed_url""=&gt;""http://vimeo.com/73388765""}, ""button""=&gt;""""}
+![][2]
+</code></pre>
+
+<p><strong>Log messages for adding uploaded video:</strong></p>
+
+<pre><code>Running transcoding...
+ffmpeg -y -i /public/uploads/tmp/1381945989-16853-6328/Untitled.mov -vcodec libx264 -acodec libfaac -s 640x360  -qscale 0 -preset slow -g 30 -aspect 1.7777777777777777 /public/uploads/tmp/1381945989-16853-6328/tmpfile.mp4
+
+Transcoding of /public/uploads/tmp/1381945989-16853-6328/Untitled.mov to /public/uploads/tmp/1381945989-16853-6328/tmpfile.mp4 succeeded
+
+
+
+Started POST ""/videos"" for 127.0.0.1 at 2013-10-16 13:53:09 -0400
+**Processing by VideosController#create as HTML**
+  Parameters: {""utf8""=&gt;""✓"", ""authenticity_token""=&gt;""YuHlkYWPJK7oAkKXoLAebUQLGWuTrX/RMabOzLfITkM="", ""video""=&gt;{""project_id""=&gt;""13"", ""step_id""=&gt;""-1"", ""saved""=&gt;""false"", ""embed_url""=&gt;"""", ""video_path""=&gt;#&lt;ActionDispatch::Http::UploadedFile:0x007f8a11393cd8 @original_filename=""Untitled.mov"", @content_type=""video/quicktime"", @headers=""Content-Disposition: form-data; name=\""video[video_path]\""; filename=\""Untitled.mov\""\r\nContent-Type: video/quicktime\r\n"", @tempfile=#&lt;File:/var/folders/dc/c0nfvwy96lq7p4ll94mklnmr0000gp/T/RackMultipart20131016-16853-qmwjfn&gt;&gt;}, ""button""=&gt;""""}
+</code></pre>
+
+<p><strong>EDIT</strong>
+I completely removed the embedded video tab and just tried submitting the video using the filefield, and it's still being processed as HTML.  So I've isolated that the problem doesn't have to do with the way the form is set up in tabs.  I think it might have to do with the Gem I'm using to upload video files (carrierwave-video), but I'm still not sure, so if anyone is able to shed any light, it would be greatly appreciated!</p>
+","1720985","","1720985","","2013-10-16 19:48:06","2013-10-17 17:52:58","Rails form processing as HTML instead of JS","<ruby-on-rails><ajax><forms>","2","4","","","","CC BY-SA 3.0"
+"19410481","1","","","2013-10-16 17:59:25","","0","730","<p>Let us say I have 2 different input times. Time-1  is <code>2013-10-01-00-00-00</code> and Time-2 is <code>2000-01-01-12-00-00</code>.</p>
+
+<p>I have populated the above two times into <code>struct tm</code> structures. I have used <code>mktime</code> and passed the 2 structures and got two different values of <code>type time_t</code>. Let us they are Time_1 and Time_2 respectively. </p>
+
+<p>Now if I take the difference of Time_1 and Time_2 , </p>
+
+<ol>
+<li>Does it include the elapsed seconds between the 2 input times Time-1
+and Time-2 ?</li>
+<li>Does the function internally take care of extra second for leap
+years ?</li>
+<li>To Get The Actual Difference in terms of UTC , do I need to
+add/subtract leap years ?</li>
+</ol>
+","2887515","","2096695","","2013-10-16 18:18:01","2013-10-16 18:18:01","Difference in Time Using mktime function in linux","<linux><utc><epoch><mktime>","1","0","","","","CC BY-SA 3.0"
+"19410489","1","","","2013-10-16 17:59:49","","0","422","<p>I am using standalone Camel framework and i want to have transaction routes. I checked that simply using .transacted() does not works since i do not have PlatformTransactionManager in the context.</p>
+
+<p>Can you point me a way to properly configure this scenario?</p>
+","1261162","","","","","2013-10-16 22:21:09","How to get camel with transactions ""without J2EE""","<transactions><apache-camel>","1","0","","","","CC BY-SA 3.0"
+"19410490","1","","","2013-10-16 17:59:51","","0","7511","<p>I want to be able to download a file using AFNetworking that supports: ProgressBar, Pausing, and Resuming download.</p>
+
+<p>Approaching this on my own I was able to come up with this code, except that it doesn't support pausing or resuming:</p>
+
+<pre><code>-(void)downloadFile:(NSString *)UrlAddress indexPathofTable:(NSIndexPath *)indexPath
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:UrlAddress]];
+    NSString *pdfName = [self pdfNameFromURL:UrlAddress];
+
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [[paths objectAtIndex:0] stringByAppendingPathComponent:pdfName];
+    operation.outputStream = [NSOutputStream outputStreamToFileAtPath:path append:NO];
+
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
+        NSLog(@""Successfully downloaded file to %@"", path);
+        [self.tableView reloadData];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
+        NSLog(@""Error: %@"", error);
+    }];
+    [operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead)
+    {
+        //do something in this line with the calculation to cell
+        float progress = (float)totalBytesRead / totalBytesExpectedToRead;
+        [[NSNotificationCenter defaultCenter] postNotificationName:[NSString stringWithFormat:@""progress-%ld-%ld"", (long)indexPath.section, (long)indexPath.row] object:@(progress)]; //Working reporting progress in cellForRowAtIndexPath.
+    //NSLog(@""Download = %f"", progress);
+    }];
+        [operation start];
+}
+</code></pre>
+
+<p>Thing is, I don't know how to manage pause &amp; resume.</p>
+
+<p>Looking at their documentation: ( <a href=""https://github.com/AFNetworking/AFNetworking"" rel=""nofollow"">https://github.com/AFNetworking/AFNetworking</a> ) they offer a different approach to download the file:</p>
+
+<pre><code>NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+
+NSURL *URL = [NSURL URLWithString:@""http://www.irs.gov/pub/irs-pdf/fw4.pdf""];
+NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+
+NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+    NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
+    return [documentsDirectoryPath URLByAppendingPathComponent:[targetPath lastPathComponent]];
+} completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+    NSLog(@""File downloaded to: %@"", filePath);
+}];
+[downloadTask resume];
+</code></pre>
+
+<p>I would expect the ""fw4.pdf"" to be named properly in my iOS' documents folder. However, this is the logged result:</p>
+
+<p>File downloaded to: file:///Users/myName/Library/Application%20Support/iPhone%20Simulator/7.0/Applications/F4C3BC41-70B4-473A-B1F6-D4BC2A6D0A4F/Documents/CFNetworkDownload_ZkSW5n.tmp</p>
+
+<p>The above file IS downloaded but with the weird temp name.</p>
+
+<p>I realize in my own code I'm using a ""AFHTTPRequestOperation"" object whereas they're using a ""AFURLSessionManager"".</p>
+
+<p>Any ideas?</p>
+","693121","","","","","2017-02-17 06:58:38","Using AFNetworking to Download File in iOS","<ios><download><afnetworking-2>","2","2","0","","","CC BY-SA 3.0"
+"19410491","1","19410667","","2013-10-16 17:59:54","","6","17711","<p>I'm trying to do principal component analysis on datasets containing images, but whenever I want to apply pca.transform from the sklearn.decomposition module I keep getting this error: <strong>*AttributeError: 'PCA' object has no attribute 'mean_'*</strong>. I know what this error means, but I have no clue how to fix it. I reckon some of you guys know how to fix this.</p>
+
+<p>Thank you for your help</p>
+
+<p>My code:</p>
+
+<pre><code>from sklearn import svm
+import numpy as np
+import glob
+import os
+from PIL import Image
+from sklearn.decomposition import PCA
+
+image_dir1 = ""C:\Users\private\Desktop\K FOLDER\private\train""
+image_dir2 = ""C:\Users\private\Desktop\K FOLDER\private\test1""
+Standard_size = (300,200)
+pca = PCA(n_components = 10)
+file_open = lambda x,y: glob.glob(os.path.join(x,y))
+
+
+def matrix_image(image_path):
+    ""opens image and converts it to a m*n matrix"" 
+    image = Image.open(image_path)
+    print(""changing size from %s to %s"" % (str(image.size), str(Standard_size)))
+    image = image.resize(Standard_size)
+    image = list(image.getdata())
+    image = map(list,image)
+    image = np.array(image)
+    return image
+def flatten_image(image):  
+    """"""
+    takes in a n*m numpy array and flattens it to 
+    an array of the size (1,m*n)
+    """"""
+    s = image.shape[0] * image.shape[1]
+    image_wide = image.reshape(1,s)
+    return image_wide[0]
+
+if __name__ == ""__main__"":
+    train_images = file_open(image_dir1,""*.jpg"")
+    test_images = file_open(image_dir2,""*.jpg"")
+    train_set = []
+    test_set = []
+
+    ""Loop over all images in files and modify them""
+    train_set = [flatten_image(matrix_image(image)) for image in train_images]
+    test_set = [flatten_image(matrix_image(image)) for image in test_images]
+    train_set = np.array(train_set)
+    test_set = np.array(test_set)
+    train_set = pca.fit_transform(train_set) ""line where error occurs""
+    test_set = pca.fit_transform(test_set)
+</code></pre>
+
+<p>Full traceback:</p>
+
+<pre><code>Traceback (most recent call last):
+  File ""C:\Users\Private\workspace\final_submission\src\d.py"", line 54, in &lt;module&gt;
+    train_set = pca.transform(train_set)
+  File ""C:\Python27\lib\site-packages\sklearn\decomposition\pca.py"", line 298, in transform
+    if self.mean_ is not None:
+AttributeError: 'PCA' object has no attribute 'mean_'
+</code></pre>
+
+<p><strong>Edit1:</strong> 
+So I tried to fit the model before transforming it, and now I'm getting an even weirder error. I looked it up, and it involves f2py, a module that ports Fortran to Python which is part of the Numpy Library. </p>
+
+<pre><code>File ""C:\Users\Private\workspace\final_submission\src\d.py"", line 54, in &lt;module&gt;
+    pca.fit(train_set)
+  File ""C:\Python27\lib\site-packages\sklearn\decomposition\pca.py"", line 200, in fit
+    self._fit(X)
+  File ""C:\Python27\lib\site-packages\sklearn\decomposition\pca.py"", line 249, in _fit
+    U, S, V = linalg.svd(X, full_matrices=False)
+  File ""C:\Python27\lib\site-packages\scipy\linalg\decomp_svd.py"", line 100, in svd
+    full_matrices=full_matrices, overwrite_a = overwrite_a)
+ValueError: failed to create intent(cache|hide)|optional array-- must have defined dimensions but got (0,)
+</code></pre>
+
+<p><strong>Edit2:</strong>      </p>
+
+<p>So I have checked if my train_set and data_set contained any data and they don't. 
+I've checked my image_dirs, and they contain the right locations(just for clarity, I got them by going to the actual files, looking at the properties of one the images and copied the location). The fault should lie somewhere else. </p>
+","2569276","","2569276","","2013-10-16 19:49:04","2013-10-16 19:49:04","Principal Component Analysis not working","<python><numpy><machine-learning><scipy><scikit-learn>","2","5","","","","CC BY-SA 3.0"
+"19410492","1","","","2013-10-16 17:59:58","","0","91","<p>Here is my code:</p>
+
+<pre><code>namespace Exercise6
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            OtherClass aTable = new OtherClass(); //instantiate class
+
+            Console.WriteLine(""How many rows do you want your two-dimensional array to be?"");
+            aTable.SRows = Console.ReadLine(); //reads input for how many rows that the user would like
+            aTable.IntRows = int.Parse(aTable.SRows); //convert rows to int
+
+            Console.WriteLine(""Thanks you! How many columns would you like your two-dimensional arry to be?"");
+            aTable.SColumns = Console.ReadLine(); //reads input for how many columns that the user would like
+            aTable.IntColumns = int.Parse(aTable.SColumns); //convert columns to int
+
+            //set two dimensional array based upon the size that the user has requested
+
+            int[ , ] array = new int[aTable.IntColumns, aTable.IntRows];
+
+            Random randomArray = new Random(); //call to random class to ask for random numbers
+
+            for (int i = 0; i &lt; aTable.IntColumns; i++) //columns
+            {
+                array[i, 0] = randomArray.Next(0, 100); //for every value in each column, insert a random number
+            }
+
+            for (int y = 0; y &lt; aTable.IntRows; y++) //rows
+            {
+                array[y, 0] = randomArray.Next(0, 100);
+            }
+
+            Console.WriteLine(array);
+
+
+        }
+    }
+}
+
+namespace Exercise6
+{
+    class OtherClass
+    {
+        private string sRows;
+
+        public string SRows { get; set; }
+
+        private int intRows;
+
+        public int IntRows { get; set; }
+
+        private string sColumns;
+
+        public string SColumns { get; set; }
+
+        private int intColumns;
+
+        public int IntColumns { get; set; }
+
+    }
+}
+</code></pre>
+
+<p>But, I can't figure out why my output, which should just be my array, would say: </p>
+
+<blockquote>
+  <p>System.Int32[,]</p>
+</blockquote>
+
+<p>Did it not add the random numbers from the for loops to my array?</p>
+
+<p>Thanks in advance for all of your help!</p>
+","2777896","","4068","","2013-10-16 18:03:54","2013-10-16 18:16:09","Why is my array not adding numbers?","<c#><arrays><random>","4","2","","","","CC BY-SA 3.0"
+"19410500","1","19410968","","2013-10-16 18:00:37","","0","466","<pre><code>HashMap&lt;String, Boolean&gt; mAchBools = new HashMap&lt;String, Boolean&gt;(){{
+    put(""myBool1"", false);
+    }
+};
+
+HashMap&lt;String, Integer&gt; mAchInts = new HashMap&lt;String, Integer&gt;(){{
+    put(""myInt1"", 0);
+    }
+};
+
+boolean isEmpty() {
+    for (boolean b : mAchBools.values()) if (b) return false;
+    for (int i : mAchInts.values()) if (i != 0) return false;           
+    return true;            
+}
+</code></pre>
+
+<p>I create a HashMap will Booleans and a HashMap with Integers. Now I want a method to check and see if the values are ""empty"" (all booleans are false and all integers are 0).</p>
+
+<p>I run Debugger and I can see that my boolean in the Hashmap is false, but my method ""isEmpty"" still returns false.</p>
+
+<p>Why does my ""isEmpty"" check fail? I think it's a difference between boolean and Boolean but I'm not sure.</p>
+","442743","","","","","2013-10-16 18:41:13","Java HashMap Iterate Each Var and Return Value: Boolean boolean , Integer int error?","<java><android><integer><hashmap><boolean>","1","7","","","","CC BY-SA 3.0"
+"19410501","1","","","2013-10-16 18:00:41","","5","1079","<p>I am trying to write an Android app that uses the Android SDK. I am using IntelliJ Idea 12 CE. I have done this before successfully, but I can't figure out what I did wrong this time. I did the following:</p>
+
+<ol>
+<li>I downloaded the Facebook Android SDK from Facebook's developers website and imported that module into IntelliJ, which added it as a library</li>
+<li>I added the imported library module to my project as a dependency</li>
+</ol>
+
+<p>After that I had no problems writing the code, IntelliJ recognized the imports and everything seemed to work fine. When I tried to compile the code, it gave me the following error for every import statement from com.facebook I had:</p>
+
+<blockquote>
+  <p>...package com.facebook does not exist</p>
+</blockquote>
+
+<p>These are some screenshots I took of the configuration:</p>
+
+<p><a href=""http://pretechmobile.com/RSVPush.dev/_app_scripts/logosSucursales/facebooklib.png"">Facebook lib</a></p>
+
+<p><a href=""http://pretechmobile.com/RSVPush.dev/_app_scripts/logosSucursales/rsvpushconfig.png"">My app's config</a></p>
+","2535545","","","","","2013-12-30 14:43:24","package com.facebook does not exist, Facebook Android SDK, IntelliJ Idea","<android><facebook><compilation><intellij-idea>","1","1","","","","CC BY-SA 3.0"
+"19410502","1","19433840","","2013-10-16 18:00:42","","2","4047","<p>In my view I test <code>if (isset($winner))</code>. However, the view is reprinted in a loop and I cannot clear it for subsequent tests.</p>
+
+<p><strong>How can I instantiate a new View or clear/unset the variables given by it's controller?</strong> </p>
+
+<p>I appreciate the Views have a broad scope, but this seems like a bug in Codeigniter.</p>
+
+<p><strong>Controller:</strong></p>
+
+<pre><code>for($i=0; $i &lt; 100; $i++) {
+    $test = $this-&gt;prizedistributor-&gt;isWinner();
+    echo $this-&gt;load-&gt;view(""simulateResponse"", $test, TRUE);
+    unset($test['winner']); // this does not work
+}     
+</code></pre>
+
+<p>View:</p>
+
+<pre><code>&lt;? if (isset($winner)):?&gt;
+    WINNER!
+&lt;? else: ?&gt;
+    LOST!
+&lt;? endif; ?&gt;
+&lt;?php unset($winner); // this does not work! ?&gt;
+</code></pre>
+
+<p><strong>The Results:</strong></p>
+
+<p>Say <code>$i==40</code> is the only winner, the View will report ALL $i's > 40 as winners despite the Controller always defaulting the Boolean as false. </p>
+
+<p><strong>UPDATE</strong></p>
+
+<p>I am aware testing if(empty($test)) allows the View to report correctly. However, my question is how to unset that variable (and clear it from memory). This question largely stems from other similar issues while using HMVC (modular codeigniter). However posting that code here would be too complicated to illustrate the same issue of scope.</p>
+
+<hr>
+
+<p>Many folks keep questioning irrelevant prizedistributor above. So here is a <strong>simpler code sample to illustrate the sampe problem</strong>:</p>
+
+<p><strong>CONTROLLER</strong></p>
+
+<pre><code>function testScope() {
+    for($i=0; $i &lt; 10; $i++) {
+        if($i == 5)$winner = array('winner' =&gt; true);
+        else $winner = array();
+        echo $this-&gt;load-&gt;view(""testScope"", $winner, TRUE);
+    }        
+}  
+</code></pre>
+
+<p><strong>VIEW</strong></p>
+
+<pre><code>&lt;?= (isset($winner))  ? ""WINNER!&lt;br&gt;"" : ""LOST!&lt;br&gt;""; ?&gt;
+</code></pre>
+
+<p><strong>OUTPUT</strong></p>
+
+<p>LOST!
+LOST!
+LOST!
+LOST!
+LOST!
+WINNER!
+WINNER!
+WINNER!
+WINNER!
+WINNER!</p>
+
+<p><strong>Possible Answer:</strong></p>
+
+<p>I've looked into codeigniter's <code>system/core/Loader.php</code> and find function <code>_ci_load</code> caches variables around line 800. They're reasoning being: </p>
+
+<blockquote>
+  <p>You can either set variables using the dedicated $this->load_vars()
+  function or via the second parameter of this function. We'll merge the
+  two types and cache them so that views that are embedded within other
+  views can have access to these variables.</p>
+</blockquote>
+
+<p>This brings up a very good point and something I appreciate about codeigniter. But the question remains, <strong>how can we have both?</strong> Possibly a 4th optional parameter to skip this catching? </p>
+
+<p>ex. <code>loader-&gt;view(""testScope"", $winner, TRUE, FALSE);</code> ????</p>
+","624160","","624160","","2015-09-29 02:56:07","2017-06-30 06:56:34","How can I unset variables from a View's scope in Codeigniter","<php><codeigniter><scope><codeigniter-2>","6","7","","","","CC BY-SA 3.0"
+"19410503","1","19412682","","2013-10-16 18:00:44","","2","12162","<p>I have this macro to bulk import in a excel spreadsheet 100+ .txt files contained in the same folder :</p>
+
+<pre><code>Sub QueryImportText()
+    Dim sPath As String, sName As String
+    Dim i As Long, qt As QueryTable
+    With ThisWorkbook
+        .Worksheets.Add After:= _
+            .Worksheets(.Worksheets.Count)
+    End With
+    ActiveSheet.Name = Format(Now, ""yyyymmdd_hhmmss"")
+    sPath = ""C:\Users\TxtFiles\""
+    sName = Dir(sPath &amp; ""*.txt"")
+    i = 0
+    Do While sName &lt;&gt; """"
+        i = i + 1
+        Cells(1, i).Value = sName
+        With ActiveSheet.QueryTables.Add(Connection:= _
+            ""TEXT;"" &amp; sPath &amp; sName, Destination:=Cells(2, i))
+            .Name = Left(sName, Len(sName) - 4)
+            .FieldNames = True
+            .RowNumbers = False
+            .FillAdjacentFormulas = False
+            .PreserveFormatting = True
+            .RefreshOnFileOpen = False
+            .RefreshStyle = xlInsertDeleteCells
+            .SavePassword = False
+            .SaveData = True
+            .AdjustColumnWidth = True
+            .RefreshPeriod = 0
+            .TextFilePromptOnRefresh = False
+            .TextFilePlatform = 437
+            .TextFileStartRow = 1
+            .TextFileParseType = xlDelimited
+            .TextFileTextQualifier = xlTextQualifierDoubleQuote
+            .TextFileConsecutiveDelimiter = False
+            .TextFileTabDelimiter = True
+            .TextFileSemicolonDelimiter = False
+            .TextFileCommaDelimiter = False
+            .TextFileSpaceDelimiter = False
+            .TextFileColumnDataTypes = Array(1)
+            .TextFileTrailingMinusNumbers = True
+            .Refresh BackgroundQuery:=False
+        End With
+        sName = Dir()
+        For Each qt In ActiveSheet.QueryTables
+            qt.Delete
+        Next
+    Loop
+End Sub
+</code></pre>
+
+<p>Each .txt file has the same structure:
+title, ID, date, createdBy, text.</p>
+
+<h1>The macro is working but :</h1>
+
+<ul>
+<li>I want each file to be in a row (this macro display them in column)</li>
+</ul>
+
+<p>This excel will them by export as .csv to be imported in my joomla website with MySql </p>
+
+<p>Thanks a lot for your help! </p>
+","1486850","","-1","","2018-07-09 18:41:45","2016-02-16 06:57:17","Importing 100 text files into Excel at once","<excel><vba>","2","7","0","","","CC BY-SA 3.0"
+"19410506","1","19412465","","2013-10-16 18:00:46","","0","350","<p>Is it possible to solve <code>~~(~~S -&gt; S)</code> in coq? I know you cant perform double negation elimination in intuitionistic logic but is this possible as you simply proving double negation on <code>(~~S -&gt; S)</code> as opposed to <code>~~S -&gt;</code> S itself?</p>
+
+<p>This is only using basic tactics and not lemmas from prelude or standard library etc.</p>
+","1110224","","","","","2013-10-16 19:50:07","Proving ~~(~~S -> S) in coq with only basic tactics","<logic><coq>","1","0","","","","CC BY-SA 3.0"
+"19410508","1","19471212","","2013-10-16 18:00:47","","1","5530","<p>I have started learning JSP recently and i am NOT able to display hindi font ""kruti dev"" in my page. i browsed for the solutions and changed the page directives to</p>
+
+<pre><code>&lt;%@ page language=""java"" contentType=""text/html; charset=UTF-8"" pageEncoding=""UTF-8"" 
+    import=""java.io.*,java.util.*,java.sql.*""%&gt;
+</code></pre>
+
+<p>and the meta tags too</p>
+
+<pre><code>&lt;meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /&gt;
+</code></pre>
+
+<p>finally i have also changed the Eclipse settings:</p>
+
+<blockquote>
+  <p>Window -> Preferences -> Web -> Jsp Files encoding to UTF-8</p>
+</blockquote>
+
+<p>but still NO success.</p>
+
+<p>here is the screenshot of mysql database and localhost:</p>
+
+<p><img src=""https://i.stack.imgur.com/D4M4d.jpg"" alt=""enter image description here""></p>
+
+<p>The required font is installed on my system.
+Do i need to configure anything else like including that font in my project resources or something like that..??</p>
+
+<pre><code>This is the code of the create table:
+
+  -----+
+| user_mst | CREATE TABLE `user_mst` (
+  `UserCode` int(10) NOT NULL,
+  `UserDispName` varchar(50) DEFAULT NULL,
+  `UserDispName_Eng` varchar(50) DEFAULT NULL,
+  `USER_ID` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`UserCode`),
+  KEY `DistCode` (`UserCode`),
+  KEY `USER_ID` (`USER_ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 |
+</code></pre>
+","1938560","","1938560","","2013-10-17 06:21:41","2013-10-19 21:13:19","Displaying Hindi font in jsp","<java><mysql><eclipse><jsp>","2","10","","","","CC BY-SA 3.0"
+"19410510","1","","","2013-10-16 18:01:00","","0","423","<p>I have searched for a solution to this without success, so I'm hoping someone can help me. Please forgive my rudimentary <code>excel</code> skills.</p>
+
+<p>I have data with numeric codes in two columns:</p>
+
+<p><strong>Column A</strong> is called <code>AREA</code> and can be any number between 00 - 99</p>
+
+<p><strong>Column B</strong> is called <code>TYPE</code> and can be a number between 00 - 38, but only certain values are acceptable, depending on the <code>AREA</code> value.</p>
+
+<p>I have a second set of data that contains all the <code>AREA</code> values and the corresponding acceptable <code>TYPE</code> values.</p>
+
+<p>Suppose for <code>AREA</code> 15, the acceptable <code>TYPE</code> values are 6, 7, 10, 12, 13, or 17</p>
+
+<p>My first set of data has a row with <code>AREA = 15 &amp; TYPE = 23</code> and based on the above rule, 23 is not an acceptable value for the <code>TYPE</code> column.</p>
+
+<p>Is there a way to cross-reference my first set of data (which is a weekly report) with the second set of data (which contains the ""rules"") to identify those entries with an unacceptable <code>TYPE</code> value?</p>
+
+<p>Sorry if I'm not describing this clearly enough. I'm confusing myself just trying to put it into words...</p>
+","2887144","","1047582","","2013-10-16 18:14:26","2013-10-16 19:08:18","Check a cell for valid entry","<excel><reference><cell><cross-reference>","1","1","","2014-03-20 08:42:42","","CC BY-SA 3.0"
+"19410511","1","19411117","","2013-10-16 18:01:03","","0","1049","<p>i try this query to show upload documents ..this query works</p>
+
+<pre><code>CREATE PROCEDURE b
+AS
+SELECT  di.DocID, 
+        di.DocName, 
+        di.Uploadfile, 
+        dt.DocType,
+        d.DepType, 
+        at.ApproveType
+FROM    DocumentInfo di
+    LEFT OUTER JOIN
+        DocType dt ON dt.DocTypeID = di.DocTypeID
+    LEFT OUTER JOIN 
+        Department d ON d.DepID = di.DepID
+    LEFT OUTER JOIN
+        ApproveType at ON at.ApproveID = di.ApproveID 
+   AND  at.ApproveID = 3
+</code></pre>
+
+<p>i create a approval table in this
+approval table
+docid
+approveid
+approveby
+ admin approve/reject documents and the data goes to this table i.e</p>
+
+<pre><code>docid approveid approveby
+  1     2      john
+</code></pre>
+
+<p>it works but in above query i want to show when user upload any document then its status display as pending then when admin approve/reject documents then status change to approve/reject.. how i done this ..
+this is form where admin approve/reject documents and data goes to approval table and it works 
+<a href=""http://i42.tinypic.com/2wd1uzb.png"" rel=""nofollow"">admin approve/reject documents</a></p>
+
+<p>jwhere as this is form where i show status
+<a href=""http://i43.tinypic.com/15psbjm.png%5B%5E%5D"" rel=""nofollow"">show status here (image)</a></p>
+
+<p>any solution? </p>
+","2883796","","2883796","","2013-10-16 18:21:26","2013-10-16 18:34:48","show status pending to approve","<c#><asp.net><sql>","1","2","","2014-03-01 15:13:20","","CC BY-SA 3.0"
+"19410512","1","","","2013-10-16 18:01:10","","0","102","<p>In my current project which is still in development, I have three layers. Each layer is made up of <strong>WCF</strong> service, consuming a service below it with <strong>basicHttpBinding</strong> currently.
+Upon completion the project will be hosted on Amazon EC2.
+There the services <strong>may or may not be</strong> deployed on same machine. So we can not use NetNamedPipeBinding. What will be the best binding with which the services should be configured so that they are highly performant, considering <strong>all of them</strong> will be on cloud.</p>
+
+<p>Any guidance appriciated. </p>
+","1173017","","","","","2013-10-16 19:55:06","Which WCF binding is most performant for cloud?","<wcf><amazon-ec2><cloud><wcf-binding>","1","0","","","","CC BY-SA 3.0"
+"19410519","1","","","2013-10-16 18:01:45","","3","1768","<p>I have simple model:</p>
+
+<pre><code>class Category &lt; ActiveRecord::Base
+  belongs_to :board
+  validates :name, presence: true, uniqueness: {scope: :board_id}
+  validates :board, presence: true
+  validates :display_order, presence: true, uniqueness: {scope: :board_id}
+
+  before_save :set_display_order
+
+  private
+
+  def set_display_order
+    last = self.board.categories.order(""display_order DESC"").last
+    self.display_order = last.display_order + 100 if last
+  end
+end
+</code></pre>
+
+<p>When I added this before_save callback, these tests start to fail:</p>
+
+<pre><code>  it { should validate_uniqueness_of(:display_order).scoped_to(:board_id) }
+  it { should validate_uniqueness_of(:name).scoped_to(:board_id) }
+</code></pre>
+
+<p>With error (this if for the line in private method <code>last = ...</code>): </p>
+
+<pre><code> NoMethodError:
+   undefined method `categories' for nil:NilClass
+</code></pre>
+
+<p>Other shoulda tests work fine:</p>
+
+<pre><code>  it { should validate_presence_of(:name) }
+  it { should validate_presence_of(:board) }
+  it { should belong_to :board }
+</code></pre>
+
+<p>Any idea what is problem here? I tried to change <code>before_save</code> to <code>before_validation</code> but still the same.</p>
+","1654940","","","","","2016-03-29 22:25:48","Shoulda and before_ callbacks","<ruby-on-rails><rspec><ruby-on-rails-4><shoulda>","2","0","","","","CC BY-SA 3.0"
+"19410522","1","","","2013-10-16 18:01:53","","0","1011","<p>I have a wordpress blog that has many users roles. When logged in as <code>admin</code> <code>get_posts</code> seems to return all the <code>posts</code> but when logged in as <code>retailer</code>( role I created ) I only get the posts that the logged in user created</p>
+
+<pre><code>$argArray = array('post_type' =&gt; $type, 'post_status' =&gt; 'publish', 'orderby' =&gt; 'title','numberposts' =&gt; -1 );
+ $posts = get_posts($argArray);
+</code></pre>
+
+<p>This code when logged in as admin returns all the posts in the site but when logged in as retailer return only the posts that the user authored.</p>
+
+<p>BTW <code>$type</code> is a <code>post_type</code></p>
+
+<p>There is no mention of this in the documents or anywhere. is it something I am doing wrong or is it the way this is supposed to be?</p>
+
+<p>Thanks in advance!!</p>
+
+<p>UPDATED</p>
+
+<p>AS I am looking over this it seems that worpdress query does add author argument in the wordpress query.I did new WP_Query() and checked.</p>
+
+<p>This is the part that I want to remove <code>wp_posts.post_author = 347</code> This is not present in the query made by admin. I have seen <code>remove_query_arg</code> in wordpree query but not sure when and how to use it and if it can be used to remove this argument in the query at all. </p>
+
+<p>Help!!</p>
+","2159370","","2159370","","2013-10-19 13:27:53","2013-10-19 13:27:53","get_posts returns posts by current user only","<php><wordpress>","1","0","","","","CC BY-SA 3.0"
+"19410525","1","","","2013-10-16 18:02:02","","3","984","<p>How can I obtain the media state of a network adapter in windows? I've searched a bit and it doesn't look like the java.net.NetworkInterface class provides this ability, which makes sense as it appears to be a windows concept that doesn't even apply to all adapters. When I run ipconfig I get something like the following:</p>
+
+<pre><code>Windows IP Configuration
+
+
+Wireless LAN adapter Wireless Network Connection 5:
+
+   Connection-specific DNS Suffix  . : BlahBlah.Blah
+   IPv4 Address. . . . . . . . . . . : 192.168.113.44
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 192.168.113.1
+
+Ethernet adapter Local Area Connection 8:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : BlahBlah.Blah
+</code></pre>
+
+<p>And if I use the script found at <a href=""https://stackoverflow.com/questions/5953460/can-anyone-explain-why-java-getnetworkinterfaces-returns-so-many-interfaces-on-w/5954098#5954098"">Can anyone explain why Java GetNetworkInterfaces returns so many interfaces on Windows 7</a> to obtain details from these adapters (with the others removed) I get something like the following:</p>
+
+<pre><code>Display name: Software Loopback Interface 1
+Name: lo
+InetAddress: /0:0:0:0:0:0:0:1
+InetAddress: /127.0.0.1
+Up? true
+Loopback? true
+PointToPoint? false
+Supports multicast? true
+Virtual? false
+Hardware address: []
+MTU: -1
+
+Display name: Intel(R) 82579LM Gigabit Network Connection #2
+Name: eth13
+InetAddress: /172.16.4.29
+Up? false
+Loopback? false
+PointToPoint? false
+Supports multicast? true
+Virtual? false
+Hardware address: [60, -105, 14, -77, -123, 110]
+MTU: 1500
+
+Display name: Intel(R) Centrino(R) Advanced-N 6205 #3
+Name: net11
+InetAddress: /192.168.113.44
+Up? false
+Loopback? false
+PointToPoint? false
+Supports multicast? true
+Virtual? false
+Hardware address: [60, -105, 14, -77, -123, 110]
+MTU: 1500
+</code></pre>
+
+<p>Thoughts on how I can determine if the ethernet adapter is ""Media disconnected""?</p>
+","378171","","-1","","2017-05-23 10:30:50","2017-04-06 00:56:10","Obtain ""Media State"" of network adapters in windows using java?","<java><windows><network-interface>","1","2","","","","CC BY-SA 3.0"
+"19410526","1","","","2013-10-16 18:02:03","","2","1642","<p>I'm running the newest version of Android on the new Nexus 7. I'm developing an app that uses SQLite database to store data, and I'd like to view this on my computer. </p>
+
+<p>I can't run <code>adb -d shell</code> followed by <code>run-as my.package.name</code>, I'll get a permission denied error. I can't either run adb as root: <code>adbd cannot run as root in production builds</code>. If I try to use <code>adb pull /data/data/package/databases/database &gt; C:/Users/Me/Desktop/database.sqlite</code>, I'll also get a permission denied error. </p>
+
+<p>Any workarounds? I don't want to root the device.</p>
+","1279334","","","","","2013-10-16 18:24:19","Pulling SQLite database from Android 4.3","<android><adb>","1","1","","","","CC BY-SA 3.0"
+"19410532","1","19411069","","2013-10-16 18:02:21","","-4","854","<p>I have a somewhat unusual problem.  Because of my predecessor's design, I have a 27 MB file and I need to find a specific byte in it, like say the 100,000th byte.  I then have to delete everything between then 100,000th and 150,000th byte.</p>
+
+<p>The file is broken up into a header file (which ends with <code>[END]</code> after about 10,000 characters) and the actual data, which is all in byte form.  The 27 million bytes are separated over about 15000 lines. </p>
+
+<p>Any help would be greatly appreciated.</p>
+","2761933","","241536","","2013-10-16 18:13:26","2013-10-16 18:36:54","How to find the n'th byte in a file","<c++><byte>","2","11","","2013-10-16 18:44:30","","CC BY-SA 3.0"
+"19410536","1","19411022","","2013-10-16 18:02:36","","0","518","<p>I am new to programming, and am privileged to have as one of my first assignments the conversion of some CFML to PHP.</p>
+
+<pre><code> &lt;cfif find(""tips"",cgi.query_string) or find(""tip"",cgi.query_string)&gt;  
+ &lt;li class=""current middle""&gt;&lt;a class=""topnavtext"" href=""#siteurl#tips""&gt;GF Tips&lt;/a&gt;&lt;/li&gt;
+ &lt;cfelse&gt;&lt;li class=""middle""&gt;&lt;a class=""topnavtext"" href=""#siteurl#tips""&gt;GF Tips&lt;/a&gt;&lt;/li&gt;
+ &lt;/cfif&gt;
+</code></pre>
+
+<p>Is it looking for ""tips"" in <code>cgi.query_string</code>?  </p>
+
+<p>How would that be converted to PHP?</p>
+","2887525","","132509","","2013-10-16 18:08:13","2013-10-16 18:29:28","Converting Coldfusion to PHP: cgi.query_string","<php><coldfusion><cgi>","1","1","","","","CC BY-SA 3.0"
+"19410539","1","","","2013-10-16 18:02:41","","0","652","<p>I'm developing android app, since I've to use celt audio codec which is unavailable on android codec, I decide to use JNI, and I got the following issues (i'm new to C)</p>
+
+<pre><code>D:/adt-bundle-windows-x86/android-ndk-r8e/build/core/add-application.mk:128: Android NDK: WARNING: APP_PLATFORM android-14 is larger than android:minSdkVersion 4 in ./AndroidManifest.xml    
+""Compile thumb : celt-0.11.1 &lt;= bands.c
+In file included from jni/celt-0.11.1/libcelt/modes.h:36:0,
+                 from jni/celt-0.11.1/libcelt/bands.h:34,
+                 from jni/celt-0.11.1/libcelt/bands.c:35:
+jni/celt-0.11.1/libcelt/mdct.h:52:40: error: expected ':', ',', ';', '}' or '__attribute__' before 'trig'
+</code></pre>
+
+<p>here is the source code</p>
+
+<pre><code>#ifndef MDCT_H
+#define MDCT_H
+
+#include ""kiss_fft.h""
+#include ""arch.h""
+
+typedef struct {
+   int n;
+   int maxshift;
+   const kiss_fft_state *kfft[4];
+   const kiss_twiddle_scalar * restrict trig;  //mdct.h line 52
+} mdct_lookup;
+</code></pre>
+
+<p>I got the same error in many other lines like this</p>
+
+<pre><code>error: expected '=', ',', ';', 'asm' or '__attribute__' before 'X'
+</code></pre>
+
+<p>the code</p>
+
+<pre><code>celt_norm * restrict X, * restrict Y;
+</code></pre>
+","1124942","","","","","2013-10-16 18:02:41","Android NDK error: expected ':', ',', ';', '}' or '__attribute__' before 'trig'","<android><c><android-ndk><java-native-interface>","0","2","","","","CC BY-SA 3.0"
+"19410540","1","19410940","","2013-10-16 18:02:44","","-1","76","<p>I have played a bit with php and started with database. My goal is to make a simple registration system and a login. The problem i have is that i wanna check so i don't make two accounts with the same name.</p>
+
+<p>I tried to use a foreach statement in the IF statement, but that wasn't that popular.
+My code:</p>
+
+<pre><code>$sql = ""SELECT * FROM account"";
+    $stmt = $dbh-&gt;prepare($sql);
+    $stmt-&gt;execute();
+    $account = $stmt-&gt;fetchAll();
+    if ($_POST[""newAccountName""] != """" &amp;&amp; $_POST[""newAccountName""] != ( foreach ($account as $login) {$login[""accountName""]}) ) { }
+</code></pre>
+
+<p>My question is, it is possible to check multiply statments without using &amp;&amp; between one and an other? (like a loop as i tried)</p>
+","2324649","","2693568","","2013-10-16 18:40:59","2013-10-16 18:40:59","How do I check an array inside a IF statment","<php><database><loops><if-statement>","1","7","","2014-03-30 18:35:39","","CC BY-SA 3.0"
+"19410552","1","19410639","","2013-10-16 18:03:14","","1","1097","<p>Question about behavior of <code>fork()</code> within a loop. When <code>fork()</code> is called, assuming <code>wait()</code> isn't called, the parent process should continue through the code and loop back to the top where it prompts you to enter <code>q</code> to quit. The forked child should print its ID and the break immediately since <code>pid</code> should be equal to the child's ID and not 0. Instead, it goes into infinite loop.</p>
+<p>Can anybody tell me what I'm misunderstanding?</p>
+<pre><code>int main (int argc, char *argv[])
+{
+    char run[2];
+    int pid=0;
+    while (run[0]!= 'q')    
+    {
+         printf(&quot;Type q to quit \n&quot;);
+         fgets (run, 2, stdin);
+         pid=fork();
+         //wait();
+         printf(&quot;child ID: %i\n&quot;, pid);
+         if(pid!=0) { break;}
+    }
+    
+}
+</code></pre>
+","1383628","","12673488","","2020-09-03 20:27:43","2020-09-03 20:27:43","fork() system call and while loop","<c><linux><fork><system-calls>","1","0","","","","CC BY-SA 4.0"
+"19410557","1","","","2013-10-16 18:03:30","","0","102","<p>How can I configure, if possible, Uncrustify to format the following code</p>
+
+<pre><code>MyObject obj;
+obj.a_func_returning_another_object().get_a_pointer_function()-&gt;do_stuff();
+AnotherObject* objPointer = new AnotherObject();
+anObject-&gt;fooObj().barMember().done();
+</code></pre>
+
+<p>like this?</p>
+
+<pre><code>MyObject obj;
+obj.a_func_returning_another_object()
+   .get_a_pointer_function()
+   -&gt;do_stuff();
+AnotherObject* objPointer = new AnotherObject();
+anObject-&gt;fooObj()
+        .barMember()
+        .done();
+</code></pre>
+
+<p>Especially, if the source member name (in this case <code>obj</code>) varies?</p>
+
+<p>Using <code>indent_member=N</code> always indents by <code>N</code> spaces, which does not take the source member's name into account.</p>
+
+<p><em>Bonus</em>: Can this line-breaking behavior be configured to only take action if the <code>code_width</code> option forces a line break?</p>
+","588243","","","","","2013-10-16 18:03:30","How to align C++ member access continuation on column?","<c++><code-formatting><uncrustify>","0","2","","","","CC BY-SA 3.0"
+"19410560","1","","","2013-10-16 18:03:51","","1","172","<p>I've only been working with Java for about a month now so I don't exactly have a complete grasp on it yet. I have been assigned to make a calculator program with a GUI for class. I got everything working besides the fact that the user can enter in multiple decimal points. So I tried to fix that problem (which I did not) and now the program will run without any errors but whenever I click a button, such as 1, 2, 3, or an operator such as +, -, etc. I get the following error:</p>
+
+<pre><code>Exception in thread ""AWT-EventQueue-0"" java.lang.NullPointerException
+    at inlab05.InLab05$event.actionPerformed(InLab05.java:190)
+    at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2018)
+    at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2341)
+    at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+    at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+    at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252)
+    at java.awt.Component.processMouseEvent(Component.java:6505)
+    at javax.swing.JComponent.processMouseEvent(JComponent.java:3320)
+    at java.awt.Component.processEvent(Component.java:6270)
+    at java.awt.Container.processEvent(Container.java:2229)
+    at java.awt.Component.dispatchEventImpl(Component.java:4861)
+    at java.awt.Container.dispatchEventImpl(Container.java:2287)
+    at java.awt.Component.dispatchEvent(Component.java:4687)
+    at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4832)
+    at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4492)
+    at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4422)
+    at java.awt.Container.dispatchEventImpl(Container.java:2273)
+    at java.awt.Window.dispatchEventImpl(Window.java:2719)
+    at java.awt.Component.dispatchEvent(Component.java:4687)
+    at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:735)
+    at java.awt.EventQueue.access$200(EventQueue.java:103)
+    at java.awt.EventQueue$3.run(EventQueue.java:694)
+    at java.awt.EventQueue$3.run(EventQueue.java:692)
+    at java.security.AccessController.doPrivileged(Native Method)
+    at java.security.ProtectionDomain$1.doIntersectionPrivilege(ProtectionDomain.java:76)
+    at java.security.ProtectionDomain$1.doIntersectionPrivilege(ProtectionDomain.java:87)
+    at java.awt.EventQueue$4.run(EventQueue.java:708)
+    at java.awt.EventQueue$4.run(EventQueue.java:706)
+    at java.security.AccessController.doPrivileged(Native Method)
+    at java.security.ProtectionDomain$1.doIntersectionPrivilege(ProtectionDomain.java:76)
+    at java.awt.EventQueue.dispatchEvent(EventQueue.java:705)
+    at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:242)
+    at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:161)
+    at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:150)
+    at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:146)
+    at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:138)
+    at java.awt.EventDispatchThread.run(EventDispatchThread.java:91)
+</code></pre>
+
+<p>And here is the part of the code where I believe the error lies: </p>
+
+<pre><code>public class event implements ActionListener {
+
+    public void actionPerformed(ActionEvent a) {
+        String text = a.getActionCommand();
+
+
+        if (text.equals(""1"")) {
+            result.setText(result.getText() + ""1"");
+        } else if (text.equals(""2"")) {
+            result.setText(result.getText() + ""2"");
+        } else if (text.equals(""3"")) {
+            result.setText(result.getText() + ""3"");
+        } else if (text.equals(""4"")) {
+            result.setText(result.getText() + ""4"");
+        } else if (text.equals(""5"")) {
+            result.setText(result.getText() + ""5"");
+        } else if (text.equals(""6"")) {
+            result.setText(result.getText() + ""6"");
+        } else if (text.equals(""7"")) {
+            result.setText(result.getText() + ""7"");
+        } else if (text.equals(""8"")) {
+            result.setText(result.getText() + ""8"");
+        } else if (text.equals(""9"")) {
+            result.setText(result.getText() + ""9"");
+        } else if (text.equals(""0"")) {
+            result.setText(result.getText() + ""0"");
+        } else if (text.equals(""."")) {
+            result.setText(result.getText() + ""."");
+        }
+
+
+        String str = result.getText();
+        textBox = Double.parseDouble(str);
+
+        if (a.getSource()
+                == textAdd) {
+            op = 1;
+            firstInput = textBox;
+            result.setText("""");
+        }
+
+        if (a.getSource()
+                == textSubtract) {
+            op = 2;
+            firstInput = textBox;
+            result.setText("""");
+        }
+
+        if (a.getSource()
+                == textMultiply) {
+            op = 3;
+            firstInput = textBox;
+            result.setText("""");
+        }
+
+        if (a.getSource()
+                == textDivide) {
+            op = 4;
+            firstInput = textBox;
+            result.setText("""");
+        }
+
+        if (a.getSource()
+                == textPercent) {
+            op = 5;
+            firstInput = textBox;
+            result.setText("""");
+        }
+
+        if (a.getSource()
+                == textSqrt) {
+            op = 6;
+            firstInput = textBox;
+            answer = Math.sqrt(textBox);
+            str = Double.toString(answer);
+            result.setText(str);
+        }
+
+        if (a.getSource()
+                == textSign) {
+            double neg;
+            op = 7;
+            neg = 0 - textBox;
+            str = Double.toString(neg);
+            result.setText(str);
+        }
+
+        if (a.getSource()
+                == textEqual) {
+            if (op == 1) {
+                answer = firstInput + textBox;
+                str = Double.toString(answer);
+                result.setText(str);
+            } else if (op == 2) {
+                answer = firstInput - textBox;
+                str = Double.toString(answer);
+                result.setText(str);
+            } else if (op == 3) {
+                answer = firstInput * textBox;
+                str = Double.toString(answer);
+                result.setText(str);
+            } else if (op == 4) {
+                answer = firstInput / textBox;
+                str = Double.toString(answer);
+                result.setText(str);
+            } else if (op == 5) {
+                answer = firstInput % textBox;
+                str = Double.toString(answer);
+                result.setText(str);
+            }
+
+        }
+    }
+}
+</code></pre>
+
+<p>The rest of the code is the GUI and what not.</p>
+
+<p>Does anyone know what this could be? I don't remember changing anything that I know of when I was trying to fix my decimal point issue and I changed the code back to how it previously was when it last worked</p>
+
+<p>The error says it occurs at line 190 which is <code>result.setText(result.getText() + ""1"");</code></p>
+
+<p>Of course if I click a different button the line number will change, that is just an example if the user pressed the number 1 button</p>
+
+<p>Sorry for such a long post hopefully you guys can help :)</p>
+","2271706","","2271706","","2013-10-16 18:48:09","2013-10-16 20:16:29","New to Java. Getting strange error in calculator program when pressing any button","<java><user-interface><calculator><eventqueue>","2","4","","","","CC BY-SA 3.0"
+"19410563","1","19644688","","2013-10-16 18:04:01","","0","549","<p>I'm currently attempting to make a call to a localized sqlite3 database to load particular values from multiple tables. The first request is made to fetchAllAmmoForDiamter which in turn calls fetchBCForAllAmmoModels. I can verify that my request statement is correct, as when running it in SQLite Database Browser 2.0 as a query statement, it returns the correct values. When running this on the iOS application though, it returns 0 for everything. Would anyone know why this is occurring?</p>
+
+<pre><code> - (NSArray *)fetchAllAmmoForDiameter:(NSNumber *)d
+{
+    sqlite3 *database;
+    NSMutableArray *allAmmoModels = [NSMutableArray new];
+    NSString *db = [[NSBundle mainBundle] pathForResource:@""bulletlib"" ofType:@""sqlite3""];
+
+    if (sqlite3_open([db UTF8String], &amp;database) == SQLITE_OK) {
+        double diameter = [d doubleValue];
+        NSString *query = [NSString stringWithFormat:@""SELECT _id, manufacturer_id, weight, length, model, hide_bcs FROM bullets WHERE diameter=%f ORDER BY diameter, manufacturer_id ASC"", diameter ];
+        sqlite3_stmt *statement;
+        if (sqlite3_prepare_v2(database, [query UTF8String], -1, &amp;statement, nil) == SQLITE_OK) {
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                int uniqueID = sqlite3_column_int(statement, 0);
+                int manufactureID = sqlite3_column_int(statement, 1);
+                double weight = sqlite3_column_double(statement, 2);
+                double length = sqlite3_column_double(statement, 3);
+                char *model = (char *)sqlite3_column_text(statement, 4);
+
+                //            NSLog(@""%d,%d,%f,%f %f, %s"", uniqueID, manufactureID, diameter, weight, length, model );
+
+                NSString *modelName = [NSString stringWithUTF8String:model];
+                AmmoDatabaseModel *dbModel = [[AmmoDatabaseModel alloc]initWithUniqueId:uniqueID manufactureId:manufactureID diameter:diameter weight:weight length:length andModel:modelName];
+
+                [allAmmoModels addObject:dbModel];
+            }
+
+        } else {
+            printf( ""could not prepare statemnt: %s\n"", sqlite3_errmsg(database) );
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+        [self fetchBCForAllAmmoModels:allAmmoModels];
+
+    }
+    return allAmmoModels;
+
+}
+
+
+-(void)fetchBCForAllAmmoModels:(NSArray *)ammoModels
+
+{
+    for (AmmoDatabaseModel *ammoModel in ammoModels ){
+
+        ammoModel.ballisticCoefficients = [self fetchBCForAmmoModel:ammoModel];
+
+    }
+
+
+}
+
+-(NSArray *)fetchBCForAmmoModel:(AmmoDatabaseModel *)ammoModel
+{
+    NSMutableArray *bcModels = [NSMutableArray new];
+    sqlite3 *database;
+    NSString *db = [[NSBundle mainBundle] pathForResource:@""bulletlib"" ofType:@""sqlite3""];
+
+    if (sqlite3_open([db UTF8String], &amp;database) == SQLITE_OK) {
+
+
+        NSString *query =  [NSString stringWithFormat:@""SELECT drag_func, bc, minvel FROM bullet_bcs WHERE bullet_id=%i"", [ammoModel.uniqueID intValue]];
+        sqlite3_stmt *statement;
+        if (sqlite3_prepare_v2(database, [query UTF8String], -1, &amp;statement, nil) == SQLITE_OK) {
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                int dragFunction = sqlite3_column_double(statement, 1);
+                double bc = sqlite3_column_double(statement, 2);
+                int minvel = sqlite3_column_int(statement, 3);
+                BallisticCoefficientDatabaseModel *bcModel = [[BallisticCoefficientDatabaseModel alloc] initWithDragFunction:dragFunction coefficient:bc minimumVelocity:minvel];
+                [bcModels addObject:bcModel];
+            }
+
+        } else {
+            printf( ""could not prepare statemnt: %s\n"", sqlite3_errmsg(database) );
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+
+    }
+    return bcModels;
+}
+</code></pre>
+","1710265","","1710265","","2013-10-20 04:43:27","2016-06-16 14:46:15","iOS - requesting data for multiple tables from the same database returning incorrect values","<ios><sql><objective-c><database><sqlite>","1","8","","","","CC BY-SA 3.0"
+"19410565","1","","","2013-10-16 18:04:06","","0","463","<p>Good day everyone,</p>
+
+<p>I am having a difficult time with a program of mine. It is supposed to compute all possible sides for a right triangles and push them into a vector For example [3,4,5] and [5,12,13].
+I tried running this program, but it always lists 3,4,5. Here's the header and function. Any help would be appreciated.</p>
+
+<pre><code>Header:
+/*
+ * triangles.h
+ * Header file for triangle class.
+*/
+// make sure this file is not included multiple times:
+#pragma once
+
+#include &lt;vector&gt;
+using std::vector;
+
+class triangle {
+    public:
+        // member functions:
+        // constructor:
+        triangle(unsigned long a=3, unsigned long b=4, unsigned long c=5):
+            s1(a),s2(b),s3(c) {}
+        unsigned long perimeter();
+        unsigned long area();
+        void print();  // prints to standard output
+        // member variables:
+        // integers for the 3 sides:
+        unsigned long s1;
+        unsigned long s2;
+        unsigned long s3;
+};
+
+vector&lt;triangle&gt; findRightTriangles(unsigned long l, unsigned long h);
+bool congruent(triangle t1, triangle t2);
+bool similar(triangle t1, triangle t2);
+</code></pre>
+
+<p>Function:</p>
+
+<pre><code>#include ""triangles.h"" // import the prototypes for our triangle class.
+#include &lt;iostream&gt;
+using std::cout;
+#include &lt;vector&gt;
+using std::vector;
+#include &lt;algorithm&gt;
+using std::sort;
+
+
+
+vector&lt;triangle&gt; findRightTriangles(unsigned long l, unsigned long h) {
+    // TODO: find all the right triangles with integer sides,
+    // subject to the perimeter bigger than l and less than h
+    vector&lt;triangle&gt; retval; // storage for return value.
+    triangle t1;
+    t1.s1=l;
+    t1.s3=h;
+
+    for (unsigned long p = 0; p &lt; t1.s3; p++) {
+        t1.s2=p;
+        if ( p &gt;= t1.s1 &amp;&amp; p &lt;= t1.s3 &amp;&amp; (((t1.s1*t1.s1)+(p*p)) == (t1.s3*t1.s3))){
+            retval.push_back(t1);
+
+            break;
+        }
+    }
+
+    return retval;
+}
+</code></pre>
+","2816003","","985296","","2013-10-22 15:46:57","2013-10-22 15:46:57","Right triangles program errors","<c++>","0","5","","","","CC BY-SA 3.0"
+"19410568","1","","","2013-10-16 18:04:11","","1","423","<p>I have a service in my application that makes use of <code>$http</code>, formatting requests according to a particular spec. I have been trying to run unit tests on the service's methods, using <code>$httpBackend</code> to mock up responses. I have not had any trouble with this when testing my controllers and directives that use <code>$http</code>, but with my service I have been having difficulty.</p>
+
+<p>I've been following the pattern in the first answer here:
+<a href=""https://stackoverflow.com/questions/12084410/angularjs-testing-service-method-that-uses-http-service"">AngularJS - Testing service method that uses $http service</a></p>
+
+<p>i.e., register an expected request with <code>$httpBackend</code>, define a response to it, call the service's method of interest, and then flush the backend mock.</p>
+
+<p>I'm unable to get this to work unless I inject <code>$rootScope</code>, create a new scope and run a <code>$digest()</code> on it after calling my service method of interest. This is the pattern I use with testing controllers and directives that use <code>$http</code>, as the test runner will indicate there are no pending requests to flush otherwise. However, I was not expecting this requirement in a service, as <code>scope</code> does not make a great deal of sense in one to me. Additionally, the answer in the question linked above does not indicate that this is explicitly necessary.</p>
+
+<p>After poking around in the angular source for a fairly large deal of time this morning, I determined that a promise object is made successfully for my service's <code>$http</code> request, but that the promise resolution functions registered in <code>$q.when</code>'s call to <code>nextTick()</code> never fire. Only when I add a line to digest a scope object in my servicesSpec will everything fire....</p>
+
+<p>Is this a known issue? I am using v1.2.0rc2. Are there workarounds to uncouple testing services from scope objects?</p>
+
+<p>For reference, here is the spec code that functions:</p>
+
+<pre><code>describe(""widget services"", function () {
+
+  beforeEach(module('widget.services'));
+
+  describe(""WidgetDB"", function () {
+    var service, $httpBackend, scope;
+    beforeEach(inject(function ($rootScope, WidgetDB, _$httpBackend_) {
+      scope = $rootScope.$new();
+      service = WidgetDB;
+      $httpBackend = _$httpBackend_;
+    }));
+
+    it(""should do something"", function () {
+      $httpBackend.expectPOST(myUrl).respond(myResponse);
+      service.getChartData(myArguments);
+      scope.$digest(); // why do I need this for testing services?                                                                                                              
+      $httpBackend.flush();
+      /* test evaluations */
+    });
+
+    afterEach(function () {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+
+  });
+
+});
+</code></pre>
+","1116887","","-1","","2017-05-23 12:30:12","2013-10-16 18:04:11","Unable to unit test a service that uses $http without calling scope.$digest","<unit-testing><angularjs><angular-services>","0","3","0","","","CC BY-SA 3.0"
+"19410571","1","","","2013-10-16 18:04:20","","3","673","<p>How can I view or dump cpu cache contents for x86-based architectures? Each time there is a cache flush, how can I see what/where has been flushed?</p>
+","2887306","","224132","","2023-01-25 22:11:28","2023-01-25 22:11:28","View cpu cache contents in x86 architectures","<caching><x86><cpu><cpu-architecture><cpu-cache>","2","0","","","","CC BY-SA 3.0"
+"19410574","1","","","2013-10-16 18:04:25","","0","581","<p>Is it possible for the child process to change or pass back an environment variable to the parent process?</p>
+
+<p>For example:</p>
+
+<p>I have a batch file that runs a sequence of access databases. Once the database has run through its queries i want to pass a value back to the batch file using VBA - but i can't seem to get this to work.</p>
+
+<p>I can read the parent variable by using the <code>getEnvironmentVariable</code> functions but the <code>setEnvironmentVariable</code> doesn't seems to work.</p>
+","821448","","119775","","2013-10-17 06:58:34","2013-10-17 06:58:34","parent child environment variables","<vba><batch-file><environment-variables>","2","0","","","","CC BY-SA 3.0"
+"19410576","1","","","2013-10-16 18:04:30","","0","453","<p>So I renamed my XCode 4.6.3 project in this manner:</p>
+
+<ul>
+<li><p>I closed XCode and renamed the workspace in the physical directory.</p></li>
+<li><p>I also renamed the project folder</p></li>
+<li><p>I opened XCode and renamed the project folder in the virtual directory.</p></li>
+<li><p>I tried to redirect the path in the Identity Inspector to relink the folders as described in this SO question: <a href=""https://stackoverflow.com/questions/8262613/renaming-xcode-4-project-and-the-actual-folder"">Renaming xcode 4 project and the actual folder</a>. However, the links remained red. So I tried the approach in the second answer in that same question which is: ..1.. From the Finder, open the .pbxproj file inside project bundle    (context menu ""Show Package Contents"") with any text editor. ..2.. Search and replace any occurrence of the original folder name with the new
+folder name.</p></li>
+</ul>
+
+<p>This worked. The virtual links became black instead of red and the project compiled and ran.</p>
+
+<p>HOWEVER, now I have 47 <code>Use of undeclared identifier</code> errors regarding not finding classes or constants. The project runs fine, and the classes exist and the filenames are black, but it's annoying to see all of those and it prevents me from realizing when there is a legitimate error.</p>
+
+<p>Cleaning does nothing. Closing and reopening XCode will results in one build without any errors, but the next build will show the <code>Use of undeclared identifier</code> errors.</p>
+","1154870","","-1","","2017-05-23 12:24:41","2013-11-15 22:20:03","After renaming project/workspace, multiple 'undeclared identifier' errors -- but it builds fine","<xcode>","1","3","","","","CC BY-SA 3.0"
+"19410584","1","","","2013-10-16 18:05:03","","0","41","<p>I have a code like this that generate ( with some parameter, an exception ):</p>
+
+<pre><code>$test = new MyClass($withParameter);
+</code></pre>
+
+<p>it realease a CustomException and I would catch it with a try, without letting PHP write it down in the html.</p>
+
+<p>So i tried with:</p>
+
+<pre><code>try{
+    $test = new MyClass($withParameter);
+}catch(CustomException $exc){
+    log(""handled exc"");
+}
+</code></pre>
+
+<p>but it continue to write all the backtrace in the flow, even if I handled it.
+Any suggestion? Thanks in advance</p>
+","627307","","","","","2013-10-16 18:05:03","Write only uncaught exception in php","<php><exception>","0","2","","","","CC BY-SA 3.0"
+"19410585","1","29342537","","2013-10-16 18:05:05","","5","936","<p>Adding headers with unicode_literals enabled seems to fail with Nginx, uWSGI and a simple Flask app:</p>
+
+<pre><code># -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from flask import Flask, make_response
+
+app = Flask('test')
+
+@app.route('/')
+def index():
+    response = make_response()
+    response.status_code = 401
+    response.headers = {'WWW-Authenticate': 'Basic realm=""test""'} # Fail
+    # response.headers = {b'WWW-Authenticate': b'Basic realm=""test""'} # Succeed
+    return response
+
+if __name__ == '__main__':
+    app.run(debug=True)
+</code></pre>
+
+<p>The app is available directly for debug purpose or through Nginx -> uWSGI -> Flask and works well.</p>
+
+<ul>
+<li>When I use a browser to connect directly to the app, I've got a login dialog and the
+<code>WWW-Authenticate</code> header is correct.</li>
+<li>The same request going through Nginx returns a header <code>Transfert-Encoding: chunked</code> and
+discard the <code>WWW-Authenticate</code> header.</li>
+</ul>
+
+<p>Forcing bytestring (<code>b'...') format to add the header make the app works as expected in both cases.
+The file is encoded in UTF-8 and there's a</code>coding` declaration for the Python interpreter.
+We're using Python 2.7.3, Nginx 1.4.2 and uWSGI 1.3.</p>
+
+<p>Is there any known incompatibility between Nginx or uWSGI, Flask and unicode_literals?
+Thanks!</p>
+
+<p>edit:
+The problem seems to come from uWSGI (
+<a href=""https://github.com/unbit/uwsgi/blob/master/plugins/python/wsgi_headers.c#L116"" rel=""nofollow"">https://github.com/unbit/uwsgi/blob/master/plugins/python/wsgi_headers.c#L116</a>), since it only checks for PyString and not PyUnicode for Python2, if I understand this code correctly.</p>
+
+<p>edit:
+Armin Ronacher has fixed a similar bug (<a href=""https://github.com/mitsuhiko/flask/issues/758"" rel=""nofollow"">https://github.com/mitsuhiko/flask/issues/758</a>) 5 months ago, but I didn't find the commit in werkzeug git log yet. I don't know if the fix is scoped to the <code>redirect()</code> function or more broadly on headers handling. I'm using Werkzeug 0.9.4 and Flask 0.10.1.</p>
+","265418","","265418","","2013-10-17 12:21:26","2015-03-30 09:22:00","Add headers in a Flask app with unicode_literals","<python><unicode><nginx><flask>","1","0","","","","CC BY-SA 3.0"
+"19410589","1","","","2013-10-16 18:05:14","","0","1741","<p>I have a problem with AIR Native Extensions.
+For my bachelor thesis I have to create a Multiplayer-Game on tablets, where the players communicate via Bluetooth.
+I have to implement my game with AIR, because it must work on all tablets(IPad, Samsung Tablets,...)
+I have to use AIR Native Extension, because ActionScript has no Bluetooth API.</p>
+
+<p>I have some questions concerning my topic:</p>
+
+<ol>
+<li><p>Is it true that I have to implement the native code for my extension in C? I read that Java native Code only works for Android.</p></li>
+<li><p>For a native Extension I need the native code, the ActionScript library which acts as an Interface, thats clear. But I don´t know why I need a Flex project for creating the AIR Native Extension? I just want to call the native methods from my game. I hope anybody can explain it to me.</p></li>
+</ol>
+
+<p>Thank you for helping me.</p>
+","2887464","","","","","2015-12-30 09:50:29","Adobe AIR Native Extensions","<air><bluetooth><air-native-extension>","2","0","","","","CC BY-SA 3.0"
+"19410591","1","19411467","","2013-10-16 18:05:17","","1","1976","<p>I'm working on a project that has multiple layers of architecture. These layers are in their own class library projects, but all in the same solution. At the lower layers, I've got the repository pattern going, with my models, repositories and dbcontext. On top of my repositories sits a service layer, which contains all of my business logic. Right now, my code for instantiating and using these various components looks like this, in my unit tests:</p>
+
+<pre><code>using (var context = m_kernel.Get&lt;IPortalContext&gt;())
+{
+    var accountRepository = m_kernel.Get&lt;IAccountRepository&gt;(new ConstructorArgument(""context"", context));
+    var eventRepository = m_kernel.Get&lt;IEventRepository&gt;(new ConstructorArgument(""context"", context));
+
+    var accounts = m_kernel.Get&lt;IAccountService&gt;(new ConstructorArgument(""repository"", accountRepository));
+    var events = m_kernel.Get&lt;IEventService&gt;(new ConstructorArgument(""repository"", eventRepository));
+
+    var account = accounts.GetByUsername(""test@test.com"");
+}
+</code></pre>
+
+<p>You can see I create a context, then I create my repositories and give them the existing context, finally I create my services and give them the repository. Then, I am free to use the services.</p>
+
+<p>That code is very verbose, though. I can make it cleaner by creating the repository instances inside of the services, instead of outside.</p>
+
+<p>My confusion comes while trying to do this, though. I use Ninject for my DI, and I want to create an instance of the class bound to the <code>IAccountRepository</code> interface inside of my <code>IAccountService</code> constructor. On top of that, it needs to know to use the provided <code>IPortalContext</code> as well.</p>
+
+<p>Do I have to add Ninject as dependency to my service layer project and create a new Kernel in there and use Kernel.Get() inside for the <code>IAccountService</code> constructor? Or is there a way to tell Ninject to do this all from my unit test, for example?</p>
+","1549298","","","","","2013-10-16 18:54:34","How to create a new instance of a class with Ninject, inside of a dependency project? (not in the bootstrapped project)","<c#><ninject>","1","1","","","","CC BY-SA 3.0"
+"19410598","1","19411884","","2013-10-16 18:05:33","","1","434","<p>I have a collection of lat+long values. In a given moment a new point (lat+long) is passed to application. At this moment, application should return the distances from this point to those values stored in the collection.
+Application should also be able to filter all those values that are within a given distance. Something like: Return all values that are within 10 miles (or in Kilometers) away from the point.
+Could you help to build a java algorithm to perform that task ?
+Thanks a lot</p>
+","695585","","569101","","2013-10-17 07:25:44","2013-10-17 07:25:44","How to calculate geospatial distances from a collection with lat+long info?","<java><geolocation><geocoding>","1","1","","","","CC BY-SA 3.0"
+"19410599","1","","","2013-10-16 18:05:39","","1","1114","<p>I'm redirecting my page to another page and when I went to the result, it don't show up the data. </p>
+
+<p>When I check my browser it showing variables like this </p>
+
+<pre><code>itemid=537600240%3fusername%3d&amp; 
+</code></pre>
+
+<p>I need to extract <code>itemid=537600240</code> but when I tried to do it it goes up to 
+<code>itemid=537600240?fusername</code>. </p>
+
+<p>I just need value before the ? or %3f. Need help please</p>
+","2887542","","1768303","","2013-10-17 11:56:47","2013-10-17 11:56:47","How to extract variable in the browser with %3f %3d","<php><html><web-services><browser>","4","1","","","","CC BY-SA 3.0"
+"19410600","1","19410640","","2013-10-16 18:05:40","","0","39","<p>I'm having trouble trying to understand why there is a selector after the <code>:hover</code> pseudo class, and not before it. How and why does this work? </p>
+
+<p>This works</p>
+
+<pre><code>div li:hover &gt; ul 
+{
+display: block;
+}
+</code></pre>
+
+<p>Why wouldn't this work?</p>
+
+<pre><code>div li &gt; ul:hover
+{
+display: block;
+}
+</code></pre>
+
+<p>I've done many searches trying to figure out why to put a selector or selectors after it( :hover pseudo class); and the details of how it targets it, but I just can't seem to find any information about it. Thank you in advanced!  </p>
+","2887536","","","","","2013-10-16 18:07:50","Why does the :hover pseudo class have another selector after it?","<css>","1","0","","","","CC BY-SA 3.0"
+"19410601","1","19411086","","2013-10-16 18:05:43","","1","159","<p>I'm getting an error when using jquery and I would like to know its cause:</p>
+
+<p>here is part of my code</p>
+
+<pre><code>function Wbook(name){
+this.name = name;
+}
+
+Wbook.prototype.GetHTML = function() {
+
+Object.defineProperty(this, ""GetHTML"", {enumerable : false,
+                           configurable : true});
+
+var html ='&lt;h1&gt;TEST1&lt;/h1&gt;';
+return html;
+};
+
+var rs = {};
+
+rs.WB = new Wbook('test1');
+
+var foo = rs.WB.GetHTML(); 
+$(foo).appendTo('div#id1'); // This works
+
+$(rs.WB.GetHTML()).appendTo('div#id1'); 
+// This doesn't work &gt;&gt; TypeError: rs.WB.GetHTML is not a function
+</code></pre>
+
+<p>I can also getting to work if I comment the <code>Object.defineProperty</code> section, so I'm suspecting this might have to do with the enumerability, but I'm not sure of it</p>
+
+<p>//Edit: While creating <a href=""http://jsfiddle.net/KaLBK/"" rel=""nofollow"">Jfiddle</a>, I notice <code>rs.WB.GetHTML()</code> is always failing the second time it runs :-/. (It works fine if I comment the <code>Object.defineProperty</code> section)</p>
+","2464486","","2464486","","2013-10-16 18:31:14","2013-10-16 18:47:33","TypeError when using Jquery and Object property function","<javascript><jquery>","1","0","","","","CC BY-SA 3.0"
+"19410605","1","19444830","","2013-10-16 18:05:53","","0","1522","<p>I have not been able to find an answer to how I configure the BannerPixmap for QWizard using a stylesheet or Qt Designer.  Can somebody help me out here?</p>
+","124658","","","","","2019-06-04 09:07:05","How to configure Stylesheet for QWizard","<qt>","2","3","","","","CC BY-SA 3.0"
+"19410610","1","","","2013-10-16 18:06:06","","0","1694","<p>I am trying to upgrade my setup to v3 and am encountering an issue that I am finding trouble to debug. I use vagrant to test a staging environment for my very small app. Here is what my <code>config/deploy/staging.rb</code> file looks like:</p>
+
+<pre><code>set :user, ""vagrant""
+set :stage, :staging
+set :ssh_options, {
+ keys: %w(~/.vagrant.d/insecure_private_key),
+ forward_agent: true
+}
+role :all, ""192.168.33.101"", primary: true
+
+set :domain_name, ""domain.local""
+</code></pre>
+
+<p>Here is my <code>deploy:setup</code> command for testing:</p>
+
+<pre><code>namespace :deploy do
+
+  desc 'Setup the application (NO-OP Hook)'
+  task :setup do
+    on roles(:app) do
+      execute :echo, :uptime
+    end
+  end
+
+end
+</code></pre>
+
+<p>When trying do anything, even just getting <code>uptime</code>, this is the error I get:</p>
+
+<pre><code>$ cap staging deploy:setup --trace
+** Invoke staging (first_time)
+** Execute staging
+** Invoke load:defaults (first_time)
+** Execute load:defaults
+** Invoke deploy:setup (first_time)
+** Execute deploy:setup
+ INFO [5cf8fd6d] Running /usr/bin/env echo uptime on 192.168.33.101
+ cap aborted!
+ Net::SSH::AuthenticationFailed
+ /Users/mbridges/.rbenv/versions/2.0.0-p195/lib/ruby/gems/2.0.0/gems/net-ssh-2.7.0/lib/net/ssh.rb:215:in `start'
+ /Users/mbridges/.rbenv/versions/2.0.0-p195/lib/ruby/gems/2.0.0/gems/sshkit-1.0.0/lib/sshkit/backends/netssh.rb:156:in `ssh'
+ /Users/mbridges/.rbenv/versions/2.0.0-p195/lib/ruby/gems/2.0.0/gems/sshkit-1.0.0/lib/sshkit/backends/netssh.rb:109:in `block in _execute'
+ /Users/mbridges/.rbenv/versions/2.0.0-p195/lib/ruby/gems/2.0.0/gems/sshkit-1.0.0/lib/sshkit/backends/netssh.rb:106:in `tap'
+ /Users/mbridges/.rbenv/versions/2.0.0-p195/lib/ruby/gems/2.0.0/gems/sshkit-1.0.0/lib/sshkit/backends/netssh.rb:106:in `_execute'
+ /Users/mbridges/.rbenv/versions/2.0.0-p195/lib/ruby/gems/2.0.0/gems/sshkit-1.0.0/lib/sshkit/backends/netssh.rb:54:in `execute'
+ /Users/mbridges/code/github.com/mattdbridges/cornerstone/config/deploy.rb:24:in `block (3 levels) in &lt;top (required)&gt;'
+ /Users/mbridges/.rbenv/versions/2.0.0-p195/lib/ruby/gems/2.0.0/gems/sshkit-1.0.0/lib/sshkit/backends/netssh.rb:42:in `instance_exec'
+ /Users/mbridges/.rbenv/versions/2.0.0-p195/lib/ruby/gems/2.0.0/gems/sshkit-1.0.0/lib/sshkit/backends/netssh.rb:42:in `run'
+ /Users/mbridges/.rbenv/versions/2.0.0-p195/lib/ruby/gems/2.0.0/gems/sshkit-1.0.0/lib/sshkit/runners/parallel.rb:12:in `block (2 levels) in execute'
+ Tasks: TOP =&gt; deploy:setup
+</code></pre>
+
+<p>I was able to authenticate just fine prior to the upgrade. Any ideas?</p>
+","1807693","","","","","2013-10-16 18:16:16","Capistrano Deploying to vagrant box fails to authenticate","<ruby-on-rails-4><capistrano><vagrant>","1","0","0","","","CC BY-SA 3.0"

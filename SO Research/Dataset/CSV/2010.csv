@@ -1,0 +1,3419 @@
+Id,PostTypeId,AcceptedAnswerId,ParentId,CreationDate,DeletionDate,Score,ViewCount,Body,OwnerUserId,OwnerDisplayName,LastEditorUserId,LastEditorDisplayName,LastEditDate,LastActivityDate,Title,Tags,AnswerCount,CommentCount,FavoriteCount,ClosedDate,CommunityOwnedDate,ContentLicense
+"2074394","1","2074649","","2010-01-15 19:58:09","","1","194","<p>I was wondering whether it's possible to validate a required size for an icon before trying:</p>
+
+<pre><code>Dim myIcon = New Icon(theIcon, requestedSize).
+</code></pre>
+
+<p>This falls over for negative numbers, so that's an easy check.</p>
+
+<p>It appears it falls over if the number is less than half of the smallest icon.
+I've looked at the icon class but can see nothing for extracting the sizes.</p>
+
+<p>ETA:</p>
+
+<p>This is pretty annoying. You can put Int32.MaxValue in and it chooses the largest icon. Why it doesn't choose the smallest icon, as long as size > 0 I don't know.
+If I can determine the size of the smallest icon, then I can do that myself - with no need to throw an exception.</p>
+
+<p>ETA:</p>
+
+<p>Here's some VB code for anyone who's interested:</p>
+
+<pre><code>//Returns an array of IconMetaData which contains, amongst other things, the size of
+// each image in the icon.
+
+&lt;Extension()&gt; _
+Public Function GetMetaData(ByVal icon As Icon) As IconMetaData()
+    Using s As New System.IO.MemoryStream
+        icon.Save(s)
+        Using r As New BinaryReader(s)
+            s.Position = 0
+            Dim Header As New IconHeader(r)
+            Dim Data As New List(Of IconMetaData)
+            For i As Integer = 0 To Header.NumberOfIcons - 1
+                Dim d As New IconMetaData(r)
+                *See note below. 
+                If d.Height &lt;&gt; 0 AndAlso d.Width &lt;&gt; 0 Then
+                    Data.Add(d)
+                End If
+            Next
+            Return Data.ToArray
+        End Using
+    End Using
+End Function
+
+Private Class IconHeader
+
+    Public ReadOnly NumberOfIcons As Short
+
+    Public Sub New(ByVal r As BinaryReader)
+        r.ReadInt16() //Reserved
+        r.ReadInt16() //Type, 0=Bitmap, 1=Icon
+        Me.NumberOfIcons = r.ReadInt16
+    End Sub
+
+End Class
+
+Public Class IconMetaData
+
+    Public ReadOnly Width As Byte
+    Public ReadOnly Height As Byte
+    Public ReadOnly ColorCount As Byte
+    Public ReadOnly Planes As Short
+    Public ReadOnly BitCount As Short
+
+    Friend Sub New(ByVal r As BinaryReader)
+        Me.Width = r.ReadByte
+        Me.Height = r.ReadByte
+        Me.ColorCount = r.ReadByte
+        r.ReadByte() //Reserved
+        Me.Planes = r.ReadInt16
+        Me.BitCount = r.ReadInt16
+        r.ReadInt32() //Bytes in res
+        r.ReadInt32() //Image offset
+    End Sub
+
+End Class
+</code></pre>
+
+<p>*Note: From the couple of icons i've tested this with, the first entry has dimensions of (0,0). I don't know why, and I can't be sure that all icons have this entry, or that it's always the first. Therefore, I check each one.</p>
+
+<p>ETA: On further investigation, i've found that 0 is used to indicate an icon of size 256.</p>
+","120399","","120399","","2010-01-17 13:48:21","2010-01-17 13:48:21","How to determine the dimensions of the icons in an icon object in .net, winforms?","<.net><winforms><size><icons><validation>","1","0","","","","CC BY-SA 2.5"
+"2074396","1","2074517","","2010-01-15 19:58:33","","1","315","<p>I am doing a project for school and I'm really struggling to understand how to create the code/commands for my for loop in JavaScript. Any help would be greatly appreciated.</p>
+<p>The project is basically this:</p>
+<ul>
+<li>There are two arrays: one set of 10 French words another with a set of 10 English words. They look like this:
+<pre><code>var english=new Array();
+english[0]=&quot;This hotel isn't far from the Eiffel Tower.&quot;;
+english[1]=&quot;What time does the train arrive?&quot;;
+english[2]=&quot;We have been waiting for the bus for one half-hour.&quot;;
+english[3]=&quot;This meal is delicious&quot;;
+english[4]=&quot;What day is she going to arrive?&quot;;
+english[5]=&quot;We have eleven minutes before the train leaves!&quot;;
+english[6]=&quot;Living in a foreign country is a good experience.&quot;;
+english[7]=&quot;Excuse me! I'm late!&quot;;
+english[8]=&quot;Is this taxi free?&quot;;
+english[9]=&quot;Be careful when you go down the steps.&quot;;
+
+var french=new Array();
+french[0]=&quot;Cet h&amp;#244;tel n'est pas loin de la Tour Eiffel.&quot;;
+french[1]=&quot;A quelle heure arrive le train?&quot;;
+french[2]=&quot;Nous attendons l'autobus depuis une demi-heure.&quot;;
+french[3]=&quot;Ce repas est d&amp;#233;licieux&quot;;
+french[4]=&quot;Quel jour va-t-elle arriver?&quot;;
+french[5]=&quot;Nous avons onze minutes avant le d&amp;#233;part du train!&quot;;
+french[6]=&quot;Habiter dans un pays &amp;#233;tranger est une bonne exp&amp;#233;rience.&quot;;
+french[7]=&quot;Excusez-moi! Je suis en retard!&quot;;
+french[8]=&quot;Est-ce que ce taxi est libre?&quot;;
+french[9]=&quot;Faites attention quand vous descendez l'escalier.&quot;;
+</code></pre>
+</li>
+<li>I have to create a function named <code>setUpTranslation()</code>. The purpose of the function is to place the French phrases into the document and set up the event handlers for the mouse-down and mouse-up events.</li>
+</ul>
+<p>To create the For Loop it says:</p>
+<blockquote>
+<p>create a for loop that loops through each of the objects in the phrases collection. For each object in the collection do the following:</p>
+<ol>
+<li>Change the inner content of the second child node of the object to french[i] where i is the value of the counter variable for the for loop.</li>
+<li>Run the swapFE() function in response to the mouse-down event occurring within the object's second child node</li>
+<li>Run the swapEF() function in response to a mouse-up event occurring within the object's second child node.</li>
+</ol>
+</blockquote>
+<p>Then after setting up the for loop I'm to work on the <code>swapFE()</code> and <code>swapEF()</code> functions, but right now I'm just trying to fix the for loop.</p>
+<p>Here's what I have so far for the <code>setUpTranslation</code> function:</p>
+<pre><code>function setUpTranslation() {
+   var phrases = document.getElementsByTagName(&quot;p&quot;);   
+   
+   for (i = 0; i&lt; phrases.length; i++) {
+       
+  }
+
+}
+</code></pre>
+<p>I have tried numerous code in the for loop but none of it seems to display the French phrase.</p>
+","214021","","4370109","","2022-12-31 15:23:14","2022-12-31 15:23:14","Creating a For Loop in JavaScript","<javascript><dom-events>","2","4","0","","","CC BY-SA 4.0"
+"2074397","1","2086721","","2010-01-15 19:58:42","","1","4674","<p>For my application I need to know if a Facebook Connect session is valid from the server side. </p>
+
+<p>The Javascript API lets you know if you are connected to Facebook or not, but it seems that this can't be done from the PHP client library.</p>
+
+<p>The scenario where I need it is similar to the following:</p>
+
+<ol>
+<li>Log in to <a href=""http://www.somethingtoputhere.com/therunaround"" rel=""nofollow noreferrer"" title=""The Run Around"">The Run Around</a> using Facebook connect.</li>
+<li>Open <a href=""http://www.facebook.com"" rel=""nofollow noreferrer"" title=""Facebook, duh"">Facebook</a> in another tab.</li>
+<li>Log out from the Facebook tab (not The Run Around).</li>
+<li>Go back to the Run Around tab.</li>
+<li>Enter a new entry, but deactivate the ""Publish this run to Facebook"" checkbox.</li>
+</ol>
+
+<p>After submitting the form your run will get published though you logged out before! After that call, the site will log you out because the Javascript API will try to validate your status.</p>
+
+<p>In the 5th step, the application should check with Facebook if the session has expired or not (or use a workaround). The Connect implementation of The Run Around is flawed and shouldn't be used as an example because of this security issue.</p>
+","58633","","","","","2010-01-18 14:50:58","How do I detect if a Facebook connect session hasn't expired from PHP/the server?","<php><security><session><facebook>","2","0","0","","","CC BY-SA 2.5"
+"2074399","1","2074539","","2010-01-15 19:59:05","","2","2532","<p>I sometimes import data from CSV files that were provided to me, into a mysql table.</p>
+
+<p>In the last one I did, some of the entries has a weird bad character in front of the actual data, and it got imported in my database. Now I'm looking for a way to clean it up.</p>
+
+<p>The bad data is in the mysql column 'email', it seems to be always right in front of the actual data. When trying to print it on my screen using PHP, it shows up as �. When exporting it to a CSV file, it looks like Â , and if I <code>SET CHARACTER SET utf8</code> before printing it on the screen using PHP, it looks like a normal space ' '.</p>
+
+<p>I was thinking of writing a PHP script that goes over all my rows one at a time, fix the email address field, and update the row. However I'm not quite sure about the ""fix the email"" part!</p>
+
+<p>I was thinking maybe to do a ""explode"" and use the bad character as a delimiter, but I don't know how to type that character into my code.</p>
+
+<p>Is there maybe a way to find the underlying value/utf8/hex or whatever of that character, then find it in the string?</p>
+
+<p>I hope it's clear enough.</p>
+
+<p>Thanks</p>
+
+<p>EDIT:
+In Hex, it looks like it's A0. What can I do to search and delete a character by its hex value? Either in PHP or directly in MySQL I guess ...</p>
+","25645","","25645","","2010-01-15 20:11:41","2010-01-15 20:31:08","php mysql: delete a special character from the database","<php><mysql><utf-8>","4","0","","","","CC BY-SA 2.5"
+"2074409","1","2074491","","2010-01-15 20:00:48","","10","578","<p>I'm writing a small data structures library in C#, and I'm running into an architectural problem. Essentially I have a class which implements the visitor pattern, and there are many possible implementations of visitors:</p>
+
+<pre><code>public interface ITreeVisitor&lt;T, U&gt;
+{
+    U Visit(Nil&lt;T&gt; s);
+    U Visit(Node&lt;T&gt; s);
+}
+
+public abstract class Tree&lt;T&gt; : IEnumerable&lt;T&gt;
+{
+    public readonly static Tree&lt;T&gt; empty = new Nil&lt;T&gt;();
+    public abstract U Accept&lt;U&gt;(ITreeVisitor&lt;T, U&gt; visitor);
+}
+
+public sealed class Nil&lt;T&gt; : Tree&lt;T&gt;
+{
+    public override U Accept&lt;U&gt;(ITreeVisitor&lt;T, U&gt; visitor) { return visitor.Visit(this); }
+}
+
+public sealed class Node&lt;T&gt; : Tree&lt;T&gt;
+{
+    public Tree&lt;T&gt; Left { get; set; }
+    public T Value { get; set; }
+    public Tree&lt;T&gt; Right { get; set; }
+
+    public override U Accept&lt;U&gt;(ITreeVisitor&lt;T, U&gt; visitor) { return visitor.Visit(this); }
+}
+</code></pre>
+
+<p>Anytime I want to pass in a visitor, I have to create a visitor class, implement the interface, and pass it in like this:</p>
+
+<pre><code>class InsertVisitor&lt;T&gt; : ITreeVisitor&lt;T, Tree&lt;T&gt;&gt; where T : IComparable&lt;T&gt;
+{
+    public T v { get; set; };
+
+    public Tree&lt;T&gt; Visit(Nil&lt;T&gt; s)
+    {
+        return new Node&lt;T&gt;() { Left = Tree&lt;T&gt;.empty, Value = v, Right = Tree&lt;T&gt;.empty };
+    }
+
+    public Tree&lt;T&gt; Visit(Node&lt;T&gt; s)
+    {
+        switch (v.CompareTo(s.Value))
+        {
+            case -1: return new Node&lt;T&gt;() { Left = Insert(v, s.Left), Value = s.Value, Right = s.Right };
+            case 1: return new Node&lt;T&gt;() { Left = s.Left, Value = s.Value, Right = Insert(v, s.Right) };
+            default: return s;
+        }
+    }
+}
+
+public static Tree&lt;T&gt; Insert&lt;T&gt;(T value, Tree&lt;T&gt; tree) where T : IComparable&lt;T&gt;
+{
+    return tree.Accept&lt;Tree&lt;T&gt;&gt;(new InsertVisitor&lt;T&gt;() { v = value });
+}
+</code></pre>
+
+<p>I don't like writing that much boilerplate code, because it gets very messy when you have a non-trivial number of visitor implementations.</p>
+
+<p>I want to write something similar to <a href=""http://www.developer.com/java/other/article.php/3300881/The-Essence-of-OOP-using-Java-Anonymous-Classes.htm"" rel=""nofollow noreferrer"">anonymous classes Java</a> (concept code):</p>
+
+<pre><code>public static Tree&lt;T&gt; Insert&lt;T&gt;(T v, Tree&lt;T&gt; tree) where T : IComparable&lt;T&gt;
+{
+    return tree.Accept&lt;Tree&lt;T&gt;&gt;(new InsertVisitor&lt;T&gt;()
+        {
+            public Tree&lt;T&gt; Visit(Nil&lt;T&gt; s) { return new Node&lt;T&gt;() { Left = Tree&lt;T&gt;.empty, Value = v, Right = Tree&lt;T&gt;.empty }; }
+            public Tree&lt;T&gt; Visit(Node&lt;T&gt; s)
+            {
+                switch (v.CompareTo(s.Value))
+                {
+                    case -1: return new Node&lt;T&gt;() { Left = Insert(v, s.Left), Value = s.Value, Right = s.Right };
+                    case 1: return new Node&lt;T&gt;() { Left = s.Left, Value = s.Value, Right = Insert(v, s.Right) };
+                    default: return s;
+                 }
+            }
+        };
+}
+</code></pre>
+
+<p><strong>Is there any way to simulate anonymous classes with interface implementations in C#?</strong></p>
+","40516","","22514","","2010-08-02 01:40:42","2010-08-02 01:40:42","How do I simulate anonymous classes in C#","<c#><design-patterns><anonymous-class>","1","9","0","","","CC BY-SA 2.5"
+"2074410","1","","","2010-01-15 20:01:39","","1","831","<p>My web page does not have the <code>autocomplete</code> attribute that would tell browsers not to autocomplete the field. In spite of not having this attribute, IE 8 or Safari (not sure on other browsers) does not autocomplete the page.</p>
+
+<p>Autocomplete does work on some sites (such as Gmail) so I am assuming that the browser setting is not causing it?</p>
+
+<p>Here's the code:</p>
+
+<pre><code>      &lt;tr&gt;
+        &lt;td&gt;User Id&lt;/td&gt;
+        &lt;td&gt;&lt;input name=""userId"" type=""text"" id=""userId"" runat=""server"" /&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Password&lt;/td&gt;
+        &lt;td&gt;&lt;input name=""password"" type=""password"" id=""password"" enableviewstate=""false"" runat=""server"" /&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+</code></pre>
+","102533","","3043","","2011-12-01 03:37:05","2011-12-01 03:37:05","AutoComplete field and IE","<asp.net><html><internet-explorer><autocomplete>","2","2","","","","CC BY-SA 2.5"
+"2074415","1","","","2010-01-15 20:02:24","","0","3562","<p>I found this code that is missing the function call in the last line, any ideas on what the save to file command would be?, I'll just kludge it in.</p>
+
+<pre><code>'CODE to SAVE InkPicture to FILE
+Dim objInk As MSINKAUTLib.InkPicture
+Dim bytArr() As Byte
+Dim File1 As String
+File1 = ""C:\"" &amp; TrainerSig &amp; "".gif""
+Set objInk = Me.InkPicture2.Object
+If objInk.Ink.Strokes.Count &gt; 0 Then
+    bytArr = objInk.Ink.Save(2)
+    fSaveFile bytArr, File1
+End If
+</code></pre>
+","251830","","759866","","2014-01-06 14:25:41","2018-04-09 05:44:47","I am trying to use VBA code to save inkpicture contents, can only use vb.net or C#","<vba>","2","0","","","","CC BY-SA 3.0"
+"2074418","1","2074433","","2010-01-15 20:02:32","","1","924","<p>i have an html table in my asp.net mvc view an i am running into some real estate issues with screen space.  </p>
+
+<p>I think in one area of my view i am going to have a button in a column of an html table that says ""<strong>Details</strong>"" which, when clicked, loads up some dialog ui.  what i am trying to get my head around is that i want the fields in the dialog to also be part of data binding object in the overall form which i am passing to the controller when i submit the form.</p>
+
+<p>is there anything that i should be worried about or anything that you need to do special if you have a form where inside your form you have a button that create a popup with some more details elements.  I am just trying to see from a data binding view if there are any issues.</p>
+
+<p>also any examples of doing anything similar would be great. </p>
+
+<hr>
+
+<h2>EDIT</h2>
+
+<p>So i tried doing this an ran into a binding issue.  i have a follow up question with the specifics about this binding issue with jquery ui dialog here:</p>
+
+<p><a href=""https://stackoverflow.com/questions/2077196/why-does-jquery-ui-dialog-break-the-default-model-binding"">why does jquery ui dialog break asp.net mvc&#39;s default model binding . </a></p>
+","4653","","-1","","2017-05-23 10:32:56","2010-01-16 11:48:10","binding fields in a dialog popup in my view","<asp.net-mvc><forms><dialog><data-binding>","1","0","0","","","CC BY-SA 2.5"
+"2296771","1","2296814","","2010-02-19 14:01:21","","0","55","<p>I am writing extensions to a web app that doesn't need to be localized.  As the company grows I believe there is a possibility that there may be some effort in the future to do this localization.</p>
+
+<p>Mindful of that I would like to mark all of the place that I am using country-specific date formats in an attribute on the method, for example:</p>
+
+<pre><code>            For Each exception As String In exceptionDates
+                Dim DateBits() As String = exception.Split(""/"")
+                dates.Add(New Date(Integer.Parse(DateBits(2)) _
+                               , Integer.Parse(DateBits(0)) _
+                               , Integer.Parse(DateBits(1))))
+            Next
+</code></pre>
+
+<p>Any suggestions on either what attribute to use, a generic attribute, or some other mechanism (other that putting a funky comment in the code 'NOTLOCALIZEDMOFO!).  .NET 3.5 mixed language app.</p>
+","263567","","17034","","2010-02-19 14:09:39","2010-02-19 14:09:39","Mark a method as NOT localized - .NET","<asp.net><localization>","1","2","","","","CC BY-SA 2.5"
+"2296773","1","2297006","","2010-02-19 14:01:23","","1","14985","<p>I'm trying to migrate a legacy application we have to Windows Server 2008 x64 and IIS7. It's written in Classic ASP and connects to a SQL Server 2005 database.</p>
+
+<p>However, when the page runs, I receive the error:</p>
+
+<p><code>[Microsoft][ODBC SQL Server Driver][SQL Server]Login failed for user 'NT AUTHORITY\ANONYMOUS LOGON'.</code></p>
+
+<p>The connection string I'm using is: <code>Driver=SQL Server; Server=SERVERNAME; Initial Catalog=DBNAME;</code>
+I can't see any reason for it to be using the anonymous logon as when it was running on my 32-bit Win2k3 server, it accessed the SQL Server using DOMAINNAME\SERVERNAME$.</p>
+
+<p>I have the following settings.</p>
+
+<p>SQL Server 2005 - running in mixed mode.
+IIS7 Application Pool - Allow 32-bit applications set to True.</p>
+
+<p>I've also added the server as a user on the SQL Server.</p>
+
+<p>I've tried a few things now and I'm starting to run out of ideas.</p>
+","147145","","76337","","2010-02-19 14:04:48","2017-12-18 16:52:45","""Login failed for user 'NT AUTHORITY\ANONYMOUS LOGON'."" to SQL Server 2005","<sql-server-2005><iis-7><asp-classic><windows-server-2008>","5","0","0","","","CC BY-SA 2.5"
+"2296780","1","2299095","","2010-02-19 14:01:41","","1","2322","<p>I am attempting to display a dynamically created SVG inline in a dojo based application and am running into some difficulty.</p>
+
+<p>When I navigate directly to the SVG, it renders fine in Firefox 3.5/3.6 and Chrome, but when I inline it, verifying I have the right <code>DOCTYPE</code> and XML namespaces, both Firefox and Chrome just display a pile of text from within the SVG.  I then attempted to change my content type served up to force it to be <code>application/xhtml+xml</code> but when forced into a XHTML valid mode, both Firefox and Chrome refuse to give dojo access to everything in the DOM that is required for it to work.</p>
+
+<p>The start of my document is:</p>
+
+<pre><code>&lt;?xml version=""1.0"" encoding=""ISO-8859-1"" ?&gt;
+&lt;!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd""&gt;
+&lt;html xmlns=""http://www.w3.org/1999/xhtml"" xml:lang=""en"" lang=""en""
+  xmlns:svg=""http://www.w3.org/2000/svg""
+  xmlns:v=""urn:schemas-microsoft-com:vml""
+  xmlns:xlink=""http://www.w3.org/1999/xlink""&gt;
+</code></pre>
+
+<p>And my inline SVG starts as:</p>
+
+<pre><code>&lt;svg xmlns=""http://www.w3.org/2000/svg"" width=""480"" height=""1394""&gt;
+</code></pre>
+
+<p>I have also attempted to display the SVG stand alone through an <code>&lt;img&gt;</code> tag, which seems to work fine in Chrome, but Firefox 3.5/3.6 refuses to display the SVG in a <code>dijit.ContentPane</code>, though again navigating directly to the document displays the picture.  For this I used:</p>
+
+<pre><code>&lt;img src=""test_svg.php"" /&gt;
+</code></pre>
+
+<p>And my standalone document starts with:</p>
+
+<pre><code>&lt;?xml version=""1.0"" encoding=""UTF-8"" standalone=""no""?&gt;
+&lt;!DOCTYPE svg PUBLIC ""-//W3C//DTD SVG 1.1//EN"" 
+  ""http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd""&gt;
+&lt;svg xmlns:svg=""http://www.w3.org/2000/svg"" 
+  xmlns=""http://www.w3.org/2000/svg"" 
+  version=""1.0"" width=""480"" height=""1394""&gt;
+</code></pre>
+
+<p>And I set the following header:</p>
+
+<pre><code>Content-Type: image/svg+xml
+</code></pre>
+
+<p>I would use <code>dojox.gfx</code> but I have a rather lot of server side code to generate the SVG that I wouldn't be too keen on trying to translate to <code>dojox.gfx</code> and I am pretty sure that some of the styling I do with the SVG is not easily supported under <code>dojox.gfx</code>.</p>
+","145214","","","","","2010-08-18 08:09:02","dojo and Displaying Inline SVG","<firefox><dojo><google-chrome><svg>","1","0","","","","CC BY-SA 2.5"
+"2296782","1","2296838","","2010-02-19 14:01:43","","18","41086","<p>I want to set a breakpoint on a certain line in C# code when some other variable is equal to a specific value, say:</p>
+
+<pre><code>MyStringVariable == ""LKOH""
+</code></pre>
+
+<p>How can I do that?</p>
+
+<p>I tried to right click on breakpoint icon -> Condition and then typed <code>MyStringVariable == ""LKOH""</code> and Visual Studio said it cannot evaluate it.</p>
+","207047","","63550","","2012-12-07 12:15:16","2020-11-03 09:19:59","Conditional breakpoint in Visual Studio","<c#><visual-studio><debugging><conditional-breakpoint>","7","5","0","","","CC BY-SA 3.0"
+"2296784","1","","","2010-02-19 14:02:12","","0","4305","<p>I have a vbs script which captures file information and then exports it to a csv file. I need to run the script on main drives such as C:\, E:\, I:\ and more, but each time I run for the main directory I get ""Permission Denied"" when I try to run it for a subfolder example C:\Program Files it works fine. I have tested this on different desktop machines and servers with full admin accounts and still get it.</p>
+
+<p>What could be the issue with this code. test.vbs</p>
+
+<pre><code>Option Explicit
+Dim objFS, objFld
+Dim objArgs
+Dim strFolder, strDestFile, blnRecursiveSearch
+Dim strLines()
+Dim i
+Dim strCsv
+
+    i = 0
+
+'   'Get the commandline parameters
+'   Set objArgs = WScript.Arguments 
+'   strFolder = objArgs(0)
+'   strDestFile = objArgs(1)
+'   blnRecursiveSearch = objArgs(2)
+
+    '###################################
+    'MAKE SURE THESE VALUES ARE CORRECT
+    '###################################
+    strFolder = ""C:\"" 
+    strDestFile = ""C:\Output.csv"" 
+    blnRecursiveSearch = True
+
+    'Create the FileSystemObject
+    Set objFS=CreateObject(""Scripting.FileSystemObject"")
+    'Get the directory you are working in 
+    Set objFld = objFS.GetFolder(strFolder)
+
+    'Now get the file details
+    GetFileDetails objFld, blnRecursiveSearch 
+
+    'Write the csv file
+    Set strCsv = objFS.CreateTextFile(strDestFile, True)
+    strCsv.Write Join(strLines, vbCrLf)
+
+    'Close and cleanup objects
+    strCsv.Close
+    Set strCsv = Nothing
+    Set objFld = Nothing
+    Set strFolder = Nothing
+    Set objArgs = Nothing
+
+
+Private Sub GetFileDetails(fold, blnRecursive)
+Dim fld, fil
+dim strLine(5)
+
+    If blnRecursive Then
+        'Work through all the folders and subfolders
+        For Each fld In fold.SubFolders
+            GetFileDetails fld, True 
+        Next
+    End If
+
+    'Now work on the files
+    For Each fil in fold.Files
+        strLine(0) = fil.Path
+        strLine(1) = fil.Type
+        strLine(2) = fil.Size
+        strLine(3) = fil.DateCreated
+        strLine(4) = fil.DateLastModified
+        strLine(5) = fil.DateLastAccessed
+
+        Redim Preserve strLines(i)
+        strLines(i) = Join(strLine, "","")
+        i = i + 1
+    Next
+end sub
+</code></pre>
+
+<p>Please advise and modify code if you know where the issue is.</p>
+","269561","","321731","","2014-05-15 18:51:56","2014-05-15 18:51:56","Permission Denied when running VBScript","<vb.net><vbscript><export>","1","3","","","","CC BY-SA 3.0"
+"2296797","1","","","2010-02-19 14:03:17","","0","188","<p>I have a problem connecting to IBM (universal) database using JDBC. I wrote the code in Notepad using Java and I loaded drivers of IBM database i.e(driver name and connection URl).  When I run the code using general compilation (javac code.java and java code) I am getting an error message ""cannot find the driver"" but I specified the correct driver name for that.  Actually I did this program using Eclipse using the same database with same driver name and all and finally I succeeded, but I cant get this without using an IDE.  So please help me how to connect without the IDE and how to run it in a command prompt.</p>
+","276997","","1288","","2010-02-19 14:06:48","2010-02-19 14:11:59","About the connectivity to IBM database using JDBC in Java","<java><ide><jdbc><database-connectivity>","1","1","","","","CC BY-SA 2.5"
+"2296800","1","2356528","","2010-02-19 14:03:21","","6","3433","<p>I have a window within an iPhone application, which is displayed modally to allow the user to enter their settings for a web service upon 'first run'. </p>
+
+<p>The text fields have helper text set, and when you tap them the keyboard shows and allows you to enter text.</p>
+
+<p>Unfortunately the text fields do not clear the helper text, show the edit caret or show the text being entered (as in the screenshot below).</p>
+
+<p><a href=""https://i.stack.imgur.com/C3naD.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/C3naD.png"" alt=""The wonderful issue...""></a>
+</p>
+
+<p>Any suggestions? </p>
+
+<p>The window is being displayed with <code>[self presentModalViewController:&lt;controller_name&gt; animated:YES];</code>, which may or may not be the cause of this issue - when I run the UI via the Interface Builder 'test' application the text boxes respond like normal.</p>
+
+<p><code>Clear when editing begins</code> has been set for both fields.</p>
+
+<p>Thanks in advance!</p>
+
+<p><em>Edited: More information</em>
+After the info Bart Gottschalk provided I thought I should add some more information. First, the application is a Navigation Based Application.</p>
+
+<p>Secondly, the test app Bart recommended worked fine, so that takes the modal window and the view out of the equation.</p>
+
+<p>Third, I was presenting the modal view when the <code>-(void)viewWillAppear...</code> delegate method was being called - which may very well be the wrong place... however I'm not 100% sure if I should be presenting the modal view from within the <code>didFinishLaunchingWithOptions</code> of the App Delegate...</p>
+
+<p>(this is happening on Simulator and iPhone 3.1.3)</p>
+","18434","","4751173","","2019-06-18 22:04:53","2019-06-18 22:04:53","IPhone UITextField not showing edit caret or clearing placeholder text when tapped","<iphone><uitextfield>","3","4","","","","CC BY-SA 4.0"
+"2296803","1","2296858","","2010-02-19 14:03:29","","1","530","<p>I have another newbie Python question.  I have the following piece of code that I have a feeling is not written as pythonic as it should be:</p>
+
+<pre><code>    rowindex = 0
+    while params.getfirst('myfield'+rowindex):
+        myid = params.getfirst('myfield'+rowindex)
+        # do stuff with myid
+        rowindex+=1
+</code></pre>
+
+<p>The input to this script is an HTML page that can have any number of input fields named ""myfield#"" where # starts at 0 and increases sequentially.  In Perl, I would do something more like this:</p>
+
+<pre><code>    rowindex = 0
+    while myid =  params.getfirst('myfield'+rowindex):
+        #do stuff with myid
+        rowindex+=1
+</code></pre>
+
+<p>But that is not valid syntax in Python.  I know what I have will work, but is there a better way?  Thank you.</p>
+","204880","","","","","2010-02-19 16:39:30","python basic while loop","<python><while-loop>","4","0","","","","CC BY-SA 2.5"
+"2296809","1","2297971","","2010-02-19 14:04:25","","0","7658","<p>Hi I'm using MODx on a site, but something has gone wrong with the database. Any idea how I can change the PHP to point to my database?</p>
+
+<pre><code>« MODx Parse Error »
+MODx encountered the following error while attempting to parse the requested resource:
+« PHP Parse Error »
+
+PHP error debug
+  Error:  mysql_connect() [function.mysql-connect]: Access denied for user 'sale'@'localhost' (using password: YES)  
+  Error type/ Nr.:  Warning - 2  
+  File:  /var/www/vhosts/sale.co.uk/httpdocs/manager/includes/extenders/dbapi.mysql.class.inc.php  
+  Line:  89  
+  Line 89 source:  if (!$this-&gt;conn = ($persist ? mysql_pconnect($host, $uid, $pwd) : mysql_connect($host, $uid, $pwd, true))) {   
+
+Parser timing
+  MySQL:  0.0000 s (0 Requests)
+  PHP:  0.0144 s  
+  Total:  0.0144 s  
+« MODx Parse Error »
+MODx encountered the following error while attempting to parse the requested resource:
+« Failed to create the database connection! »
+
+Parser timing
+  MySQL:  0.0000 s (0 Requests)
+  PHP:  0.0148 s  
+  Total:  0.0148 s  
+« MODx Parse Error »
+MODx encountered the following error while attempting to parse the requested resource:
+« Failed to create the database connection! »
+
+Parser timing
+  MySQL:  0.0000 s (0 Requests)
+  PHP:  0.0151 s  
+  Total:  0.0151 s  
+« MODx Parse Error »
+MODx encountered the following error while attempting to parse the requested resource:
+« Failed to create the database connection! »
+
+« MODx Parse Error »
+MODx encountered the following error while attempting to parse the requested resource:
+« Failed to create the database connection! »
+
+Parser timing
+  MySQL:  0.0000 s (0 Requests)
+  PHP:  9.8827 s  
+  Total:  9.8827 s  
+</code></pre>
+
+<hr>
+
+<p>Do I need to edit something in here?</p>
+
+<pre><code>&lt;?php
+
+/* Database API object of MySQL
+ * Written by Raymond Irving June, 2005
+ *
+ */
+
+class DBAPI {
+
+   var $conn;
+   var $config;
+   var $isConnected;
+
+   /**
+    * @name:  DBAPI
+    *
+    */
+   function DBAPI($host='',$dbase='', $uid='',$pwd='',$pre=NULL,$charset='',$connection_method='SET CHARACTER SET') {
+      $this-&gt;config['host'] = $host ? $host : $GLOBALS['database_server'];
+      $this-&gt;config['dbase'] = $dbase ? $dbase : $GLOBALS['dbase'];
+      $this-&gt;config['user'] = $uid ? $uid : $GLOBALS['database_user'];
+      $this-&gt;config['pass'] = $pwd ? $pwd : $GLOBALS['database_password'];
+      $this-&gt;config['charset'] = $charset ? $charset : $GLOBALS['database_connection_charset'];
+      $this-&gt;config['connection_method'] =  $this-&gt;_dbconnectionmethod = (isset($GLOBALS['database_connection_method']) ? $GLOBALS['database_connection_method'] : $connection_method);
+      $this-&gt;config['table_prefix'] = ($pre !== NULL) ? $pre : $GLOBALS['table_prefix'];
+      $this-&gt;initDataTypes();
+   }
+
+   /**
+    * @name:  initDataTypes
+    * @desc:  called in the constructor to set up arrays containing the types
+    *         of database fields that can be used with specific PHP types
+    */
+   function initDataTypes() {
+      $this-&gt;dataTypes['numeric'] = array (
+         'INT',
+         'INTEGER',
+         'TINYINT',
+         'BOOLEAN',
+         'DECIMAL',
+         'DEC',
+         'NUMERIC',
+         'FLOAT',
+         'DOUBLE PRECISION',
+         'REAL',
+         'SMALLINT',
+         'MEDIUMINT',
+         'BIGINT',
+         'BIT'
+      );
+      $this-&gt;dataTypes['string'] = array (
+         'CHAR',
+         'VARCHAR',
+         'BINARY',
+         'VARBINARY',
+         'TINYBLOB',
+         'BLOB',
+         'MEDIUMBLOB',
+         'LONGBLOB',
+         'TINYTEXT',
+         'TEXT',
+         'MEDIUMTEXT',
+         'LONGTEXT',
+         'ENUM',
+         'SET'
+      );
+      $this-&gt;dataTypes['date'] = array (
+         'DATE',
+         'DATETIME',
+         'TIMESTAMP',
+         'TIME',
+         'YEAR'
+      );
+   }
+
+   /**
+    * @name:  connect
+    *
+    */
+   function connect($host = '', $dbase = '', $uid = '', $pwd = '', $persist = 0) {
+      global $modx;
+      $uid = $uid ? $uid : $this-&gt;config['user'];
+      $pwd = $pwd ? $pwd : $this-&gt;config['pass'];
+      $host = $host ? $host : $this-&gt;config['host'];
+      $dbase = $dbase ? $dbase : $this-&gt;config['dbase'];
+      $charset = $charset ? $charset : $this-&gt;config['charset'];
+      $connection_method = $this-&gt;config['connection_method'];
+      $tstart = $modx-&gt;getMicroTime();
+      if (!$this-&gt;conn = ($persist ? mysql_pconnect($host, $uid, $pwd) : mysql_connect($host, $uid, $pwd, true))) {
+         $modx-&gt;messageQuit(""Failed to create the database connection!"");
+         exit;
+      } else {
+         $dbase = str_replace('`', '', $dbase); // remove the `` chars
+         if (!@ mysql_select_db($dbase, $this-&gt;conn)) {
+            $modx-&gt;messageQuit(""Failed to select the database '"" . $dbase . ""'!"");
+            exit;
+         }
+         @mysql_query(""{$connection_method} {$charset}"", $this-&gt;conn);
+         $tend = $modx-&gt;getMicroTime();
+         $totaltime = $tend - $tstart;
+         if ($modx-&gt;dumpSQL) {
+            $modx-&gt;queryCode .= ""&lt;fieldset style='text-align:left'&gt;&lt;legend&gt;Database connection&lt;/legend&gt;"" . sprintf(""Database connection was created in %2.4f s"", $totaltime) . ""&lt;/fieldset&gt;&lt;br /&gt;"";
+         }
+         $this-&gt;isConnected = true;
+         // FIXME (Fixed by line below):
+         // this-&gt;queryTime = this-&gt;queryTime + $totaltime;
+         $modx-&gt;queryTime += $totaltime;
+      }
+   }
+
+   /**
+    * @name:  disconnect
+    *
+    */
+   function disconnect() {
+      @ mysql_close($this-&gt;conn);
+   }
+
+   function escape($s) {
+      if (function_exists('mysql_real_escape_string') &amp;&amp; $this-&gt;conn) {
+         $s = mysql_real_escape_string($s, $this-&gt;conn);
+      } else {
+         $s = mysql_escape_string($s);
+      }
+      return $s;
+   }
+
+   /**
+    * @name:  query
+    * @desc:  Mainly for internal use.
+    * Developers should use select, update, insert, delete where possible
+    */
+   function query($sql) {
+      global $modx;
+      if (empty ($this-&gt;conn) || !is_resource($this-&gt;conn)) {
+         $this-&gt;connect();
+      }
+      $tstart = $modx-&gt;getMicroTime();
+      if (!$result = @ mysql_query($sql, $this-&gt;conn)) {
+         $modx-&gt;messageQuit(""Execution of a query to the database failed - "" . $this-&gt;getLastError(), $sql);
+      } else {
+         $tend = $modx-&gt;getMicroTime();
+         $totaltime = $tend - $tstart;
+         $modx-&gt;queryTime = $modx-&gt;queryTime + $totaltime;
+         if ($modx-&gt;dumpSQL) {
+            $modx-&gt;queryCode .= ""&lt;fieldset style='text-align:left'&gt;&lt;legend&gt;Query "" . ($this-&gt;executedQueries + 1) . "" - "" . sprintf(""%2.4f s"", $totaltime) . ""&lt;/legend&gt;"" . $sql . ""&lt;/fieldset&gt;&lt;br /&gt;"";
+         }
+         $modx-&gt;executedQueries = $modx-&gt;executedQueries + 1;
+         return $result;
+      }
+   }
+
+   /**
+    * @name:  delete
+    *
+    */
+   function delete($from,$where='',$fields='') {
+      if (!$from)
+         return false;
+      else {
+         $table = $from;
+         $where = ($where != """") ? ""WHERE $where"" : """";
+         return $this-&gt;query(""DELETE $fields FROM $table $where"");
+      }
+   }
+
+   /**
+    * @name:  select
+    *
+    */
+   function select($fields = ""*"", $from = """", $where = """", $orderby = """", $limit = """") {
+      if (!$from)
+         return false;
+      else {
+         $table = $from;
+         $where = ($where != """") ? ""WHERE $where"" : """";
+         $orderby = ($orderby != """") ? ""ORDER BY $orderby "" : """";
+         $limit = ($limit != """") ? ""LIMIT $limit"" : """";
+         return $this-&gt;query(""SELECT $fields FROM $table $where $orderby $limit"");
+      }
+   }
+
+   /**
+    * @name:  update
+    *
+    */
+   function update($fields, $table, $where = """") {
+      if (!$table)
+         return false;
+      else {
+         if (!is_array($fields))
+            $flds = $fields;
+         else {
+            $flds = '';
+            foreach ($fields as $key =&gt; $value) {
+               if (!empty ($flds))
+                  $flds .= "","";
+               $flds .= $key . ""="";
+               $flds .= ""'"" . $value . ""'"";
+            }
+         }
+         $where = ($where != """") ? ""WHERE $where"" : """";
+         return $this-&gt;query(""UPDATE $table SET $flds $where"");
+      }
+   }
+
+   /**
+    * @name:  insert
+    * @desc:  returns either last id inserted or the result from the query
+    */
+   function insert($fields, $intotable, $fromfields = ""*"", $fromtable = """", $where = """", $limit = """") {
+      if (!$intotable)
+         return false;
+      else {
+         if (!is_array($fields))
+            $flds = $fields;
+         else {
+            $keys = array_keys($fields);
+            $values = array_values($fields);
+            $flds = ""("" . implode("","", $keys) . "") "" .
+             (!$fromtable &amp;&amp; $values ? ""VALUES('"" . implode(""','"", $values) . ""')"" : """");
+            if ($fromtable) {
+               $where = ($where != """") ? ""WHERE $where"" : """";
+               $limit = ($limit != """") ? ""LIMIT $limit"" : """";
+               $sql = ""SELECT $fromfields FROM $fromtable $where $limit"";
+            }
+         }
+         $rt = $this-&gt;query(""INSERT INTO $intotable $flds $sql"");
+         $lid = $this-&gt;getInsertId();
+         return $lid ? $lid : $rt;
+      }
+   }
+
+   /**
+    * @name:  getInsertId
+    *
+    */
+   function getInsertId($conn=NULL) {
+      if( !is_resource($conn)) $conn =&amp; $this-&gt;conn;
+      return mysql_insert_id($conn);
+   }
+
+   /**
+    * @name:  getAffectedRows
+    *
+    */
+   function getAffectedRows($conn=NULL) {
+      if (!is_resource($conn)) $conn =&amp; $this-&gt;conn;
+      return mysql_affected_rows($conn);
+   }
+
+   /**
+    * @name:  getLastError
+    *
+    */
+   function getLastError($conn=NULL) {
+      if (!is_resource($conn)) $conn =&amp; $this-&gt;conn;
+      return mysql_error($conn);
+   }
+
+   /**
+    * @name:  getRecordCount
+    *
+    */
+   function getRecordCount($ds) {
+      return (is_resource($ds)) ? mysql_num_rows($ds) : 0;
+   }
+
+   /**
+    * @name:  getRow
+    * @desc:  returns an array of column values
+    * @param: $dsq - dataset
+    *
+    */
+   function getRow($ds, $mode = 'assoc') {
+      if ($ds) {
+         if ($mode == 'assoc') {
+            return mysql_fetch_assoc($ds);
+         }
+         elseif ($mode == 'num') {
+            return mysql_fetch_row($ds);
+         }
+         elseif ($mode == 'both') {
+            return mysql_fetch_array($ds, MYSQL_BOTH);
+         } else {
+            global $modx;
+            $modx-&gt;messageQuit(""Unknown get type ($mode) specified for fetchRow - must be empty, 'assoc', 'num' or 'both'."");
+         }
+      }
+   }
+
+   /**
+    * @name:  getColumn
+    * @desc:  returns an array of the values found on colun $name
+    * @param: $dsq - dataset or query string
+    */
+   function getColumn($name, $dsq) {
+      if (!is_resource($dsq))
+         $dsq = $this-&gt;query($dsq);
+      if ($dsq) {
+         $col = array ();
+         while ($row = $this-&gt;getRow($dsq)) {
+            $col[] = $row[$name];
+         }
+         return $col;
+      }
+   }
+
+   /**
+    * @name:  getColumnNames
+    * @desc:  returns an array containing the column $name
+    * @param: $dsq - dataset or query string
+    */
+   function getColumnNames($dsq) {
+      if (!is_resource($dsq))
+         $dsq = $this-&gt;query($dsq);
+      if ($dsq) {
+         $names = array ();
+         $limit = mysql_num_fields($dsq);
+         for ($i = 0; $i &lt; $limit; $i++) {
+            $names[] = mysql_field_name($dsq, $i);
+         }
+         return $names;
+      }
+   }
+
+   /**
+    * @name:  getValue
+    * @desc:  returns the value from the first column in the set
+    * @param: $dsq - dataset or query string
+    */
+   function getValue($dsq) {
+      if (!is_resource($dsq))
+         $dsq = $this-&gt;query($dsq);
+      if ($dsq) {
+         $r = $this-&gt;getRow($dsq, ""num"");
+         return $r[0];
+      }
+   }
+
+   /**
+    * @name:  getXML
+    * @desc:  returns an XML formay of the dataset $ds
+    */
+   function getXML($dsq) {
+      if (!is_resource($dsq))
+         $dsq = $this-&gt;query($dsq);
+      $xmldata = ""&lt;xml&gt;\r\n&lt;recordset&gt;\r\n"";
+      while ($row = $this-&gt;getRow($dsq, ""both"")) {
+         $xmldata .= ""&lt;item&gt;\r\n"";
+         for ($j = 0; $line = each($row); $j++) {
+            if ($j % 2) {
+               $xmldata .= ""&lt;$line[0]&gt;$line[1]&lt;/$line[0]&gt;\r\n"";
+            }
+         }
+         $xmldata .= ""&lt;/item&gt;\r\n"";
+      }
+      $xmldata .= ""&lt;/recordset&gt;\r\n&lt;/xml&gt;"";
+      return $xmldata;
+   }
+
+   /**
+    * @name:  getTableMetaData
+    * @desc:  returns an array of MySQL structure detail for each column of a
+    *         table
+    * @param: $table: the full name of the database table
+    */
+   function getTableMetaData($table) {
+      $metadata = false;
+      if (!empty ($table)) {
+         $sql = ""SHOW FIELDS FROM $table"";
+         if ($ds = $this-&gt;query($sql)) {
+            while ($row = $this-&gt;getRow($ds)) {
+               $fieldName = $row['Field'];
+               $metadata[$fieldName] = $row;
+            }
+         }
+      }
+      return $metadata;
+   }
+
+   /**
+    * @name:  prepareDate
+    * @desc:  prepares a date in the proper format for specific database types
+    *         given a UNIX timestamp
+    * @param: $timestamp: a UNIX timestamp
+    * @param: $fieldType: the type of field to format the date for
+    *         (in MySQL, you have DATE, TIME, YEAR, and DATETIME)
+    */
+   function prepareDate($timestamp, $fieldType = 'DATETIME') {
+      $date = '';
+      if (!$timestamp === false &amp;&amp; $timestamp &gt; 0) {
+         switch ($fieldType) {
+            case 'DATE' :
+               $date = date('Y-m-d', $timestamp);
+               break;
+            case 'TIME' :
+               $date = date('H:i:s', $timestamp);
+               break;
+            case 'YEAR' :
+               $date = date('Y', $timestamp);
+               break;
+            default :
+               $date = date('Y-m-d H:i:s', $timestamp);
+               break;
+         }
+      }
+      return $date;
+   }
+
+   /**
+    * @name:  getHTMLGrid
+    * @param: $params: Data grid parameters
+    *         columnHeaderClass
+    *         tableClass
+    *         itemClass
+    *         altItemClass
+    *         columnHeaderStyle
+    *         tableStyle
+    *         itemStyle
+    *         altItemStyle
+    *         columns
+    *         fields
+    *         colWidths
+    *         colAligns
+    *         colColors
+    *         colTypes
+    *         cellPadding
+    *         cellSpacing
+    *         header
+    *         footer
+    *         pageSize
+    *         pagerLocation
+    *         pagerClass
+    *         pagerStyle
+    *
+    */
+   function getHTMLGrid($dsq, $params) {
+      global $base_path;
+      if (!is_resource($dsq))
+         $dsq = $this-&gt;query($dsq);
+      if ($dsq) {
+         include_once MODX_BASE_PATH . '/manager/includes/controls/datagrid.class.php';
+         $grd = new DataGrid('', $dsq);
+
+         $grd-&gt;noRecordMsg = $params['noRecordMsg'];
+
+         $grd-&gt;columnHeaderClass = $params['columnHeaderClass'];
+         $grd-&gt;cssClass = $params['cssClass'];
+         $grd-&gt;itemClass = $params['itemClass'];
+         $grd-&gt;altItemClass = $params['altItemClass'];
+
+         $grd-&gt;columnHeaderStyle = $params['columnHeaderStyle'];
+         $grd-&gt;tableStyle = $params['tableStyle'];
+         $grd-&gt;itemStyle = $params['itemStyle'];
+         $grd-&gt;altItemStyle = $params['altItemStyle'];
+
+         $grd-&gt;columns = $params['columns'];
+         $grd-&gt;fields = $params['fields'];
+         $grd-&gt;colWidths = $params['colWidths'];
+         $grd-&gt;colAligns = $params['colAligns'];
+         $grd-&gt;colColors = $params['colColors'];
+         $grd-&gt;colTypes = $params['colTypes'];
+         $grd-&gt;colWraps = $params['colWraps'];
+
+         $grd-&gt;cellPadding = $params['cellPadding'];
+         $grd-&gt;cellSpacing = $params['cellSpacing'];
+         $grd-&gt;header = $params['header'];
+         $grd-&gt;footer = $params['footer'];
+         $grd-&gt;pageSize = $params['pageSize'];
+         $grd-&gt;pagerLocation = $params['pagerLocation'];
+         $grd-&gt;pagerClass = $params['pagerClass'];
+         $grd-&gt;pagerStyle = $params['pagerStyle'];
+         return $grd-&gt;render();
+      }
+   }
+
+   /**
+   * @name:  makeArray
+   * @desc:  turns a recordset into a multidimensional array
+   * @return: an array of row arrays from recordset, or empty array
+   *          if the recordset was empty, returns false if no recordset
+   *          was passed
+   * @param: $rs Recordset to be packaged into an array
+   */
+   function makeArray($rs=''){
+      if(!$rs) return false;
+      $rsArray = array();
+      $qty = $this-&gt;getRecordCount($rs);
+      for ($i = 0; $i &lt; $qty; $i++) $rsArray[] = $this-&gt;getRow($rs);
+      return $rsArray;
+   }
+
+   /**
+    * @name getVersion
+    * @desc returns a string containing the database server version
+    *
+    * @return string
+    */
+   function getVersion() {
+       return mysql_get_server_info();
+   }
+}
+?&gt;
+</code></pre>
+","169254","","143804","","2011-03-27 19:54:09","2011-03-27 19:54:09","PHP MODx mysql Parse error? Where do I change the settings?","<mysql><database><dns><modx>","2","0","","","","CC BY-SA 2.5"
+"2296810","1","2296819","","2010-02-19 14:04:29","","0","705","<p>I am having a web application created in asp.net. In that we are having designer files for my user controls. In that controls are defined like following.</p>
+
+<pre>
+<code>
+protected global::Common.Controls.ETextBox txtDummy;
+</code>
+</pre>
+
+<p>what is the meaning of global key word in above statement</p>
+","97926","","","","","2010-02-19 14:05:56","what is the meaning of global key word in .ascx designer files","<asp.net-3.5>","1","0","","","","CC BY-SA 2.5"
+"2296812","1","2401792","","2010-02-19 14:04:42","","19","10189","<p>I know the process id of an application in Mac OS X. How can I switch to it (using applescript, or python, or whatever)?</p>
+
+<p>By ""switch"", I mean, put in focus.</p>
+
+<p>The usual solution is to use the applescript code <code>tell application ""Foo"" activate</code>, but here the name is not useful because I have many instances of the same application running. I am however able to get the process id of the application.</p>
+
+<p>How can I switch to this application programmatically?</p>
+","262667","","","","","2017-01-19 05:21:43","How to activate Mac OS X application with a given process ID?","<macos><applescript>","3","0","0","","","CC BY-SA 2.5"
+"2296816","1","","","2010-02-19 14:05:48","","0","140","<p>I have a list of items which are bind to database, and I want to serialize the database rows to file (on runtime!!), and in the future to deserialize them. </p>
+
+<p>Now as we know, I have to go through all the rows in my database and create new object to each row and serialize it to the file. The prob is that if we have 10000 rows in my database, then it's 10000 allocations of objects which eventually will be serialized. </p>
+
+<p>Any idea how to avoid this mass-allocation?</p>
+
+<p>Thanks!</p>
+","273550","","2741598","","2016-12-01 04:53:45","2016-12-01 04:53:45","serializing to file on-the-fly effectively","<android>","1","0","","","","CC BY-SA 3.0"
+"2296821","1","","","2010-02-19 14:06:23","","6","2058","<p>How can we show user Warnings in a similar way to Errors. The only difference is that the control e.g. TextBox needs to have a different error template and similar to Validation.HasError there needs to be a Validation.HasWarning.</p>
+
+<p>In other words not all validation issues are ""errors"" (in our application at least). We want to visually indicate whether something is a warning or error.</p>
+","277006","","759866","","2014-08-31 15:26:56","2014-08-31 15:26:56","WPF Separate Error and Warning Styles","<wpf><validation><styles>","1","0","0","","","CC BY-SA 3.0"
+"2296822","1","3701358","","2010-02-19 14:06:23","","3","6103","<p>I got this error when tring to implement Stream connection with meta info</p>
+
+<p><code>Error #2044: Unhandled AsyncErrorEvent:. text=Error #2095: flash.net.NetConnection was unable to invoke callback onBWDone. error=ReferenceError: Error #1069: Property onBWDone not found on flash.net.NetConnection and there is no default value.
+    at SS4uOpenplayer_fla::MainTimeline/frame2()</code></p>
+
+<p>I implemented onBWDone function as like </p>
+
+<pre><code>meta.onBWDone=function(meta:Object){
+
+}
+
+meta.onMetaData = function(meta:Object)
+{
+}
+</code></pre>
+
+<p>But stil am getting the same error</p>
+","172376","","57191","","2012-10-04 19:05:16","2012-10-04 19:05:16","Flash As3 Streaming player - onBWDone","<actionscript-3><streaming>","2","0","0","","","CC BY-SA 3.0"
+"2296824","1","2296997","","2010-02-19 14:07:03","","7","11462","<p>Hay i want to find the distance (in miles) between 2 locations using lat and long values, and check if they are within a 10 mile radius of each other.</p>
+
+<p>When a user logs in, their lat/long values are saved in a session</p>
+
+<pre><code>$_SESSION['lat']
+$_SESSION['long']
+</code></pre>
+
+<p>I have 2 functions</p>
+
+<p>This one works out the distance in miles and returns a rounded value</p>
+
+<pre><code>function distance($lat1, $lng1, $lat2, $lng2){
+    $pi80 = M_PI / 180;
+    $lat1 *= $pi80;
+    $lng1 *= $pi80;
+    $lat2 *= $pi80;
+    $lng2 *= $pi80;
+    $r = 6372.797; // mean radius of Earth in km
+    $dlat = $lat2 - $lat1;
+    $dlng = $lng2 - $lng1;
+    $a = sin($dlat / 2) * sin($dlat / 2) + cos($lat1) * cos($lat2) * sin($dlng / 2) * sin($dlng / 2);
+    $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+    $km = $r * $c;
+    return floor($km * 0.621371192);
+}
+</code></pre>
+
+<p>This one returns a bool if the distance between the 2 sets of lat and long's is under 10.</p>
+
+<pre><code>function is_within_10_miles($lat1, $lng1, $lat2, $lng2){
+    $d = distance($lat1, $lng1, $lat2, $lng2);
+    if( $d &lt;= 10 ){
+        return True;
+    }else{
+        return False;
+    }
+}
+</code></pre>
+
+<p>Both functions work as expected, if i give 2 sets of lat/longs and the distance between them is say 20 miles, my is_within_10_miles() function returns false.</p>
+
+<p>Now, I have a database of 'locations' (4 fields - ID, name, lat, long).</p>
+
+<p>I want to find all locations that are within a 10 mile radius.</p>
+
+<p>Any ideas?</p>
+
+<p><strong>EDIT: I can loop through ALL the and perform the is_within_10_miles() on them like this</strong></p>
+
+<pre><code>$query = ""SELECT * FROM `locations`"";
+$result = mysql_query($query);
+
+while($location = mysql_fetch_assoc($result)){
+echo $location['name']."" is "";
+echo distance($lat2, $lon2, $location['lat'], $location['lon']);
+echo "" miles form your house, is it with a 10 mile radius? "";
+if( is_within_10_miles($lat2, $lon2, $location['lat'], $location['lon']) ){
+    echo ""yeah"";
+}else{
+    echo ""no"";
+}
+echo ""&lt;br&gt;"";
+</code></pre>
+
+<p>}</p>
+
+<p>A sample result would be</p>
+
+<pre><code>goodison park is 7 miles form your house, is it with a 10 mile radius? yeah
+</code></pre>
+
+<p>I need to somehow perform the is_within_10_miles function within my query.</p>
+
+<p>EDIT EDIT</p>
+
+<p>This legend from <a href=""http://www.zcentric.com/blog/2007/03/calculate_distance_in_mysql_wi.html"" rel=""noreferrer"">http://www.zcentric.com/blog/2007/03/calculate_distance_in_mysql_wi.html</a> came up with this...</p>
+
+<pre><code>SELECT ((ACOS(SIN($lat * PI() / 180) * SIN(lat * PI() / 180) + COS($lat * PI() / 180) * COS(lat * PI() / 180) * COS(($lon - lon) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance FROM members HAVING distance&lt;='10' ORDER BY distance ASC
+</code></pre>
+
+<p>It actually works. Problem is that i want to select * rows, rather than selecting them one by one. How do i do that?</p>
+","164230","","164230","","2010-02-19 15:56:45","2020-08-29 10:00:46","php mysql compare long and lat, return ones under 10 miles","<php><mysql>","6","1","0","","","CC BY-SA 2.5"
+"2296839","1","2298858","","2010-02-19 14:09:03","","3","2551","<p>I am currently thinking about with what pattern I should solve the following issue.</p>
+
+<p>I've got an entity called <code>IdentificationRequest</code>. This entity is used to identify a <code>Person</code> by some criteria.</p>
+
+<pre><code>public class IdentificationRequest
+{
+     public IdentificationCriteria Criteria;
+     public Person IdentifiedPerson;
+
+     protected internal virtual void RedirectToManualIdentification()
+     {
+        ChangeState(IdentificationRequestState.ManualIdentificationRequested);
+     }
+
+     public virtual void StartManualIdentification()
+     {
+        ChangeState(IdentificationRequestState.ManualIdentificationInProgress);
+     }
+
+     public virtual void AssignIdentifiedPerson(Person person)
+     {
+        identifiedPerson = person;
+        ChangeState(IdentificationRequestState.IdentificationFinished);       
+     }
+}
+
+public class IdentificationCriteria
+{
+     public string Name;
+}
+</code></pre>
+
+<p>This is a simplified example. In realitiy the <code>IdentificationRequest</code> contains much more information, as well as the <code>IdentificationCriteria</code>.</p>
+
+<p>So basically a client creates an <code>IdentificationRequest</code> with its <code>IdentificationCriteria</code> and then the correct <code>Person</code> needs to be identified. For this, the criteria needs to be passed to the persistence layer to check whether there is a person in the database matching the criteria. If not person can be found, a human interaction is then required to assign the correct <code>Person</code> to the request.</p>
+
+<p>For the process of identification I am currently using a service. Like:</p>
+
+<pre><code>    public class IdentificationService : IIdentificationService
+        {
+            private readonly IPersonRepository personRepository ;
+            private readonly IIdentificationRequestRepository identificationRequestRepository;
+
+            public IdentificationService(IPersonRepository personRepository )
+            {
+                this.personRepository = personRepository ;
+            }
+
+            public bool IdentifyPerson(IdentificationRequest identificationRequest)
+            {
+                var matches = personRepository.FindByIdentificationCriteria(identificationRequest.Criteria);
+
+                // some additional post analysis of the matches returned from the persistence layer
+                var criteriaAnalyzer = new IdentificationCriteriaAnalyzer(identificationRequest.Criteria);
+                var uniqueMatch = criteriaAnalyzer.TryIdentify(matches);
+
+                if(uniqueMatch != null)
+                {
+                    identificationRequest.AssignIdentifiedPerson(uniqueMatch);
+                    return true;
+                }
+                else
+                {
+                    identificationRequest.RedirectToManualIdentification();
+                    return false;
+                }            
+            }
+        }
+</code></pre>
+
+<p>This service is part of the domain assembly. Now my question is, if that is the right pattern to perform the identification? Or would I use a factory, to create the identification request and then directly try to identify it, like:</p>
+
+<pre><code>public class IdentificationRequestFactory
+{
+    private readonly IPersonRepository personRepository;
+
+    public IdentificationRequestFactory(IPersonRepository personRepository)
+    {
+        this.personRepository = personRepository;
+    }
+
+    public IdentificationRequest Create(IdentificationCriteria identificationCriteria)
+    {
+        var request = new IdentificationRequest(identificationCriteria);
+
+        var matches = personRepository.FindByIdentificationCriteria(identificationRequest.Criteria);
+        var criteriaAnalyzer = new IdentificationCriteriaAnalyzer(identificationRequest.Criteria);
+        var uniqueMatch = criteriaAnalyzer.TryIdentify(matches);
+
+        if(uniqueMatch != null)
+        {
+            identificationRequest.AssignIdentifiedPerson(uniqueMatch);
+
+        }
+        else
+        {
+            identificationRequest.RedirectToManualIdentification();
+
+        }
+
+        return request;
+    }
+}
+</code></pre>
+
+<p>This way, an <code>IdentificationRequest</code> can only be constructed by the factory, making sure that the process of identification is done already and the request is in a valid state.</p>
+
+<p>Or would you let the <code>IdentificationRequest</code> identify itself by doing a method injection like:</p>
+
+<pre><code>public class IdentificationRequest
+{
+    public IdentificationCriteria Criteria;
+    public Person IdentifiedPerson;
+
+    public void Identify(IPersonRepository personRepository)
+    {
+        // identification logic here
+    }
+}
+</code></pre>
+
+<p>This example would couple the process of identification to the request directly.</p>
+
+<p>What is a common pattern for such a case? Is there a common pattern anyway? What are the pros and cons?</p>
+
+<p>Thx in advance!</p>
+
+<p><strong>Update</strong></p>
+
+<p>Maybe I dont understand the command pattern correctly, but what benefits do I get of it in this case? Is the following implementation correct?</p>
+
+<pre><code>public class IdentificationCommandFactory
+{
+    private readonly IPersonRepository personRepository;
+
+    public IdentificationCommandFactory(IPersonRepository personRepository)
+    {
+
+        this.personRepository = personRepository;
+    }
+
+    public IIdentificationCommand Create(IdentificationRequest identificationRequest)
+    {
+        var matches = personRepository.FindByIdentificationCriteria(identificationRequest);
+        var criteriaAnalyzer = new IdentificationCriteriaAnalyzer(identificationRequest);
+        var uniqueMatch = criteriaAnalyzer.TryIdentify(matches);
+
+        if(uniqueMatch != null)
+        {                
+            return new AssignIdentifiedPersonCommand(identificationRequest, uniqueMatch);
+        }
+        else
+        {                
+            return new RedirectToManualIdentificationCommand(identificationRequest);
+        }    
+    }
+
+}
+
+public interface IIdentificationCommand
+{
+    void Execute();
+}
+
+public class RedirectToManualIdentificationCommand : IIdentificationCommand
+{
+    private readonly IdentificationRequest identificationRequest;
+
+    public RedirectToManualIdentificationCommand(IdentificationRequest identificationRequest)
+    {
+        this.identificationRequest = identificationRequest;
+    }
+
+    public void Execute()
+    {
+        identificationRequest.RedirectToManualIdentification();
+    }
+}
+
+public class AssignIdentifiedPersonCommand : IIdentificationCommand
+{
+    private readonly IdentificationRequest identificationRequest;
+    private readonly Person personIdentified;
+
+    public AssignIdentifiedPersonCommand(IdentificationRequest identificationRequest, Person personIdentified)
+    {
+        this.identificationRequest = identificationRequest;
+        this.personIdentified = personIdentified;
+    }
+
+    public void Execute()
+    {
+        identificationRequest.AssignIdentifiedPerson(personIdentified);
+    }
+ }
+</code></pre>
+
+<p><strong>The caller:</strong></p>
+
+<pre><code>    var identificationCommandFactory = new IdentificationCommandFactory(personRepository);
+
+    var command = identificationCommandFactory.Create(request);
+
+    command.Execute();
+</code></pre>
+","152365","","152365","","2010-02-19 19:05:50","2010-02-19 19:05:50","Factory or service pattern or method injection?","<c#><java><.net><design-patterns>","3","0","0","","","CC BY-SA 2.5"
+"2296844","1","","","2010-02-19 14:09:49","","0","4827","<p>So, I have this word template as a resource in my application.
+I want to open it to create new documents, but have no idea how to do this.</p>
+
+<p>The following code doesn't work obviously, since the add method requires a filepath (and not the resource byte[] object...
+</p>
+
+<pre class=""lang-cs prettyprint-override""><code>object tFalse = false;
+object missing = System.Reflection.Missing.Value;
+Word.Application app = null;
+Word.Document document = null;
+
+object template = Resources.MyTemplate;
+document = app.Documents.Add(ref template, ref tFalse, ref missing, ref missing);
+</code></pre>
+
+<p>But how do I access this resource file in a proper way?</p>
+","207048","","1027198","","2012-02-01 10:04:22","2018-10-09 08:29:20","Open a Word template from resource with interop word","<templates><file><interop><resources>","2","0","","","","CC BY-SA 3.0"
+"2296845","1","2298293","","2010-02-19 14:09:53","","2","5410","<p>I'm completely new to both VB.NET and JSON, and I'm trying to figure out how to do SQL queries towards an SQL 2005 Express server and format the return value to JSON. I got the queries working using this (perhaps very newbie-like) code;</p>
+
+<pre><code>Imports System
+Imports System.Data
+Imports System.Data.SqlClient
+Imports System.Web.UI
+Imports System.Web.UI.WebControls
+
+Partial Public Class SQLConnect
+Inherits System.Web.UI.Page
+'Defines SQL variables
+Dim con As New SqlConnection
+Dim cmd As New SqlCommand
+Dim dr As SqlDataReader
+Dim ReadData As String
+Dim i As Integer
+
+
+Sub Click(ByVal s As Object, ByVal e As EventArgs)
+
+    'Define SQL address, database, username and password
+    con.ConnectionString = ""Data Source=localhost\SQLEXPRESS;Initial Catalog=tempdb;User ID=tesst;Password=test""
+    Try
+        'Initialize connection
+        con.Open()
+        'Specify SQL query
+        cmd = New SqlCommand(""SELECT * FROM Member"", con)
+        'Execute query, dump result array into variable
+        dr = cmd.ExecuteReader()
+        messageLabel.Text = ""&lt;br /&gt;Connection established&lt;br /&gt;""
+
+        While (dr.Read)
+            i = 0
+            For i = 0 To dr.FieldCount - 1
+                'Dump query results into a variable
+                ReadData += dr.Item(i).ToString
+            Next
+        End While
+
+        'Print query results
+        messageLabel2.Text = ReadData
+        'Close connection
+        con.Close()
+    Catch ex As Exception
+        messageLabel.Text = ""&lt;br /&gt;Connection failed&lt;br /&gt;""
+    End Try
+
+
+    End Sub
+End Class
+</code></pre>
+
+<p>I have been looking at <a href=""http://msdn.microsoft.com/en-us/library/system.web.mvc.jsonresult.aspx"" rel=""nofollow noreferrer"">this</a>, and I would love to see some code examples using this class or any other good method.</p>
+
+<p>Any help would be much appreciated, any points and tips you might have.</p>
+","263023","","","","","2010-02-19 17:27:41","SQL queries through VB.NET and JSON","<asp.net><sql><vb.net><json>","3","0","","","","CC BY-SA 2.5"
+"2296846","1","","","2010-02-19 14:09:57","","7","3818","<p>I already use django-registration : you can register with an email verification, you can reset password with an email confirmation but there is no way to change user's email with an email verification.</p>
+
+<p>Do you know a django application which gives the ability to change user's email address by sending to the new address a verification e-mail ? </p>
+","243483","","746010","","2012-01-29 02:49:10","2012-06-21 19:08:05","django apps for changing user email with verification?","<django><email><registration><profile>","3","1","0","","","CC BY-SA 3.0"
+"2296850","1","2296876","","2010-02-19 14:10:36","","2","591","<p>I may of worded the title completely wrong, but basically, I have the following base class:</p>
+
+<pre><code>public class ScheduleableService&lt;T&gt; : ServiceBase
+        where T : IJob
+{
+        var x = typeof(T);
+}
+</code></pre>
+
+<p>The implementation of this is something like:</p>
+
+<pre><code>public class MyScheduledService: ScheduleableService&lt;MyScheduledJob&gt;
+{
+    //MyScheduledJob implements IJob
+}
+</code></pre>
+
+<p>Basically, what I need, is in my base class ScheduleableService, to be able to get hold of the MyScheduledService type-
+Is there any way I can do this without passing it in.</p>
+
+<p>The following works, however is ugly.....</p>
+
+<pre><code>public class ScheduleableService&lt;T, S&gt; : ServiceBase
+    where T : IJob
+    where S : ServiceBase
+{
+
+    var x = typeof(T);
+    var y = typeof(S);
+}
+</code></pre>
+
+<p>implementation:</p>
+
+<pre><code>public class MyScheduledService: ScheduleableService&lt;MyScheduledJob,
+                                                     MyScheduledService&gt;
+{
+    //MyScheduledJob implements IJob
+}
+</code></pre>
+","131809","","41956","","2011-07-06 09:56:13","2011-07-06 09:56:13","Get the implemented type from a Generic Base Class","<c#><generics><inheritance><base-class>","2","1","","","","CC BY-SA 3.0"
+"2296851","1","2297413","","2010-02-19 14:10:53","","0","964","<p>I'm trying to write a class that its constructor takes as argument a String ( which is an image in my directory ie: jpg ) and load the corresponding image via a loader object in memory. I also provide function getBitmapFromLoader() to get the bitmap of the loader in order to use it from another class.</p>
+
+<pre><code>public class LoadImage extends Loader
+{
+    private var bitmap:Bitmap;
+    private var ldr:Loader;
+
+    public function LoadImage(nameURL:String):void
+    {
+        trace(""LoadImage constructor"");
+        ldr = new Loader();
+        ldr.contentLoaderInfo.addEventListener(Event.COMPLETE, completeHandler);
+        ldr.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, ioErrorEventHandler);
+        var request:URLRequest = new URLRequest(nameURL);
+        ldr.load(request);
+    }
+
+    /* methods */
+    public function getBitmapFromLoader():Bitmap
+    {
+        return bitmap;
+    }
+
+    public function toSprite():Sprite
+    {
+        trace(""toSprite method"");
+        var sprite:Sprite = new Sprite();
+        sprite.addChild(bitmap);
+        return sprite;
+    }
+
+    public function toMovieClip():MovieClip
+    {
+        trace(""toMovieClip method"");
+        var mvc:MovieClip = new MovieClip();
+        mvc.addChild(bitmap);
+        return mvc;
+    }
+
+    private function completeHandler(event:Event):void
+    {
+        trace(""completeHandler "" + event.currentTarget);
+        bitmap = new Bitmap();
+        bitmap = Bitmap(event.currentTarget.content);
+    }
+
+    private function ioErrorEventHandler(event:IOErrorEvent):void
+    {
+        trace(""ioErrorEventHandler "" + event.currentTarget);
+        trace(""error on loading image: "" + event.currentTarget.url);
+        bitmap = null;
+    }
+}
+}
+</code></pre>
+
+<p>but it does not work.
+ This is what flash outputs:
+<code>
+Main constructor
+LoadImage constructor
+toSprite method
+TypeError: Error #2007: Parameter child must be non-null.
+    at flash.display::DisplayObjectContainer/addChild()
+    at loader::LoadImage/toSprite()
+    at Main()
+completeHandler [object LoaderInfo]
+</code></p>
+
+<p>This is how i use it from a main class:
+<code>
+package
+{
+    import loader.*;</p>
+
+<pre><code>import flash.display.MovieClip;
+import flash.display.Sprite;
+
+public class Main extends MovieClip
+{
+    /* properties */
+
+    /* constructor */
+    public function Main():void
+    {
+        trace(""Main constructor"");
+        var imgLdr:LoadImage = new LoadImage(""smile_bg.jpg"");
+        var spr1:Sprite = imgLdr.toSprite();
+        //this.width = spr1.width;
+        //this.height = spr1.height;
+        this.addChild(spr1);
+    }
+
+    /* methods */
+
+}
+</code></pre>
+
+<p>}
+</code></p>
+","216675","","216675","","2010-02-19 15:55:34","2010-02-19 15:55:34","Can an Event Handler return a value?","<flash><actionscript-3>","1","4","","","","CC BY-SA 2.5"
+"2296853","1","2296914","","2010-02-19 14:11:04","","2","1057","<p>I have a UserControl (lets say Foo.ascx) that has a Type public property with the name Bar.
+I am looking for a way that when i declare this usercontrol in the source view of the markup part to pass a type. for example</p>
+
+<pre><code>&lt;%@ Register Src=""~/Controls/Foo.ascx"" TagPrefix=""prfx"" TagName=""fooCtrl"" %&gt;
+</code></pre>
+
+<p>and then use it as</p>
+
+<pre><code>&lt;prfx:fooCtrl ID=""theId"" runat=""server"" /&gt;
+</code></pre>
+
+<p>if for example i wanted to pass to the control the type of string (such as typeof(string))
+something that would have this effect</p>
+
+<pre><code>&lt;prfx:fooCtrl ID=""theId"" runat=""server"" Bar=""typeof(string)"" /&gt;
+</code></pre>
+
+<p>how can it be done?
+Before anyone asks, the reason is that i have many other properties in this usercontrol that i pass in this manner and i want to avoid using the CodeBehind just to pass the Type</p>
+","109338","","109338","","2010-02-19 14:56:02","2010-02-21 14:38:55","How to pass a Type to a UserControl","<c#><asp.net><visual-studio><intellisense>","2","0","0","","","CC BY-SA 2.5"
+"2296856","1","","","2010-02-19 14:11:32","","6","4626","<p>I want to connect two devices using the GKSession, starting one as a server and the other one as a client. Using this configuration I can't use the GKPeerPickerController.</p>
+
+<p>I'm having problems for connecting the two devices:</p>
+
+<ul>
+<li>Using only bluetooth: impossible</li>
+<li>using WiFi: at least there are some data exchange between the devices but no successfully conection.</li>
+</ul>
+
+<p>In the interface file I have the </p>
+
+<pre><code>GKSessionDelegate
+GKSession *session;
+</code></pre>
+
+<p>In the implementation, I start the server using this code:</p>
+
+<pre><code>session = [[GKSession alloc] initWithSessionID:@""iFood""  displayName:nil sessionMode:GKSessionModeClient];
+session.delegate = self;
+session.available = YES;
+</code></pre>
+
+<p>The client starts using this code:</p>
+
+<pre><code>session = [[GKSession alloc] initWithSessionID:@""iFood""  displayName:nil sessionMode:GKSessionModeServer];
+session.delegate = self;
+session.available = YES;
+</code></pre>
+
+<p>How I can force the use of Bluetooth instead of the WiFi ?</p>
+
+<p>Also I have implemented those calls:</p>
+
+<pre><code>-(void)session:(GKSession *)session didReceiveConnectionRequestFromPeer:(NSString *)peerID {
+NSLog(@""Someone is trying to connect""); 
+}
+
+- (BOOL)acceptConnectionFromPeer:(NSString *)peerID error:(NSError **)error {
+NSLog(@""acceptConnectionFromPeer"");
+}
+</code></pre>
+
+<p>When I start, I get this into the debugger:</p>
+
+<pre><code>Listening on port 50775
+2010-02-19 14:55:02.547 iFood[3009:5103] handleEvents started (2)
+</code></pre>
+
+<p>And when the other device starts to find, I get this:</p>
+
+<pre><code>~ DNSServiceBrowse callback: Ref=187f70, Flags=2, IFIndex=2 (name=[en0]), ErrorType=0 name=00eGs1R1A..Only by Audi regtype=_2c3mugr67ej6j7._udp. domain=local.
+~ DNSServiceQueryRecord callback: Ref=17bd40, Flags=2, IFIndex=2 (name=[en0]), ErrorType=0 fullname=00eGs1R1A\.\.Only\032by\032Audi._2c3mugr67ej6j7._udp.local. rrtype=16 rrclass=1 rdlen=18 ttl=4500
+** peer 1527211048: oldbusy=0, newbusy=0
+~ DNSServiceBrowse callback: Ref=187f70, Flags=2, IFIndex=-3 (name=[]), ErrorType=0 name=00eGs1R1A..Only by Audi regtype=_2c3mugr67ej6j7._udp. domain=local.
+GKPeer[186960] 1527211048 service count old=1 new=2
+~ DNSServiceQueryRecord callback: Ref=17bd40, Flags=2, IFIndex=-3 (name=[]), ErrorType=0 fullname=00egs1r1a\.\.only\032by\032audi._2c3mugr67ej6j7._udp.local. rrtype=16 rrclass=1 rdlen=18 ttl=7200
+** peer 1527211048: oldbusy=0, newbusy=0
+~ DNSServiceBrowse callback: Ref=187f70, Flags=2, IFIndex=-3 (name=[]), ErrorType=0 name=00TF5kc1A..Only by Audi regtype=_2c3mugr67ej6j7._udp. domain=local.
+~ DNSServiceQueryRecord callback: Ref=188320, Flags=2, IFIndex=-3 (name=[]), ErrorType=0 fullname=00tf5kc1a\.\.only\032by\032audi._2c3mugr67ej6j7._udp.local. rrtype=16 rrclass=1 rdlen=18 ttl=7200
+** peer 1723356125: oldbusy=0, newbusy=0
+~ DNSServiceQueryRecord callback: Ref=188320, Flags=2, IFIndex=2 (name=[en0]), ErrorType=0 fullname=00TF5kc1A\.\.Only\032by\032Audi._2c3mugr67ej6j7._udp.local. rrtype=16 rrclass=1 rdlen=18 ttl=4500
+** peer 1723356125: oldbusy=0, newbusy=0
+</code></pre>
+
+<p>What I'm missing here ?</p>
+
+<p>I'm sure that both devices have bluetooth enabled and connected into the same WiFi.</p>
+
+<p>thanks,</p>
+
+<p>r.</p>
+","266276","","266276","","2010-02-19 15:46:53","2013-03-11 16:28:41","GameKit: GKSession manual","<iphone><gamekit>","2","1","0","","","CC BY-SA 2.5"
+"3274612","1","","","2010-07-18 06:50:27","","0","11542","<blockquote>
+  <p><strong>Possible Duplicate:</strong><br>
+  <a href=""https://stackoverflow.com/questions/890966/what-is-string-args-in-java"">What is &ldquo;String args[]&rdquo;? in Java</a>  </p>
+</blockquote>
+
+
+
+<p>What is the purpose of this method in java. If we not use what happens?
+If i give some array size then what happens</p>
+","395002","","-1","","2017-05-23 11:52:02","2010-07-18 07:27:44","what is the use of string args[] in main method","<java>","5","0","0","2010-07-19 18:33:56","","CC BY-SA 2.5"
+"3274616","1","3274618","","2010-07-18 06:51:12","","2","288","<p>So I've got json-framework up and running on my project, but need help figuring out how to use it to parse this json string:</p>
+
+<pre><code>[
+    {
+    ""id"":""0"",
+    ""name"":""name"",
+    ""info"":""This is info"",
+    ""tags"":
+        [ 
+            {
+            ""id"":""36"", 
+            ""tag"":""test tag""
+            },
+            { 
+            ""id"":""37"",
+            ""tag"":"" tag 2""
+            } 
+        ],
+    ""other"":""nil""
+    },
+    { 
+    ""id"":""1"",
+    ""name"":""name"",
+    ""info"":""This is info"",
+    ""tags"":
+        [ 
+            { 
+            ""id"":""36"",
+            ""tag"":""test tag"" 
+            },
+            {
+            ""id"":""37"",
+            ""tag"":"" tag 2""
+            } 
+        ], 
+    ""other"":""nil""
+} 
+</code></pre>
+
+<p>]</p>
+
+<p>Any help and maybe sample code on how to go about this <strong>specific</strong> type of json would be great. Somehow I can't get it into a dictionary I can read out of. Thanks so much.</p>
+","288125","","1192568","","2013-01-04 09:06:35","2013-01-04 09:06:35","Need help using json-framework on iPhone","<iphone><ios><json><parsing>","1","0","0","","","CC BY-SA 3.0"
+"3274619","1","","","2010-07-18 06:54:06","","0","363","<p>Below is simplified version of a game I am creating. Basically, the game have some circles. Each circle shoot bullets that is dispatched with timerEvent. When the circle is clicked it is removed from the stage. However, the bullet still keeps on dispatching. I couldn't figure out how to stop timerEvent of each individual circle when it is clicked.</p>
+
+<pre><code>var _timer:Timer = new Timer(1000);
+var speed:int = 20;
+
+for(var i:int=0; i&lt;= 3; i++)
+{
+    var _shape:MovieClip = new MovieClip();
+    _shape.graphics.beginFill(0x999999);
+    _shape.graphics.lineStyle(1, 0x000000);
+    _shape.graphics.drawCircle(0, 0, 20);
+    _shape.graphics.endFill();
+    addChild(_shape);
+    _shape.x = (stage.stageWidth)/5;
+    _shape.y = (stage.stageHeight)/3 + _shape.height*i*1.5;
+    _shape.name = ""_shape""+i;
+    _shape.buttonMode = true;
+
+    _shape.addEventListener(MouseEvent.CLICK, removeMovieClip);
+    bullets(_shape);
+}
+
+function bullets(_shape:MovieClip):void
+{
+     _timer = new Timer(Math.random()*100);
+     _timer.addEventListener(TimerEvent.TIMER, startFiring);
+     _timer.start();
+
+     function startFiring(e:TimerEvent):void
+     {
+         speed ++;
+         var _bullet:MovieClip = new MovieClip();
+         _bullet.graphics.beginFill(0x999999);
+         _bullet.graphics.lineStyle(1, 0x000000);
+         _bullet.graphics.drawRect(0, 0, 5,2);
+         _bullet.graphics.endFill();
+         addChild(_bullet);
+         _bullet.x = _shape.x + speed ;
+         _bullet.y = _shape.y; 
+      }
+}
+
+function removeMovieClip(e:MouseEvent):void
+{
+     removeChild(getChildByName(e.currentTarget.name));
+     // how to stop the timerEvent of clicked circle?
+}
+</code></pre>
+","395000","","1033581","","2018-06-12 13:42:15","2018-06-12 13:42:15","Handling Multiple TimerEvent","<actionscript-3><event-handling>","1","0","","","","CC BY-SA 4.0"
+"3274625","1","3274633","","2010-07-18 06:56:14","","0","56","<p>I have an element where I'm already using the <code>rel</code> attribute, but I would also like to add another attribute that I'll be using in JavaScript.</p>
+
+<pre><code>&lt;a href=""/"" rel=""blah"" foo=""bar""&gt;Link&lt;/a&gt;
+</code></pre>
+
+<p>Is it alright to add other attributes? Or is there a better option?</p>
+","5441","","","","","2010-07-18 07:03:27","How bad is it to add other attribute to an element or what other options are there?","<javascript><html>","2","0","","","","CC BY-SA 2.5"
+"3274629","1","3274774","","2010-07-18 06:57:38","","28","23420","<p>My WPF application is organized as a TabControl with each tab containing a different screen.</p>
+
+<p>One TabItem is bound to data that takes a little while to load. Since this TabItem represents a screen that users may only rarely use, I would like to not load the data until the user selects the tab.</p>
+
+<p>How can I do this?</p>
+","345372","","","","","2021-01-19 18:43:38","Lazy loading WPF tab content","<.net><wpf>","7","0","0","","","CC BY-SA 2.5"
+"3274630","1","3274821","","2010-07-18 06:58:00","","2","2102","<p>How can I add index to an 18 GB innodb mysql table without affecting the production performance? The table is frequently accessed, I tried altering the table just now and it turns up to have locked more than 200 queries out, and that's bad for performance. Are there any other ways to do it?</p>
+","247430","","","","","2014-03-31 17:46:35","How to add index to 18 GB innodb mysql table without affecting production performance?","<php><mysql>","3","2","0","","","CC BY-SA 2.5"
+"3274634","1","3275061","","2010-07-18 06:58:51","","1","500","<p>I am building <a href=""http://vaths.awardspace.info/testmobile"" rel=""nofollow noreferrer"">this</a> mobile website. </p>
+
+<p>If you check it on your mobile browser it should fit in such that there is no horizontal scrolling. (Content should only be vertically stacked).
+Can someone help me in fixing the CSS of the page. Just let me know what the correct CSS should be so as to auto adjust for different mobile phones. </p>
+
+<p>CSS of this page can be found <a href=""http://vaths.awardspace.info/testmobile/inc/css/style.css"" rel=""nofollow noreferrer"">here</a>. Basically, two main components I guess. (body and content).</p>
+
+<p>Also, I used <a href=""http://wap.cinema.de/op/cinema/de/ct/"" rel=""nofollow noreferrer"">this</a> mobile website as a sample. Please refer to its inline CSS by viewing the source of that page.</p>
+
+<p>Thanks</p>
+","356186","","","","","2010-07-18 10:00:07","Problem with CSS for mobile website","<html><css><mobile>","1","1","","","","CC BY-SA 2.5"
+"3274637","1","3274692","","2010-07-18 07:00:41","","4","457","<p>Assume there's a relational database with 3 tables:</p>
+
+<pre><code>Courses {name, id},
+Students {name, id},
+Student_Course {student_id, course_id}
+</code></pre>
+
+<p>I want to write an SQL that gives me the student-course pairs that do NOT exist. If that is not feasible, at least it'd be good to know if there are missing pairs or not.</p>
+
+<p>Also, since this is a small part of a larger problem I'd like to automate, seeing many different ways of doing it would be useful.</p>
+","24461","","13302","","2010-07-18 08:21:38","2010-07-18 08:21:38","Find Missing Pairs in SQL","<sql>","2","0","","","","CC BY-SA 2.5"
+"3274638","1","3274644","","2010-07-18 07:00:55","","0","102","<p>i dont know what is wrong with this code.. it will just don't work even if it has the same syntax with the other one..</p>
+
+<pre><code>$(document).ready(function(){ 
+$(""#inner"").animate({height:'200',top:'-100'},1000);
+  $(""#inner"").animate({width:'200',margin-left:'-100'},1000);
+});
+</code></pre>
+
+<p>you can see the example <a href=""http://jsfiddle.net/qmuYq/3/"" rel=""nofollow noreferrer"">here</a>..</p>
+","403971","","","","","2010-07-18 07:24:36","jquery animation","<jquery>","2","1","","","","CC BY-SA 2.5"
+"3274640","1","3279184","","2010-07-18 07:01:48","","2","1383","<p>I'm authoring a gem and would like to copy template files that are packaged in my gem into the local directory that the gem is being called from.</p>
+","65311","","","","","2013-03-22 19:16:54","How do I copy files from a gem to the local directory","<ruby><rubygems>","1","0","0","","","CC BY-SA 2.5"
+"3274645","1","3274790","","2010-07-18 07:03:42","","3","1005","<p>Ok,</p>
+
+<p>I have developed this WinForms client, which interacts with a server (ASPX Application) by means of WCF calls. I would now like to deploy the server to my shared webhost, but I'm kinda new to WCF and especially the security possibilities behind it.</p>
+
+<p>The goal is to kind of secure the WCF service, so that not everybody that knows or finds out the endpoint address can call it. Rather, only my WinForms client must be able to call the WCF service.</p>
+
+<p>I do not need authentication on a user basis, so no authentication is required from the user of the client. <strong>But I want only instances of this WinForms client to be able to interact with the service.</strong> The information passed between server and client is not very sensitive, so it's not really required to secure it, but it's a plus if it can easily be done.</p>
+
+<p>Is this possible with a Shared Host (IIS) environment (no HTTPS at disposal) ? What bindings and options should I use ? I suppose wsHttpBinding, but how would I setup the security options ?</p>
+
+<p>Using .NET 4.0</p>
+
+<p>Thanks</p>
+","249245","","249245","","2010-07-18 07:29:39","2010-07-19 05:01:40","WCF security between WinForms client and Shared Host webserver","<winforms><wcf><security><iis><wcf-security>","2","1","0","","","CC BY-SA 2.5"
+"3274648","1","3274686","","2010-07-18 07:05:02","","1","4964","<p>i have this in my query:</p>
+
+<pre><code>var results = (from urls in _context.Urls
+               join documents in _context.Documents on urls.UrlId equals documents.DocumentId
+               let words = (from words in _context.Words
+                            join hits in _context.Hits on words.WordId equals hits.WordId
+                            where hits.DocumentId == documents.DocumentId
+                            select words.Text).AsEnumerable&lt;string&gt;()
+
+                where urls.ResolvedPath.Contains(breakedQuery, KeywordParts.Url, part) ||
+                      documents.Title.Contains(breakedQuery, KeywordParts.Title, part) ||
+                      documents.Keywords.Contains(breakedQuery, KeywordParts.Keywords, part) ||
+                      documents.Description.Contains(breakedQuery, KeywordParts.Description, part) ||
+                      words.Contains(breakedQuery, KeywordParts.Content, part) ...
+</code></pre>
+
+<p>and Contains extension method:</p>
+
+<p><strong>for strings</strong></p>
+
+<pre><code>public static bool Contains(this string source, IEnumerable&lt;string&gt; values, KeywordParts valuePart, KeywordParts part)
+    {
+        if (!string.IsNullOrWhiteSpace(source))
+            return source.Split(' ').AsEnumerable&lt;string&gt;().Contains(values, valuePart, part);
+        return false;
+    }
+</code></pre>
+
+<p><strong>for enumerables (main method)</strong></p>
+
+<pre><code>public static bool Contains(this IEnumerable&lt;string&gt; source, IEnumerable&lt;string&gt; values, KeywordParts valuePart, KeywordParts part)
+    {
+        if (source != null &amp;&amp; source.Count() &gt; 0 &amp;&amp;
+            values != null &amp;&amp; values.Count() &gt; 0 &amp;&amp;
+            (part == KeywordParts.Anywhere || valuePart == part))
+        {
+            foreach (var value in values)
+            {
+                var has = false;
+                var none = (value.StartsWith(""-""));
+                string term = value.Replace(""-"", """");
+
+                if (none)
+                    has = source.Any(q =&gt; !q.Contains(value));
+                else
+                    has = source.Any(q =&gt; q.Contains(values));
+
+                if (has)
+                    return has;
+            }
+        }
+        return false;
+    }
+</code></pre>
+
+<p>and using Contains method throws exception <strong>NotSupportedException: Method 'Boolean Contains(String, IEnumerable`1[String], KeywordParts, KeywordParts)' has no supported translation to SQL.</strong></p>
+
+<p>actually i want to check each indexed document if have at lease one of specified conditions</p>
+","132917","","","","","2014-09-03 23:55:26","Method 'Boolean Contains..' has no supported translation to SQL","<c#><linq-to-sql><.net-4.0>","5","0","","","","CC BY-SA 2.5"
+"3274650","1","3274662","","2010-07-18 07:06:52","","2","344","<p>does Boo have a garbage collector?
+what type?</p>
+","284813","","667301","","2011-12-15 10:02:25","2011-12-15 10:02:25","Boo, garbage collector","<garbage-collection><boo>","2","0","0","","","CC BY-SA 2.5"
+"3274651","1","","","2010-07-18 07:07:13","","1","34","<p>im trying to use plugins such as 'tweetquote' , im changing lang:en to lang:he
+but it isnt working..</p>
+
+<p>any suggestions?</p>
+","364580","","","","","2010-07-18 07:07:13","Twitter plugins arent working with hebrew","<jquery>","0","1","","","","CC BY-SA 2.5"
+"3440366","1","3440372","","2010-08-09 13:18:24","","8","37332","<p>I have a <code>PictureBox</code> control I want to display an image in it. I saved my images in a MS Access database with this data type: <code>OLE Object</code>.
+I find it hard to display it again. Please take a look at my code, and can you guys please devise a solution for it. I got this <code>Exception</code>: </p>
+
+<pre><code>Unable to cast object of type 'System.Byte[]' to type 'System.Drawing.Image'.
+</code></pre>
+
+<p>Here's my code:</p>
+
+<pre><code>OleDbCommand cmd = new OleDbCommand(""SELECT IMAGE FROM IMAGES WHERE ID = 1"", myConn));
+            cmd.CommandType = CommandType.Text;
+            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+            DataTable dt = new DataTable(""dt"");
+            da.Fill(dt);
+
+            if (dt != null)
+            {              
+                pictureBox1.Image = (Image)dt.Rows[0][""IMAGE""];
+            }
+</code></pre>
+","396335","","","","","2015-07-10 19:57:51","How can I convert System.Byte[] to Image? (C# window forms)","<c#>","1","0","0","","","CC BY-SA 2.5"
+"3440370","1","","","2010-08-09 13:18:32","","2","1595","<p>i have set  a svn server on linux. I have created a repository, projects inside it with folder structure branches,tags,trunk with command svn import . I have a problem that i can see a complete directory structure and files in folder from client side (using eclipse + subclips)  but i am not getting the where will server stores files ?</p>
+
+<p>Please if any one has solution reply me.</p>
+
+<p>in short i can't get the location of project files on server (repository) </p>
+
+<p>when i run command svn ls --- it will show all project list</p>
+","415117","","139459","","2010-08-09 13:19:37","2010-08-09 14:21:30","SVN server not showing repository files","<svn>","1","0","","","","CC BY-SA 2.5"
+"3440371","1","","","2010-08-09 13:18:43","","2","555","<p>I am new to this site and had been successfully using the ""HTML5"" Cross-origin resource sharing (CORS) to POST data to my server. I just recently tried to include GETs in that as we are trying to have all of our communications be non-reliant on a JavaScript library. In doing so I have run into an odd issue that seems somewhat fixable for Firefox but is still misbehaving in all the WebKit browsers. Essentially anything that returns a status of &lt;200 or >300 is just coming in as a status of 0. This makes it next to impossible to do error handling.</p>
+
+<p>For Firefox, I am able to put a random string on the end of the request to prevent it from being cached; thereby fixing the 304s at least. This however does not work at all for me in Chrome/Safari. Here is a sample of my code:</p>
+
+<pre><code>xhr_request: function(type,url, data, callbacks, form){
+    var form = (typeof(form)!==""undefined"")?form:null;
+    var xhr = new XMLHttpRequest();
+    var response;
+    data = com.ticommunity.obj_to_string(data);
+    xhr.open(type, url, true);
+    xhr.setRequestHeader(""Content-Type"", ""application/x-www-form-urlencoded"");
+    xhr.setRequestHeader(""X-TxId"", com.ticommunity.keyGen());
+    xhr.withCredentials = true;
+    xhr.send(data);
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState == 4){
+            if(xhr.status == 200){
+                response = xhr.responseText;
+                com.ticommunity.comm.request_callback(response, callbacks, form);
+            }else{`//****this is where the 0 Status keeps coming up***`
+                response = xhr.status;
+                com.ticommunity.comm.request_callback(response, callbacks, form);
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>Has anyone else run into something similar and come up with a work-around? Am I just doing something stupid on my end? Any help is greatly appreciated.</p>
+
+<p>EDIT: I realized the 0 is what is supposed to happen per the spec, but I REALLY need to be able to trap for these situations and do some other handling.</p>
+","415118","","415118","","2010-08-09 17:03:01","2011-01-20 21:49:00","problem using HTML5 for Cross-origin resource sharing","<firefox><html><webkit><xmlhttprequest><cross-domain>","1","0","","","","CC BY-SA 2.5"
+"3440373","1","3440645","","2010-08-09 13:19:21","","16","22008","<p>Still struggling with R, especially with error handling:</p>
+
+<p>If I use:</p>
+
+<pre><code>result &lt;- try(sqlSave(ch,df,tablename=""tblTest""))
+</code></pre>
+
+<p>I can use:</p>
+
+<pre><code>if (class(result) != ""try-error"")
+</code></pre>
+
+<p>to check if something went wrong. No problem.</p>
+
+<p>But if I use <code>try</code> in combination with a function it doesn't work as I expected:</p>
+
+<pre><code> result &lt;- try(ch&lt;-odbcConnect(""TEST""))
+</code></pre>
+
+<p>gives ""-1"" for <code>result</code> and ""integer"" for <code>class(result)</code></p>
+
+<p>So should I use</p>
+
+<pre><code>ch&lt;-odbcConnect(""TEST"")
+if (ch != -1)
+</code></pre>
+
+<p>and use <code>geterrmessage()</code> for the error message?</p>
+","293843","","172261","","2012-02-20 21:19:07","2012-02-20 21:19:07","Functions and try() in R","<r><error-handling>","1","0","0","","","CC BY-SA 3.0"
+"3440377","1","3440461","","2010-08-09 13:20:10","","3","5821","<p>I can get the country code in ISO-form using <code>TelephonyManager::getNetworkCountryIso()</code>, as it returns US for USA and such, but how can I get the numeric country dialing code?</p>
+
+<p>I can't seem to find any functions provides me with the data I'm looking for, as I need a function that (for example) returns <code>01</code> for USA/Canada, <code>92</code> for Pakistan and so on.</p>
+","265064","","860212","","2011-09-14 19:01:39","2021-09-01 04:51:10","Get Country code","<android><locale>","2","1","0","","","CC BY-SA 3.0"
+"3440379","1","","","2010-08-09 13:20:29","","0","1196","<p>I have controller action in my rails application to output XML which in turn is used to generate a FusionChart. I am using a builder template for generating XML. Below is the code that is in builder template.  </p>
+
+<pre><code>xml = Builder::XmlMarkup.new  
+xml.chart(:palette=&gt;'2', ....) do  
+ for item in @domain_data  
+  xml.set(:label=&gt;item[:domain],:value=&gt;item[:emp_count])  
+ end  
+end
+</code></pre>
+
+<p>This code throws error in all the browsers. When I move the code to controller and use the below snippet,   </p>
+
+<pre><code>xml = Builder::XmlMarkup.new  
+    xml.chart(:palette=&gt;'2', :ca...) do  
+     for item in @domain_data  
+   xml.set(:label=&gt;item[:domain],:value=&gt;item[:emp_count])  
+ end  
+end  
+send_data xml, :type=&gt;""text/xml""  
+</code></pre>
+
+<p>it works fine in Google Chrome/firefox etc but returns an empty file in Internet Explorer. Can somebody tell me what might be wrong here?  Thanks in advance // Abhi</p>
+","415098","","285289","","2010-08-09 13:29:26","2010-08-09 13:53:40","Rails XML builder","<ruby-on-rails><xml>","1","0","","","","CC BY-SA 2.5"
+"3440382","1","3729323","","2010-08-09 13:20:42","","0","2106","<p>I have very little SAP ERP knowledge.  I wrote some code to create a Manual Call Work Order in the Plant Maintenance module.  The code seems to have worked but when I try to create another manual call work order I get an error message saying I already have one open.  I know there are transactions I can run to show me the open call and allow me to close it.  Can you tell me a transaction I can use to close the open manual call?  All I know is the Maintenance Plan Number.</p>
+","201090","","9150270","","2021-01-09 12:58:51","2021-01-09 12:58:51","SAP ERP Plant Maintenance - Close an open manual call","<sap-erp>","2","0","","","","CC BY-SA 4.0"
+"3440387","1","23007090","","2010-08-09 13:20:56","","19","16938","<p>I have a Qt project that uses qmake. To improve clarity and readability, I'd like to keep the</p>
+
+<ul>
+<li>source files</li>
+<li>build system</li>
+<li>generated files (such as object files)</li>
+</ul>
+
+<p>separate.</p>
+
+<p>So my first step was putting the source files into a src/ sub directory:</p>
+
+<pre><code>myproject/
+    myproject.pro
+    src/
+        main.cpp
+        MainWindow.ui
+        ...
+</code></pre>
+
+<p>That way I separated the source files from the build system (*.pro). However, when I then run <code>qmake</code> followed by <code>make</code>, the generated files (object files, etc) are placed into the main project folder:</p>
+
+<pre><code>myproject/
+    myproject.pro
+    Makefile
+    main.o
+    ui_MainWindow.h
+    ...
+    src/
+        main.cpp
+        MainWindow.ui
+        ...
+</code></pre>
+
+<p>Well, at least they weren't put into the <code>src/</code> folder, but how do I specify that they are put into another sub folder such as <code>build/</code>?</p>
+
+<pre><code>myproject/
+    myproject.pro
+    Makefile
+    build/
+        main.o
+        ui_MainWindow.h
+        ...
+    src/
+        main.cpp
+        MainWindow.ui
+        ...
+</code></pre>
+
+<p>(BTW, I don't care where the target binary <code>myproject</code> is put, but I guess it should be placed directly into project folder rather than into <code>build/</code>.)</p>
+","19163","","19163","","2010-08-09 13:28:52","2018-05-30 21:13:23","How to put generated files (e.g. object files) into a separate folder when using Qt/qmake?","<qt><qmake><object-files>","2","0","0","","","CC BY-SA 2.5"
+"3440394","1","3440471","","2010-08-09 13:21:20","","0","141","<p>anybody has seen any examples of a table with multiple versions for each record</p>
+
+<p>something like if you would had the table</p>
+
+<pre><code>Person(Id, FirstName, LastName)
+</code></pre>
+
+<p>and you change a record's LastName than you would have both versions of LastName (first one, and the one after the change)</p>
+","112100","","","","","2010-08-12 12:09:41","versioning of a table","<sql>","2","0","","","","CC BY-SA 2.5"
+"3440397","1","3440525","","2010-08-09 13:21:39","","0","165","<p>I am screwed. I misused wildcards like a moron, in the rename command.</p>
+
+<p>I repeated names twice in a 3gig folder, which I cannot afford to delete.</p>
+
+<p>Now, the rename command is not working, and it says the file name is too long.</p>
+
+<p>Please help me.</p>
+
+<p>If programming can solve this, please let me know. I am a competent programmer in Java and PHP.</p>
+","382564","","","","","2010-08-09 13:34:11","UNIX - Renaming files with long names","<unix>","1","0","","","","CC BY-SA 2.5"
+"3440401","1","","","2010-08-09 13:21:45","","3","620","<p>Is there a <strong>free</strong> tool (some kind of a static checker) that does typedef-based type-checking for a <strong>plain</strong> C (not C++) and runs on Linux (or any kind of free Unix)? I am aware of a commercial one: PC-lint/FlexeLint. It does exactly what I want, but it's not free and Windows-only. Here is an example from it's manual:</p>
+
+<pre><code>typedef int Count;
+typedef int Bool;
+Count n;
+Bool stop;
+.
+.
+.
+n = stop ; // tool generates a warning here
+</code></pre>
+
+<p>I've already read this <a href=""https://stackoverflow.com/questions/376452/enforce-strong-type-checking-in-c-type-strictness-for-typedefs"">Enforce strong type checking in C (type strictness for typedefs)</a> and this <a href=""https://stackoverflow.com/questions/3140035/is-there-a-good-way-to-force-type-incompatibility-in-c"">Is there a good way to force type incompatibility in C?</a> and I'm aware of the struct encapsulation hack, but that's <strong>not</strong> what I want. I have a pile of code and I want to check it for this particular type of mistakes.</p>
+","415121","","-1","","2017-05-23 12:01:15","2013-04-13 21:00:38","Strong typedef static checker (unix)","<c><typedef><typechecking>","2","0","0","","","CC BY-SA 2.5"
+"3440403","1","","","2010-08-09 13:22:28","","1","59","<p>The reason I don't want to go the browser plugin way is that you need to implement it for various browsers.</p>
+
+<p>Like xpi for firefox, browser helper object for IE.</p>
+
+<p>My target platform is only windows, and I just want the alternative of browser plugin to call a client side programe after instructed when the user is browser the web page.</p>
+
+<p>Is that viable?</p>
+","198729","","","","","2010-08-09 13:46:33","Is there a replacement for browser plugin(maybe a driver?)?","<driver><browser-plugin>","1","0","","","","CC BY-SA 2.5"
+"3440404","1","","","2010-08-09 13:22:41","","0","439","<hr>
+
+<p>Hi,</p>
+
+<p>I have a UIViewController class that contains a UITableViewCell subclass.</p>
+
+<p>Within the tableViewCell I have a UITextView that calls the numberPad which I have ammended to contain the missing DONE button.</p>
+
+<p>THe DONE button, when pressed calls a method named backgroundPressed. This method is called from the root UIViewController class.</p>
+
+<pre><code>-(IBAction)backgroundPressed:(id)sender{
+
+[textField2 resignFirstResponder];
+</code></pre>
+
+<p>The problem I have is that calling this method does not dismiss the numberPad. This is probably because the method is called from the UIViewContoller class. How do I access
+the UITableViewCell to resign the first responder when the for the UITextView?</p>
+
+<p>Many Thanks</p>
+","244295","","","","","2010-08-09 14:20:17","UITableViewCell Resign FirstResponder","<iphone>","1","0","","","","CC BY-SA 2.5"
+"3440406","1","3440480","","2010-08-09 13:22:58","","5","13999","<p>Why do we need to put a <code>&amp;</code> operator in <code>scanf()</code> for storing values in an integer array but not while storing a string in a char array?</p>
+
+<pre><code>int a[5];
+for(i=0;i&lt;5;i++)
+scanf(""%d"",&amp;a[i]);
+</code></pre>
+
+<p>but </p>
+
+<pre><code>char s[5]; scanf(""%s"",s);
+</code></pre>
+
+<p>We need to pass in the address of the place we store the value, since array is a pointer to first element. So in the case with int/float arrays it basically means <code>(a+i)</code>.</p>
+
+<p>But whats the case with strings?</p>
+","238505","","902497","","2016-09-29 03:30:45","2021-12-27 20:31:50","Why does scanf() need & operator (address-of) in some cases, and not others?","<c><arrays><scanf><ampersand>","5","1","0","2021-12-27 20:41:39","","CC BY-SA 3.0"
+"3440409","1","3441361","","2010-08-09 13:23:18","","2","1251","<p>I have objects in my NSMUtableArray and I need to sort them in descending order based on the tax.taxName.Can any body suggest me how to do this.</p>
+
+<p>Hope I get Quick response from you guys.</p>
+
+<p>Thanks in advance.
+Monish.</p>
+","384253","","","","","2010-08-09 15:04:56","Sorting the strings in an NSMutableArray in Iphone Sdk?","<objective-c>","2","0","","","","CC BY-SA 2.5"
+"3440411","1","","","2010-08-09 13:23:29","","1","301","<p>I am creating an application which I want to have a view controller with buttons as the first view controller with no navigation bar, and then when the user selects a button a table view controller appears managed by a navigation controller.</p>
+
+<p>At the moment I am setting up the navigation controller in the app delegate and setting the top view controller as the table view controller I want to start the navigation bar on. So far I can see the navigation bar but that is it when I transition from the first view controller to the table view controller.</p>
+
+<p>Any help would be much appreciated as I have confused myself with this issue.</p>
+","403415","","","","","2010-08-09 18:47:45","Navigation Controller and Table Views","<iphone><objective-c><iphone-sdk-3.0>","2","0","","","","CC BY-SA 2.5"
+"3440417","1","3440523","","2010-08-09 13:24:06","","1","211","<p>Willing to admit I'm a complete .NET newbie, but I have extensive experience in classic ASP, which is making this quite tricky as the whole structure of .net is completely different.</p>
+
+<p>I know I'm meant to use code behind, but for now I'm happy embedding it into the pages because:</p>
+
+<ol>
+<li>Each page is going to be simple, so
+there wont be too much mixing up</li>
+<li>It's probably too much of a step to
+do everything the 'right' way, I'd
+rather step up to that slowly as I
+get to grips with .net</li>
+</ol>
+
+<p>So excusing my lack of code behind, on this page I am trying to get the ID returned by the querystring ""mid"" (Menu ID), and then display a different CSS class for the menu button we are currently on.  Two menu classes, navButton and navButtonO (over).</p>
+
+<pre><code>&lt;%@ Page Language=""C#"" AutoEventWireup=""true"" CodeBehind=""admin.aspx.cs"" Inherits=""AlphaPack._Default""
+    title=""Administration""
+%&gt;
+
+&lt;script language=""C#"" runat=""server"" &gt;
+
+    protected int menuID;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        string menuIDdata = Page.Request.QueryString[""mid""];
+        menuID = 0;
+
+        // Check the user is allowed here
+        if (!Roles.IsUserInRole(""Admin""))
+        {
+            Response.Redirect(""../default.aspx"");
+        }
+
+        // Get the menu ID
+        if (int.TryParse(menuIDdata, out menuID))
+        {
+            menuID = int.Parse(menuIDdata);
+        }else{
+            menuID = 0; 
+        }
+
+    }     
+&lt;/script&gt;
+
+
+&lt;!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 
+    1.1//EN"" ""http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd""&gt;
+
+&lt;html xmlns=""http://www.w3.org/1999/xhtml"" &gt;
+    &lt;head id=""mainHead"" runat=""server"" &gt;
+        &lt;title&gt;Administration&lt;/title&gt;
+        &lt;link rel=""Stylesheet"" href=""../style/admin.css"" /&gt;       
+    &lt;/head&gt;
+    &lt;body&gt;
+
+    &lt;div class=""topMenu""&gt;    
+        &lt;div class=""navButton&lt;%if(menuID == 0){ response.write(""O"") }%&gt;""&gt;
+            &lt;a href=""admin.aspx"" class=""navLink""&gt;Admin Home&lt;/a&gt;
+        &lt;/div&gt;  
+        &lt;div class=""navButton&lt;%if(menuID == 1){ response.write(""O"") }%&gt;""&gt;
+            &lt;a href=""users.aspx"" class=""navLink""&gt;User Manager&lt;/a&gt;
+        &lt;/div&gt;    
+        &lt;div class=""navButton&lt;%if(menuID == 2){ response.write(""O"") }%&gt;""&gt;
+            &lt;a href=""products.aspx"" class=""navLink""&gt;Products&lt;/a&gt;
+        &lt;/div&gt;      
+    &lt;/div&gt;
+    &lt;br /&gt;&lt;br /&gt;
+    &lt;div class=""subMenu""&gt;
+        &lt;a href=""products.aspx"" class=""subLink""&gt;Products&lt;/a&gt; &lt;a href=""productCats.aspx"" class=""subLink""&gt;Categories&lt;/a&gt; 
+    &lt;/div&gt;
+
+    &lt;br /&gt;&lt;br /&gt;
+    Welcome to the Admin
+
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Thanks for any help, don't pull any punches.</p>
+","356635","","356635","","2010-08-09 13:40:51","2010-08-09 13:40:51","ASP.net c# basic question","<c#><asp.net>","3","5","0","","","CC BY-SA 2.5"
+"3440426","1","3440526","","2010-08-09 13:24:33","","0","661","<p>How can I get a master page for asp.net with 3 sections using divs to split the window into a left pane for a tree view navigation. The main window to the right will be divided into a banner type top div and a main window div under it for the main content window where I want child pages loaded in the master page implementation.</p>
+
+<p>can someone give me a syntax example?</p>
+","352157","","","","","2010-08-09 16:11:52","syntax for layouit using DIV + CSS?","<asp.net><css><master-pages>","2","0","","","","CC BY-SA 2.5"
+"3440428","1","3442909","","2010-08-09 13:24:40","","2","1705","<p>I'm looking for a way to apply a ""perspective correction"" to an image in an iPhone app.</p>
+
+<p><a href=""https://stackoverflow.com/questions/347721/uiview-perspective-transform/353611#353611"">This question</a> explains how to apply a perspective distortion, what I want is exactly the inverse operation...</p>
+
+<p>Any idea how to do this?</p>
+
+<p><img src=""https://farm5.static.flickr.com/4095/4875678666_3ae80bce1a.jpg"" alt=""Sample image""></p>
+","135050","","-1","","2017-05-23 11:53:28","2012-03-31 13:44:27","UIImage perspective correction","<iphone><objective-c>","2","0","0","","","CC BY-SA 2.5"
+"3440430","1","","","2010-08-09 13:24:44","","0","82","<pre><code>&lt;head&gt;
+  &lt;script type=""text/javascript"" src=""jquery.js""&gt;&lt;/script&gt;
+  &lt;script type=""text/javascript""&gt;
+  $(document).ready(function(){
+    $(""input"").click(
+      function(){
+        alert(this.id);
+        $('#comments'+this.id).show();
+    }
+  );
+});
+
+&lt;/script&gt;
+&lt;style type=""text/css""&gt;
+ .comments{
+  width:500px;
+  height:350px;
+  background:#06F;
+  display:none;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;input type=""text"" id=""1""&gt;&lt;/input&gt;
+  &lt;input type=""text"" class=""title"" id=""2""&gt;&lt;/input&gt;
+  &lt;input type=""text"" class=""title"" id=""1""&gt;&lt;/input&gt;
+ &lt;div id=""comments1"" class=""comments""&gt;box 1&lt;/div&gt;
+  &lt;div id=""comments2"" class=""comments""&gt;box 2&lt;/div&gt;
+ &lt;div id=""comments1"" class=""comments""&gt;box 3&lt;/div&gt;
+&lt;/body&gt;
+</code></pre>
+","415114","","182668","","2010-08-09 13:27:01","2010-08-09 13:34:22","how to deal with multiple ids in query as i have problem in the following code","<javascript>","2","2","","","","CC BY-SA 2.5"
+"3440432","1","10154911","","2010-08-09 13:24:59","","3","1261","<p>A few years ago I experimented with TwistedMatrix for Python and loved it.  Unfortunately my current project precludes the use of Python as C# is the only language allowed.</p>
+","400560","","186971","","2010-08-09 22:26:26","2012-04-14 15:45:08","Is there a framework like Twisted Matrix for C#?","<c#><networking><rpc>","1","3","","","","CC BY-SA 2.5"
+"3440433","1","","","2010-08-09 13:25:09","","2","997","<p>For some time now I've been happily using the <a href=""http://craigsworks.com/projects/qtip/"" rel=""nofollow noreferrer"">qTip</a> jQuery plugin. No complaints there.
+However, on iPads and iPhones, the tooltips appears to be buggy.</p>
+
+<p>Symptoms:</p>
+
+<ul>
+<li>Before resizing the touch screen everything seems to be working fine.</li>
+<li>After resizing etc. -- Inconsistent behavior. Some tooltips are misplaced; no real logic there.</li>
+</ul>
+
+<p>Diagnosis:
+It seems to me that Apple's touch-screens f**k-up the absolute and fixed positions for all jQuery calls.</p>
+
+<p>How do I get by this? Anyone got into it? I googled the thing; couldn't find anything regarding this specific touch-screen issue.</p>
+
+<p>Thanks!</p>
+","145427","","","","","2011-12-11 19:44:34","How to create fixed/absolute position Tooltips on iPhones and iPads?","<jquery><iphone><css><ipad><qtip>","1","2","0","","","CC BY-SA 2.5"
+"3440434","1","3678199","","2010-08-09 13:25:20","","1","6423","<p>I have a VBA application that creates an instance of a COM object and then continuously polls the objects <em>DataReady</em> property to see if there is new data. When new data is available it sticks the data into a spread sheet. The problem is this macro (vba sub routine) continually runs and this slows down excel to a crawl and makes the computer somewhat unusable while the process is running. Is there a way that I can start this process on a separate thread or do something like a .NET background worker? </p>
+
+<p>My two attempts were to use a while loop like this..</p>
+
+<pre><code>While(True)
+    If(myObject.DataReady)
+        Do some stuff here
+    End If
+WEnd
+</code></pre>
+
+<p>and then this</p>
+
+<pre><code>Sub GrabNewPoint()
+If (myModule.NewDataReady_Receiver = True) Then
+            Do some stuff here...
+End If
+
+If (StopTest = False) Then
+    NextTime = Now() + TimeValue(""00:00:20"")
+    Application.OnTime NextTime, ""GrabNewPoint""
+End If
+</code></pre>
+
+<p>The second attempt definitly works better but it still slows things down considerably. Is there a better solution?</p>
+
+<p>My COM object is a class library that I wrote in C#. I can add events that fire in the Class Library when data is ready but how do I listen for those events in the VBA program?</p>
+","233087","","233087","","2010-08-09 14:00:34","2010-09-09 15:47:37","How can I execute a long running process in VBA without making pc crawl?","<excel><vba><long-running-processes>","3","0","0","","","CC BY-SA 2.5"
+"3440442","1","3440485","","2010-08-09 13:25:52","","1","652","<p>Want to grab list of players from <a href=""http://www.atpworldtour.com/Rankings/Singles.asp"" rel=""nofollow noreferrer"">http://www.atpworldtour.com/Rankings/Singles.aspx</a></p>
+
+<p>There is a table with class <code>""bioTableAlt""</code>, we have to grab all the <code>&lt;tr&gt;</code> after the first one (class <code>""bioTableHead""</code>), which is used for table heading.</p>
+
+<p>Wanted content looks like:</p>
+
+<pre><code>&lt;tr class=""oddRow""&gt;
+ &lt;td&gt;2&lt;/td&gt;
+ &lt;td&gt;
+  &lt;a href=""/Tennis/Players/Top-Players/Novak-Djokovic.aspx""&gt;Djokovic, Novak&lt;/a&gt;
+  (SRB)
+ &lt;/td&gt;
+ &lt;td&gt;
+  &lt;a href=""/Tennis/Players/Top-Players/Novak-Djokovic.aspx?t=rb""&gt;6,905&lt;/a&gt;
+ &lt;/td&gt;
+ &lt;td&gt;0&lt;/td&gt;
+ &lt;td&gt;
+  &lt;a href=""/Tennis/Players/Top-Players/Novak-Djokovic.aspx?t=pa&amp;m=s""&gt;21&lt;/a&gt;
+ &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;3&lt;/td&gt;
+ &lt;td&gt;
+  &lt;a href=""/Tennis/Players/Top-Players/Roger-Federer.aspx""&gt;Federer, Roger&lt;/a&gt;
+  (SUI)
+  &lt;/td&gt;
+ &lt;td&gt;
+  &lt;a href=""/Tennis/Players/Top-Players/Roger-Federer.aspx?t=rb""&gt;6,795&lt;/a&gt;
+ &lt;/td&gt;
+ &lt;td&gt;0&lt;/td&gt;
+ &lt;td&gt;
+  &lt;a href=""/Tennis/Players/Top-Players/Roger-Federer.aspx?t=pa&amp;m=s""&gt;21&lt;/a&gt;
+ &lt;/td&gt;
+&lt;/tr&gt;
+</code></pre>
+
+<p>I think the best idea is to create an <code>array()</code>, make each <code>&lt;tr&gt;</code> an unique row and throw final code to the <code>list.txt</code> file, like:</p>
+
+<pre><code>Array (
+ [2] =&gt; stdClass Object (
+    [name] =&gt; Djokovic, Novak
+    [country] =&gt; SRB
+    [rank] =&gt; 6,905
+ )
+ [3] =&gt; stdClass Object (
+    [name] =&gt; Federer, Roger
+    [country] =&gt; SUI
+    [rank] =&gt; 6,795
+ )
+)
+</code></pre>
+
+<p>We're parsing each <code>&lt;tr&gt;</code>:</p>
+
+<ul>
+<li><code>[2]</code> is a number from first <code>&lt;td&gt;</code></li>
+<li><code>[name]</code> is text of the link inside second <code>&lt;td&gt;</code></li>
+<li><code>[country]</code> is a value between (...) in second <code>&lt;td&gt;</code></li>
+<li><code>[rank]</code> is the text of the link inside third <code>&lt;td&gt;</code></li>
+</ul>
+
+<p>In final file <code>list.txt</code> should contain an <code>array()</code> with ~100 IDS (we are grabbing the page with first 100 players).</p>
+
+<p>Additionally, will be amazing, if we make a small fix for each <code>[name]</code> before adding it to an <code>array()</code>  - <strong>""Federer, Roger""</strong> should be converted to <strong>""Roger Federer""</strong> (just catch the word before comma, throw it to the end of the line).</p>
+
+<p>Thanks.</p>
+","398431","","398431","","2010-08-09 13:42:46","2010-08-09 14:21:44","PHP external page","<php>","2","5","","","","CC BY-SA 2.5"
+"3611644","1","3612510","","2010-08-31 17:37:16","","2","1000","<p>I have a mixed C++/Objective-C project that uses AudioObjectGetPropertyDataSize to get the number of audio devices (such as USB headsets) plugged in.  This API doesn't seem to work under certain conditions.  For example, on 10.5 it will work but on 10.6 it won't detect when a new USB headset is plugged in.</p>
+
+<p>I've pared down the problem to a small bit of code that reproduces the problem (it calls AudioObjectGetPropertyDataSize in a loop).  The code will work on 10.6 (ie, it will detect when devices are plugged/unplugged) when its only linked against CoreAudio, but once you link against Foundation <em>it will stop working</em>.</p>
+
+<p>I don't understand how linking to a framework can break code that otherwise works.</p>
+
+<p>Here is the code (coreaudio-test.cpp):</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;CoreAudio/AudioHardware.h&gt;
+
+int main(int argc, char **argv) {
+    printf(""Press &lt;enter&gt; to refresh device list&gt; \n"");
+    while (1) {
+        getchar();
+
+        // get device count
+        UInt32 dataSize = 0;
+        AudioObjectPropertyAddress propertyAddress;
+        propertyAddress.mSelector = kAudioHardwarePropertyDevices;
+        propertyAddress.mScope    = kAudioObjectPropertyScopeGlobal;
+        propertyAddress.mElement  = kAudioObjectPropertyElementMaster;
+        OSStatus result =
+            AudioObjectGetPropertyDataSize(kAudioObjectSystemObject, &amp;propertyAddress, 0, NULL, &amp;dataSize);
+
+        int count = -1;
+        if (result == noErr) {
+            count = dataSize / sizeof(AudioDeviceID);
+        }
+        printf(""num devices= %d \n"", count);
+    }
+
+    return 0;
+}
+</code></pre>
+
+<p>And here is the Makefile:</p>
+
+<pre><code>LFLAGS= -framework CoreAudio
+
+all: coreaudio-test coreaudio-test.broken
+
+# create a test that works
+coreaudio-test: coreaudio-test.cpp
+    g++ -o $@ $^ $(LFLAGS)
+
+# linking to foundation will break the test
+coreaudio-test.broken: coreaudio-test.cpp
+    g++ -o $@ $^ $(LFLAGS) -framework Foundation
+</code></pre>
+
+<p>Any thoughts on this bizarre behavior?  (btw, I've also posted this question on the <a href=""http://lists.apple.com/archives/Coreaudio-api/2010/Aug/msg00303.html"" rel=""nofollow noreferrer"">CoreAudio list</a>.)</p>
+","89218","","","","","2010-08-31 19:31:50","CoreAudio: getting device count breaks when linking to Foundation on 10.6","<macos><core-audio>","2","0","","","","CC BY-SA 2.5"
+"3611656","1","3616543","","2010-08-31 17:38:47","","5","1904","<p>Look at this , i am try</p>
+
+<pre><code>appendFile ""out"" $ show 'д'
+</code></pre>
+
+<p>'д'  is character from Russian alphabet. 
+After that ""out"" file contains:  </p>
+
+<pre><code>'\1076'
+</code></pre>
+
+<p>How i understand is the unicode numeric code of character 'д'. Why is it happens ? And How i can to get the normal representation of my character ?</p>
+
+<p>For additional information  it is works good:</p>
+
+<pre><code>appendFile ""out""  ""д""
+</code></pre>
+
+<p>Thanks.  </p>
+","190482","","83805","","2011-05-14 18:23:25","2018-01-13 19:22:04","Haskell IO with non English characters","<unicode><haskell><localization><io><locale>","6","0","0","","","CC BY-SA 2.5"
+"3611666","1","","","2010-08-31 17:40:03","","0","235","<p>I have a silverlight datagrid to which I am binding an observable collection from the viewmodel. There is a detail view page which will display different properties of the object in the collection when user selects a row of the datagrid. My requirement is when user updates any properties in the detail view; the data should be updated in the data grid also. How to implement this functionality?</p>
+","436200","","","","","2010-09-01 08:04:19","Master View implementation using MVVM in Silverlight","<silverlight><mvvm>","1","0","","","","CC BY-SA 2.5"
+"3611674","1","","","2010-08-31 17:40:50","","1","200","<p>Any idea how to pipe the results of ...</p>
+
+<pre><code>    DECLARE 
+        @session_name VARCHAR(200) = 'test_trace'
+
+    SELECT 
+        pivoted_data.* 
+    FROM 
+    ( 
+     SELECT MIN(event_name) AS event_name,
+         MIN(event_timestamp) AS event_timestamp,
+         unique_event_id,
+         CONVERT ( BIGINT, MIN (
+             CASE
+                 WHEN d_name = 'cpu'
+                 AND d_package IS NULL
+                 THEN d_value
+             END ) ) AS [cpu],
+         CONVERT ( BIGINT, MIN (
+             CASE
+                 WHEN d_name = 'duration'
+                 AND d_package IS NULL
+                 THEN d_value
+             END ) ) AS [duration],
+         CONVERT ( BIGINT, MIN (
+             CASE
+                 WHEN d_name = 'object_id'
+                 AND d_package IS NULL
+                 THEN d_value
+             END ) ) AS [object_id],
+         CONVERT ( INT, MIN (
+             CASE
+                 WHEN d_name = 'object_type'
+                 AND d_package IS NULL
+                 THEN d_value
+             END ) ) AS [object_type],
+         CONVERT ( DECIMAL(28,0), MIN (
+             CASE
+                 WHEN d_name = 'reads'
+                 AND d_package IS NULL
+                 THEN d_value
+             END ) ) AS [reads],
+         CONVERT ( VARCHAR(MAX), MIN (
+             CASE
+                 WHEN d_name = 'session_id'
+                 AND d_package IS NOT NULL
+                 THEN d_value
+             END ) ) AS [session_id],
+         CONVERT ( INT, MIN (
+             CASE
+                 WHEN d_name = 'source_database_id'
+                 AND d_package IS NULL
+                 THEN d_value
+             END ) ) AS [source_database_id],
+         CAST((SELECT CONVERT ( VARCHAR(MAX), MIN (
+             CASE
+                 WHEN d_name = 'sql_text'
+                 AND d_package IS NOT NULL
+                 THEN d_value
+             END ) )  AS [processing-instruction(x)] FOR XML PATH('') ) AS XML) AS [sql_text],
+         CONVERT ( DECIMAL(28,0), MIN (
+             CASE
+                 WHEN d_name = 'writes'
+                 AND d_package IS NULL
+                 THEN d_value
+             END ) ) AS [writes]
+     FROM
+        ( 
+            SELECT 
+                *, 
+                CONVERT(VARCHAR(400), NULL) AS attach_activity_id 
+            FROM 
+            ( 
+                SELECT 
+                    event.value('(@name)[1]', 'VARCHAR(400)') as event_name, 
+                    event.value('(@timestamp)[1]', 'DATETIME') as event_timestamp, 
+                    DENSE_RANK() OVER (ORDER BY event) AS unique_event_id, 
+                    n.value('(@name)[1]', 'VARCHAR(400)') AS d_name, 
+                    n.value('(@package)[1]', 'VARCHAR(400)') AS d_package, 
+                    n.value('((value)[1]/text())[1]', 'VARCHAR(MAX)') AS d_value, 
+                    n.value('((text)[1]/text())[1]', 'VARCHAR(MAX)') AS d_text 
+                FROM 
+                ( 
+                    SELECT 
+                        ( 
+                            SELECT 
+                                CONVERT(xml, target_data) 
+                            FROM sys.dm_xe_session_targets st 
+                            JOIN sys.dm_xe_sessions s ON 
+                                s.address = st.event_session_address 
+                            WHERE 
+                                s.name = @session_name 
+                                AND st.target_name = 'ring_buffer' 
+                        ) AS [x] 
+                    FOR XML PATH(''), TYPE 
+                ) AS the_xml(x) 
+                CROSS APPLY x.nodes('//event') e (event) 
+                CROSS APPLY event.nodes('*') AS q (n) 
+            ) AS data_data 
+        ) AS activity_data 
+        GROUP BY 
+            unique_event_id 
+
+) AS pivoted_data; 
+</code></pre>
+
+<p>to a file using DbDataReader that is returned from DbCommand.ExecuteReader()?</p>
+","84685","","11702","","2010-08-31 17:43:29","2010-08-31 17:46:03","Pipe SQL to a file","<c#><sql><datareader>","0","4","","","","CC BY-SA 2.5"
+"4564805","1","4564855","","2010-12-30 17:34:00","","2","917","<p>I use jQuery and make an iteration over a list of projects. Every project is put on the screen and it is draggable. Also very project has a textarea.</p>
+
+<p>Source code:</p>
+
+<pre><code>$.each(data, function(id, project) {
+    $('#projects').append('&lt;div class=""note"" data-projectid=""'+project.id+'""&gt;&lt;textarea class=""edit""&gt;'+project.text+'&lt;/textarea&gt;&lt;/div&gt;');
+});
+$("".note"").draggable({
+    containment: ""#projects"", 
+    scroll: false
+});
+</code></pre>
+
+<p>What I want, is to know if a user change the text of the project, so I need to know if the cursor leaves the textarea. And I need to know the new text and the data-projectid, so I can save the new text (into a database which is located in the backend system).</p>
+
+<p>Thank you in advance for your help, Tim-.</p>
+","224030","","","","","2010-12-30 17:53:10","jQuery - event that a user edited the content of a textarea","<javascript><jquery><html>","3","2","0","","","CC BY-SA 2.5"
+"4564808","1","4564875","","2010-12-30 17:34:24","","0","8411","<p>i have pagination links like 1,2,3,4...am trying to change appearance of current page using 
+something like this </p>
+
+<pre><code>$("".pg""+this.currentPage).css({""color"":""#2F557B"",
+                           ""background-color"":""#FFFFC4"",
+                          ""border"":""solid 1px #2F557B"",
+                           ""cursor"":""default""});
+</code></pre>
+
+<p>eg. when <code>&lt;a&gt;</code> #1 is selected the above applies. but <code>&lt;a&gt;</code> #2 is selected this also have above style (as I want) but how can i reset <code>&lt;a&gt;</code> #1 style to older one? Any idea would be highly appreciated.</p>
+","555064","","305","","2010-12-30 17:36:16","2012-08-16 12:04:03","alter css of selected anchor tag with jquery","<jquery><css>","4","4","0","","","CC BY-SA 2.5"
+"4564809","1","4564901","","2010-12-30 17:34:28","","0","5544","<p>I need a PHP Web Proxy that read html, show to the user and rewrite all the links for when the user click in the next link the proxy will handle the request again, just like this code, but with additionaly sould make the rewrite of all the links.</p>
+
+<pre><code>&lt;?php
+// Set your return content type
+header('Content-type: text/html');
+
+// Website url to open
+$daurl = 'http://www.yahoo.com';
+
+// Get that website's content
+$handle = fopen($daurl, ""r"");
+
+// If there is something, read and return
+if ($handle) {
+    while (!feof($handle)) {
+        $buffer = fgets($handle, 4096);
+        echo $buffer;
+    }
+    fclose($handle);
+}
+?&gt;
+</code></pre>
+
+<p>I hope I have explained well. This question is for not reinventing the wheel.</p>
+
+<p>Another additional question. This kind of proxies will deal with contents like Flash?</p>
+","488735","","","user113292","2010-12-30 17:47:22","2011-01-10 20:28:39","There are any open-soure PHP Web Proxy ready to use?","<php><proxy>","2","0","","","","CC BY-SA 2.5"
+"4564812","1","","","2010-12-30 17:34:50","","0","1082","<p>I currently have a layout with 4 tabs, the first tab has the home screen of the app, loads 4 imageviews for the icons of other activities.  The second tab loads a webview (very basic one) as does the third tab.  The final tab loads a map.  The app loads very slow, takes about 11 seconds, and when I debug in Eclipse almost the entire time is spent on setContentView, but I can't figure out what in my layout is taking so long to load.</p>
+
+<p>Here is my layout code:</p>
+
+<pre><code>&lt;?xml version=""1.0"" encoding=""utf-8""?&gt;
+
+&lt;TabHost 
+    xmlns:android=""http://schemas.android.com/apk/res/android""
+    android:id=""@+id/tabhost"" android:layout_width=""fill_parent""
+    android:layout_height=""fill_parent""
+    &gt;
+    &lt;LinearLayout 
+        android:orientation=""vertical""
+        android:layout_width=""fill_parent"" 
+        android:layout_height=""fill_parent""
+        &gt;
+        &lt;FrameLayout 
+            android:id=""@android:id/tabcontent""
+            android:layout_width=""wrap_content"" 
+            android:layout_height=""fill_parent""
+            android:layout_weight=""1""
+            &gt;
+            &lt;RelativeLayout 
+                android:id=""@+id/tab1""
+                android:layout_width=""wrap_content""
+                android:layout_height=""wrap_content""
+                android:background=""@drawable/background""
+                &gt;
+                &lt;ImageView 
+                    android:id=""@+id/HomeButtonEvents"" 
+                    android:src=""@drawable/eventsicon""
+                    android:layout_width=""wrap_content"" 
+                    android:layout_height=""wrap_content""
+                    android:layout_alignParentBottom=""true""
+                    android:layout_alignParentLeft=""true"" 
+                    android:paddingBottom=""95dp""
+                    android:clickable=""true"" 
+                    /&gt;
+                &lt;ImageView 
+                    android:id=""@+id/CancelledClasses"" 
+                    android:src=""@drawable/cancelledicon""
+                    android:layout_width=""wrap_content"" 
+                    android:layout_height=""wrap_content""
+                    android:layout_alignParentBottom=""true""
+                    android:layout_alignParentRight=""true"" 
+                    /&gt;
+                &lt;ImageView 
+                    android:id=""@+id/CourseSchedule"" 
+                    android:src=""@drawable/coursesicon""
+                    android:layout_width=""141dp"" 
+                    android:layout_height=""139dp""
+                    android:layout_alignParentTop=""true""
+                    android:layout_alignParentLeft=""true"" 
+                    /&gt;
+                &lt;ImageView 
+                    android:id=""@+id/POTD"" 
+                    android:src=""@drawable/potdicon""
+                    android:layout_width=""294dp"" 
+                    android:layout_height=""247dp""
+                    android:paddingTop=""45dp"" 
+                    android:paddingRight=""1dp""
+                    android:layout_alignParentTop=""true""
+                    android:layout_alignParentRight=""true"" 
+                    android:layout_toRightOf=""@id/CourseSchedule"" 
+                    /&gt;
+&lt;!--            &lt;ImageView --&gt;
+&lt;!--                android:id=""@+id/potdview""--&gt;
+&lt;!--                android:layout_width=""wrap_content""--&gt;
+&lt;!--                android:layout_height=""wrap_content""--&gt;
+&lt;!--                android:paddingTop=""0dp"" --&gt;
+&lt;!--                android:paddingRight=""1dp""--&gt;
+&lt;!--                android:paddingBottom=""150dp"" --&gt;
+&lt;!--                android:layout_alignParentTop=""true""--&gt;
+&lt;!--                android:layout_alignParentRight=""true"" --&gt;
+&lt;!--                android:layout_toRightOf=""@id/CourseSchedule"" --&gt;
+&lt;!--                /&gt; --&gt;
+            &lt;/RelativeLayout&gt;
+
+            &lt;WebView 
+                android:id=""@+id/tab2"" 
+                android:layout_width=""fill_parent""
+                android:layout_height=""fill_parent"" 
+                /&gt;
+
+        &lt;/FrameLayout&gt;
+
+        &lt;TabWidget 
+            xmlns:android=""http://schemas.android.com/apk/res/android"" 
+            android:id=""@android:id/tabs""
+            android:layout_width=""fill_parent"" 
+            android:layout_height=""wrap_content""
+            android:layout_weight=""0"" 
+            /&gt;
+
+    &lt;/LinearLayout&gt;
+
+&lt;/TabHost&gt;
+</code></pre>
+
+<p>Any ideas/suggestions?</p>
+","558529","","321697","","2010-12-30 20:47:59","2010-12-31 19:14:09","How can I make my layout load time more efficient?","<android><android-layout>","2","2","0","","","CC BY-SA 2.5"
+"4564813","1","","","2010-12-30 17:35:01","","1","1755","<p>I read you can add a key to the registry, but there are permission problems on Windows Vista and 7. What's the safest &amp; best way to start a Java program on System startup?</p>
+","467948","","","","","2010-12-30 18:23:43","How to start a Java Jar when windows starts?","<java><windows><permissions><registry><startup>","4","1","","","","CC BY-SA 2.5"
+"4564815","1","4714213","","2010-12-30 17:35:12","","1","2147","<p>Reproduce problem: </p>
+
+<ul>
+<li>run code</li>
+<li>click checkbox</li>
+<li>click on the first input box</li>
+<li>enter: 100</li>
+</ul>
+
+<p>The red glowing error box should have disappeared, but it will disappear when you focus on another component e.g. the second input box. </p>
+
+<p>If you refersh the screen, click the checkbox, and <strong>TAB</strong> onto the first input box, type 100, the error glow will disappear as I expected. This is what I want for click also. Any ideas?</p>
+
+<pre><code>&lt;?xml version=""1.0"" encoding=""utf-8""?&gt;
+&lt;mx:Application xmlns:mx=""http://www.adobe.com/2006/mxml"" layout=""absolute"" 
+    initialize=""onInit()""&gt;
+
+    &lt;mx:Script&gt;
+        &lt;![CDATA[
+            import mx.validators.NumberValidator;
+
+            private var amountValidator:NumberValidator;
+
+            private function onInit():void{
+
+                amountValidator = new NumberValidator();                
+                amountValidator.property = ""text"";
+                amountValidator.trigger = txtAmount;
+                amountValidator.triggerEvent = ""change"";
+                amountValidator.minValue = 10;
+                amountValidator.domain = ""int"";
+                amountValidator.precision = 0;
+                amountValidator.allowNegative = false;  
+
+                amountValidator.source = txtAmount;                         
+            }
+
+            private function onInputChange():void{
+                amountValidator.validate();
+                trace(""input"");
+            }
+
+            private function checkClick():void{
+                if(myCheckBox.selected){
+                    amountValidator.validate();
+                }
+            }
+        ]]&gt;
+    &lt;/mx:Script&gt;
+    &lt;mx:HBox horizontalGap=""5"" x=""68"" y=""37""&gt;
+        &lt;mx:CheckBox id=""myCheckBox"" click=""checkClick()""/&gt;
+        &lt;mx:TextInput id=""txtAmount"" change=""onInputChange()"" width=""160"" height=""20"" restrict=""0-9"" maxChars=""8"" x=""75"" y=""44""/&gt;
+        &lt;mx:TextInput id=""dummyInput""  y=""72"" x=""75""/&gt;
+    &lt;/mx:HBox&gt;
+
+&lt;/mx:Application&gt;
+</code></pre>
+","271012","","","","","2011-04-14 05:54:38","Flex - number validation, wont remove red glow if click focus? (example provided)","<apache-flex><actionscript-3><validation>","1","0","","","","CC BY-SA 2.5"
+"4564816","1","4588361","","2010-12-30 17:35:13","","1","879","<p>I have a Bezier curve and im animating an object to move along it using CAKeyFrameAnimation. But, say the object stops at some point in the curve on detection of a user tap. Then on clicking a button to resume the movement, the object should move along the remaining path to the end. How do i do this? </p>
+
+<p>If i add the path to the CAKeyFrameAnimation object, then on clicking the resume button, the object moves right from the starting to the end of the path. Not from the point it stopped. I want it to continue to move only from the point it stopped and not start from the beginning again. Any way to animate it along the path from the point it stops at?</p>
+","395116","","","","","2011-01-03 21:05:36","BezierPath animation","<iphone><ipad><core-animation><bezier>","1","0","","","","CC BY-SA 2.5"
+"4564819","1","4565257","","2010-12-30 17:35:29","","0","820","<p>the first one - 16.1 Example A Preferences</p>
+
+<p><a href=""Http://www.bogotobogo.com/Android/android16Preferences.html"" rel=""nofollow"">Android tutorial</a><br>
+(sorry for the link)</p>
+
+<p>Cant for the love of android not get this to work
+I want to click that CheckBox witch is connected to the autosave PreferenceActivity
+and at the same time clicking it I want to fire an event to a method in the Activity that started the PreferenceActivity. There i will start a service. </p>
+
+<p>`` Sigh hope you understand the probl.</p>
+","538837","","538837","","2010-12-30 17:51:02","2010-12-30 18:37:36","In Android how to get CheckBox onCheckedChanged from other activity","<android>","1","1","","","","CC BY-SA 2.5"
+"4564822","1","","","2010-12-30 17:35:38","","0","81","<p>I am upgrading my site to IIS7, .NET 4.0 and Integrated Pipeline and am having some issues.</p>
+
+<p>I have a sub application (virtual directory on a remote server) in my IIS install which contains static files, and I want it to be authenticated using WindowAuthentication where as the rest of my site will be using FormsAuthentication.  </p>
+
+<p>It has a web.config that looks like:</p>
+
+<pre><code>&lt;?xml version=""1.0"" encoding=""UTF-8""?&gt;
+&lt;configuration&gt;
+&lt;system.web&gt;
+    &lt;authentication mode=""Windows"" /&gt;
+    &lt;authorization&gt;
+        &lt;allow users=""?"" /&gt;
+    &lt;/authorization&gt;
+&lt;/system.web&gt;
+</code></pre>
+
+<p>
+  
+        
+   
+    
+    
+   
+        
+        
+           
+           
+        
+ 
+    </p>
+
+<p>I add the 2 authentication modules in the parent web.config and remove the default managedOnly precondition.  Although, obviously because of the remove statement the directory is not under any authentication.  However if I remove those lines, I get a generic server 500 error. Am I missing something else?</p>
+","447454","","","","","2010-12-30 18:19:26","Why am I getting server errors when I enable Authentication on static files?","<iis-7><asp.net-4.0>","1","0","","","","CC BY-SA 2.5"
+"4564823","1","","","2010-12-30 17:35:46","","1","218","<p>I do not understand vb comments. I read that it is possible to give a hint in the code completion box when someone (or myself?) is using my code. But I do not find something in visual studio. Could you please give a short explanation how to get there.</p>
+","555884","","","","","2010-12-30 20:08:46","VB comments in completion box","<vb.net>","4","0","","","","CC BY-SA 2.5"
+"4564828","1","4565081","","2010-12-30 17:36:25","","0","117","<p>I currently have this database structure:</p>
+
+<p><img src=""https://i.stack.imgur.com/2J5Bp.png"" alt=""alt text""></p>
+
+<p>One entry can have multiple items of the type ""file"", ""text"" and ""url"". </p>
+
+<p>Everyone of these items has exactly one corresponding item in either the texts, urls or files table - where data is stored.</p>
+
+<p>I need a query to efficiently select an entry with all its corresponding items and their data.</p>
+
+<p>So my first approach was someting like</p>
+
+<pre><code>SELECT * FROM entries LEFT JOIN entries_items LEFT JOIN texts LEFT JOIN urls LEFT JOIN files
+</code></pre>
+
+<p>and then loop through it and do the post processing in my application.</p>
+
+<p>But the thing is that its very unlikely that multiple items of different types exist. Its even a rare case that more then one item exists per entry. And  in most cases it will be a file. But I need It anways...</p>
+
+<p>So not to scan all 3 tables for eveyr item I thought I could do something like case/switch and scan the corresponding table based on the value of ""type"" in entries_items.</p>
+
+<p>But I couldn't get it working.</p>
+
+<p>I also thought about making the case/switch logic in the application, but then I would have multiple queries which would probabably be slower as the mysql server will be external.</p>
+
+<p>I can also change the structure if you have a better approach!</p>
+
+<p>I also having all the fields of ""texts"", ""urls"" and ""files"" in side the table entries_items, as its only a 1:1 relation and just have everything that is not needed null.
+What would be the pros/cons of that? I think it needs more storage space and i cant do my cosntraints as i have them now. Everything needs also to be null...</p>
+
+<p>Well I am open to all sorts of ideas. The application is not written yet, so I can basically change whatever I like.</p>
+","413910","","","","","2010-12-30 19:34:29","SQL Modeling / Query Question","<sql><mysql><database-design>","3","1","","","","CC BY-SA 2.5"
+"4564829","1","4583007","","2010-12-30 17:36:26","","0","915","<p>I have a need to render content from another page using a content query web part. I've found several examples on how to accomplish custom fields using common-view-fields but nothing specific on how to query page content from another page.</p>
+
+<p>Is this possible?</p>
+
+<p>Thanks,
+Eric</p>
+","428682","","","","","2011-01-03 08:25:51","content query web part to display content from another page","<sharepoint-2007>","1","0","","","","CC BY-SA 2.5"
+"4564842","1","4717061","","2010-12-30 17:38:21","","0","945","<p>So I have a XMLRPC developed in Zend PHP which calls a SOAP request to start another process (SOAP is not my script but the XMLRPC is).</p>
+
+<p>During the SOAP request if the host is not found, this <strong>sometimes</strong> crashes my XMLRPC call.
+How can I return the XMLRPC request with a response instead of an error? Does the logic look ok? I know all the functionality works and I have gotten the response I desire (sometimes) but I need to make sure the script doesn't crash. Any thoughts? tips?</p>
+
+<p>Here is what I have</p>
+
+<pre><code>try {
+   $soap_call = new ReportSoapClient();
+   $soap_call-&gt;RunReport();
+} catch(Exception $e) {
+   // Set the Error Alert Email Message
+   $this-&gt;setErrorAlertMessage($this-&gt;getErrorAlertMessage().""ERROR: SOAP Exception: "".$e-&gt;getMessage());
+   // Send the Email
+   $this-&gt;sendErrorAlertEmail();
+
+   // This set the XMLRPC Response 
+   $this-&gt;setXMLRPCResponse('Code: '.$e-&gt;getCode().' Message: '.$e-&gt;getMessage());
+   // This is a logger
+   $this-&gt;debug('Code: '.$e-&gt;getCode().' Message: '.$e-&gt;getMessage());
+   // Return the XMLRPC Response
+   return $this-&gt;getXMLRPCResponse();
+} 
+</code></pre>
+
+<p>Here is the email I get:</p>
+
+<pre><code>ERROR: SOAP Exception: Could not connect to host
+</code></pre>
+
+<p>Here is the error I get when crashing (happens only sometimes, why???):</p>
+
+<pre><code>Fatal error: Uncaught exception 'Zend_Http_Client_Adapter_Exception' with message 'Read timed out after 10 seconds' in /usr/share/php/libzend-framework-php/Zend/Http/Client/Adapter/Socket.php:512
+Stack trace:
+#0 /usr/share/php/libzend-framework-php/Zend/Http/Client/Adapter/Socket.php(330): Zend_Http_Client_Adapter_Socket-&gt;_checkSocketReadTimeout()
+#1 /usr/share/php/libzend-framework-php/Zend/Http/Client.php(989): Zend_Http_Client_Adapter_Socket-&gt;read()
+#2 /usr/share/php/libzend-framework-php/Zend/XmlRpc/Client.php(280): Zend_Http_Client-&gt;request('POST')
+#3 /usr/share/php/libzend-framework-php/Zend/XmlRpc/Client.php(361): Zend_XmlRpc_Client-&gt;doRequest(Object(Zend_XmlRpc_Request))
+#4 /usr/share/php/libzend-framework-php/Zend/XmlRpc/Client/ServerProxy.php(93): Zend_XmlRpc_Client-&gt;call('system.multical...', Array)
+#5 [internal function]: Zend_XmlRpc_Client_ServerProxy-&gt;__call('multicall', Array)
+#6 /path/to/xmlrpc.client.php(70): Zend_XmlRpc_Client_ServerProxy-&gt;multicall(Array)
+#7 {main}
+  thrown in /usr/share/php/libzend-framework-php/Zend/Http/Client/Adapter/Socket.php on line 512
+</code></pre>
+
+<p>I <a href=""https://stackoverflow.com/questions/4563680/xmlrpc-zend-http-client-adapter-exception-with-message-read-timed-out-after-10"">increased the timeout to 30 seconds</a> (&lt;-- Link: if you need to see how) and then I sometimes get this: (again why???):</p>
+
+<pre><code>Fatal error: Uncaught exception 'Zend_Http_Client_Adapter_Exception' with message 'Read timed out after 30 seconds' in /usr/share/php/libzend-framework-php/Zend/Http/Client/Adapter/Socket.php:512
+Stack trace:
+#0 /usr/share/php/libzend-framework-php/Zend/Http/Client/Adapter/Socket.php(330): Zend_Http_Client_Adapter_Socket-&gt;_checkSocketReadTimeout()
+#1 /usr/share/php/libzend-framework-php/Zend/Http/Client.php(989): Zend_Http_Client_Adapter_Socket-&gt;read()
+#2 /usr/share/php/libzend-framework-php/Zend/XmlRpc/Client.php(280): Zend_Http_Client-&gt;request('POST')
+#3 /usr/share/php/libzend-framework-php/Zend/XmlRpc/Client.php(361): Zend_XmlRpc_Client-&gt;doRequest(Object(Zend_XmlRpc_Request))
+#4 /usr/share/php/libzend-framework-php/Zend/XmlRpc/Client/ServerProxy.php(93): Zend_XmlRpc_Client-&gt;call('system.multical...', Array)
+#5 [internal function]: Zend_XmlRpc_Client_ServerProxy-&gt;__call('multicall', Array)
+#6 /path/to/xmlrpc.client.php(23): Zend_XmlRpc_Client_ServerProxy-&gt;multicall(Array)
+#7  in /usr/share/php/libzend-framework-php/Zend/Http/Client/Adapter/Socket.php on line 512
+</code></pre>
+
+<p>Here is what comes back sometimes (this is the desired response):</p>
+
+<pre><code>Code: 0 Message: Could not connect to host
+</code></pre>
+","93966","","-1","","2017-05-23 12:18:41","2011-01-17 19:35:50","XMLRPC calling SOAP need to return response instead of crashing/dying","<php><soap><exception><try-catch><xml-rpc>","1","2","","","","CC BY-SA 2.5"
+"4564848","1","4564948","","2010-12-30 17:38:45","","0","1896","<p>Here is my function:</p>
+
+<pre><code>function single_resonator() {
+            $data['title'] = 'Single Resonator Operating Parameters';
+            $data['main_content'] = 'products/single_res_view';
+            $this-&gt;load-&gt;view('templates/main.php', $data);
+        }
+</code></pre>
+
+<p>But the single_res_view doesn't load if it is in the products folder in the views folder.  How do I accomplish this?  I tried a file called MY_router.php from a post elsewhere on this site and it didn't help.  CI will only load the single_res_view if it is in the root of the views folder.</p>
+
+<p>Here is templates/main.php</p>
+
+<pre><code>&lt;?php $this-&gt;load-&gt;view('includes/header.php'); ?&gt;
+
+&lt;?php $this-&gt;load-&gt;view('includes/nav.php'); ?&gt;
+
+&lt;?php $this-&gt;load-&gt;view($main_content); ?&gt;
+
+&lt;?php $this-&gt;load-&gt;view('includes/footer.php'); ?&gt;
+</code></pre>
+","537082","","537082","","2010-12-30 17:43:48","2010-12-30 17:52:32","$data['main_content'] to load view in subfolder in CodeIgniter","<codeigniter>","1","7","","","","CC BY-SA 2.5"
+"4564850","1","4564877","","2010-12-30 17:38:47","","26","55643","<p>I need to install a simulator in my ubuntu. It is written in C++ and when I try to run make, I get this error <code>strlen was not declared in this scope</code>. Any solution to overcome this error?</p>
+","527053","","527053","","2013-10-15 19:53:36","2013-10-15 19:53:36","strlen was not declared in this scope - C++","<c++><ubuntu>","3","2","0","","","CC BY-SA 3.0"
+"2074001","1","2094539","","2010-01-15 18:58:09","","3","3238","<p>I'm working with Microchip's TCP/IP stack and the host name of my device is not being broadcasted, although I can access it using its DHCP assigned IP.  </p>
+
+<p>So the question is, what is the protocol that a network device uses to broadcast its host name, so that when I see a list of devices in a network I can identify it by name?  </p>
+
+<p>Is it the NetBIOS name service or something else?  Thanks in advance.</p>
+","127819","","171461","","2010-01-15 19:02:11","2014-03-11 05:31:29","How host name is broadcasted in a subnet","<tcp><network-protocols><netbios>","3","1","","","","CC BY-SA 2.5"
+"2074003","1","","","2010-01-15 18:58:33","","0","1480","<p>I want to use an image in my checkbox as label, anybody know how ?</p>
+","251793","","","","","2010-11-18 16:52:57","Image as Label with Checkbox in Flex","<apache-flex><checkbox>","2","0","","","","CC BY-SA 2.5"
+"2074004","1","2074024","","2010-01-15 18:58:35","","0","445","<p>My page needs to know when the cache a included javascript file will expire, to retrieve it again.</p>
+","48465","","2642204","","2014-01-23 20:32:01","2014-01-23 20:32:01","Can I get via javascript the HTTP expires header of a HTTP resource?","<javascript><http-headers>","1","0","","","","CC BY-SA 2.5"
+"2074005","1","2177658","","2010-01-15 18:58:37","","0","191","<p>I have a very simple Excel Addin build it in Visual Studio 2008 for Excel 2003, which creates a toolbar with some buttons.</p>
+
+<p>When I debug it, with System Format set to ""English (United States)"" it works great, without problems.</p>
+
+<p>However, this addin is going to be used with System Format set to ""French (France)"" too, and when I try to debug my addin under this configuration, the toolbar (which is created by the addin) is not being shown.</p>
+
+<p>While I'm debugging I can see that the methods that create the toolbar are executed and the code returns fine, yet I can't see anything in Excel, and if I switch back the format to English it works again.</p>
+
+<p>Does anyone know which could be the reason?</p>
+","58434","","","","","2010-02-01 15:18:12","Problem with toolbar in Excel 2003","<excel><localization><vsto><add-in>","2","2","","","","CC BY-SA 2.5"
+"2074006","1","2074121","","2010-01-15 18:58:45","","1","4668","<p>I am working on a WPF control whose content is a grid.  I am relatively new to WPF so I am wondering if the below is the right way to go about this.</p>
+
+<p>I placed two labels in the grid, both in the same column but adjacent rows:</p>
+
+<pre><code>&lt;Window
+xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+x:Class=""UntitledProject8.Window1""
+x:Name=""Window""
+Title=""Window1""
+Width=""200"" Height=""200""&gt;
+
+&lt;Grid x:Name=""LayoutRoot""&gt;
+    &lt;Grid HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Width=""100"" Height=""100""/&gt;
+    &lt;Grid.RowDefinitions&gt;
+        &lt;RowDefinition Height=""*""/&gt;
+        &lt;RowDefinition Height=""*""/&gt;
+    &lt;/Grid.RowDefinitions&gt;
+    &lt;Label Grid.Row=""0"" Content=""1.23"" FontSize=""18"" HorizontalAlignment=""Center"" VerticalAlignment=""Bottom""/&gt;
+    &lt;Label Grid.Row=""1"" Content=""45"" FontSize=""48"" HorizontalAlignment=""Center"" VerticalAlignment=""Top""/&gt;
+&lt;/Grid&gt;
+</code></pre>
+
+<p></p>
+
+<p>I set the labels' vertical alignment so that the label on row zero is aligned to the bottom and the label on row 1 is aligned to the top.</p>
+
+<p>Now, this is close to what I want but I need the actual text of the label in row 1 to be closer to the text of label in row zero.  To do this I set the margin of the label in row 1 to a negative value:</p>
+
+<pre><code>&lt;Window
+xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+x:Class=""UntitledProject8.Window1""
+x:Name=""Window""
+Title=""Window1""
+Width=""200"" Height=""200""&gt;
+
+&lt;Grid x:Name=""LayoutRoot""&gt;
+    &lt;Grid HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Width=""100"" Height=""100""/&gt;
+    &lt;Grid.RowDefinitions&gt;
+        &lt;RowDefinition Height=""*""/&gt;
+        &lt;RowDefinition Height=""*""/&gt;
+    &lt;/Grid.RowDefinitions&gt;
+    &lt;Label Grid.Row=""0"" Content=""1.23"" FontSize=""18"" HorizontalAlignment=""Center"" VerticalAlignment=""Bottom""/&gt;
+    &lt;Label Grid.Row=""1"" Content=""45"" FontSize=""48"" HorizontalAlignment=""Center"" VerticalAlignment=""Top"" Margin=""0,-20,0,0""/&gt;
+&lt;/Grid&gt;
+</code></pre>
+
+<p></p>
+
+<p>Is that the right way to do it?  Granted that my examples above are simplistic but as the grid contents grow and get more complicated (such as including other layout containers) is setting different values for control margins the correct way to make adjacent cells closer or farther apart?</p>
+
+<p>I am just a little concerned since I am trying my best to avoid hard coding any types of ""designer"" values like I did when working with WinForms (such as setting exact coords for location and values for sizes) and would like to let the layout manager just take care of it.  However, it looks like setting the margin is the only way to go.</p>
+
+<p>Thanks for the help :)</p>
+","136525","","305637","","2011-09-16 16:13:07","2011-09-16 16:13:07","WPF grid layout and cell content margins","<c#><wpf><grid>","1","0","","","","CC BY-SA 2.5"
+"2074009","1","2074016","","2010-01-15 18:59:06","","30","243167","<p>Coming from a Java background I'm learning C, but I find those vague compiler error messages increasingly frustrating. Here's my code:</p>
+
+<pre><code>/*
+ * PURPOSE
+ *      Do case-insensetive string comparison.
+ */
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;ctype.h&gt;
+
+int compareString(char cString1[], char cString2[]);
+char strToLower(char cString[]);
+
+int main() {
+    // Declarations
+    char cString1[50], cString2[50];
+    int isEqual;
+
+    // Input
+    puts(""Enter string 1: "");
+    gets(cString1);
+    puts(""Enter string 2: "");
+    gets(cString2);
+
+    // Call
+    isEqual = compareString(cString1, cString2);
+    if (isEqual == 0)
+        printf(""Equal!\n"");
+    else
+        printf(""Not equal!\n"");
+
+    return 0;
+}
+
+// WATCH OUT
+//      This method *will* modify its input arrays.
+int compareString(char cString1[], char cString2[]) {
+    // To lowercase
+    cString1 = strToLower(cString1);
+    cString2 = strToLower(cString2);
+
+    // Do regular strcmp
+    return strcmp(cString1, cString2);
+}
+
+// WATCH OUT
+//      This method *will* modify its input arrays.
+char strToLower(char cString[]) {
+    // Declarations
+    int iTeller;
+
+    for (iTeller = 0; cString[iTeller] != '\0'; iTeller++)
+        cString[iTeller] = (char)tolower(cString[iTeller]);
+
+    return cString;
+}
+</code></pre>
+
+<p>This generates two warnings.</p>
+
+<ul>
+<li>assignment makes pointer from integer without a cast
+
+<ul>
+<li>cString1 = strToLower(cString1);</li>
+<li>cString2 = strToLower(cString2);</li>
+</ul></li>
+<li>return makes integer from pointer without a cast
+
+<ul>
+<li>return cString;</li>
+</ul></li>
+</ul>
+
+<p>Can someone explain these warnings?</p>
+","217649","","608639","","2014-09-14 17:55:01","2014-09-14 17:55:01","Assignment makes pointer from integer without cast","<c><warnings>","8","0","0","","","CC BY-SA 3.0"
+"2074010","1","2074038","","2010-01-15 18:59:30","","2","186","<p>I am going to have an ExpressionEngine weblog that will place user designed content blocks in the footer. But, it's only going to show one at at time.</p>
+
+<p>My HTML looks like this:</p>
+
+<pre><code>&lt;ul class=""footernav""&gt;
+    &lt;li class=""first""&gt;&lt;a class=""active"" href=""#""&gt;Get in touch&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=""#""&gt;Interested in joining?&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=""#""&gt;Feedback&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=""#""&gt;Link 4&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=""copy gutters show""&gt;
+    &lt;p&gt;Lorem Ipsum&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=""copy gutters hide""&gt;
+    &lt;p&gt;Lorem Ipsum&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=""copy gutters hide""&gt;
+    &lt;p&gt;Lorem Ipsum&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>I want to switch the show class to a hide class depending on the clicked link. Not sure how I can accomplish this. It has to be flexible enough to work with N number of content blocks--because they will be defined by the user in ExpressionEngine.</p>
+
+<p>I'm pretty much brand new to JavaScript so I would really appreciate any insight, or solution for how I might accomplish this.</p>
+","428741","","106","","2010-01-15 19:06:35","2010-01-15 22:18:30","Trouble with show/hide JavaScript","<javascript><jquery>","1","0","","","","CC BY-SA 2.5"
+"2074012","1","2074058","","2010-01-15 19:00:22","","15","8016","<p>I read that Java provides default values to class properties, but not to local variables. Is that correct?</p>
+<p>If so, what is the reason behind this? When you are doing something good, why not do it all the way?</p>
+","127404","","63550","","2021-01-07 16:07:29","2021-01-07 16:09:55","Default values of instance variables and local variables","<java>","2","3","0","","","CC BY-SA 4.0"
+"2074015","1","2074209","","2010-01-15 19:01:09","","1","758","<p>I have a Linq to SQL class.</p>
+
+<p>There is a one to many relationship in my database.</p>
+
+<p>The relationship maps correctly in the designer, and an <code>EntitySet&lt;&gt;</code> property is created in the designer.</p>
+
+<p>When I run the code, the <code>EntitySet&lt;&gt;</code> does not populate with any data, even though there are associated records, they do not populate into the <code>EntitySet&lt;&gt;</code></p>
+
+<p>Am I missing some property or setting?  Do I have to write the query myself? I feel like I'm missing something obvious.</p>
+
+<p>Here is the Designer code:</p>
+
+<pre><code>[Association(Name = ""Bar_Foo"", Storage = ""_Foo"", ThisKey = ""ID"", OtherKey = ""BarID"")]
+[DataMember(Order = 15, EmitDefaultValue = false)]
+public EntitySet&lt;Foo&gt; Foos
+{
+    get
+    {
+        if ((this.serializing &amp;&amp; (this._Foo.HasLoadedOrAssignedValues == false)))
+        {
+            return null;
+        }
+        return this._Foo;
+    }
+    set
+    {
+        this._Foo.Assign(value);
+    }
+}
+</code></pre>
+
+<p>This is the code where I am trying to access the EntitySet&lt;>:</p>
+
+<pre><code>    partial void OnCreated()
+    {
+        foreach (Foo foo in Foos)
+        {
+            foo.DoSomething();
+        }
+    }
+</code></pre>
+
+<p><strong>More information about my situation:</strong></p>
+
+<p>So, from above I have a class Bar with a collection of Foo. What I am trying to do is pass Bar to a UI via a WCF service. Following is my primary service call:</p>
+
+<pre><code>public class TheService : ITheService
+{
+    public List&lt;Bar&gt; GetBars()
+    {
+        try
+        {
+            using (var db = new BarDataContext())
+            {
+                List&lt;Bar&gt; Bars = new List&lt;Bar&gt;();
+
+                Bars = (from B in db.Bars
+                            select B).ToList();
+
+                return Bars;
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new FaultException(ex.Message + "" Something in GetBars() Stack Trace: "" + ex.StackTrace);
+        }
+    }
+}
+</code></pre>
+
+<p>Currently, when the service returns the Bars the Foos inside each Bar is null.</p>
+
+<p>If I create a property in Bar that looks at Foos, I get a null reference exception.</p>
+
+<p>I try to run a query in the OnCreated method to fill Foos, the ID of the current Bar is 0.</p>
+
+<p><strong>Updated Query that still doesn't work:</strong></p>
+
+<pre><code>                using (var ctx = new BarDataContext())
+            {
+                List&lt;Bar&gt; Bars= new List&lt;Bar&gt;();
+
+                Bars= (from B in ctx.Bars
+                             select B).ToList();
+
+                foreach (Bar bar in Bars)
+                {
+                    bar.Foos= (from B in ctx.Bars
+                               where B.ID == bar.ID
+                               select B.Foos).SingleOrDefault();
+                }
+
+                return Bars;
+            }
+</code></pre>
+
+<p>This code generates a null reference exception when I try to query Foos from Bar.</p>
+
+<p><strong>EDIT:</strong></p>
+
+<p>The code above magically stopped throwing null reference exceptions, dunno why. I find it interesting that you don't even need to set bar.Foos in the above query, you can put the Foos query into a variable that never gets used and it will fill in the Bar.Foos property, just because you looked at Foos. Reminds me of schrodinger's cat.</p>
+","218177","","218177","","2010-01-20 00:35:58","2010-01-20 00:35:58","Linq to SQL collections do not populate","<.net><sql><linq><linq-to-sql>","1","2","","","","CC BY-SA 2.5"
+"2074017","1","2074046","","2010-01-15 19:01:15","","2","986","<p>I have a class ""skImage"". This class has a private variable (with a public property that exposes it)</p>
+
+<pre><code>private Image _capturedImage;  
+</code></pre>
+
+<p>the constructor of this class looks like:</p>
+
+<pre><code>   public skImage(Image captured) {
+
+            _capturedImage = captured;
+
+        }
+</code></pre>
+
+<p>It also has the following method:</p>
+
+<pre><code>public bool Invert() {
+
+        Bitmap b = new Bitmap(_capturedImage);
+
+        unsafe {
+         //random code not relevant.
+        }
+
+        _capturedImage = b;
+        b.Dispose();
+        return true;
+    }
+</code></pre>
+
+<p>and then it has a save() method, which just calls:</p>
+
+<pre><code>  _capturedImage.Save(_saveFullLocation);
+</code></pre>
+
+<p>now if i run the invert method and then try calling save it throws an exception (parameter is not valid). After googling this exception it seems like I am disposing of the image. I can see that I am disposing ""b"" after the invert method. </p>
+
+<p>My question is that when i do <code>_capturedImage = b</code> does that mean both variables now hold one reference to the object? I dont want that. I want b to be destroyed to relieve memory so the GC can collect it. How do i transfer b to _capturedImage and destroy b. </p>
+
+<p>thanks</p>
+","50312","","30018","","2010-01-15 19:04:27","2010-01-16 04:38:17","How c# handles memory","<c#><pass-by-reference>","5","0","","","","CC BY-SA 2.5"
+"2074018","1","2109591","","2010-01-15 19:01:20","","2","549","<p>So here's the concept. I'm trying to write a C# backend for CouchDB (keep reading, this has little or nothing to do with CouchDB). </p>
+
+<p>Here's the basic idea: </p>
+
+<p>1) The DB Driver uploads an arbitrary string to the DB Server. </p>
+
+<p>2) The DB Driver tells the DB server to run the code and produce a view</p>
+
+<p>3) The DB Server loads my C# backend, hands it the input string</p>
+
+<p>4) The DB Server hands the function to the C# backend</p>
+
+<p>5) The DB Server hands the C# backend data to execute the function over</p>
+
+<p>6) The C# Backend executes the code and result the data to the DB Server</p>
+
+<p>7) The DB Server stores, or otherwise sorts and sends the results back to the DB Driver</p>
+
+<p>So the problem I'm having is with the remote code execution. All my models are C# objects. So it'd be really nice to be able to write the code on the front end, and have the code transfered to the back end for execution. Without having to copy DLLs etc. Now currently in CouchDB this query language is JavaScript so it's super simple to just copy the code into a string.</p>
+
+<p>Any options like this in C#? Can I get a string version of a function? Should I create a external server that hosts these DLL assemblies and serves them up to the CouchDB backends? Should I compile them on the front end, and embed the .cs files as a resource? I'm just brainstorming at this point. Any thoughts/ideas/questions are welcome. </p>
+","209878","","","","","2010-01-21 13:45:39","Remote Executing Code - Lambdas...Static Methods....etc. eval() for C#?","<c#><rpc>","4","0","","","","CC BY-SA 2.5"
+"2074019","1","2074225","","2010-01-15 19:01:21","","1","2546","<p>here is my situation. I have created a DataSet, in my projet, that is linked to my Crystal report. Howhever, when I run the application and that I look at my report, there is decimal on all of my numeric fields. How can I remove them?</p>
+
+<p>For your information, when I right-click on one of these numeric field, I don't have a format option (probably because it comes from a DataSet and not directly from the DB, I can't tell exactly).</p>
+
+<p>Thanks</p>
+","127856","","","","","2010-01-15 19:31:12","Fixing number of decimals in crystal report","<c#><.net><crystal-reports>","1","0","","","","CC BY-SA 2.5"
+"2074022","1","2074395","","2010-01-15 19:01:37","","1","365","<p>When I insert some data with <code>Zend_Form</code> to database with non <code>a-z</code> characters like <code>chrząszcz</code> it cuts me this string and in database I have saved only <code>chrz</code>.</p>
+
+<p>Everyting in <code>MySql</code> is set as <code>utf8_general_ci</code>, when connecting with <code>MySql</code> I call <code>SET CHARACTER SET 'utf8'</code>, files are also <code>UTF-8</code>.</p>
+
+<p>I have no idea what to do with that.</p>
+
+<p>I wrote also standalone script and it inserts and reads me that string correct. <code>ZendFramework</code> reads it also correct. The problem is only with inserting.</p>
+
+<p>Do anyone know how to fix it ?</p>
+
+<p><b>UPDATE:</b></p>
+
+<p>If I insert data with:</p>
+
+<pre><code>$db-&gt;query(""INSERT INTO unit SET name = 'chrząszcz'"");
+</code></pre>
+
+<p>in <code>ZendFramework</code> it works. Problem is with inserting that way:</p>
+
+<pre><code>$unitTable = new Model_Unit_Table();
+$unit = $unitTable-&gt;createRow();
+$unit-&gt;setFromArray($form-&gt;getValues());
+$unit-&gt;save();
+</code></pre>
+
+<p><b>UPDATE 2:</b></p>
+
+<p>Problem is with using <code>Zend_Filter_StringToLower</code> - it modifies string <code>chrząszcz</code> into <code>chrz�szcz</code>.<br>
+How to get this filterto work correct ?</p>
+","223386","","223386","","2010-01-15 19:59:15","2010-01-15 20:03:33","ZendFramework cuts strings from first non a-z char when inserting to mysql","<php><mysql><zend-framework><utf-8><character-encoding>","2","2","","","","CC BY-SA 2.5"
+"2074025","1","","","2010-01-15 19:01:56","","1","1794","<p>I have this regex <code>(\d{4})-(\d{2})-(\d{2})</code> to detect a valid date, however, it is not perfect as some of the incoming data are 2009-24-09 (YYYY-DD-MM) and some are 2009-09-24 (YYYY-MM-DD).</p>
+
+<p>Is it possible to have a one-line regex to detect whether the second &amp; third portion is greater than 12 to better validate the date?</p>
+","236466","","","","","2010-01-15 19:25:15","Better regex to validate date time","<regex>","4","3","0","","","CC BY-SA 2.5"
+"2074030","1","2074047","","2010-01-15 19:02:44","","0","537","<p>I am having 2 <code>.bak</code> files for the same database in MSSQL Server. One is the test snapshot and the other is the production snapshot. The test one is about 500 MB and the production one is about 10 GB. This is because the Test one has many tables truncated. When I restore them in sql server a <code>.mdf</code> file is created at <code>\Microsoft SQL Server\MSSQL.1\MSSQL\Data</code> folder. But I see that the sze of the .mdf file is about 10 GB even when I restore only the test snapshot. Since the test snapshot has many tables truncated and data is less, I would assume that the the size of the .mdf file should be less than that for production snapshot. But that is not the case. Does sql server reserve space in the mdf file and hence it is the same size for both the versions?</p>
+","239770","","","","","2010-01-15 22:10:36","Discrepency in the size of mdf files in SQL server","<sql-server>","3","0","","","","CC BY-SA 2.5"
+"2074032","1","2074091","","2010-01-15 19:03:10","","3","348","<p>I'm in a Math class about coding theory and we have to do a project for our term mark.  </p>
+
+<p>My project is a client with an echo server, which shows what errors were introduced in the trip from the client to the server, and then back. And test different error correcting schemes for efficiency and how well they are suited to this task.</p>
+
+<p>The coding isn't really a problem, I was able to make something that would detect errors, ask for retransmission if unable to fix them and such.</p>
+
+<p>The problem I have is that so far, for me to introduce any type of bit error, I must do it artificially -- since other layers of data transfer have their own error correction protocols.</p>
+
+<p>My question: Is there a way to get around this?</p>
+
+<p>I have no idea how I would go about this or even where to begin. </p>
+
+<p>Also, I know there are protocols I can't tinker with so theres always going to be error correction going on in the background at those levels. But what I'd like is to be able to pretend that one of these layers wasn't checking things itself and then my application would be given the chance to play that role.</p>
+
+<p>If this can't be done, what are some good methods of simulating errors introduced during transmission. I was unable to find statistical information about the distribution of errors in even a simple example of a channel. Given those I could continue with the current approach of having the server introduce errors in the message.</p>
+","103959","","59087","","2010-01-15 20:19:48","2010-01-16 02:44:47","Introducing errors in client-server transmission","<java><networking><client-server><error-correction>","3","1","","","","CC BY-SA 2.5"
+"2074033","1","2879848","","2010-01-15 19:03:17","","5","1813","<p>I am working with a Java framework that generates some (proxy) classes at runtime, using a custom ClassLoader. I would like to get for any such class that the custom ClassLoader returns from loadClass(..) the raw byte array that corresponds to this class. Is this possible? I know that if a class exists as a resource then you can use an input stream to load the class in binary format but how can I go about this if the class is generated at runtime?</p>
+","66237","","","","","2010-05-21 05:58:39","Get bytes for a class that was generated at runtime","<java><classloader>","3","1","","","","CC BY-SA 2.5"

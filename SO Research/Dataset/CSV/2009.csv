@@ -1,0 +1,1823 @@
+Id,PostTypeId,AcceptedAnswerId,ParentId,CreationDate,DeletionDate,Score,ViewCount,Body,OwnerUserId,OwnerDisplayName,LastEditorUserId,LastEditorDisplayName,LastEditDate,LastActivityDate,Title,Tags,AnswerCount,CommentCount,FavoriteCount,ClosedDate,CommunityOwnedDate,ContentLicense
+"1162082","1","","","2009-07-21 22:28:34","","0","1514","<p>Why I'm having this error ""Object of type 'System.UInt16' cannot be converted to type 'System.Int16"" when I'm trying to run below code</p>
+
+<pre><code> public ActionResult List()
+ {
+     var x = account.All();
+     return View(x);
+ }
+</code></pre>
+
+<p>The errors showed up, when it's try to iterate my model in my List.aspx file (below code).</p>
+
+<pre><code>  &lt;% foreach (var item in Model) { %&gt;
+</code></pre>
+
+<p>I'm using Subsonic 3.0.3 and MySQL database. Below is my account table descriptions</p>
+
+<pre><code>acc_id          smallint(5)        unsigned pri
+acc_type        smallint(5)        unsigned
+acc_status      tinyint(3)         unsigned
+acc_balance     int(11)            unsigned
+</code></pre>
+
+<p>Do I have to modify something in MySQL.ttinclude to make this thing work?</p>
+","37509","","37509","","2009-07-22 06:12:53","2009-10-05 23:34:36","Object of type 'System.UInt16' cannot be converted to type 'System.Int16'","<asp.net-mvc><subsonic><subsonic3>","5","4","","","","CC BY-SA 2.5"
+"1162090","1","1163670","","2009-07-21 22:30:56","","0","177","<p>I have a class that needs to ask the user a question and wait for the users response to determine the next action. What would be the best way to do this? Using a delegate? How? I have a UITextField and a UITextField in the class.</p>
+
+<p>Thanks</p>
+","113269","","","","","2009-07-22 07:41:07","Prompting and Delegate question","<objective-c><iphone><cocoa-touch><delegates>","2","0","0","","","CC BY-SA 2.5"
+"1162095","1","1162778","","2009-07-21 22:31:28","","1","7033","<p>I am for the first time trying to setup transactional replication. This is from an sql 2000 server sp3a to an sql 2005 server which I believe should work. </p>
+
+<p>I did a quick test on my local machine (sql 2005) using it as both the publisher and subscriber and had no trouble setting it up. I repeated a similar process for the real servers using enterprise manager for the 2000 publisher parts and management studio to setup the PULL subscriber. This all seemed to work and the publisher logs seem to be indicating it was preparing the initial data however I am not getting anything coming over as of yet. I checked the logs and am getting an os error 3. I have included the two log sections I think are important below.</p>
+
+<p>2009-07-21 21:37:42.043 The process could not read file 'D:\Program Files\Microsoft SQL Server\MSSQL\ReplData\unc\DOMINO_qlsdat_DOMINO qlsdat to PONGOSQL\20090721164816\enbhostname_1.sch' due to OS error 3.</p>
+
+<p>Message
+The replication agent encountered an error and is set to restart within the job step retry interval. 
+See the previous job step history message or Replication Monitor for more information.
+<br/><br/></p>
+
+<p>Looks to me like I need to give share permission to the replication data, should I have setup the replication data to go to a share using unc path.</p>
+","16989","","","","","2009-07-22 02:35:46","transactional replication error due to OS error 3","<sql-server>","1","0","","","","CC BY-SA 2.5"
+"1162100","1","1162188","","2009-07-21 22:33:07","","0","193","<p>I am using this JS script for multiple country selection and I get an error from firebug.</p>
+
+<pre><code>selObj is null
+[Break on this error] selObj.options[0] = new Option('Select Country','');
+</code></pre>
+
+<p>The relevant code is this:</p>
+
+<pre><code>function populateCountry(idName) {
+ var countryLineArray = country.split('|'); // Split into lines
+
+ var selObj = document.getElementById(idName);
+
+ selObj.options[0] = new Option('Select Country','');
+ selObj.selectedIndex = 0;
+
+
+ for (var loop = 0; loop &lt; countryLineArray.length; loop++) {
+
+ lineArray = countryLineArray[loop].split(':');
+
+ countryCode = TrimString(lineArray[0]);
+</code></pre>
+
+<p>The full script <a href=""http://javascript.internet.com/forms/country-state-drop-down.html"" rel=""nofollow noreferrer"">can be found here</a>.</p>
+
+<p>This is how I use it in my HTML:</p>
+
+<pre><code>&lt;select id=""billCountrySelect"" onchange=""updateState('billCountrySelect')"" name=""bill_country""&gt;
+</code></pre>
+
+<p>What is the problem. I am passing it correct parameters??</p>
+","51649","","","","","2020-10-08 14:22:10","Null Object Problem","<javascript>","1","3","","","","CC BY-SA 2.5"
+"1162107","1","1162118","","2009-07-21 22:36:24","","16","19852","<p>The radio buttons in Zend Framework are displayed in a column (one option per line). How can I remove the br tag from the markup so that all radio options stay in one line?</p>
+
+<p>My decorators are:</p>
+
+<pre><code>private $radioDecorators = array(
+    'Label',
+    'ViewHelper',
+    array(array('data' =&gt; 'HtmlTag'), array('tag' =&gt; 'div', 'class' =&gt; 'radio')),
+    array(array('row' =&gt; 'HtmlTag'), array('tag' =&gt; 'li')),
+);
+</code></pre>
+","95944","","","","","2011-10-27 09:34:06","Display Zend_Form_Element_Radio on one line","<php><zend-framework><zend-form><radio-button>","3","0","0","","","CC BY-SA 2.5"
+"1162110","1","1162886","","2009-07-21 22:38:37","","6","27071","<p>Consider this problem:</p>
+
+<p>Using Javascript/E4X, in a non-browser usage scenario (a Javascript HL7 integration engine), there is a variable holding an XML snippet that could have multiple repeating nodes. </p>
+
+<pre><code>&lt;pets&gt;       
+ &lt;pet type=""dog""&gt;Barney&lt;/pet&gt;
+ &lt;pet type=""cat""&gt;Socks&lt;/pet&gt;
+&lt;/pets&gt;
+</code></pre>
+
+<p><strong>Question</strong>: How to get the count of the number of pet nodes in Javascript/E4X ?</p>
+
+<p>EDIT: To clarify, this question should be around <a href=""http://en.wikipedia.org/wiki/E4x"" rel=""noreferrer"">E4X (ECMAScript for XML)</a>. Apologies to those who answered without this information. I should have researched &amp; posted this info beforehand.</p>
+","23199","","23199","","2009-07-22 15:27:00","2012-02-21 14:02:21","Count the number of nodes in an XML snippet using Javascript/E4X","<javascript><xml><e4x><mirth>","3","1","0","","","CC BY-SA 2.5"
+"1162112","1","","","2009-07-21 22:39:32","","1","1531","<p>I've written an Applescript that sets various IM clients to away, closes iTunes, and then starts my screensaver. </p>
+
+<pre><code>tell application ""Adium""
+    go away
+end tell
+
+tell application ""Skype""
+    send command ""SET USERSTATUS AWAY"" script name ""StatusSetter""
+end tell
+
+tell application ""iTunes""
+    if player state is playing then
+        pause
+    end if
+end tell
+
+activate application ""ScreenSaverEngine""
+</code></pre>
+
+<p>It's a password protected screensaver, and I'm trying to (once the screensaver has gone away) do the reverse. Obviously the 'tell' actions for each application are not a problem, but I can't seem to find out how to do these once the screen has been unlocked. I did assume this would be the same as a LoginItem, but it's not.</p>
+
+<p>Any help appreciated!</p>
+","393028","","","","","2009-07-21 23:27:23","AppleScript for unlock screen dialog","<macos><applescript>","3","0","0","","","CC BY-SA 2.5"
+"1162114","1","1174248","","2009-07-21 22:40:15","","0","436","<p>I am trying to compare a session variable to another string so that i can enable or disable image buttons. I am using asp.net vb with a sql2005 express backend</p>
+
+<pre><code>Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+    Dim string1 As String
+    Dim string2 As String
+
+    Label1.Text = Session(""Username"")
+    Label2.Text = Session(""UserId"")
+
+    string1 = Session(""Username"")
+    string2 = ""medev""
+
+    If String.Compare(string1, string2, True) = 1 Then
+        ImageButton1.Enabled = False
+
+    End If
+</code></pre>
+","","devray","210916","","2012-05-15 01:15:32","2012-05-15 01:15:32","User Login session variable filtered","<asp.net><vb.net>","3","0","0","","","CC BY-SA 3.0"
+"1162117","1","1342455","","2009-07-21 22:40:40","","1","4638","<p>I am wondering how I can use google protocol buffers to accept a request and send a response back to a client? I am thinking about writing a servlet which will take a request.
+Is the following trail of thought the correct way to implement this:
+1. Have a .proto file which is the message definition for the incoming request.
+2. Write a servlet which accepts this request, does various tasks like querying database
+and then sends a response. Will this response require a separate .proto message definition with all the fields that make up the response?
+3. Will the client just invoke the doGet() method of my servlet and pass the request, it should then return a response as a protobuff object?</p>
+
+<p>Any suggestion or idea will be very much appreciated.</p>
+","106401","","22656","","2009-07-21 22:51:44","2009-08-27 17:10:00","Google protocol buffers and servlets","<java><servlets><protocol-buffers>","2","0","0","","","CC BY-SA 2.5"
+"1162121","1","","","2009-07-21 22:41:26","","3","6027","<p>I am attempting to build an application that can monitor multiple remote machines through WMI.  As a C# developer, I have chosen to utilize the System.Management namespace.</p>
+
+<p>For performance and scalability reasons, I would much prefer to use an event-driven method of gathering information than a poll-based one.  As such, I have been investigating the ManagementEventWatcher class.</p>
+
+<p>For simple monitoring tasks, this class seems to be exactly what I want.  I create the object, give it ManagementScope, EventQuery, and EventWatcherOptions parameters, subscribe to the EventArrived event, and call the Start method (simplified example below).</p>
+
+<pre><code>  using SM = System.Management;
+
+  ...
+
+  SM.ManagementEventWatcher    _watcher;
+  SM.ConnectionOptions         conxOptions;
+  SM.ManagementScope           scope;
+  SM.WqlEventQuery             eventQuery;
+  SM.EventWatcherOptions       eventOptions;
+  SM.EventArrivedEventHandler  handler;
+
+  string  path = @""\\machine\root\cimv2"";
+
+  conxOptions = new SM.ConnectionOptions ();
+  conxOptions.Username = user;
+  conxOptions.Password = password;
+  scope = new SM.ManagementScope (path, conxOptions);
+  scope.Connect ();
+
+  eventQuery = new SM.WqlEventQuery (""SELECT * FROM __InstanceCreationEvent WITHIN 10 WHERE TargetInstance ISA 'Win32_Process'"");
+
+  eventOptions = new SM.EventWatcherOptions ();
+  eventOptions.Context.Add (""QueryName"", ""Process Query"");
+
+  _watcher = new SM.ManagementEventWatcher (scope, eventQuery, eventOptions);
+  handler = new SM.EventArrivedEventHandler (HandleWMIEvent);
+  _watcher.EventArrived += handler;
+  _watcher.Start ();
+
+  Console.WriteLine (""Press Any Key To Continue"");
+  Console.ReadKey ();
+
+  _watcher.Stop ();
+  _watcher.EventArrived -= handler;
+</code></pre>
+
+<p>The problem I am running into is that it is difficult to detect when the connection to the remote machine has been broken through various means (machine restart, downed router, unplugged network cable, etc.).</p>
+
+<p>The ManagementEventWatcher class does not appear to provide any means of determining that the connection has been lost, as the Stopped event will not fire when this occurs.  The ManagementScope object attached to the ManagementEventWatcher still shows IsConnected as true, despite the broken link.</p>
+
+<p>Does anyone have any ideas on how to check the connection status?</p>
+
+<p>The only thing I can think to do at this point is to use the ManagementScope object to periodically perform a WMI query against the machine and make sure that still works, though that can only check the local->remote connection and not the corresponding remote->local connection.  I suppose I could look up another WMI query I could use to verify the connection (assuming the query works), but that seems like more work than I should have to do.</p>
+","","Dan Lyons","","","","2010-11-11 23:00:16","System.Management.ManagementEventWatcher - Recovering From Disconnection","<c#><.net><wmi><monitoring>","4","0","0","","","CC BY-SA 2.5"
+"1162124","1","1162185","","2009-07-21 22:41:56","","3","469","<p>I don't have any knowledge of Java platform and I wonder which tools (and methodologies) could be used to help developing maintainable code written in Java.</p>
+
+<p>I know one can use:</p>
+
+<ol>
+<li>Agile methodology in any environment</li>
+<li>jUnit/jMock for unit testing code (similar to NUnit/Moq in .net world)</li>
+<li>Checkstyle for coding standards - is this similar to StyleCop or FxCop or both?</li>
+<li>I suppose you can also write layered applications in Java (like assemblies for different tiers in .net)</li>
+<li>Are there any automated testing OSS/Licensed tools that are worth mentioning</li>
+<li>Are there any code generators that are very popular in Java world</li>
+</ol>
+
+<p>Are there also any other popular tools/methods that a Java developer/team can use that I don't have access to in .net world? Would you suggest other tools and approaches in Java world?</p>
+","75642","","164901","","2010-04-04 15:42:44","2010-04-04 15:42:44","Java development standards and tools (compared to C#)","<java><jakarta-ee><jboss><coding-style>","5","0","0","","","CC BY-SA 2.5"
+"1396995","1","1397016","","2009-09-09 00:19:13","","-1","2571","<p>I had a huge file for creating this GUI and I have shortened it by using arrays. I am trying to add an ActionListener but when the arrays are being added and I am getting the following errors:</p>
+
+<pre><code>/tmp/jc_3531/GUI.java:60: addActionListener(java.awt.event.ActionListener) in javax.swing.AbstractButton cannot be applied to (GUI)
+            nButtons[c].addActionListener( this );
+                       ^
+/tmp/jc_3531/GUI.java:69: cannot find symbol
+symbol  : method addActionListener(GUI)
+location: class javax.swing.JLabel
+            labels[c].addActionListener( this );
+                     ^
+/tmp/jc_3531/GUI.java:78: addActionListener(java.awt.event.ActionListener) in javax.swing.JTextField cannot be applied to (GUI)
+            fields[c].addActionListener( this );
+                     ^
+/tmp/jc_3531/GUI.java:90: addActionListener(java.awt.event.ActionListener) in javax.swing.AbstractButton cannot be applied to (GUI)
+            sButtons[c].addActionListener( this );
+                       ^
+4 errors
+</code></pre>
+
+<p>What am I doing wrong? Is there an easier way to self diagnose (like an editor with an integrated syntax guide)?</p>
+
+<p>Here is my Code</p>
+
+<pre><code>// GUI with navigation amd file manipulation buttons
+import javax.swing.*; // provides basic window features
+import java.awt.event.*;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.text.NumberFormat;
+
+public class GUI extends JFrame 
+{
+    private Inventory inv;      
+    private int currentDisplay = 0; 
+
+    private JPanel nButtonJPanel;
+    private String nNames[]={""Load"",""Add"",""Modify"",""Delete"",""Search"",""Save""};
+    private JButton nButtons[];
+
+    private JPanel labelJPanel;
+    private String labeled[]={""Item ID"",""Name"",""Rating"",""# in Stock"",""Price"",""Inventory Value"",
+    ""Restocking Fee (5%)"",""Inventory Value with Fee"",""Total Value with Fee (all DVD's)""};
+    private JLabel labels[];
+
+    private JPanel fieldJPanel;
+    private String fieldsBlank[]={"""","""","""","""","""","""","""","""",""""};
+    private JTextField fields[];
+
+    private JPanel sButtonJPanel;
+    private String sNames[]={""First"",""Prev"","""",""Next"",""Last""};
+    private JButton sButtons[];
+
+   // LabelFrame constructor adds JLabels to JFrame
+   public GUI()
+   {
+      super( ""Inventory Program v.5"" );
+      setLayout( new BorderLayout() ); // set frame layout
+
+        // initialize values
+        RatedDVD d1 = new RatedDVD(1, ""One Flew Over The Cuckoo's Nest"", 3, 9.99, ""PG"");
+        RatedDVD d2 = new   RatedDVD(2, ""The Matrix"", 1, 13.01, ""PG13"");
+        RatedDVD d3 = new   RatedDVD(3, ""Se7en"", 7, 11.11, ""R"");
+        RatedDVD d4 = new   RatedDVD(4, ""Oceans Eleven"", 11, 9.02, ""PG13"");
+        RatedDVD d5 = new   RatedDVD(5, ""Hitch Hikers Guide to the Galaxy"", 42, 10.00, ""G"");    
+        RatedDVD d6 = new   RatedDVD(6, ""The Invisible Man"", 0, 4999.59, ""G"");  
+
+        // create inv and enter values
+        inv = new Inventory();
+        inv.add(d1);
+        inv.add(d2);
+        inv.add(d3);
+        inv.add(d4);
+        inv.add(d5);
+        inv.add(d6);
+
+        inv.sort();
+
+        //make nButtons
+        nButtonJPanel.setLayout( new GridLayout( 1, nNames.length, 5, 5 ) );
+        nButtons=new JButton[nNames.length];
+        for(int c=0;c&lt;nButtons.length;c++){
+            nButtons[c]=new JButton(nNames[c]);
+            nButtons[c].addActionListener( this );
+            nButtonJPanel.add(nButtons[c]); }
+        add( nButtonJPanel, BorderLayout.NORTH );
+
+        //make labels
+        labelJPanel.setLayout( new GridLayout( labeled.length, 1 ));
+        labels=new JLabel[labeled.length];  
+        for(int c=0;c&lt;labels.length;c++){
+            labels[c]=new JLabel(labeled[c]);
+            labels[c].addActionListener( this );
+            labelJPanel.add(labels[c]);}
+        add( labelJPanel, BorderLayout.WEST );
+
+        //make fields
+        fieldJPanel.setLayout( new GridLayout( fieldsBlank.length, 1 ));
+        fields=new JTextField[fieldsBlank.length];
+        for(int c=0;c&lt;fields.length;c++){
+            fields[c]=new JTextField(fieldsBlank[c],28);
+            fields[c].addActionListener( this );
+            fields[c].setEditable(false);
+            fieldJPanel.add(fields[c]); }
+            populate(currentDisplay);
+        add( fieldJPanel, BorderLayout.EAST );
+
+        //make sButtons
+        sButtonJPanel.setLayout( new GridLayout( 1, sNames.length, 5, 5 ) );
+        sButtons=new JButton[sNames.length];    
+        Icon dvd50 = new ImageIcon( getClass().getResource( ""dvd50.jpg"" ) );
+        for(int c=0;c&lt;sButtons.length;c++){
+            sButtons[c]=new JButton(sNames[c]);
+            sButtons[c].addActionListener( this );
+            sButtonJPanel.add(sButtons[c]);}
+        sButtons[2].setIcon( dvd50 );       
+        add( sButtonJPanel, BorderLayout.SOUTH );
+    }// end method
+
+    public void populate(int currentDisplay)
+    {
+    NumberFormat nf = NumberFormat.getCurrencyInstance();
+    fields[0].setText(String.valueOf(inv.get(currentDisplay).getItem()));
+    fields[1].setText(inv.get(currentDisplay).getName());
+    fields[2].setText(inv.get(currentDisplay).getRating());
+    fields[3].setText(String.valueOf(inv.get(currentDisplay).getUnits()));
+    fields[4].setText(String.valueOf(nf.format(inv.get(currentDisplay).getPrice())));
+    fields[5].setText(String.valueOf(nf.format(inv.get(currentDisplay).value())));
+    fields[6].setText(String.valueOf(nf.format(inv.get(currentDisplay).fee())));
+    fields[7].setText(String.valueOf(nf.format(inv.get(currentDisplay).feeValue())));
+    fields[8].setText(String.valueOf(nf.format(inv.value())));
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+
+    }
+</code></pre>
+","121668","","1458679","","2013-01-16 13:53:20","2013-03-11 09:37:17","Compile error when adding ActionListener to Array created GUI","<java><arrays><user-interface><actionlistener>","2","0","","","","CC BY-SA 3.0"
+"1396996","1","","","2009-09-09 00:19:42","","0","739","<p>I just upgraded to Snow Leopard and have noticed that my NSLog() calls (among other things) in the iPhone simulator are taking quite a long time, way longer than they used to.  Did Apple update the simulator to better approximate the iPhone's CPU speed?</p>
+","45570","","","","","2011-04-12 03:57:02","In xcode 3.2, does the iPhone simulator approximate CPU speed?","<iphone><xcode><ios-simulator>","2","0","0","","","CC BY-SA 2.5"
+"1396997","1","1397011","","2009-09-09 00:19:53","","0","397","<p>What I would like to do is to sort a list of textual identifiers (think of a file name for example). The sorting algorithm I'm looking for is a kind of alphabetic sorting, but taking groups into account.</p>
+
+<p>For example, sorting ""D1"" to ""D21"" should be:</p>
+
+<p>D1, D2, D3, ..., D21</p>
+
+<p>And not:</p>
+
+<p>D1, D10, D11, D12, ... D2, D20, D21, D3, ...</p>
+
+<p>I've been a lot of time trying to accomplish such way of sorting but still can't find how to do it. The bigger the group the harder it seems.</p>
+
+<p>Is there anyone that could guide me through or give me some pseudo code or code in any language?</p>
+
+<p>Thanks.</p>
+","167923","","167923","","2009-09-09 01:53:42","2018-10-21 03:34:20","How to sort alphabetically but respecting groups or symbols?","<algorithm><sorting>","5","0","0","","","CC BY-SA 2.5"
+"1397004","1","1397017","","2009-09-09 00:22:32","","10","4950","<p>I understand that time(0) is commonly using for seeding random number generators and that it only becomes a problem when the program is being run more than once per second. I'm wondering what are some better seeds to consider when generating random numbers. I read about GetTickCount, timeGetTime, and QueryPerformanceCounter on Windows. Will these suffice for almost all operations or are there even better seeding options?</p>
+
+<p>Here is a quick code example using the boost library:</p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;boost/random.hpp&gt;
+using namespace std;
+using namespace boost;
+
+int main()
+{
+    mt19937 randGen(42);
+    uniform_int&lt;&gt; range(0,100);
+    variate_generator&lt;mt19937&amp;, uniform_int&lt;&gt; &gt; GetRand(randGen, range);
+
+    for (int i = 0; i &lt; 30; ++i)
+        cout &lt;&lt; GetRand() &lt;&lt; endl;
+}
+</code></pre>
+","137109","","","","","2009-09-10 14:46:19","Better seeds than time(0)?","<c++><boost><random>","11","2","0","","","CC BY-SA 2.5"
+"1397009","1","1397023","","2009-09-09 00:25:15","","0","1894","<p>The <a href=""http://java.sun.com/docs/books/jvms/"" rel=""nofollow noreferrer"">Java Virtual Machine Instruction Set</a> page provides information about mnemonics such as aaload, aastore... etc.<br>
+However neither the cpu cycles that these mnemonics would take up is mentioned nor is there any info on the byte size or word size of these mnemonics.<br>
+Any idea where this information could be found?</p>
+","142299","","","","","2009-09-09 01:33:12","JVM instruction set CPU cycles & byte size","<java><jvm><instruction-set>","2","0","","","","CC BY-SA 2.5"
+"1397013","1","1397024","","2009-09-09 00:26:30","","1","249","<p>why won't this work?</p>
+
+<pre><code>function login(){
+
+if(window.XMLHttpRequest){
+ajax=new XMLHttpRequest();
+}else if(window.ActiveXObject){
+ajax=new ActiveXObject(""Microsoft.XMLHTTP"");
+}
+
+ajax.onreadystatechange=validatelogin;
+
+params='name='+escape(document.getElementById('name').value)+'&amp;pass='+escape(document.getElementById('pass').value);
+
+/*IT FAILS HERE*/
+ajax.setRequestHeader(""Content-type"",""application/x-www-form-urlencoded""); 
+
+ajax.setRequestHeader(""Content-length"",params.length);
+ajax.setRequestHeader(""Connection"",""close"");
+
+ajax.open('POST','login.php?login=true',true);
+ajax.send(params);
+
+}
+
+function validatelogin(){
+if(ajax.readyState===4){
+if(ajax.status===200){
+alert(ajax.responseText);
+exit(0);
+}else{
+alert(""FAIL!!!!!"");
+}
+}
+}
+</code></pre>
+
+<p>Firefox error consol complains about</p>
+
+<blockquote>
+  <p>Error: Component returned failure
+  code: 0x80004005 (NS_ERROR_FAILURE)
+  [nsIXMLHttpRequest.setRequestHeader]</p>
+</blockquote>
+","136924","","","","","2009-09-09 11:05:24","weird AJAX error","<javascript><ajax>","2","1","","","","CC BY-SA 2.5"
+"1397014","1","1397032","","2009-09-09 00:27:03","","20","72151","<p>I'm running a LAMP environment with CodeIgniter. I want to be able to use its URL pattern, like, <code>http://localhost/controller/function/ID</code>, but by default it has to be <code>http://localhost/index.php/controller/function/ID</code>. The user guide says that I need a .htaccess file to make the former style possible, and uses this as an example:</p>
+
+<pre><code>RewriteEngine on
+RewriteCond $1 !^(index\.php|images|robots\.txt)
+RewriteRule ^(.*)$ /index.php/$1 [L]
+</code></pre>
+
+<p>But I don't understand how this works. Where should I put the .htaccess? Does it have to be in the server root?</p>
+
+<p>What if I have multiple sites running on my server. Do I have to put it in <code>/var/www/</code> and specify conditions based on what directories are loaded? Or can I just put it in <code>/var/www/site_using_codeigniter/</code>? I'm not sure how to even get this to work.</p>
+
+<p>Can I make it so that it will only map to an MVC URL if the requested URL doesn't actually exist? For example, <code>http://localhost/articles/2009/some-article-name</code> wouldn't be a directory on the server, so it would map to <code>index.php</code> and be given to codeigniter, but <code>http://localhost/forum</code> <em>would</em> exist on the server but shouldn't be handled by codeigniter.</p>
+
+<p>Any other things I should do with a .htaccess file? Anything good to read about them?</p>
+
+<h2>update</h2>
+
+<p>I changed my config file like this:</p>
+
+<pre><code>$config['index_page'] = """"; //used to be ""index.php""
+</code></pre>
+
+<p>and added this to a <code>.htaccess</code> file:</p>
+
+<pre><code>RewriteEngine on
+RewriteCond $1 !^(index\.php|images|robots\.txt)
+RewriteRule ^(.*)$ /index.php/$1 [L]
+</code></pre>
+
+<p>and saved it in my sites root directory (in this case <code>/var/www/cms/</code>)</p>
+
+<p>I went into /etc/apache2/conf.d/security (which is included by /etc/apache2/apache2.conf) and did this:</p>
+
+<pre><code>&lt;Directory /&gt;
+    AllowOverride All #was ""none"", but this was all commented out
+    Order Deny,Allow
+    Deny from all
+&lt;/Directory&gt;
+</code></pre>
+
+<p>It's still not working however. If I navigate to <code>http://localhost/cms/index.php/hello</code>, it prints ""Hello there,"" but <code>http://localhost/cms/hello</code> gives a 404 error.</p>
+
+<p>Ideas?</p>
+
+<h2>update: græt success!</h2>
+
+<p>I had to dig through my apache configuration files to finally find where all the directories were defined (I had never messed around in server config files before this date) and found that pesky <code>AllowOverride None</code> that was foiling my plans for greatness.</p>
+
+<p>Now it works perfectly. All of the answers here are viable and work.</p>
+","84478","","84478","","2009-09-09 02:43:54","2014-06-04 08:00:14","How do I write a .htaccess file to make CodeIgniters URL routing work?","<.htaccess><codeigniter>","9","0","0","","","CC BY-SA 2.5"
+"1397022","1","1397195","","2009-09-09 00:31:24","","13","22038","<p>is it possible that my mingw 3.4.5 installation is faulty? or is this provided on some other library floating around?</p>
+
+<p>in case you are wondering, dlfcn.h is where stuff like dlopen and dlclose are defined, so it should be pretty standard</p>
+","170521","","51167","","2010-04-17 01:06:56","2019-07-05 09:00:16","mingw 3.4.5 missing dlfcn.h?","<mingw>","6","2","0","","","CC BY-SA 2.5"
+"1397025","1","","","2009-09-09 00:32:24","","5","4887","<p>I would like to write a cross-platform application that can process and play back microphone data in real time.  Imagine as a proof of concept a chat room where people can talk to each other and apply filters to their voices.  Is OpenAL appropriate for this?  If not, can someone provide an alternative?  Additionally, if anyone can provide or link me to a simple ""hello world"" program that reads from the microphone and spits the output back out, that would be awesome.</p>
+
+<p>Thanks!</p>
+","","Scott","","","","2011-04-01 20:12:25","OpenAL Real Time Audio Processing from Microphone","<audio><real-time><signal-processing><openal><microphone>","3","1","0","","","CC BY-SA 2.5"
+"1397028","1","1397255","","2009-09-09 00:33:05","","1","10359","<p>Is there a Hibernate configuration (hopefully an annotation on a classes mapped @Column field) that would let me sort a collection of entities associated with the loaded entity by a given column of that entity when a session.load(Entity.class, Id) is called?</p>
+
+<p>For example if I had an EntityA that contained a OneToMany association to an EntityB.</p>
+
+<pre><code>@Entity
+public class EntityA {
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY) 
+    private Set&lt;EntityB&gt; headlines = new TreeSet&lt;Entity&gt;();
+
+}
+</code></pre>
+
+<p>I want EntityB to be sorted in the Set that is returned from Hibernate.</p>
+","98050","","98050","","2009-09-09 17:13:04","2009-09-09 17:27:52","Hibernate Entity sort column configuration","<java><sql><database><hibernate>","4","0","","","","CC BY-SA 2.5"
+"1397029","1","1397084","","2009-09-09 00:33:10","","4","999","<p>Is it possible to use reflection to know what the code is doing, not the types and methods, but rather what is inside the method (if statements, assignment and so on). I know I can disassemble it, but I need to analyze a class at runtime using C#, for example find out how many if conditions there are...</p>
+
+<p>This tool needs to be in C#, any ideas? any classes in the CLR that can open an assembly and allow me to navigate the code within it.</p>
+","80855","","161457","","2009-09-09 00:46:37","2009-09-10 03:05:12","Reflection of code","<c#><.net><reflection><clr>","8","2","0","","","CC BY-SA 2.5"
+"1665527","1","1671544","","2009-11-03 06:06:26","","0","1059","<p>I have a <code>TableLayoutPanel</code> that contains rows of labels.  This control lives on form with a gradient background.  The labels are updated periodically, usually as a whole set.  When they are updated, they update very slowly and it is very visible to the user.</p>
+
+<p>I have tried using <code>DoubleBuffered</code> on the form, but as expected, this didn't help.  Then I tried extending <code>TableLayoutPanel</code> and setting its <code>DoubleBuffered</code> property, but that seemed to make things worse.  I've also tried to <code>SuspendLayout()</code> on the table, but this didn't have any effect, either.</p>
+
+<p>I've chosen this setup since the <code>DataGridView</code> doesn't support transparency...  I would really like to find an alternative to this setup, however.</p>
+
+<p><a href=""https://stackoverflow.com/questions/1333425/how-to-prevent-controls-visually-lagging-behind-on-resize-inside-tablelayoutpanel"">Other questions</a> seem related, but I haven't found one that solves the issue.</p>
+
+<p>Any ideas on how to solve the update problem, or a possible alternative?</p>
+
+<p><strong>EDIT</strong> Since I'm dealing with a fixed number of datum to represent on this table, I'm looking into drawing the strings directly in the paint handler, rather than using the labels.</p>
+","197772","","-1","","2017-05-23 12:11:20","2009-11-04 03:35:18","Trouble with ""flickering"" when updating a panel's children","<c#><.net><winforms>","2","0","","","","CC BY-SA 2.5"
+"1665533","1","1665688","","2009-11-03 06:08:26","","49","86694","<p>I have two forms, one is the main form and the other is an options form. So say for example that the user clicks on my menu on the main form: <code>Tools -&gt; Options</code>, this would cause my options form to be shown.</p>
+
+<p>My question is how can I send data from my options form back to my main form? I know I could use properties, but I have a lot of options and this seems like an <strike>tedious</strike> odd thing to do. </p>
+
+<p>So what is the best way?</p>
+","126196","","1159478","","2016-11-16 18:52:54","2022-02-14 03:12:36","Communicate between two windows forms in C#","<c#><winforms><properties>","12","1","0","","","CC BY-SA 3.0"
+"1665544","1","1665610","","2009-11-03 06:13:09","","0","255","<p>Using VB.NET and SQL Server 2005</p>
+
+<p>I want to generate a date according to the given Outtime, </p>
+
+<p>Am entering the value like</p>
+
+<pre><code>ID  Date       Intime   Outtime  Holiday
+
+001 23-02-2009 08:00:00 17:00:00 no
+001 24-02-2009 17:00:00 08:00:00 no
+001 25-02-2009 10:00:00 16:00:00 no
+001 26-02-2009 18:00:00 20:00:00 no
+001 27-02-2009                   yes
+</code></pre>
+
+<p>Expected Output</p>
+
+<p>Table1</p>
+
+<pre><code>ID  Date       Intime   Outtime  DateIn     Dateout
+
+001 23-02-2009 08:00:00 17:00:00 23-02-2009 23-02-2009
+001 24-02-2009 17:00:00 08:00:00 24-02-2009 25-02-2009
+001 25-02-2009 10:00:00 16:00:00 25-02-2009 25-02-2009
+001 26-02-2009 18:00:00 20:00:00 26-02-2009 27-02-2009
+001 27-02-2009     -        -        -         -
+
+…,
+</code></pre>
+
+<p>From the above table, DateIn column value should display same date column value, But Dateout column should display according to the Outtime. </p>
+
+<pre><code>In a first row – Intime is 08:00:00 and Outtime is 17:00:00, So Dateout should display the same date
+In a second row – Intime is 17:00:00 and Outtime is 08:00:00, So DateOut should display the next day date.
+In a third row – Intime is 10:00:00 and Outtime is 16:00:00, so Dateout should display the same date
+In a fourth row – Intime is 18:00:00 and Outtime is 21:00:00, so Dateout should display the next day date.
+In a fifth row – Holiday column value is yes, so it should not display any value in DateIn and DateOut
+</code></pre>
+
+<p>Dateout column should compare the Intime and Outtime value, if Outtime is less than Intime, Dateout column should display the next day date. </p>
+
+<p>If Holiday = Yes then It should display as a blank column </p>
+
+<p>For the above condition, How to make a sql query?</p>
+
+<p>Whether it is possible in vb.net, which is faster sql query or vb.net code?</p>
+
+<p>Need SQL Query or VB.NET code for the above condition.</p>
+","128071","","7076958","","2017-10-24 19:40:38","2017-10-24 19:40:38","How to generate a date for the given time?","<sql><sql-server><vb.net><sql-server-2005>","3","0","","","","CC BY-SA 3.0"
+"1665546","1","","","2009-11-03 06:13:37","","2","1655","<ol>
+<li><p>I want to update few variables when any of the toolbar button (like bold, italic etc) is clicked. I'm unable to trap 'click' event on any of these buttons. Could somebody give me an example when clicking on 'bold' button would also pop up an alert box?</p></li>
+<li><p>How can I trap 'paste' event?</p></li>
+</ol>
+
+<p>I've googled a lot and searched ckeditor forum but couldn't find any solution. Any pointer would be really helpful.</p>
+
+<p>Thanks.</p>
+","189618","","","","","2010-04-26 03:23:57","CKeditor 3.0 - How to know which toolbar button is clicked","<ckeditor>","1","1","0","","","CC BY-SA 2.5"
+"1665549","1","1665662","","2009-11-03 06:14:19","","122","60265","<p>How can I make <code>sed</code> filter matching lines according to some expression, but ignore non-matching lines, instead of letting them print?</p>
+
+<p>As a real example, I want to run <code>scalac</code> (the Scala compiler) on a set of files, and read from its <code>-verbose</code> output the <code>.class</code> files created. <code>scalac -verbose</code> outputs a bunch of messages, but we're only interested in those of the form <code>[wrote some-class-name.class]</code>.
+What I'm currently doing is this (<code>|&amp;</code> is bash 4.0's way to pipe stderr to the next program):</p>
+
+<pre><code>$ scalac -verbose some-file.scala ... |&amp; sed 's/^\[wrote \(.*\.class\)\]$/\1/'
+</code></pre>
+
+<p>This will extract the file names from the messages we're interested in, but will also let all other messages pass through unchanged! Of course we could do instead this:</p>
+
+<pre><code>$ scalac -verbose some-file.scala ... |&amp; grep '^\[wrote .*\.class\]$' |
+  sed 's/^\[wrote \(.*\.class\)\]$/\1/'
+</code></pre>
+
+<p>which works but looks very much like going around the real problem, which is how to instruct <code>sed</code> to ignore non-matching lines from the input. So how do we do that?</p>
+","35324","","832230","","2015-04-19 00:45:19","2023-04-17 16:22:29","Have sed ignore non-matching lines","<sed>","4","1","0","","","CC BY-SA 3.0"
+"1665553","1","","","2009-11-03 06:17:23","","-2","5041","<p>I am creating test cases using Junit framework and eclipse. Once I complete my execution of script I am getting below error:</p>
+
+<p>It also gives me the option to attach the source.</p>
+
+<pre><code>    java.lang.NullPointerException
+    at com.thoughtworks.selenium.SeleneseTestCase.tearDown(SeleneseTestCase.java:395)
+    at junit.framework.TestCase.runBare(TestCase.java:140)
+    at com.thoughtworks.selenium.SeleneseTestCase.runBare(SeleneseTestCase.java:71)
+    at junit.framework.TestResult$1.protect(TestResult.java:110)
+    at junit.framework.TestResult.runProtected(TestResult.java:128)
+    at junit.framework.TestResult.run(TestResult.java:113)
+    at junit.framework.TestCase.run(TestCase.java:124)
+    at junit.framework.TestSuite.runTest(TestSuite.java:232)
+    at junit.framework.TestSuite.run(TestSuite.java:227)
+    at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:83)
+    at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:38)
+    at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+    at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+    at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+    at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+    at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:196)
+</code></pre>
+
+<p>Please please please help me.</p>
+
+<p>Saara</p>
+","201429","","3798525","","2016-08-03 19:49:03","2016-08-03 19:49:03","Source not found: The jar file selenium-java-client-driver.jar has no source attachment","<java><junit>","2","0","","","","CC BY-SA 2.5"
+"1665559","1","1665605","","2009-11-03 06:21:12","","1","1214","<p>I am planning to create a insert symbol or alphabet dialog/window in WPF more or less like the one in MS Word. The window should list all fonts with subset dropdown. 
+Anyone who can show me a way how to go about developing this. C# is preferable.</p>
+","214387","","305637","","2011-08-25 06:35:27","2011-08-25 06:35:27","How to create MS word like Symbol Insert dialog in WPF","<c#><wpf><dialog>","1","0","","","","CC BY-SA 2.5"
+"1665565","1","","","2009-11-03 06:22:24","","12","12329","<p>I know i am going to ask something that might sound bit odd, but still asking </p>
+
+<p>I am developing an application that has In App Purchase functionality, i have integrated the code but for testing i need to make a test account under iTunes connect. During R&amp;D i came to know that i have to go through following way to make test account for in app purchase:</p>
+
+<p>iTunes Connect-> “Manage In-App purchases”</p>
+
+<p>My problem is that i am not able to see the option “Manage In-App purchases” under iTunes connect. Any kind of input to this question would be great help.</p>
+
+<p>Thanks in Advance  </p>
+","","bugs_bugs","20972","","2009-11-03 06:25:41","2015-09-25 15:47:48","Cant find “Manage In-App purchases” under itunes connect","<in-app-purchase><app-store-connect>","7","0","0","","2009-11-03 06:22:24","CC BY-SA 2.5"
+"420693","1","421834","","2009-01-07 15:18:16","","1","4215","<p>We've successfully configured IIS to front 2 Tomcat instances using isapi_redirect.dll. It's doing everything smartly, and we've been very happy. Now, however, we're using one of the Tomcat instances to serve up web services through AXIS. This requires BASIC Auth, and .NET clients are failing.<br>
++ .NET clients can bypass IIS by surfing to ""site:8180"" and they're fine<br>
++ Java clients can hit IIS and ISAPI passes them through and they authenticate just fine using basic.<br>
++ .NET clients that hit IIS fail to authenticate using the same unpw.   </p>
+
+<p>Fiddler reports this session:<br>
+    HTTP/1.1 401 Unauthorized<br>
+    Date: Wed, 07 Jan 2009 14:31:59 GMT<br>
+    Server: Microsoft-IIS/6.0<br>
+    WWW-Authenticate: NTLM<br>
+    X-Powered-By: ASP.NET<br>
+    Pragma: No-cache<br>
+    Cache-Control: no-cache<br>
+    Expires: Wed, 31 Dec 1969 19:00:00 EST<br>
+    WWW-Authenticate: Basic realm=""Daily Control Module""<br>
+    Content-Type: text/html;charset=utf-8<br>
+    Content-Length: 954<br>
+    Proxy-Support: Session-Based-Authentication  </p>
+
+<p>It kicks up what looks like a basic auth dialog, but instead of asking us to auth against Daily Control Module, it asks us to auth against the Windows server. And sure enough, the IIS server is asking for an NTLM auth. If I set the entire server to use Basic Auth, I get this from Fiddler:<br>
+    HTTP/1.1 401 Unauthorized<br>
+    Content-Length: 1656<br>
+    Content-Type: text/html<br>
+    Server: Microsoft-IIS/6.0<br>
+    WWW-Authenticate: Basic realm=""serverName""<br>
+    X-Powered-By: ASP.NET<br>
+    Date: Wed, 07 Jan 2009 15:08:32 GMT  </p>
+
+<p>Sigh. Basic, but now the Basic Realm is changed to the IIS server. So, if I set the entire server to authenticate against Basic realm, Daily Control Module, then I get this:<br>
+    HTTP/1.1 401 Unauthorized<br>
+    Date: Wed, 07 Jan 2009 15:11:45 GMT<br>
+    Server: Microsoft-IIS/6.0<br>
+    WWW-Authenticate: Basic realm=""Daily Control Module""<br>
+    X-Powered-By: ASP.NET<br>
+    Pragma: No-cache<br>
+    Cache-Control: no-cache<br>
+    Expires: Wed, 31 Dec 1969 19:00:00 EST<br>
+    WWW-Authenticate: Basic realm=""Daily Control Module""<br>
+    Content-Type: text/html;charset=utf-8<br>
+    Content-Length: 954  </p>
+
+<p>Weird with the dual WWW-Auth headers, no? At any rate, authenticating using same unpw that works directly against Tomcat fails, whether I specify the domain or not. </p>
+
+<p>At this time:<br>
++ Anon is Off<br>
++ Integrated Windows Auth is Off<br>
++ Basic auth is On, with the realm configured as Daily Control Module</p>
+
+<p>Thanks for looking. </p>
+","14127","","14127","","2009-01-07 22:06:34","2009-01-07 22:06:34","Cannot get IIS ISAPI Tomcat connector to pass BASIC Authentication through to Tomcat","<iis><authentication><tomcat><isapi-redirect>","1","1","","","","CC BY-SA 2.5"
+"420699","1","420767","","2009-01-07 15:20:12","","-6","1312","<p>ASP.NET: Could anyone provide some C# paging codes in Repeater or ListView controls for me to learn. </p>
+","52463","Daoming","918414","","2012-01-18 01:35:15","2012-01-18 01:35:15","ASP.NET: Could anyone provide some C# paging codes in Repeater or ListView controls for me to learn","<asp.net>","1","1","","2012-01-18 03:05:08","","CC BY-SA 3.0"
+"420700","1","","","2009-01-07 15:20:28","","2","1823","<p>I have a task in capistrano wherein I want just a single line to run only if the server is a marked as primary.  Is there a variable or method that I can reference inside a task?  'primary?' or 'primary' doesn't seem to work.</p>
+
+<p>I've also tried something akin to the following:</p>
+
+<pre><code>after ""deploy"", ""task1""
+after ""deploy"", ""task2""
+after ""deploy"", ""task3""
+
+task :task1, :roles =&gt; :app do
+  *code*
+end
+
+task :task2, :roles =&gt; :app, :only =&gt; {:primary =&gt; true} do
+  *code for just primary server*
+end
+
+task :task3, :roles =&gt; :app do
+  *more code*
+end
+</code></pre>
+
+<p>But even this doesn't seem to work (all three tasks get run on every server).</p>
+
+<p>I've been working on this on and off for a few days and I'm having no luck with my searches.  Thoughts?</p>
+","52459","Brian","","","","2009-01-07 19:21:56","Primary servers in capistrano","<ruby-on-rails><ruby><capistrano>","1","0","","","","CC BY-SA 2.5"
+"420701","1","569147","","2009-01-07 15:21:23","","3","4357","<p>I'm looking for a rich-text editor control that has some way of allowing users to copy-paste images into it, a la Google Mail. I guess I'm hoping there's some way to communicate the binary contents of an image on the clipboard to the browser (and perhaps store these contents in a hidden element somewhere that I can access). If you can't think of a rich-text editor with this functionality included - can anyone think of a way to accomplish this using JavaScript?</p>
+
+<p>This only needs to be functional on IE5+, but any solutions that might work on IE are welcome.</p>
+
+<p>Any help appreciated - let me know in comments if there's any part of this question which isn't clear.</p>
+
+<p>Thanks,</p>
+
+<p>Dom</p>
+","20972","Dominic Rodger","18180","troelskn","2009-02-20 11:05:37","2013-08-14 08:04:55","Copy-pasting image into JavaScript rich-text editor","<javascript><image><richtextbox><gmail><copy-paste>","2","0","0","","","CC BY-SA 2.5"
+"420703","1","423060","","2009-01-07 15:21:36","","112","110804","<p>Here's my custom filter:</p>
+<pre><code>from django import template
+
+register = template.Library()
+
+@register.filter
+def replace(value, cherche, remplacement):
+    return value.replace(cherche, remplacement)
+</code></pre>
+<p>And, here are the ways I tried using it in my template file that resulted in an error:</p>
+<pre><code>{{ attr.name|replace:&quot;_&quot;,&quot; &quot; }}
+{{ attr.name|replace:&quot;_&quot; &quot; &quot; }}
+{{ attr.name|replace:&quot;_&quot;:&quot; &quot; }}
+{{ attr.name|replace:&quot;cherche='_', remplacement=' '&quot; }}
+</code></pre>
+<p>I looked into <a href=""http://docs.djangoproject.com/en/dev/howto/custom-template-tags/"" rel=""nofollow noreferrer"">django's docs</a> and <a href=""http://www.djangobook.com/en/beta/chapter10/"" rel=""nofollow noreferrer"">book</a> but only found example using a single argument... is it even possible?</p>
+","48500","Bernard Chhun","3247006","","2023-06-26 22:18:12","2023-06-26 22:28:06","How to add multiple arguments to my custom template filter in a django template?","<python><django><replace><django-templates><django-template-filters>","10","0","0","","","CC BY-SA 4.0"
+"420704","1","420717","","2009-01-07 15:21:37","","0","450","<p>I have several WPF apps, and I want users to be able to log bugs <em>directly from these applications</em> into my FogBugz database. Is there any way this can be done? Also, how would I make it so that, when their case is resolved, the application tells them about it?</p>
+","9476","Dmitri Nesteruk","","","","2009-01-07 15:35:56","Logging bugs directly from app to FogBugz","<c#><wpf><bug-tracking><fogbugz>","2","0","0","","","CC BY-SA 2.5"
+"420705","1","423093","","2009-01-07 15:22:36","","5","5244","<p><strong>SETUP</strong></p>
+
+<p>I have to insert a couple million rows in either SQL Server 2000/2005, MySQL, or Access.  Unfortunately I don't have an easy way to use bulk insert or BCP or any of the other ways that a normal human would go about this.  The inserts will happen on one particular database but that code needs to be db agnostic -- so I can't do bulk copy, or SELECT INTO, or BCP.  I can however run specific queries before and after the inserts, depending on which database I'm importing to.</p>
+
+<p>eg.</p>
+
+<pre><code>If IsSqlServer() Then
+    DisableTransactionLogging();
+ElseIf IsMySQL() Then
+    DisableMySQLIndices();
+End If
+
+... do inserts ...
+
+If IsSqlServer() Then
+    EnableTransactionLogging();
+ElseIf IsMySQL() Then
+    EnableMySQLIndices();
+End If
+</code></pre>
+
+<p><strong>QUESTION</strong></p>
+
+<p>Are there any interesting things I can do to SQL Server that might speed up these inserts?</p>
+
+<p>For example, is there a command I could issue to tell SQL Server, ""Hey, don't bother recording these transactions in the transaction log"".</p>
+
+<p>Or maybe I could say, ""Hey, I have a million rows coming in, so don't update your index until I'm totally finished"".</p>
+
+<pre><code>ALTER INDEX [IX_TableIndex] ON Table DISABLE
+     ... inserts
+ALTER INDEX [IX_TableIndex] ON Table REBUILD
+</code></pre>
+
+<p>(Note: Above index disable only works on 2005, not 2000.  Bonus points if you know a way to do this on 2000).</p>
+
+<p>What about MySQL, and Access?</p>
+","245","michaelpryor","685","CodeSlave","2009-01-07 15:48:32","2010-02-02 17:14:35","SQL Server / MySQL / Access - speeding up inserting many rows in an inefficient manner","<mysql><sql-server><ms-access>","11","4","0","","","CC BY-SA 2.5"
+"420718","1","421191","","2009-01-07 15:26:49","","18","41585","<p>I have a linq2sql setup where objects are sent from client side (flex via flourinefx) and attach them to a new datacontext a seen below: </p>
+
+<p>I also have a ""global"" datacontext that is used throughout the session.</p>
+
+<pre><code>    public static void Update(Enquiry enquiry)
+    {
+        OffertaDataContext db = new OffertaDataContext();
+
+
+        db.Enquiries.Attach(enquiry);
+        db.Refresh(RefreshMode.KeepCurrentValues, enquiry);
+
+        db.SubmitChanges();
+    }
+</code></pre>
+
+<p>This approach usually works fine, but after a while I get the error ""Cannot add an entity with a key that is already in use"".</p>
+","40939","Niels Bosma","17516","AnthonyWJones","2009-01-10 14:41:48","2016-04-13 10:00:41","linq2sql: Cannot add an entity with a key that is already in use","<c#><linq-to-sql>","11","1","0","","","CC BY-SA 2.5"
+"420722","1","553301","","2009-01-07 15:27:15","","2","1447","<p>[This is on an iSeries/DB2 database if that makes any difference]</p>
+
+<p>I want to write a procedure to identify columns that are left as blank or zero (given a list of tables).</p>
+
+<p>Assuming I can pull out table and column definitions from the central system tables, how should I check the above condition? My first guess is for each column generate a statement dynamically such as:</p>
+
+<pre><code>select count(*) from my_table where my_column != 0
+</code></pre>
+
+<p>and to check if this returns zero rows, but is there a better/faster/standard way to do this?</p>
+
+<p>NB This just needs to handle simple character, integer/decimal fields, nothing fancy!</p>
+","23447","nearly_lunchtime","23447","nearly_lunchtime","2009-02-16 14:20:29","2009-02-18 13:49:19","How can I identify unused/redundant columns given a list of tables?","<sql><database>","3","0","","","","CC BY-SA 2.5"
+"420723","1","424711","","2009-01-07 15:27:17","","4","3682","<p>I'm just learning the Model / View / ViewModel pattern and it's variations (DataModel / View / ViewModel, or Model / View / Presenter).</p>
+
+<p>What I wonder is: if I use this pattern with a WCF service, is the service the Model (DataModel), or do I need a separate Model to encapsulate the WCF service layer??</p>
+
+<p>When I use WCF as DataModel my ViewModel is not testable without mocking the whole WCF service, since the calls to WCF need to manage the connection. The calls in this ViewModel look like this:</p>
+
+<pre><code>List&lt;Sam.Alyza.WcfInterface.Website&gt; rc = null;
+Service&lt;Sam.Alyza.WcfInterface.IServiceWebsites&gt;.Use(alyzaSvc =&gt;
+{
+  rc = new List&lt;Sam.Alyza.WcfInterface.Website&gt;(alyzaSvc.GetSites());
+});
+</code></pre>
+
+<p>To get my ViewModel testable I tried adding a separate DataModel to abstract WCF connection away. After this the ViewModel was testable, the calls looked like this:</p>
+
+<pre><code>List&lt;Sam.Alyza.WcfInterface.Website&gt; rc = new List&lt;Sam.Alyza.WcfInterface.Website&gt;(_datamodel.GetSites());
+</code></pre>
+
+<p>Problem: most of the code that would need to be tested now had moved into the DataModel, which, again, needed WCF to be tested. What remained in the ViewModel was a thin shell, which can be tested. But since the main code moved into the DataModel, so testing the ViewModel was quite useless.</p>
+
+<p>So to me it seems adding a separate DataModel layer to a View / ViewModel application using WCF does add a lot of work, but the testability does not get any better.</p>
+","7021","Sam","46642","Martinho Fernandes","2009-02-27 09:27:07","2010-04-28 12:03:27","Model - View - ViewModel & WCF - is WCF the model?","<wcf><mvvm><stress-testing>","2","0","0","","","CC BY-SA 2.5"
+"420726","1","420804","","2009-01-07 15:29:18","","2","5140","<p>I have code similar to this in my application:</p>
+
+<pre><code>class A
+{
+  public: int b;
+}
+
+class C
+{
+  public: int d;
+}
+
+void DoThings (void *arg1, MYSTERYTYPE arg2);
+
+A obj_a;
+C obj_c;
+
+DoThings(&amp;obj_a, &amp;A::b);
+DoThings(&amp;obj_c, &amp;C::d);
+</code></pre>
+
+<p>The question is - What should MYSTERYTYPE be? neither void* nor int work, despite the value &amp;A::b being printed just fine if you output it through a printf.</p>
+
+<p>Clarifications: Yes, &amp;A::b is defined under C++. Yes, I am trying to get the offset to a class member. Yes, I am being tricky.</p>
+
+<p>Edit: Oh I can use offsetof(). Thanks anyway.</p>
+","39702","","39702","","2009-01-07 16:07:15","2011-05-05 14:47:45","How to cast member variable pointer to generic type in C++","<c++><class><pointers><member-pointers>","4","4","","","","CC BY-SA 2.5"
+"420727","1","","","2009-01-07 15:29:27","","4","727","<p>Consider:</p>
+
+<pre><code>class C {
+private:
+   class T {int a, b;};
+};
+
+C::T *p;
+</code></pre>
+
+<p>As expected, this produces a compilation error saying that C::T is private in the context of Line 6.</p>
+
+<p>Now change this to pointer-to-member:</p>
+
+<pre><code>class C {
+private:
+   class T {int a, b;};
+};
+
+int C::T::*p;
+</code></pre>
+
+<p>This time around, gcc version 3.2.3 still makes the same complaint, but gcc version 3.4.3 lets it pass.  Which is the correct behavior according to the standard?</p>
+","","Ari","","","","2009-01-07 16:01:05","In C++, can I define a pointer-to-member of a private class outside its scope?","<c++><pointers>","2","0","0","","","CC BY-SA 2.5"
+"420731","1","420963","","2009-01-07 15:30:10","","0","1532","<p>I am working on an in-house tool for interfacing to a database. My current prototyping is written in C# using ASP.NET 2.0 with the intent to optimise some client-side operations using javascript.</p>
+
+<p>However, I was hoping to leverage Silverlight to simplify the user interface development. Do I need to have the server upgraded to ASP.NET 3.5 for this or can I create the necessary web services in ASP.NET 2.0 for integrating with the client-side Silverlight controls?</p>
+","23234","ffpf","","","","2009-01-07 16:22:23","Can I use Silverlight 2.0 with ASP.NET 2.0?","<asp.net-2.0><silverlight-2.0>","2","0","","","","CC BY-SA 2.5"
+"420732","1","420763","","2009-01-07 15:30:23","","7","4447","<p>In my profiler reports I'm increasingly seeing the results of mock-based testing with dependency injection.  Many of the dependencies were static, but because we want to test methods in isolation they are changed to instance members, like the following example:</p>
+
+<pre><code>class ShortLivedThing {
+   IDependency1 dep1;
+   IDependency1 dep2;
+   IDependency1 dep3;
+   ...
+
+   int TheRealData;
+
+   // Constructor used in production 
+   public ShortLivedThing() {
+     dep1 = new Dep1(); dep2 = new Dep2(); dep3 = new Dep3();
+   }
+
+   // DI for testing 
+   public ShortLivedThing(IDependency1 d1, IDependency2 d2, IDependency3 d3) { 
+     dep1 = d1(); dep2 = d2(); dep3 = d3();
+   }
+}
+</code></pre>
+
+<p>In turn the dependencies most of the time have other dependencies and so on.  This results in the instantiation of a tree of (mostly ""static"") objects <em>every time</em> a method call is done outside of tests.  Each of the objects are very small (just a few pointers), but the tree effect turns this into an ever increasing performance hit.</p>
+
+<p>What can we do about it?</p>
+","1324220","Bjorn Reppen","","","","2011-12-07 15:25:46","Performance problems from dependency injection","<dependency-injection>","6","2","","","","CC BY-SA 2.5"
+"420733","1","421108","","2009-01-07 15:30:58","","0","997","<p>I'm thinking about using asking sphinx to index many fields (in the hundreds), many of which will be null. My question is how much having many null fields will affect performance?</p>
+
+<p>This situation arises not from having incredibly denormalized data, but from requirements on the search interface and what can be searched. Basically I will be building the index config dynamically in the indexed model, and may end up with quite a few null fields from doing so.</p>
+
+<p>My guess is the performance/success of this depends on what Sphinx does with null values... if it simple ignores them, then I should be fine, but if it actually stores that the field is null in its index, I could have a problem.</p>
+","6705","","","","","2012-07-15 11:47:50","How does Sphinx store null fields, and how does this affect performance?","<search><full-text-search><sphinx><thinking-sphinx>","2","0","","","","CC BY-SA 2.5"
+"420739","1","","","2009-01-07 15:32:51","","2","5163","<p>We have a PDF that is generated as A5 landscape pages.
+With that, we need to do a PDF with A4 portrait page format, by putting 2 pages of the source PDF on top of each other on each page of the result PDF.</p>
+
+<p>Do you know a good library that could do that kind of PDF manipulations ? This should happen server side from an ASP.NET web application, with as little to deploy on the server as possible.</p>
+","","Peter Fox","2641576","","2015-06-30 07:46:23","2015-06-30 07:46:23","Best way to change pagination of existing PDF","<pdf><pdf-manipulation>","4","0","0","","","CC BY-SA 2.5"
+"420741","1","421229","","2009-01-07 15:34:05","","104","305178","<p>I'm looking at creating a basic ORM (purely for fun), and was wondering, is there a way to return the list of tables in a database and also the fields for every table?</p>
+
+<p>Using this, I want to be able to loop through the result set (in C#) and then say for each table in the result set, do this (e.g. use reflection to make a class that will do or contain xyz).</p>
+
+<p>Further to this, what are some good online blogs for SQL Server? I know this question is really about using system SPs and databases in Sql Server, and I am ok with general queries, so I'm interested in some blogs which cover this sort of functionality.</p>
+
+<p>Thanks</p>
+","32484","GSS","810","Crossbrowser","2009-01-07 16:09:43","2023-07-07 21:21:40","Getting list of tables, and fields in each, in a database","<sql><tsql>","14","3","0","","","CC BY-SA 2.5"
+"420746","1","420756","","2009-01-07 15:35:46","","4","1225","<p>I am trying to clean up some email addresses in sql server.  I can see examples of the problematic emails, and they look like this:</p>
+
+<pre><code>abc123 @xyz.com
+</code></pre>
+
+<p>However, when I try to run a query to find folks like these, say with:</p>
+
+<pre><code>NOT CHARINDEX(' ',LTRIM(RTRIM([Email_Address]))) = 0
+</code></pre>
+
+<p>or</p>
+
+<pre><code>Email_Address like '% %'
+</code></pre>
+
+<p>my query returns no results.</p>
+
+<p>Any idea what gives?</p>
+
+<p>Thanks for the quick answers. It was a Non-Breaking Space -- Char(160). The sql ASCII() function came in handy to find it. </p>
+","4943","Tony","4943","Tony","2009-01-09 01:04:48","2009-03-29 19:27:05","I can SEE the space in an email address, but SQL SERVER can't?","<sql-server-2005>","4","0","","","","CC BY-SA 2.5"
+"420749","1","","","2009-01-07 15:36:02","","10","2842","<p>I'd like to have the full history of a large text field edited by users, stored using Django.</p>
+
+<p>I've seen the projects:</p>
+
+<ul>
+<li><a href=""http://code.google.com/p/fullhistory/"" rel=""nofollow noreferrer"">Django Full History (Google Code)</a></li>
+<li><a href=""http://code.google.com/p/django-modelhistory/"" rel=""nofollow noreferrer"">Django ModelHistory</a>, and</li>
+<li><a href=""http://code.djangoproject.com/wiki/FullHistory"" rel=""nofollow noreferrer"">Django FullHistory</a></li>
+</ul>
+
+<p>I've a special use-case that probably falls outside the scope of what these projects provide. Further, I'm wary of how well documented, tested and updated these projects are. In any event, here's the problem I face:</p>
+
+<p>I've a model, likeso:</p>
+
+<pre><code>from django.db import models
+
+class Document(models.Model):
+   text_field = models.TextField()
+</code></pre>
+
+<p>This text field may be large - over 40k - and I would like to have an autosave feature that saves the field every 30 seconds or so. This could make the database unwieldly large, obviously, if there are a lot of saves at 40k each (probably still 10k if zipped). The best solution I can think of is to keep a difference between the most recent saved version and the new version.</p>
+
+<p>However, I'm concerned about race conditions involving parallel updates. There are two distinct race conditions that come to mind (the second much more serious than the first):</p>
+
+<ol>
+<li><p><strong>HTTP transaction race condition</strong>: User A and User B request document X0, and make changes individually, producing Xa and Xb. Xa is saved, the difference between X0 and Xa being ""Xa-0"" (""a less not""), Xa now being stored as the official version in the database. If Xb subsequently saves, it overwrite Xa, the diff being Xb-a (""b less a"").</p>
+
+<p>While not ideal, I'm not overly concerned with this behaviour. The documents are overwriting each other, and users A and B may have been unaware of each other (each having started with document X0), but the history retains integrity.</p></li>
+<li><p><strong>Database read/update race condition</strong>: The problematic race condition is when Xa and Xb save at the same time over X0. There will be (pseudo-)code something like:</p>
+
+<pre><code> def save_history(orig_doc, new_doc):
+     text_field_diff = diff(orig_doc.text_field, new_doc.text_field)
+     save_diff(text_field_diff)
+</code></pre>
+
+<p>If Xa and Xb both read X0 from the database (i.e. orig_doc is X0), their differences will become Xa-0 and Xb-0 (as opposed to the serialized Xa-0 then Xb-a, or equivalently Xb-0 then Xa-b). When you try to patch the diffs together to produce the history, it will fail on either patch Xa-0 or Xb-0 (which both apply to X0). The integrity of the history has been compromised (or has it?).</p>
+
+<p>One possible solution is an automatic reconciliation algorithm, that detects these problems <em>ex-post</em>. If rebuilding the history fails, one may assume that a race condition has occurred, and so apply the failed patch to prior versions of the history until it succeeds.</p></li>
+</ol>
+
+<p>I'd be delighted to have some feedback and suggestions on how to go about tackling this problem.</p>
+
+<p>Incidentally, insofar as it's a useful way out, I've noted that Django atomicity is discussed here:</p>
+
+<ul>
+<li><a href=""https://stackoverflow.com/questions/320096/django-how-can-i-protect-against-concurrent-modification-of-data-base-entries"">Django: How can I protect against concurrent modification of data base entries</a>, and here: </li>
+<li><a href=""https://stackoverflow.com/questions/280075/atomic-operations-in-django"">Atomic operations in Django?</a></li>
+</ul>
+
+<p>Thank you kindly.</p>
+","19212","Brian M. Hunt","-1","Brian M. Hunt","2017-05-23 10:32:49","2009-02-03 15:30:09","How to do text full history in Django?","<django><django-models><concurrency><parallel-processing><atomic>","5","1","0","","2009-01-07 15:36:02","CC BY-SA 2.5"
+"420762","1","420947","","2009-01-07 15:38:30","","0","5569","<p>We've been given the task by my customer to export data from a legacy DOS system, <strong>using a RAIMA database</strong>, so it can be imported into a new system we are writing for them.  It looks like the data is stored in a flat file format, though when we open the files most of the text is gibberish.  </p>
+
+<p>We do see Raima Database Manager along the top of the files we opened ... We tried Googling that term and seems it is an old database format.  Needless to say the vendor who wrote the software no longer supports it.  Is there any other way we can get this data to export? </p>
+
+<p><strong>Is there a way to automatically scrape the data from the screen?</strong> </p>
+
+<p><strong>Note</strong></p>
+
+<p>It's a simple invoicing system, all the information is on a single screen in the application.</p>
+","1768","MattRuma","4370109","kloucks","2015-10-30 19:38:30","2015-10-30 19:38:30","How can I export data in a legacy DOS application when no export option is available?","<database><export><legacy><raima>","8","2","","","","CC BY-SA 2.5"
+"420766","1","423993","","2009-01-07 15:39:30","","53","25212","<p>When trying out these tutorials (<a href=""http://www.olegsych.com/2008/09/t4-tutorial-creating-reusable-code-generation-templates/"" rel=""noreferrer"">T4 Tutorial: Creating reusable code generation templates</a>) I noticed that although I was using plain c# I didn't get any intellisense, probably because of the file extension (.tt)</p>
+
+<p>Isn't there anyway to say to Visual Studio to consider those .tt files as .cs files and thus get the correct intellisense help?</p>
+","1842864","vitorsilva","","","","2020-11-25 00:09:24","how can I get intellisense in a T4 template?","<visual-studio><visual-studio-2008><intellisense><t4>","7","0","0","","","CC BY-SA 2.5"
+"420770","1","420812","","2009-01-07 15:41:11","","4","10284","<p>I'm going to be brief because I'm short on time, so I apologize if this isn't as detailed as I'd like it to be.</p>
+
+<p>I have some code:</p>
+
+<pre><code>print(""&lt;a href='#'&gt;Some text&lt;sup&gt;&amp;reg;&lt;/sup&gt; some more text&lt;/a&gt;"");
+</code></pre>
+
+<p>In FF, this works like I would like, the link as a whole is underlined. However in IE, the link is underlined except under the &reg; where it looks like a symbol above a hyphen and is rather ridiculous looking. </p>
+
+<p>I've tried several suggestions I found on Google, but none of them are very helpful in achieving the desired effect. Adding a border to the bottom is not an option unfortunately. So far the best solution is to break the underline completely at the sup tag with CSS which still leaves it working fine in FF while still looking less silly in IE.</p>
+
+<p>If anyone could help with this it would be most appreciated, I'd rather not go through the site removing <code>&lt;sup&gt;</code> tags as I've been told I will have to do should I not solve this dilemma. </p>
+
+<p>UPDATE: Went with the sup {""text-decoration:none"" } solution, it'll do for now. There are reg marks everywhere, so the whole site would've had to have been updated, which was more trouble than it was worth we all decided. Thanks to those who replied.</p>
+","32641","dhulk","32641","","2009-01-07 20:12:31","2013-06-04 12:30:39","Superscript underline in IE","<html><css><internet-explorer><underline><superscript>","8","0","0","","","CC BY-SA 2.5"
+"420774","1","420786","","2009-01-07 15:42:01","","19","31730","<p>When <code>foreach</code>ing through a generic list I often want to do something different for the first element in the list:</p>
+
+<pre><code>List&lt;object&gt; objs = new List&lt;object&gt;
+{
+    new Object(),
+    new Object(),
+    new Object(),
+    new Object()
+};
+
+foreach (object o in objs)
+{
+    if (o == objs.First())
+    {
+        System.Diagnostics.Debug.WriteLine(""First object - do something special"");
+    }
+    else
+    {
+        System.Diagnostics.Debug.WriteLine(""object Do something else"");
+    }
+}
+</code></pre>
+
+<p>This will output:</p>
+
+<pre>
+    First object - do something special
+    object Do something else
+    object Do something else
+    object Do something else
+</pre>
+
+<p>This is all fine and dandy.</p>
+
+<p>However if my generic list is of a value type, this approach will fail.</p>
+
+<pre><code>List&lt;int&gt; ints = new List&lt;int&gt; { 0, 0, 0, 0 };
+foreach (int i in ints)
+{
+    if (i == ints.First())
+    {
+        System.Diagnostics.Debug.WriteLine(""First int - do something special"");
+    }
+    else
+    {
+        System.Diagnostics.Debug.WriteLine(""int Do something else"");
+    }
+}
+</code></pre>
+
+<p>This will output:</p>
+
+<pre>
+    First int - do something special
+    First int - do something special
+    First int - do something special
+    First int - do something special
+</pre>
+
+<p>Now I know I could recode this to add a <code>boolean</code> flag variable or traditional <code>for</code> loop, but I am wondering if there's any way to find out if a foreach loop is on the first iteration of its looping.</p>
+","39709","Richard E","","","","2020-12-05 02:13:38","foreach with generic List, detecting first iteration when using value type","<c#><.net>","9","0","0","","","CC BY-SA 2.5"
+"420783","1","","","2009-01-07 15:42:59","","2","403","<p>I'm having a rather annoying and time consuming problem with a .NET program.  Our clients all use a piece of software we wrote in Visual Studio 2005 (running .NET framework 3.5).  The application is a setup project that gets its files from another project.  The problem is that whenever I do a code change and upload the new version to the server, certain pc's don't get the change.  Here's the steps we do for upgrading:</p>
+
+<ol>
+<li>Uninstall the old software using Add/Remove Programs.</li>
+<li>Reboot the machine.</li>
+<li>Go to our website and run the setup.msi file.</li>
+<li>Install the new software.</li>
+<li>Run the application.</li>
+</ol>
+
+<p>The problem is that when they run the application, they are still getting the old version.  It only occurs on certain pc's with no particular pattern.  I'm positive it's not internet caching because a co-worker copied the msi file over there directly through ftp.  We get around the problem by copying our installed directory, including the manifest, deploy, exe and all that stuff, onto their pc.  That seems to work, but it shouldn't be necessary.  I'm stumped.  I've tried everything.  I can't duplicate the problem--the setup works fine for me; even if I have the old version, it upgrades it.  Is Windows somehow caching the setup or something I should know about?  Please help :)  Thanks!</p>
+","52464","","2688","bdukes","2009-01-07 15:45:26","2009-01-21 09:01:10",".NET Program Keeps Installing Old Version","<installation><version><uninstallation>","4","0","","","","CC BY-SA 2.5"
+"420788","1","420839","","2009-01-07 15:45:00","","5","3656","<p>Can the <strong>sourcecontrol</strong> block in CruiseControl.NET target TortoiseSVN?</p>
+","2831","brian","","","","2009-01-07 15:55:18","CruiseControl.NET and TortoiseSVN","<svn><tortoisesvn><cruisecontrol.net>","3","0","","","","CC BY-SA 2.5"
+"420791","1","421127","","2009-01-07 15:46:02","","157","112979","<p>Just got a review comment that my static import of the method was not a good idea. The static import was of a method from a DA class, which has mostly static methods. So in middle of the business logic I had a da activity that apparently seemed to belong to the current class:</p>
+<pre><code>import static some.package.DA.*;
+class BusinessObject {
+  void someMethod() {
+    ....
+    save(this);
+  }
+} 
+</code></pre>
+<p>The reviewer was not keen that I change the code and I didn't but I do kind of agree with him. One reason given for not static-importing was it was confusing where the method was defined, it wasn't in the current class and not in any superclass so it too some time to identify its definition (the web based review system does not have clickable links like IDE :-) I don't really think this matters, static-imports are still quite new and soon we will all get used to locating them.</p>
+<p>But the other reason, the one I agree with, is that an unqualified method call seems to belong to current object and should not jump contexts. But if it really did belong, it would make sense to extend that super class.</p>
+<p>So, when <em>does</em> it make sense to static import methods? When have you done it? Did/do you like the way the unqualified calls look?</p>
+<p>EDIT: The popular opinion seems to be that static-import methods if nobody is going to confuse them as methods of the current class. For example methods from java.lang.Math and java.awt.Color. But if abs and getAlpha are not ambiguous I don't see why readEmployee is. As in lot of programming choices, I think this too is a personal preference thing.</p>
+","18573","Hemal Pandya","2049986","Hemal Pandya","2021-07-29 07:21:00","2021-07-29 07:21:00","What is a good use case for static import of methods?","<java><static-import>","16","2","0","","","CC BY-SA 4.0"
+"420792","1","4482032","","2009-01-07 15:46:10","","24","4441","<p>I'm considering moving my code (around 30K LOC) from CPython to Jython, so that I could have better integration with my java code. </p>
+
+<p>Is there a checklist or a guide I should look at, to help my with the migration? Does anyone have experience with doing something similar?</p>
+
+<p>From reading the <a href=""http://jython.sourceforge.net/docs/differences.html"" rel=""nofollow noreferrer"">Jython site</a>, most of the problems seem too obscure to bother me.</p>
+
+<p>I did notice that:</p>
+
+<ul>
+<li>thread safety is an issue</li>
+<li>Unicode support seems to be quite different, which may be a problem for me</li>
+<li>mysqldb doesn't work and needs to be replaced with zxJDBC</li>
+</ul>
+
+<p>Anything else?</p>
+
+<p>Related question: <a href=""https://stackoverflow.com/questions/53543/what-are-some-strategies-to-write-python-code-that-works-in-cpython-jython-and-i"">What are some strategies to write python code that works in CPython, Jython and IronPython</a></p>
+","7581","itsadok","-1","","2017-05-23 12:02:30","2023-01-24 19:01:26","Migrating from CPython to Jython","<python><migration><jython><cpython>","6","0","0","","","CC BY-SA 2.5"
+"420800","1","420896","","2009-01-07 15:47:14","","0","5683","<pre><code> Checkbox[,] checkArray = new Checkbox[2, 3]{{checkbox24,checkboxPref1,null},                                    {checkbox23,checkboxPref2,null}};
+</code></pre>
+
+<p>I am getting error . How do I initialize it? </p>
+","42564","Learner","867232","lc","2012-02-23 06:20:14","2012-02-23 06:20:14","Initialize multidimensional array","<c#><arrays><initialization>","5","2","","","","CC BY-SA 3.0"
+"420813","1","420837","","2009-01-07 15:49:33","","20","13350","<p>Can I create a private instance method that can be called by a class method?</p>
+
+<pre><code>class Foo
+  def initialize(n)
+    @n = n
+  end
+  private # or protected?
+  def plus(n)
+    @n += n
+  end
+end
+
+class Foo
+  def Foo.bar(my_instance, n)
+    my_instance.plus(n)
+  end
+end
+
+a = Foo.new(5)
+a.plus(3) # This should not be allowed, but
+Foo.bar(a, 3) # I want to allow this
+</code></pre>
+
+<p>Apologies if this is a pretty elementary question, but I haven't been able to Google my way to a solution.</p>
+","4812","","38765","","2012-03-27 23:37:05","2012-03-27 23:37:05","Calling a private instance method from a class method in Ruby","<ruby><oop><access-specifier>","3","2","0","","","CC BY-SA 2.5"
+"420816","1","","","2009-01-07 15:50:23","","1","1197","<p>I need to locate the table that contains the <strong>Content Source Name</strong> (along with the <strong>ContentSourceId</strong>) in the <strong>SSP Search Database</strong> (OR anywhere else that it gets stored in).
+I may be able to access this via the SharePoint Object Model, but I want it via the db table access (This is not a good practice according to Microsoft).<br />
+We looked in all the tables, the closest table we get is MSSCrawlContent, with no Content Source Name.
+The article that came close to solving the problem was <a href=""http://admincompanion.mindsharp.com/BillBlog/Lists/Posts/Post.aspx?List=2d22afa2-592b-471a-9cd1-4e8de8a2abc0&amp;ID=83"" rel=""nofollow noreferrer"">this</a></p>
+
+<p>Anyone has any idea where Content Source Name is getting stored?</p>
+
+<p>BTW - The application that needs to access this information is on the same domain but on a different machine.</p>
+","33015","Binoj Antony","33015","Binoj Antony","2009-02-17 06:40:23","2009-02-17 06:40:23","Where is the Content Source Name in the SSP Search Database","<sharepoint><moss><sharepoint-2007><moss2007enterprisesearch>","2","0","0","","","CC BY-SA 2.5"
+"420819","1","422868","","2009-01-07 15:51:23","","1","1985","<p>For example, </p>
+
+<pre><code>   &lt;mbean code=""org.jnp.server.NamingBeanImpl"" 
+          name=""jboss:service=NamingBeanImpl"" 
+          xmbean-dd=""resource:xmdesc/NamingBean-xmbean.xml""&gt;
+   &lt;/mbean&gt;
+</code></pre>
+","19269","Kevin Pauli","100957","","2011-02-24 09:24:18","2011-02-24 09:27:42","What is the meaning of the ""xmbean-dd"" attribute in an mbean in jboss-service.xml?","<jboss><jmx>","1","0","","","","CC BY-SA 2.5"
+"420825","1","420836","","2009-01-07 15:52:11","","18","6100","<p>I was reading about threading and about locking. It is common practise that you can't (well should not) lock a value type.</p>
+
+<p>So the question is, what is the recommended way of locking a value type? I know there's a few ways to go about doing one thing but I haven't seen an example. Although there was a good thread on MSDN forums but I can't seem to find that now.</p>
+
+<p>Thanks</p>
+","32484","GSS","44853","lc","2009-01-07 15:53:45","2011-09-27 15:27:16","How to properly lock a value type?","<c#><locking>","4","1","0","","","CC BY-SA 2.5"
+"420832","1","428751","","2009-01-07 15:53:28","","1","472","<p>I want to strengthen a pattern to match only numbers which pass an additional validation function.</p>
+
+<pre><code>let (|IsValid|_|) n = ...
+
+let (|Nil|One|Two|) (l : int list) =
+    match l with 
+    | a :: b :: t -&gt; Two(a + b)
+    | a :: t      -&gt; One(a)
+    | _           -&gt; Nil
+</code></pre>
+
+<p>The 'One' case is easy:</p>
+
+<pre><code>    | IsValid(a) :: t -&gt; One(a)
+</code></pre>
+
+<p>The 'Two' case isn't obvious to me. It needs to validate the sum of the numbers. Can I do this without using a when-guard?</p>
+
+<p>...</p>
+
+<p>Edit: I could use a when-guard (with a bool-returning isValid function) like this:</p>
+
+<pre><code>    | a :: b :: t when isValid a + b -&gt; Two(a + b)
+</code></pre>
+
+<p>This is less elegant than just matching a pattern; worse, a + b is applied twice.</p>
+
+<p>Also note this is a simplified version of my actual code (I'm not trying to simply match against different lengths of list for example) - the question is about nested matching over the double cons pattern. </p>
+","40759","Pete","40759","Pete","2009-01-09 17:51:00","2009-01-09 17:51:00","Can you nest a ""double cons"" pattern match?","<f#><pattern-matching>","2","2","","","","CC BY-SA 2.5"
+"420838","1","","","2009-01-07 15:54:23","","1","416","<p>I am trying to install the ""libxml"" Gem (<a href=""http://libxml.rubyforge.org/install.xml"" rel=""nofollow noreferrer"">http://libxml.rubyforge.org/install.xml</a>) and it says that libxml requires a few other libraries to be installed in order to build and function properly:</p>
+
+<pre><code>  * libm      (math routines: very standard)
+  * libz      (zlib)
+  * libiconv
+  * libxml2
+</code></pre>
+
+<p>I installed RubyGems but I wonder if ""libiconv"" for example is also a gem?</p>
+
+<p>What is the way to download and install these libraries above?</p>
+
+<p>Thanks!</p>
+","51338","Oger","","","","2009-01-07 17:58:08","How to install libraries?","<ruby><rubygems>","3","1","","","","CC BY-SA 2.5"
+"420843","1","421081","","2009-01-07 15:55:59","","247","80787","<p>I'm having some trouble understanding the purpose of a salt to a password.  It's my understanding that the primary use is to hamper a rainbow table attack.  However, the methods I've seen to implement this don't seem to really make the problem harder.</p>
+
+<p>I've seen many tutorials suggesting that the salt be used as the following:</p>
+
+<pre><code>$hash =  md5($salt.$password)
+</code></pre>
+
+<p>The reasoning being that the hash now maps not to the original password, but a combination of the password and the salt.  But say <code>$salt=foo</code> and <code>$password=bar</code> and <code>$hash=3858f62230ac3c915f300c664312c63f</code>.  Now somebody with a rainbow table could reverse the hash and come up with the input ""foobar"".  They could then try all combinations of passwords (f, fo, foo, ... oobar, obar, bar, ar, ar).  It might take a few more milliseconds to get the password, but not much else.</p>
+
+<p>The other use I've seen is on my linux system.  In the /etc/shadow the hashed passwords are actually stored <em>with</em> the salt.  For example, a salt of ""foo"" and password of ""bar"" would hash to this: <code>$1$foo$te5SBM.7C25fFDu6bIRbX1</code>.  If a hacker somehow were able to get his hands on this file, I don't see what purpose the salt serves, since the reverse hash of <code>te5SBM.7C25fFDu6bIRbX</code> is known to contain ""foo"".</p>
+
+<p>Thanks for any light anybody can shed on this.</p>
+
+<p><strong>EDIT</strong>:  Thanks for the help.  To summarize what I understand, the salt makes the hashed password more complex, thus making it much less likely to exist in a precomputed rainbow table.  What I misunderstood before was that I was assuming a rainbow table existed for ALL hashes.</p>
+","42897","Rich","42897","Rich","2011-08-24 20:06:08","2015-03-15 17:13:43","How does password salt help against a rainbow table attack?","<hash><cryptography><salt><rainbowtable>","10","4","0","","","CC BY-SA 3.0"
+"420848","1","","","2009-01-07 15:56:32","","2","2797","<p>I'm trying to use Fluent-NHibernate's Query method which looks like this:</p>
+
+<pre><code>public T[] Query&lt;T&gt;(Expression&lt;System.Func&lt;T, bool&gt;&gt; where)
+        {
+            return _session.Linq&lt;T&gt;().Where(where).ToArray();
+        }
+</code></pre>
+
+<p>I'm using VB, so to send it a lambda expression I can call it with a line like this:</p>
+
+<pre><code>Dim products = flRepos.Query(Of Product)(Function(p As Product) p.Id &gt; 5)
+</code></pre>
+
+<p>This syntax is correct, but there is a problem with Fluent's underlying use of Linq to Nhibernate that breaks when using VB lambda expressions.</p>
+
+<p>I'm fine with not using lambda expressions, I just don't have a clue how I would rewrite that line to not use a lambda.</p>
+
+<p>For reference, using full linq queries in VB does work with Linq 2 Nhibernate. This query worked fine for me:</p>
+
+<pre><code>Dim product = (From p In session.Linq(Of Product)() _ 
+                        Where p.Id = testId _ 
+                        Select p).FirstOrDefault() 
+</code></pre>
+","51775","","1385358","Ryan Lanciaux","2009-01-07 16:03:47","2009-03-10 15:27:24","Full Linq Query Instead of Lambdas with Fluent-NHibernate?","<vb.net><linq><nhibernate><fluent-nhibernate>","1","0","0","","","CC BY-SA 2.5"
+"420852","1","422063","","2009-01-07 15:57:01","","44","44663","<p>Is there an easy way to read an application's already embedded manifest file?</p>
+
+<p>I was thinking along the lines of an alternate data stream?</p>
+","3153","Brian R. Bondy","3153","Brian R. Bondy","2009-01-07 16:51:37","2022-08-02 14:58:37","reading an application's manifest file?","<c++><windows><visual-c++><manifest>","10","0","0","","","CC BY-SA 2.5"
+"420854","1","","","2009-01-07 15:57:36","","8","1700","<p>I have been a part of so many web applications but have never used CAS, perhaps have also never felt the need to use the same.</p>
+
+<p>When is the need to use CAS? Do people actually use it in their applications?</p>
+","38997","Exception","1555615","","2019-01-17 18:53:12","2019-01-17 18:53:12","What is the purpose CAS (Code Access Security)?","<.net><security><code-access-security>","8","1","","","","CC BY-SA 4.0"
+"420856","1","","","2009-01-07 15:57:59","","1","1016","<p>I'm trying to load a div into a page based on a change in the drop down. I either want to show a div which has state/zip or province/postal_code, (each is a file) but I am getting a ""406 Not Acceptable [<a href=""http://localhost/profiles/residency]"" rel=""nofollow noreferrer"">http://localhost/profiles/residency]</a>""</p>
+
+<p>Here is my JQuery code:</p>
+
+<pre><code>$(function(){
+    $(""#profile_country"").change(onSelectChange);
+});
+
+function onSelectChange() {
+    var selected = $(""#profile_country option:selected"");
+    var selectedText = selected.text();
+
+    if (selectedText == 'United States') {
+        $(""#residency"").load(""/profiles/residency"");
+    }
+    else {
+        $(""#residency"").load(""/profiles/residency"");
+    }
+}
+</code></pre>
+
+<p>Now I am at loss, what should be in my ""residency method""? what to put in my routes file?</p>
+","","railer","4893","sblundy","2009-01-07 16:10:39","2009-01-07 16:16:42","how to load a div into html using jquery","<javascript><jquery><ruby-on-rails>","2","1","0","","","CC BY-SA 2.5"
+"420860","1","","","2009-01-07 15:58:33","","9","10956","<p>is there anything?</p>
+","52478","CSharpDevLondon","","","","2012-04-10 19:55:29","Equivalent of java's ConcurrentHashMap in C#?","<c#>","4","4","0","2018-01-18 16:43:40","","CC BY-SA 2.5"
+"420863","1","420885","","2009-01-07 15:58:53","","0","7411","<p>I have a problem with an application which uses the same stored procedure over and over again to populate people information in dropdown lists. The problem is that sometimes people aren't there anymore as the data changes. I have two views I can use to select from, but I want to dynamically change which view is being used based on the state of the application.</p>
+
+<p>For new records, I only want to see current people. If I'm updating an existing record, I may want to see all people since the existing record may reference someone who is not current anymore.</p>
+
+<p>How would I go about passing the view name in to my stored procedure so I can select from it?</p>
+
+<p>I've already tried adding:</p>
+
+<pre><code>@view varchar(50)
+
+select a, b from @view
+</code></pre>
+
+<p>But I get an error stating I must declare the variable @view.</p>
+
+<p>Is this even possible to do?</p>
+","48478","Eppz","","","","2009-10-01 15:00:23","How to create a stored procedure with dynamic from clause","<sql-server>","7","2","","","","CC BY-SA 2.5"
+"420864","1","","","2009-01-07 15:59:18","","6","2075","<p>What is the best way to ensure that the proper RJS is being generated in a Controller action?</p>
+
+<p>For example, I want to ensure that a div is highlighted as such:</p>
+
+<pre><code>def new
+  render :update do |page|
+    page.visual_effect :highlight, :some_div
+  end
+end
+</code></pre>
+
+<p><strong>Rant:</strong>
+This is quickly becoming one of the reasons I grow tired of RSpec after using it for a year. This should be an easy question, but it's one that no one seems to have an answer for.</p>
+
+<p>I've been told repeatedly that RSpec specifies behavior and what I'm trying to do here is just ""test code"". Highlighting of the :some_div is behavior as far as I can tell.</p>
+","52283","","52283","Matt Darby","2009-01-07 19:59:21","2009-02-17 14:32:42","Best way to test RJS in RSpec Controller specs?","<ruby-on-rails><rspec>","2","0","0","","","CC BY-SA 2.5"
+"420867","1","420894","","2009-01-07 16:00:21","","13","2867","<p>The snippet says it all :-)</p>
+
+<pre><code>UTF8Encoding enc = new UTF8Encoding(true/*include Byte Order Mark*/);
+byte[] data = enc.GetBytes(""a"");
+// data has length 1.
+// I expected the BOM to be included. What's up?
+</code></pre>
+","82","frou","","","","2009-01-09 14:07:08","Why isn't the Byte Order Mark emitted from UTF8Encoding.GetBytes?","<c#><.net><unicode><encoding><utf-8>","4","2","","","","CC BY-SA 2.5"
+"420878","1","","","2009-01-07 16:03:40","","8","10249","<p>Is there a way to hide/protect/obfuscate MS SQL Stored Procedures?</p>
+","32183","","44853","lc","2009-01-07 16:45:26","2019-02-20 11:45:39","How to Obfuscate SQL Sprocs?","<sql><stored-procedures><obfuscation>","10","0","0","","","CC BY-SA 2.5"
+"420888","1","473001","","2009-01-07 16:05:55","","0","1479","<p>We use VS2008 with TFS for source control at my workplace and it works fine, however today we experienced a problem when trying to associate our pending changes with a work item. 
+Usually when I want to associate changes with a work item I just go to the second tab from the top in the ""pending changes"" window, check the work item that fits the changes and check in. Today however, all my work items were gone from the list. I can select a suitable query from the drop down box and this works fine, so the projects are there.</p>
+
+<p>I think the problem might have something to do with the ""My Work Items"" query being associated with the wrong TFS project (there are two on our TFS-server) but I don't know how to fix this. The same problem occurred for most of my colleagues with some (possible) variations.</p>
+
+<p>So... <strong>how do I restore ""My Work Items""</strong> to the pending changes window?</p>
+
+<p>EDIT: The problem still persists in a way but I worked my way around it by removing the second project in the Team Explorer. This is acceptable (for now) since that project is not currently active. I am not content with this being a good long term solution, however...</p>
+
+<p>EDIT: I know that I may not have provided enough information for anyone to understand what really is the problem, still, I'll keep it up for now in case someone has had the same problem and knows how to fix it :P</p>
+","45704","Sakkle","736079","Sakkle","2015-03-08 16:54:44","2015-03-08 16:54:44","My Work Items gone in TFS","<visual-studio-2008><tfs><tfs-workitem>","2","0","","","","CC BY-SA 3.0"
+"420891","1","","","2009-01-07 16:06:20","","5","1741","<p>If I registered several components with Windsor.</p>
+
+<p>IAnimal provides BigAnimal
+IPerson provides SmellyPerson
+IWhale provides BlueWhale</p>
+
+<p>etc.. pretty standard component registeration</p>
+
+<p>all the above types implement IMustBeIntercepted, how do I tell the container add an interceptor to all types that implement IMustBeImplemented so that when Resolve is called it is returned a BigAnimal with an interceptor as defined since it matches. I know I can do this for each one but its extra XML config or programatic config which I want to avoid</p>
+","","Matt","","","","2009-04-08 20:09:30","How do I tell Windsor to add an Interceptor to all components registered that implement IMustBeIntercepted","<castle-windsor>","2","0","0","","","CC BY-SA 2.5"
+"420895","1","420936","","2009-01-07 16:06:43","","55","23239","<p>I'm working on creating a call back function for an ASP.NET cache item removal event.</p>
+
+<p>The documentation says I should call a method on an object or calls I know will exist (will be in scope), such as a static method, but it said I need to ensure the static is thread safe.</p>
+
+<p>Part 1: What are some examples of things I could do to make it un-thread safe?</p>
+
+<p>Part 2: Does this mean that if I have</p>
+
+<pre><code>static int addOne(int someNumber){
+    int foo = someNumber;
+    return foo +1; 
+}
+</code></pre>
+
+<p>and I call Class.addOne(5); and Class.addOne(6); simutaneously, Might I get 6 or 7 returned depending on who which invocation sets foo first? (i.e. a race condition)</p>
+","33264","MatthewMartin","5395773","Rob","2022-05-24 11:20:49","2022-05-24 11:20:49","How do I know if this C# method is thread safe?","<c#><concurrency><thread-safety><static-methods>","11","0","0","","","CC BY-SA 3.0"
+"420919","1","436891","","2009-01-07 16:11:46","","2","950","<p>What is the lowest permission level I need on a user to be able to create diagrams in SQL Server Enterprise Manager?</p>
+
+<p>I'm currently set as data reader and I am unable to create diagrams. (I wouldn't expect to be able to at this permission level)</p>
+","48478","Eppz","","","","2009-01-12 20:27:17","Create Diagram in SQL Server Enterprise Manager (SQL 2000)","<sql><sql-server>","2","0","","","","CC BY-SA 2.5"
+"420941","1","420960","","2009-01-07 16:17:47","","4","2309","<p>Can someone please confirm to me that when my application is written in .NET 3.5 that this code</p>
+
+<pre><code>System.Environment.Version.Major.ToString()
+</code></pre>
+
+<p>will produce this </p>
+
+<pre><code>2.0.50727.1433
+</code></pre>
+
+<p>I'm just moving to 3.5 and the first application I'm moving is an internal website. I thought a really easy indicator that it's working would be to add the Framework version next to my Application version but the above text is what is being produced.</p>
+
+<p>My limited research suggests that .NET 3.5 is a 'flavour' of 2.0 and so the underlying framework version will continue to be 2.0. The IIS application pool settings suggest this is the case. </p>
+
+<p>Is this correct or can I get my application to show 3.5?</p>
+
+<p>Cheers</p>
+","982","MrBrutal","41956","","2010-06-14 14:14:19","2010-06-14 14:14:19","Why can't I display the ASP.NET Framework version as 3.5?","<.net><version>","1","0","","","","CC BY-SA 2.5"
+"420944","1","420969","","2009-01-07 16:18:25","","1","1672","<p>This really has my stumped today. I'm sure its simple, but... Here is my sample code:</p>
+
+<pre><code>using System;
+using System.Collections;
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        public ArrayList SomeProp { get; set; }
+
+        static void Main(string[] args)
+        {
+            // Get the Type of a property by reflection.
+            Type myPropType = typeof(Program).GetProperty(""SomeProp"").PropertyType;
+
+            // Create an instance of the determined Type.
+            var x = Activator.CreateInstance(myPropType);
+
+            // Now try to use that instance, passing to a method that takes a generic.
+            WhatAmI(x);
+
+            Console.ReadKey();
+        }
+
+        private static void WhatAmI&lt;T&gt;(T x)
+        {
+            Console.WriteLine(""T is: "" + typeof(T).FullName);
+            Console.WriteLine(""x is: "" + x.GetType().FullName);
+        }
+    }
+}
+</code></pre>
+
+<p>The output here is:</p>
+
+<pre><code>T is: System.Object
+x is: System.Collections.ArrayList
+</code></pre>
+
+<p>Basically what is going on here is I have some property on some class. It doesnt really matter what/where that comes from.  The important part is that I get the PropertyInfo for that property.  From there I create a new instance of its Type with Activator.</p>
+
+<p>Now If I pass that created instance to a function that takes a generic parameter, the generic Type always comes across as Object, because Activator.CreateInstance() returns an Object, so ""var x"" is an Object, not, in this case, an ArrayList.</p>
+
+<p>What I need to happen is for the generic type to be the actual type, int his case ""ArrayList"".</p>
+
+<p>I know there is an Activator.CreateInstance() that I can use instead, but I can't use a Type (PropertyInfo.PropertyType) within the angle brackets for that method.</p>
+
+<p>I could also just cast the returned object, like:</p>
+
+<pre><code>myPropType x = (myPropType)Activator.CreateInstance(myPropType);
+</code></pre>
+
+<p>But obviously that doesn't compile... Plus it wouldn't be valid anyway because the cast is compile time, and I don't know the type until runtime, but conceptually its what I need...</p>
+
+<p>So I'm stuck with this Type, but I can't figure out how to get it passed over to the WhatAmI() method, and have T be ArrayList, not Object.</p>
+
+<p>Ideas?</p>
+","28278","rally25rs","","","","2009-01-07 16:29:20",".NET Generics: Using an Activator created type as a generic shows wrong Type? Need workaround","<c#><.net><generics>","1","0","0","","","CC BY-SA 2.5"
+"420945","1","421384","","2009-01-07 16:18:40","","9","5422","<p>I'm just coming up the learning curve for Java SE &amp; have no problem with the usual Java convention for package names, e.g. <code>com.example.library_name_here.package_name_here</code></p>
+
+<p>Except.</p>
+
+<p>I've been noticing a failure to abide by this in some fairly well-known packages.    </p>
+
+<ul>
+<li><a href=""http://jline.sourceforge.net/"" rel=""noreferrer"">JLine</a>: <code>jline.*</code></li>
+<li><a href=""https://sourceforge.net/projects/jacob-project/"" rel=""noreferrer"">JACOB</a>: <code>com.jacob.*</code> (there is no jacob.com)</li>
+<li><a href=""https://github.com/twall/jna/"" rel=""noreferrer"">JNA</a>: <code>com.sun.jna.*</code> (disclaimer on the site says NOTE: Sun is not sponsoring this project, even though the package name (com.sun.jna) might imply otherwise.)</li>
+</ul>
+
+<p>So I'm wondering, are there instances where the usual reverse-domain-name convention breaks down, and there are good ways to get around it? The only cases I can think of revolve around domain-name ownership issues (e.g. you change the project hosting/domain name, or there's already a well-known package that has ""squatter's rights"" to your domain, or your ownership of the domain runs out &amp; someone else snaps it up).</p>
+
+<p>edit: if I use my company's domain name, and we are bought out or have a spin-off, what should we do with package names? keep them the same or rename? (I suppose renaming is bad from the point of view that compiled classes referring to the package then lose)</p>
+","44330","Jason S","13531","mmyers","2009-01-07 16:30:32","2009-01-07 18:15:06","java package name convention failure","<java><naming-conventions>","6","1","","","","CC BY-SA 2.5"
+"420948","1","421011","","2009-01-07 16:19:02","","1","209","<p>I recently started working at a company with an enormous ""enterprisey"" application.  At my last job, I designed the database, but here we have a whole Database Architecture department that I'm not part of.</p>
+
+<p>One of the stranger things in their database is that they have a bunch of views which, instead of having the user provide the date ranges they want to see, join with a (global temporary) table ""TMP_PARM_RANG"" with a start and end date.  Every time the main app starts processing a request, the first thing it does it ""<code>DELETE FROM TMP_PARM_RANG</code>;"" then an insert into it.</p>
+
+<p>This seems like a bizarre way of doing things, and not very safe, but everybody else here seems ok with it.  Is this normal, or is my uneasiness valid?</p>
+
+<p><strong>Update</strong>  I should mention that they use transactions and per-client locks, so it is guarded against most concurrency problems.  Also, there are literally dozens if not hundreds of views that all depend on <code>TMP_PARM_RANG</code>.</p>
+","3333","Paul Tomblin","3333","Paul Tomblin","2009-05-09 02:08:25","2009-05-09 02:08:25","Date ranges in views - is this normal?","<sql><view><enterprise>","9","2","","","","CC BY-SA 2.5"
+"420964","1","","","2009-01-07 16:22:36","","4","4067","<p>I want to do the following query:</p>
+
+<pre><code>UPDATE `users` SET balance = (balance - 10) WHERE id=1
+</code></pre>
+
+<p>But if the balance will become a negative number I want an error to be returned. Any ideas on if this is possible?</p>
+","","Ice","562769","","2015-06-14 14:54:03","2015-06-14 14:54:03","MySQL Non-Negative INT Columns","<mysql>","5","0","","","","CC BY-SA 3.0"
+"420976","1","446897","","2009-01-07 16:25:01","","1","1154","<p>I have several tables that center around an organization table that simply holds a unique ID value. Each Organization can then be at a particular location and have a particular name. The tricky part is that the organizations support location and name changes with a specified effective date of each change. For this example I have 4 relevant tables:</p>
+
+<p>Organization: ID (PK, int, identity) </p>
+
+<p>Location: ID (PK, int, identity), Name (varchar), AltLat (float), AltLong (float)</p>
+
+<p>organization_locations: organization_id(FK, int), location (FK, int), eff_date (datetime)</p>
+
+<p>organization_names: organization_id (FK, int), name (ntext), eff_date (datetime), icon (nvarchar(100))</p>
+
+<p>What I need to retrieve is the list of all locations along with all organizations at a given location as of a specific date and project them into my business entities. In other words, I will have a date provided and need to return for each location, the organization related to the organization_location entry with the most recent eff_date that is less than the date provided. Same thing goes for each organization, I'd need the name as of the date. </p>
+
+<p>Here's what I started with but it doesn't seem to work:</p>
+
+<pre><code>Dim query = From loc In dc.Locations _
+           Where loc.AltLong IsNot Nothing And loc.AltLat IsNot Nothing _
+           Select New AnnexA.Entities.AnnexALocation With {.ID = loc.ID, .Name = loc.Location, .Y = loc.AltLat, .X = loc.AltLong, _
+                            .Units = From ol In loc.organization_locations Let o = ol.Organization.organization_names.Where(Function(ed) (ol.eff_date &lt; Date.Parse(""1/1/2011""))).OrderByDescending(Function(od) (od.eff_date)).First() Select New AnnexA.Entities.AnnexAMillitaryUnit With {.ID = o.ID, .Name = o.name, .IconPath = o.icon}}
+</code></pre>
+
+<p>I'd prefer VB syntax but if you can only give me a C# query I can work with that. I've tried a few other variations but I end up getting syntax errors about an expected ""}"" or members not being a part of an entity set no matter what combination of parenthesis I try.</p>
+","31672","Tom","17516","AnthonyWJones","2009-01-10 14:40:32","2009-01-15 14:21:54","LINQ to SQL Query Syntax","<vb.net><linq><linq-to-sql>","3","1","0","","","CC BY-SA 2.5"
+"468311","1","468396","","2009-01-22 07:23:50","","18","14428","<p>I have a DLL that I want to profile.. I tried to use <a href=""http://www.codersnotes.com/sleepy/"" rel=""noreferrer"">Very Sleepy</a>, but I can't seem to get the source file column to display which source file the functions came from, all it displays is ""unknown"".. Anyway, I'm really baffled on how to use this app.. Can anyone point me to some help?  There's not much documentation on it and it seems like it hasnt been maintained recently.. =/</p>
+
+<p>Thanks..</p>
+
+<p>EDIT: Adding another question:</p>
+
+<p>What do the terms exclusive and inclusive mean in this app? Thanks..</p>
+","29482","krebstar","29482","krebstar","2009-01-22 09:01:45","2022-05-29 08:14:52","Using the ""Very Sleepy"" profiler to profile DLLs","<c++><profiling><verysleepy>","2","0","0","","","CC BY-SA 2.5"
+"468316","1","468333","","2009-01-22 07:25:11","","4","8803","<p>Title: Eclipse plug-in development Unable to instantiate class due to  java.lang.NoClassDefFoundError:</p>
+
+<p>Trying to build an eclipse plugin but getting some runtime error..</p>
+
+<p>I understand this is due to a class file that the code depends on and it is present at compile time but not found at runtime....</p>
+
+<p>I'm not sure what I have to do to fix this.
+the source file of the file that is not found is in my project workspace.</p>
+
+<p>the project containing of the source file is in the JavaBuildPath of the troubled project as well.</p>
+","17085","alan","","","","2010-06-30 12:42:38","Eclipse plug-in development Unable to instantiate class due to java.lang.NoClassDefFoundError:","<eclipse><plugins>","1","0","0","","","CC BY-SA 2.5"
+"468327","1","468338","","2009-01-22 07:32:09","","5","820","<p>Has someone experience with database comparison tools?
+Which one you would recommend?</p>
+
+<p>We are currently using ""SQLCompare"" from Redgate, but I am curious to know if there are better tools on the market.</p>
+
+<p>The main requirement is that they should be able to compare scripts folder against a live database.</p>
+
+<p>Thanks,
+Dimi</p>
+","52039","Dimi","","","","2011-12-10 00:35:48","DB comparison tools","<sql><sql-server><comparison><compare>","7","0","","","","CC BY-SA 2.5"
+"468328","1","","","2009-01-22 07:34:33","","28","22589","<p>My company software has a lot of forms, till now we wrote the code by hand (MVC way).</p>
+
+<p>We are considering to start using GUI builder.</p>
+
+<p>There are few problems with using a Builder.</p>
+
+<ol>
+<li>Parts of the code are not
+<strong>readable</strong>.</li>
+<li>Parts of the code are not
+<strong>editable</strong>.</li>
+<li>It will be harder to edit the code
+later.</li>
+<li>We will have to continue using the
+builder in the future, 
+even if we want to replace builder or write by hand, and no one can assure that the tool will be available and supported in the future.</li>
+</ol>
+
+<p>I want to learn from others experience:</p>
+
+<ul>
+<li>Do you recommend using tool or should we continue write code by hand?</li>
+<li>Which builder is better?</li>
+<li>How does he deal with the problems? (Is there any other problems?)</li>
+</ul>
+","57809","Billbo bug","2327745","Billbo bug","2014-01-20 06:14:24","2015-11-17 06:38:12","Java, GUI builder or hand coding?","<java><forms><user-interface>","16","0","0","2016-08-27 22:00:22","","CC BY-SA 3.0"
+"468329","1","468391","","2009-01-22 07:34:36","","0","3561","<p>I am include a huge javascript file(500K) in my HTML. Is there a smart way to know if it has been loaded. One way I can think of is to have a variable in its constructor to initialize and inform me . The loading is asynchronous and I cannot proceed until function s of that JS are included. </p>
+
+<p>Thanks</p>
+","50851","Rakesh","","","","2009-01-22 13:35:11","Inclusion of a js file in HTML","<javascript><header>","6","5","","","","CC BY-SA 2.5"
+"468334","1","468336","","2009-01-22 07:38:32","","0","226","<p>When I try to insert signs like &lt; or > in an InnerText-part of a xml-tag then after accessing the xml by xmlDocument.InnerXml these signs are replaced by their html-code like &amp;lt or &amp;gt, can someone explain this to me and perhaps give me a solution for this problem?</p>
+
+<p>with kind regards</p>
+
+<p>Sebastian</p>
+","23681","Xelluloid","4632482","","2018-03-09 13:52:18","2018-03-09 13:52:18","<, > in xml document","<.net><xml>","4","0","","","","CC BY-SA 3.0"
+"468345","1","468362","","2009-01-22 07:45:46","","1","2968","<p>I've currently got a database with about 20 reference tables, i.e. stuff like products, assets, depots, users, etc. This information is stored in a central database and is downloaded to PDAs of engineers who are out on the road. Every table in my database has a PK of UniqueIdentifier (i.e. a GUID).</p>
+
+<p>I've realised after 2 years of product development that I never do and never will need to edit any of these ref tables. Therefor there's no need for them to have UniqueIdentifiers as primary keys. </p>
+
+<p>As I'm serializing all my collections before I send them to the PDA over my webservice, the actual serialized data is huge due to the length of a GUID.</p>
+
+<p>Anyway, getting to the point - I want to change all the PKs of the tables to IDENTITY Ints. Is there any easy way to do this, or am I going to have to go along the lines of severing all FKs, creating temp tables, and then writing some software to remap the data?</p>
+
+<p>Thanks in advance.</p>
+","44269","RedStork","","","","2009-01-22 12:53:49","SQL Server - What's the best way to change a PK data type?","<sql-server><database><sql-server-2005><primary-key>","4","0","0","","","CC BY-SA 2.5"
+"468370","1","468378","","2009-01-22 07:58:50","","53","54685","<p>I'm trying to match SHA1's in generic text with a regular expression.</p>
+
+<p>Ideally I want to avoid matching words. </p>
+
+<p>It's safe to say that full SHA1's have a distinctive pattern (they're long and a consistent length) - so I can match these reliably - but what about abbreviated SHA1's?</p>
+
+<p>Can I rely on the presence of numbers?</p>
+
+<p>Looking at the SHA1's in my commit log - numbers always appear in the first 3 characters. But is this too short? How many characters of SHA1 do I need to consider before I can assume a number would have appeared?  </p>
+
+<p>This does not have to be 100% accurate - I just need to match an abbreviated SHA1 99% of the time.</p>
+","52416","git-noob","","","","2014-01-29 22:40:09","A Regex to match a SHA1","<git><sha1>","6","1","0","","","CC BY-SA 2.5"
+"468372","1","","","2009-01-22 08:00:42","","-2","193","<blockquote>
+  <p><strong>Possible Duplicate:</strong><br>
+  <a href=""https://stackoverflow.com/questions/468266/how-to-restart-thread-in-java"">How to restart thread in java?</a>  </p>
+</blockquote>
+
+
+
+<p>I have created a program which search for a file in source folder. If it founds any file, it process that file and moves the file to destination folder and looks for new file in source folder. Like that it has to keeps on check the source folder for a file. I have used thread to look for files in source folder. Problem i am facing is whenever any exception throws during file process thread get stopped. I want the thread to be running even if the exception throws during file processing. It has to move that error to sum other folder and looks for for new file in source folder. How can i make thread to keeps on running?</p>
+
+<p>Actually there are 4 source folders and 4 destination folders. I have to perform the same operation in each source &amp; destination pair. So i have created 4 threads in one class and search operation in second class and file processing in third class.</p>
+
+<pre><code>class MainClass
+{
+    public static void main(String[] args){
+        for(int i=0;i&lt;4;i++){
+           SearchClass search = new SearchClass();
+           Thread thread = new Thread(search);
+           thread.start();
+       }
+   }
+}
+
+class SearchClass implements Runnable
+{
+   public void run() {
+     try {
+        searchfile();
+     } catch(Exception e) {
+        e.printStackTrace();
+     }
+   }
+
+   public void searchfile(){
+     try{
+        ProcessClass p = new ProcessClass();
+        p.fileProcess();
+     }catch(Exception){
+        e.printStackTrace();
+     }
+   }
+}
+
+class ProcessClass
+{
+    public void fileProcess(){
+      try{
+          .........................
+          ...........  -----&gt; 
+          // Thread1 throws exception here and get stopped.
+          // Its searching file in source folder again.
+      }catch(Exception){
+          e.printStackTrace();
+      }
+   }
+}
+</code></pre>
+","51659","raja","-1","Bill the Lizard","2017-05-23 12:11:30","2009-01-22 13:29:19","Doubt in thread concept","<java>","1","3","","2011-08-31 03:48:28","","CC BY-SA 2.5"
+"468375","1","468464","","2009-01-22 08:02:48","","6","1174","<p>What's the best (or maybe not the best -- just good) way for two processes in the same machine to communicate, using .NET?</p>
+
+<p>Actually the two processes in the app I'm working on aren't even two different programs; they're just two instances of the same EXE. I wanted to do something like a singleton app, but have it per user (meaning a Terminal Server or Citrix or App-V server with multiple users should be able to launch their own single copy of the app). If another instance is run by the same user, it should just delegate the task to the already running instance, then exit. Only one instance per user of the program should be running. So far I've done (thanks to StackOverflow) the part that detects whether an instance of the app is already running, using Mutex. But I need the second app instance to be able to send data to the first app instance.</p>
+
+<p>I'm leaning towards using named pipes and WCF's NetNamedPipeBinding for this, but if you have better ideas I'll really appreciate it. Thanks :)</p>
+","6441","cruizer","","","","2009-01-22 09:56:01","In .NET what's the best way for two processes in the same machine to communicate?","<.net><process><communication>","7","0","0","","","CC BY-SA 2.5"
+"468377","1","","","2009-01-22 08:04:17","","3","2192","<p>I'm also familiar with the 'Subversion + Cruise Control + Fogbugz + nCover + ...' setup used in dev houses. But what other options are there? I'm pretty naive outside of these 2 combinations. I'm from the .net world and perhaps LISP of Ruby developers do it completely differently?</p>
+","51948","DarkwingDuck","","","","2010-09-06 08:35:40","What are some ALM alternatives to TFS?","<tfs><alm>","3","0","","","","CC BY-SA 2.5"
+"468383","1","468395","","2009-01-22 08:07:43","","3","5730","<p>Python 2.5.1</p>
+
+<p><a href=""http://www.cgsecurity.org/wiki/After_Using_PhotoRec"" rel=""nofollow noreferrer"">http://www.cgsecurity.org/wiki/After_Using_PhotoRec</a></p>
+
+<p>I've just run PhotoRec and the code given as a way to sort file types into their own folder is coming back with this error. Any suggestions on how to alter? Thanks :</p>
+
+<p>[EDIT2: Two points:</p>
+
+<ol>
+<li>This question was voted down because it was a 'usage' of code, somehow not a programming question. Does it qualify as a coding question? I argue yes.</li>
+<li><p>I've gone back and edited the page where the code came from to clarify the need for parameters for the benefit of others.]</p>
+
+<p>gyaresu$ python recovery.py 
+Traceback (most recent call last):
+  File ""recovery.py"", line 8, in 
+    source = sys.argv[1]
+IndexError: list index out of range</p></li>
+</ol>
+
+<p>Script:</p>
+
+<pre><code>#!/usr/bin/env python
+import os
+import os.path
+import shutil
+import string
+import sys
+
+source = sys.argv[1]
+destination = sys.argv[2]
+
+while os.path.exists(source) != True:
+    source = raw_input('Enter a valid source directory\n')
+while os.path.exists(destination) != True:
+    destination = raw_input('Enter a valid destination directory\n')
+
+for root, dirs, files in os.walk(source, topdown=False):
+    for file in files:
+        extension = string.upper(os.path.splitext(file)[1][1:])
+        destinationPath = os.path.join(destination,extension)
+
+        if os.path.exists(destinationPath) != True:
+            os.mkdir(destinationPath)
+        if os.path.exists(os.path.join(destinationPath,file)):
+            print 'WARNING: this file was not copied :' + os.path.join(root,file)
+        else:
+            shutil.copy2(os.path.join(root,file), destinationPath)
+</code></pre>
+","13007","gyaresu","13007","gyaresu","2009-01-23 20:52:36","2009-01-23 20:52:36","Python code for sorting files into folders","<python><scripting><recovery>","3","2","","","","CC BY-SA 2.5"
+"468388","1","468392","","2009-01-22 08:10:59","","0","313","<p>I have an application which spawns a lot of child objects and each of them works with some global application objects e.g. registers itself in the global application registry, updates application statistics etc.</p>
+
+<p>How should application transfer the ability to access those global objects to the children? Should every child inherit from static CRegistry and CStatistics or should application pass Registry and Statistics to child at the moment of creation?</p>
+
+<p>Thanks.</p>
+","48461","Jack","","","","2009-01-22 08:44:35","""Inherit not, contain"" or ""inherit, not contain""","<c++><inheritance>","2","0","","","","CC BY-SA 2.5"
+"468398","1","471398","","2009-01-22 08:15:33","","1","1970","<p><strong>Question:</strong></p>
+
+<p>Does anyone know how to change the current directory of an already running open file dialog?</p>
+
+<p><strong>Details:</strong></p>
+
+<p>I have a customized open file dialog (using a custom template to add extra controls) that also has all the validation, existing checks, and creation tests turned off (via the OpenFileName flags).</p>
+
+<p>Turning those things off disables the built-in behavior of the dialog that will cause it to change the currently displayed folder if the user types a folder name into the ""file name"" combo box and hits the enter key.</p>
+
+<p>I would like to add that behavior back. I can detect when this happens via the hook procedure. I've hidden the OK button, turned off it's accelerator, and put my own ""select"" button on the control. This means that the only time I get a CDN_FILEOK message is when the user hits enter in the text box after typing.</p>
+
+<p>I can't, however, figure out how to programatically tell the dialog to change the current directory.</p>
+
+<p>I was thinking that I might be able to accomplish this by sending some sort of a message to the SHELLDLL_DefView control in the window, but I haven't been able to find any documentation on it. </p>
+","1737192","Scott Wisniewski","","","","2021-05-18 08:20:14","GetOpenFileName change directory","<windows><dialog><openfiledialog>","2","0","","","","CC BY-SA 2.5"
+"468403","1","628615","","2009-01-22 08:19:11","","8","3096","<p>I have a self upgrade process implemented where my main application exe launches an updater exe passing a handle to itself on the command line. The application exe then calls ExitProcess to exit, and the updater calls WaitForSingleObject on the passed in handle to wait for the application exe to terminate.</p>
+
+<p>The WaitForSingleObject does wait. Until the application calls ExitProcess the updater does stall.</p>
+
+<p>However, sometimes, when the updater tries to overwrite the application dlls  with the new versions I get a file-locked error which the current version of my updater treats as an unrecoverable error and terminates. It seems that including an arbitrary sleep(100) is sufficient to bypass this ""issue"" but I really hate code like that. really hate.</p>
+
+<p>It seems very odd to me that the process handle can be signalled while the main application is still alive enough to have dll files locked.</p>
+","27491","Chris Becke","54501","gkrogers","2009-01-22 12:46:32","2009-03-10 01:24:03","When does windows signal a process handle?","<windows><winapi><synchronization>","6","0","0","","","CC BY-SA 2.5"
+"468405","1","","","2009-01-22 08:20:52","","34","22269","<pre><code>Dim qp1 As New QueryParser(""filename"", New StandardAnalyzer())
+Dim qp2 As New QueryParser(""filetext"", New StandardAnalyzer())
+.
+.
+</code></pre>
+
+<p>I am using the 'Lucene.Net' library and have the following question.</p>
+
+<p>Instead of creating two separate <code>QueryParser</code> objects and using them to obtain two Hits objects, is it possible perform a search on both fields using a single <code>QueryParser</code> object, so that I have only one Hits object which gives me the overall score of each Document?</p>
+","57175","","997358","","2016-02-17 15:17:53","2016-02-17 15:17:53","How to incorporate multiple fields in QueryParser?","<vb.net><lucene><lucene.net>","4","0","0","","","CC BY-SA 3.0"
+"468413","1","468418","","2009-01-22 08:26:29","","16","21950","<p>I have an enum which is used by multiple classes. What is the best way to implement this?</p>
+","40676","Martijn","759866","mackenir","2013-12-27 11:55:26","2013-12-27 11:55:26","C# What is the best way to create an enum that is used by multiple classes?","<c#><enums>","7","0","0","","","CC BY-SA 3.0"
+"468421","1","","","2009-01-22 08:32:05","","60","12761","<p>In Python we can ""dir"" a module, like this:</p>
+
+<pre><code>&gt;&gt;&gt; import re
+&gt;&gt;&gt; dir(re)
+</code></pre>
+
+<p>And it lists all functions in the module. Is there a similar way to do this in Ruby?</p>
+","","HelpMe","17160","nosklo","2009-01-22 10:16:46","2022-09-11 17:07:22","Ruby equivalent of Python's ""dir""?","<python><ruby><inspection>","9","2","0","","","CC BY-SA 2.5"
+"468422","1","469104","","2009-01-22 08:32:36","","1","1250","<p>Any ideas on how to get the functionality of an attributed string on an iPhone.</p>
+
+<p>Specifically, I am writing out chemical compounds and want to properly display subscripts:  for example:</p>
+
+<p>H<sub>2</sub>O   (the 2 should be a subscript)</p>
+
+<p>Thanks for any suggestions</p>
+","48311","Corey ","1175","","2010-08-26 16:17:37","2011-05-09 12:13:56","iPhone Attributed String","<iphone><cocoa-touch>","3","0","","","","CC BY-SA 2.5"
+"468424","1","494400","","2009-01-22 08:33:20","","1","1164","<p>HI,</p>
+
+<p>I started implementing a HTML Browser in Swing. I want to use the <a href=""http://lobobrowser.org/"" rel=""nofollow noreferrer"">Lobo Cobra</a>  toolkit because this toolkit inclused a renderer and parser for CSS and JavaScript. The pages are looking very nice and it is easy to use (one class implementation to show a html page).</p>
+
+<p>I want to show HTML pages in swing which can show javascript generated and modified objects, like a flashing circle.
+As far as i know, the cobra toolkit can show static javascript commands like 'document.write' or closwWindow() implementations, but not updating the GUI from a JavaScript.</p>
+
+<p>Did someone works with Lobo Cobra Toolkit before and give me some sample code or tips for showing HTML pages with animated JavaScript objects inside.</p>
+","39062","Markus Lausberg","","","","2010-04-09 05:00:06","Lobo Cobra HtmlPanel does not update GUI after JavaScript action","<java><javascript><browser><lobo><cobra>","1","0","0","","","CC BY-SA 2.5"
+"468435","1","468446","","2009-01-22 08:40:19","","3","86","<p>I use VS2008 at home and love it, while approaching work about upgrading 2005 to 2008, one of my obvious causes for concern are all the 2005 solutions we have lying around.</p>
+
+<p>While it may be simple for us to upgrade to 2008, we do work with other developers that use 2005 and will not be upgrading to 2008 in the near future.</p>
+
+<p><strong>I understand</strong> that the <em>project</em> files are cross compatible with no problems, but the <em>solution</em> files are <strong>not</strong>.</p>
+
+<p>Here are some links I have come across so far:</p>
+
+<ul>
+<li><a href=""http://petesbloggerama.blogspot.com/2007/11/visual-studio-2008-solution-project.html"" rel=""nofollow noreferrer"">Visual Studio 2008 Solution / Project File Conversions And Tricks</a></li>
+<li><a href=""http://www.platinumbay.com/blogs/dotneticated/archive/2007/12/19/visual-studio-2008-solution-file-compatibility.aspx"" rel=""nofollow noreferrer"">Visual Studio 2008 Solution File Compatibility</a></li>
+<li><a href=""http://www.west-wind.com/Weblog/posts/122975.aspx"" rel=""nofollow noreferrer"">Moving Projects/Solutions between Orcas and Visual Studio 2005</a></li>
+</ul>
+
+<p>I am curious, <strong>has MS approached this problem head on?</strong> Have their been any hotfixes to address it? It seems like a pretty poor attempt at cross-compat since there are no <strong>real</strong> changes between the solution files (i.e. 2008 could easily ignore the extra content from 2005)..</p>
+
+<p><strong>PS:</strong> This is of course all assuming we do not utilise any of the new framework things in 3.5..</p>
+","832","Rob Cooper","1505120","","2015-11-11 00:02:26","2015-11-11 00:02:26","How Can I Overcome the Compat. Issues with VS2005/8 SOLUTION Files?","<.net><visual-studio-2008><visual-studio-2005>","1","0","","","","CC BY-SA 2.5"

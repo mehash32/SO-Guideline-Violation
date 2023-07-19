@@ -1,0 +1,3584 @@
+Id,PostTypeId,AcceptedAnswerId,ParentId,CreationDate,DeletionDate,Score,ViewCount,Body,OwnerUserId,OwnerDisplayName,LastEditorUserId,LastEditorDisplayName,LastEditDate,LastActivityDate,Title,Tags,AnswerCount,CommentCount,FavoriteCount,ClosedDate,CommunityOwnedDate,ContentLicense
+"27762257","1","27762419","","2015-01-04 04:08:18","","1","13415","<p>I am working on a system whereby I can update a small database from several locations. I wish to host the database on my home computer and allow connections to be made to the database from two other locations through tcp/ip.</p>
+
+<p>I have done the following thus far:</p>
+
+<ol>
+<li>Enabled TCP/IP for SQLEXPRESS</li>
+<li>Allowed port 1433 tcp on my firewall</li>
+<li>Allowed port 1434 udp on my firewall</li>
+<li>Enabled SQLEXPRESS server to allow remote connections</li>
+</ol>
+
+<p>I was hoping to be able to connect to the database by opening sql management studio on the other pcs and using the following format [ExternalIP]\SQLEXPRESS but as of yet I have been unable to do so. I have looked at what my external IP might be and i am getting two different values:</p>
+
+<p>86.XX.X.XXX
+66.XXX.XX.XX</p>
+
+<p>Should I be using either of these values with this format to connect from the other sql management studios when everything has been correctly configured? Are there any steps that I am missing?</p>
+","1180519","","1180519","","2015-01-08 19:51:05","2017-07-31 14:55:57","Connecting to a 2014 SQLEXPRESS database on an externally hosted computer through TCP/IP","<sql-server><external><remote-access><tcp>","2","3","0","","","CC BY-SA 3.0"
+"27762258","1","","","2015-01-04 04:08:53","","0","223","<p>I am trying to replicate the WWDC 2013 skinning.m slide but I am having trouble with the timeOffset function on the CCAnimationGroup. When I implement the timeoffset in my code it dos not offset the time as it does in apples code it simply just starts from the beginning of my animation no matter what I do. </p>
+
+<p>What is the difference between what apple has done an what i have done?</p>
+
+<p>here is a snippet of apples code:</p>
+
+<pre><code>- (void)extractAnimationsFromSceneSource:(SCNSceneSource *)sceneSource
+{
+
+
+// In this scene objects are animated separately using long animations
+// playing 3 successive animations. We will group these long animations
+// and then split the group in 3 different animation groups.
+// We could also have used three DAEs (one per animation).
+
+NSArray *animationIDs = [sceneSource identifiersOfEntriesWithClass:[CAAnimation class]];
+
+NSUInteger animationCount = [animationIDs count];
+NSMutableArray *longAnimations = [[NSMutableArray alloc] initWithCapacity:animationCount];
+
+CFTimeInterval maxDuration = 0;
+
+for (NSInteger index = 0; index &lt; animationCount; index++) {
+    CAAnimation *animation = [sceneSource entryWithIdentifier:animationIDs[index] withClass:[CAAnimation class]];
+    if (animation) {
+        maxDuration = MAX(maxDuration, animation.duration);
+        [longAnimations addObject:animation];
+     //   NSLog(@""%@"",[longAnimations description]);
+    }
+}
+
+CAAnimationGroup *longAnimationsGroup = [[CAAnimationGroup alloc] init];
+longAnimationsGroup.animations = longAnimations;
+longAnimationsGroup.duration = maxDuration;
+
+CAAnimationGroup *idleAnimationGroup = [longAnimationsGroup copy];
+idleAnimationGroup.timeOffset = 6.45833333333333;
+_idleAnimationGroup = [CAAnimationGroup animation];
+_idleAnimationGroup.animations = @[idleAnimationGroup];
+_idleAnimationGroup.duration = 24.71 - 6.45833333333333;
+_idleAnimationGroup.repeatCount = FLT_MAX;
+_idleAnimationGroup.autoreverses = YES;
+</code></pre>
+
+<p>}</p>
+
+<p>and here is my code in swift:</p>
+
+<p>init the animation in the class :</p>
+
+<pre><code>class myViewController: UIViewController,
+var _idleAnimationGroup = CAAnimationGroup()
+
+...
+
+  func extractAnimationsFromSceneSource(sceneSource: SCNSceneSource)
+
+    {
+
+    var animationsIDs = sceneSource.identifiersOfEntriesWithClass(CAAnimation.self) as [String]
+
+    var animationCount = animationsIDs.count
+
+    var longAnimations:[CAAnimation] = []
+    var maxDuration : CFTimeInterval = 0;
+
+    for animationID in animationsIDs {
+        if let animation = sceneSource.entryWithIdentifier(animationID, withClass: CAAnimation.self) as? CAAnimation {
+            var maxDuration = max(maxDuration, animation.duration);
+          longAnimations.append(animation)
+        }
+
+    }
+
+        var longAnimationsGroup = CAAnimationGroup()
+        longAnimationsGroup.animations = longAnimations
+        longAnimationsGroup.duration = maxDuration
+
+        var idleAnimationGroup :CAAnimationGroup = longAnimationsGroup.copy() as CAAnimationGroup
+
+        idleAnimationGroup.timeOffset = 2.5
+
+        _idleAnimationGroup.animations = [idleAnimationGroup]
+        _idleAnimationGroup.duration = 1.0
+
+
+}
+</code></pre>
+
+<p>No matter how I chnage the timeoffset it always starts at 0. I see that apple has copied an animation group with a time offset and then used that to instantiate a new animation group based on that offset. I have tried to do this in my code as you can see but it does not change anything!!</p>
+
+<p>Al I can thinkof at the moment is that the timeoffset property is not supported by iOS?? maybe its only supported by cocoa??</p>
+
+<p>Thanks for any help you can offer!</p>
+","1254618","","","","","2015-01-04 04:08:53","SceneKit Scene timeoffset not working","<ios><scenekit>","0","2","","","","CC BY-SA 3.0"
+"27762260","1","28225594","","2015-01-04 04:09:11","","4","2849","<p>Since upgraded to Ruby 2.2.0 I get the following message in my tests:</p>
+
+<pre><code>invalid salt (BCrypt::Errors::InvalidSalt)
+</code></pre>
+
+<p>I didn't find any upgrade notice helping me to understand the problem. I'm using Rails 4.1.8 and Sorcery 0.8.6.</p>
+
+<p>Anybody else having this problem?</p>
+
+<p>MORE Details:</p>
+
+<p>I'm using Sorcery and not Devise. The encrypted data is the password.
+It all started in Cucumber tests, in 2 cases:
+When I used to send the @user to the mailer to prepare the data for the mails. Here was the code:</p>
+
+<p>UserMailer.passphrase_reset_notification(@user).deliver</p>
+
+<p>Which generated the exception with the message I wrote in the initial message. As a workaround instead of sending the @user I sent the fields I needed and it worked. Here's the new code:</p>
+
+<p>UserMailer.passphrase_reset_notification(@user.name, @user.email).deliver</p>
+
+<p>But the second case is the sign up. It failed in dev and I had to add :salt to user_params to fix it. But it does not fix the thing in the test env. </p>
+
+<p>There's no stack trace, just that one liner message with the lines of my scenario leading to the error. </p>
+
+<p>And I press ""Sign up""
+      invalid salt (BCrypt::Errors::InvalidSalt)
+      ./app/controllers/users_controller.rb:66:in <code>block in create'
+      ./app/controllers/users_controller.rb:64:in</code>create'
+      ./app/controllers/application_controller.rb:120:in <code>scope_current_tenant'
+      ./features/step_definitions/web_steps.rb:53:in</code>/^(?:|I )press ""([^""]*)""$/'
+      features/users/sign_up.feature:149:in `And I press ""Sign up""'</p>
+
+<p>I removed the ""null: false"" for the field ""salt"" in the user table, as suggested by a community member in a post on a more or less similar issue, it didn't help either. </p>
+
+<p>My main question is still the same: what the Ruby new version (2.2.0) has to do with this? And what might be the other surprises if I upgrade the prod?</p>
+","4416457","","4416457","","2015-01-05 05:05:07","2015-01-29 22:10:05","invalid salt (BCrypt::Errors::InvalidSalt)","<ruby-on-rails><ruby><bcrypt><sorcery>","3","2","","","","CC BY-SA 3.0"
+"27762264","1","","","2015-01-04 04:09:45","","0","44","<p>This is what I did</p>
+
+<pre><code> money=raw_input(""How much money do you have in your bank account?"")
+     if money &gt;= 700:
+         print(""you have more or equal to 700"")
+     else money &lt;700:
+         print(""you have less than 700"")
+</code></pre>
+
+<p>result is 
+    500, you have more or equal to 700
+    800, you have more or equal to 700</p>
+
+<p>The else phrase doesn't work</p>
+","4411114","","4411114","","2015-01-05 23:28:17","2015-01-05 23:28:17","Python condition statement","<python-2.7>","3","2","","","","CC BY-SA 3.0"
+"27762265","1","27762316","","2015-01-04 04:09:46","","0","63","<p>I'm working on a unique project in that I would like to be able to have CSHTML Razor Views, Windows Forms, and various other ""non project type crossing"" project item templates in one single project in visual studio.</p>
+
+<p>Is there a way I can override the project type so that it compiles as a Windows Form's project but still allows me to add CSHTML files and other template types to it?</p>
+","2419089","","","","","2015-01-04 04:19:45","Is it possible to configure a csproj file to allow any project item type?","<visual-studio-2013>","1","0","","","","CC BY-SA 3.0"
+"27762266","1","27762333","","2015-01-04 04:10:01","","-2","42","<p>How can I edit out unneeded parts of variables in a given C# script?
+For example, for the code:</p>
+
+<pre><code>var Variable1 = ""the big lazy fox""
+</code></pre>
+
+<p>I would like to change to something like:</p>
+
+<pre><code>var Variable1 = ""lazy fox""
+</code></pre>
+
+<p>EDIT: Let me myself clearer, the variable in question is updated every two minutes with a new string, and the first two words need to be edited out, which are always the same. There is no permanent set piece of text for the given variable (in its original state).</p>
+","4377574","","3540484","","2015-01-04 04:29:29","2015-01-04 23:53:07","Edit Out Bits of Variables in a C# Program","<c#><string><replace>","2","3","","2015-01-04 08:58:56","","CC BY-SA 3.0"
+"27762268","1","27763870","","2015-01-04 04:10:27","","2","365","<p>I implemented a chat client using GTalk servers and (a)Smack library. So far so good. Now, what I can't wrap my head around is how to notify the user of received chats when the app is closed, the same way all other chat apps do. I was reading into push notifications but all examples I find have a server component as well, which I obviously don't since my app is just a client for GTalk.</p>
+
+<p>Should I be using GCM and implement the server side for this? Should I instead attempt to start a service that will listen for incoming messages at boot time (similar to <a href=""https://stackoverflow.com/questions/2784441/trying-to-start-a-service-on-boot-on-android"">this example</a>)?</p>
+","294657","","-1","","2017-05-23 11:58:13","2015-01-04 12:39:03","How to notify the user about received GTalk chats when the app is not running","<android><xmpp><smack><asmack><google-talk>","3","0","0","","","CC BY-SA 3.0"
+"27762269","1","","","2015-01-04 04:10:41","","0","43","<p>Basically what I want to do is take a table which holds information for two other tables on the database.</p>
+
+<pre><code>tbl_server_player contains - StatsID, ServerID, PlayerID
+</code></pre>
+
+<p>Of course in this table it doesn't contain matching ID's. So is it possible to take table 
+tbl_playerdata, tbl_playerstats and combine the two tables when calling for the data from tbl_server_player as reference.</p>
+
+<p>For example</p>
+
+<pre><code>tbl_server_player
+StatsID = 1
+ServerID = 5
+PlayerID = 10
+
+tbl_playerstats
+StatsID = 1
+Score = 28921
+Kill= 199
+
+tbl_playerdata
+PlayerID = 10
+SoldierName = Player
+GlobalRank = 9
+</code></pre>
+
+<p>So when querying playerstats and playerdata it only selects information needed from tbl_server_player and combines the information. How it is displayed doesn't matter as I would only be wanting to call certain columns.</p>
+
+<p>I am simply unsure of how to set out the </p>
+
+<pre><code>$result = mysql_query(""select "");.
+</code></pre>
+
+<p>If anyone has an answer for my madness, it would be much appreciated. </p>
+","4416454","","4370279","","2015-01-04 04:34:53","2015-04-03 21:36:48","Taking information from one table and query data from two other tables","<php><database>","0","2","","","","CC BY-SA 3.0"
+"27762271","1","","","2015-01-04 04:11:20","","-4","74","<p>Hi How I write these several code in only one line</p>
+
+<pre><code>            if (stimee.getText().toString().equals(""0"")) {stimevar=""00""; } 
+            if (stimee.getText().toString().equals(""1"")) {stimevar=""01""; } 
+            if (stimee.getText().toString().equals(""2"")) {stimevar=""02""; } 
+            if (stimee.getText().toString().equals(""3"")) {stimevar=""03""; } 
+            if (stimee.getText().toString().equals(""4"")) {stimevar=""04""; } 
+            if (stimee.getText().toString().equals(""5"")) {stimevar=""05""; } 
+            if (stimee.getText().toString().equals(""6"")) {stimevar=""06""; } 
+            if (stimee.getText().toString().equals(""7"")) {stimevar=""07""; } 
+            if (stimee.getText().toString().equals(""8"")) {stimevar=""08""; } 
+            if (stimee.getText().toString().equals(""9"")) {stimevar=""09""; } 
+</code></pre>
+","2749494","","","","","2015-01-04 14:27:16","How to decrease my repeated code","<java><android>","4","2","","2015-01-04 09:30:51","","CC BY-SA 3.0"
+"27762279","1","","","2015-01-04 04:13:14","","0","1244","<p>I want to write a custom template tag that returns a form. How can I make sure it includes the csrf_token?</p>
+","1096660","","","","","2015-01-04 04:51:16","How to add csrf_token to forms made in custom template tags in Django?","<django><django-forms><django-csrf>","1","2","","","","CC BY-SA 3.0"
+"27762280","1","27790171","","2015-01-04 04:13:17","","2","1862","<p>In Node, I am trying to duplicate a gulp vinyl stream using <code>Passthrough</code>. I get <code>TypeError: Invalid non-string/buffer chunk</code> when attempting <code>c = fileStream.pipe(b);</code></p>
+
+<p>I suspect it may be because <code>fileStream</code> is a gulp vinyl stream.</p>
+
+<pre><code>var pass = require('stream').PassThrough;
+
+function duplicateStream(fileStream) {
+    b = new pass();
+    c = fileStream.pipe(b);
+    return c;
+}
+</code></pre>
+","1483954","","","","","2015-01-06 00:17:34","Duplicate Gulp Vinyl Stream with PassThrough- `TypeError: Invalid non-string/buffer chunk`","<node.js><stream><gulp>","1","0","","","","CC BY-SA 3.0"
+"27762285","1","","","2015-01-04 04:14:08","","3","728","<p>What is the best way to implement the following code in sails.js v0.10.5?  Should I be handling this with a policy, and if so, how? The init() function required by Stormpath requires Express (app) as an argument.  Currently, I am using the following code in sails.config.http.js as custom middleware.</p>
+
+<pre>customMiddleware: function(app) {
+        var stormpathMiddleware = require('express-stormpath').init(app, {
+            apiKeyFile: '',
+            application: '',
+            secretKey: ''
+        });
+        app.use(stormpathMiddleware);
+    }
+</pre>
+","4416453","","","","","2015-01-04 06:06:53","How to configure Stormpath as middleware in Sails.js","<express><sails.js><middleware><stormpath>","1","0","","","","CC BY-SA 3.0"
+"27762288","1","","","2015-01-04 04:14:40","","0","62","<p>Okay, I'm an huge noob with that kind of stuff, and I don't really know where to begin with. Google help is somehow not enough :/.
+I want to make a conditionnal count on a single column :</p>
+
+<pre><code>COUNTIF(A1:A10, ""3"")
+</code></pre>
+
+<p>It will return the number of 3 in the cells from A1 to A10. Now the problem is, there can be multiples values in each cell formatted like this : ""1; 3; 5"". I can easily match this using regex :</p>
+
+<pre><code>B1 = REGEXEXTRACT(A1,""3"")
+</code></pre>
+
+<p>Then repeat and sum on the second column. Now, how can I do this using a single formula?</p>
+
+<pre><code>COUNTIF(A1:A10, REGEXEXTRACT(A1:A10,""3""))
+</code></pre>
+
+<p>This doesn't work because regexextract take as an input a single cell. I would like to tell it to use the same cell than in the countif, but I have no clue on how to achieve this.</p>
+","3778355","","","","","2015-12-14 04:43:40","Google spreadsheet, passing parameter","<google-sheets>","2","0","","","","CC BY-SA 3.0"
+"27762289","1","","","2015-01-04 04:14:41","","0","44","<p>I'm trying to use Excel to set up a scoring system for an Alternate Reality Game. I have a sheet that takes all the tasks players complete, scores them, and calculates their total points. From that, it determines their level in the game. They get a point multiplier based on their level, which the formula that calculates the scores references. You can see the problem: every time the multiplier increases, Excel automatically recalculates the points for every task, including the ones that are over and done with, thereby artificially inflating players' scores. Is there some way to prevent this from happening? </p>
+
+<p>Thanks. </p>
+","4416463","","","","","2015-01-04 04:14:41","Maintain calculated value in Excel","<excel><formulas>","0","4","","","","CC BY-SA 3.0"
+"27762297","1","27789641","","2015-01-04 04:15:41","","1","335","<p>I am trying to utilize the JSON result of a GET request to my Li3 app, but I would like the result to be an array of the returned JSON objects, rather than an object of the JSON objects.</p>
+
+<p>I have the following code in my view file (index.html.php):<br>
+<code>print($todos-&gt;to('json'));</code></p>
+
+<p>Which results in each row becoming a JSON object (good), but within an over-arching JSON object.</p>
+
+<pre><code>{
+    ""1"": {
+        ""id"": ""1"",
+        ""title"": ""One"",
+        ""done"": ""0""
+    },
+    ""2"": {
+        ""id"": ""2"",
+        ""title"": ""Two"",
+        ""done"": ""0""
+    },
+    ""3"": {
+        ""id"": ""3"",
+        ""title"": ""Three"",
+        ""done"": ""0""
+    },
+    ""4"": {
+        ""id"": ""4"",
+        ""title"": ""Four"",
+        ""done"": ""0""
+    }
+}
+</code></pre>
+
+<p>I would like to get:</p>
+
+<pre><code>[
+    {
+        ""id"": ""1"",
+        ""title"": ""One"",
+        ""done"": ""0""
+    },
+    {
+        ""id"": ""2"",
+        ""title"": ""Two"",
+        ""done"": ""0""
+    },
+    {
+        ""id"": ""3"",
+        ""title"": ""Three"",
+        ""done"": ""0""
+    },
+    {
+        ""id"": ""4"",
+        ""title"": ""Four"",
+        ""done"": ""0""
+    }
+]
+</code></pre>
+
+<p>Note: I've found that this was the case (array of objects) in commit ""<a href=""https://github.com/UnionOfRAD/lithium/commit/974469cf25db5cbab61f3e1ff172405f4635032e"" rel=""nofollow"">974469cf25db5cbab61f3e1ff172405f4635032e</a>"" of the <a href=""https://github.com/UnionOfRAD/lithium"" rel=""nofollow"">lithium github project</a>, but with anything after that commit, the result is an object of objects.</p>
+","2631804","","","","","2015-01-21 15:39:14","Get Li3 to return JSON results as an array of objects, not an object of objects","<json><lithium>","2","0","","","","CC BY-SA 3.0"
+"27762298","1","","","2015-01-04 04:16:13","","2","366","<p>I am new to Ruby on Rails and have been following the steps to create a blog on a youtube tutorial. Everything was going fine till issuing the command <code>rail console</code> when this pops up and the command doesn’t initialise.</p>
+
+<pre><code>/usr/lib/ruby/vendor_ruby/active_support/test_case.rb:12:in `&lt;module:ActiveSupport&gt;':     uninitialized constant Test (NameError)
+  from /usr/lib/ruby/vendor_ruby/active_support/test_case.rb:11:in `&lt;top (required)&gt;'
+  from /usr/lib/ruby/vendor_ruby/rails/console/app.rb:2:in `&lt;top (required)&gt;'
+  from /usr/lib/ruby/vendor_ruby/rails/application.rb:312:in `initialize_console'
+  from /usr/lib/ruby/vendor_ruby/rails/application.rb:152:in `load_console'
+  from /usr/lib/ruby/vendor_ruby/rails/commands/console.rb:27:in `start'
+  from /usr/lib/ruby/vendor_ruby/rails/commands/console.rb:8:in `start'
+  from /usr/lib/ruby/vendor_ruby/rails/commands.rb:41:in `&lt;top (required)&gt;'
+  from script/rails:6:in `require'
+  from script/rails:6:in `&lt;main&gt;'    
+
+
+Rails -v = rails 3.2.16
+Ruby -v = ruby 1.9.3p484 (2013-11-22 revision 43786) [i686-linux] ubuntu
+RVM -v = rvm 1.26.7 (latest) by Wayne E. Seguin &lt;wayneeseguin@gmail.com&gt;, Michal Papis &lt;mpapis@gmail.com&gt; [https://rvm.io/]
+</code></pre>
+
+<p>There seems to be a few people with similar issues and I've tried to resolve it that way but it's been like 5 hours now and still no console. </p>
+
+<p>There was a method that involved editing the <code>test_case.rb</code> by inserting <code>test/unit</code> in the requirements. The ruby file is readonly and won't even edit using the <code>gksudo edit test_case.rb</code></p>
+
+<p>Also there was info about it being due to not having <code>minitest</code> installed and in the <code>Gemfile</code>. Its definitely installed but I don't know how to put it in the <code>Gemfile</code>.</p>
+
+<p>Can someone please, please help me.... I'm begging you.</p>
+","4416352","","429758","","2015-01-04 04:33:41","2015-01-04 04:33:41","message: uninitialized constant Test (NameError) stops 'rails c' from working","<ruby-on-rails>","0","2","","","","CC BY-SA 3.0"
+"27762299","1","27793136","","2015-01-04 04:16:15","","0","156","<p>I'm using HTTPTask to load data from openweathermap.org. Which is working fine. I'm having trouble converting the data to JSON. I'd like to use SwiftyJSON but, I can't quite figure out how to bridge the two. </p>
+
+<p>HTTPTask has a JSON Serializer, which I got working, but I rather use Swifty, it's seems easier to work with. </p>
+
+<p>Here's what I have so far. This loads the weather from openweathermap.org. I'm not sure how to pass the response into Swifty. </p>
+
+<pre><code>var request = HTTPTask()
+request.requestSerializer = JSONRequestSerializer()
+request.responseSerializer = JSONResponseSerializer()
+
+request.GET(openWeatherURL, parameters: [""q"":""San Francisco"", ""APPID"":openWeatherAPIKey], success: {(response: HTTPResponse) in
+    if let dict = response.responseObject as? Dictionary&lt;String, AnyObject&gt; {
+        println(""Response: \(response)"")
+        println(""Dictionary: \(dict)"")
+        let description = dict[""weather""][""description""]
+        println(description)
+                }
+}, failure: {(error: NSError, repsonse: HTTPResponse?) in
+    println(""error \(error)"")
+})
+</code></pre>
+","752543","","","","","2015-01-06 06:18:13","HTTPTask response into Swifty for JSON serialization","<json><xcode><swift>","1","3","","","","CC BY-SA 3.0"
+"27762302","1","","","2015-01-04 04:16:56","","0","90","<p>In my form  I have written something like:</p>
+
+<pre class=""lang-html prettyprint-override""><code>Enter your Name : &lt;input type=""text"" name=""myname"" /&gt;
+&lt;div id=""mynameerror""&gt; &lt;/div&gt;
+&lt;br /&gt;
+</code></pre>
+
+<p>In the validation: i retrieve the element with id 'mynameerror', and if the input is empty, and i set some error string into innterHTML. </p>
+
+<p><strong>Question:</strong></p>
+
+<p>Now, is it possible to construct id name of <strong>div</strong> tag by retrieving '<strong>name</strong>' property of the '<strong>input</strong>' tag ?</p>
+
+<p>something like:</p>
+
+<pre><code>&lt;div id=""name property"" + ""error""&gt; &lt;/div&gt;   
+</code></pre>
+","3796318","","4281779","","2015-12-11 23:54:53","2015-12-11 23:54:53","HOw can i retrieve name value of input type at run time","<javascript>","2","1","","","","CC BY-SA 3.0"
+"27762307","1","27763027","","2015-01-04 04:18:22","","4","885","<p>I've inherited a project which is a site running python/django. Having an issue where I believe Django is holding onto files in memcache (possibly).</p>
+
+<p>It's a production server. There is currently no DEV environment (this is another matter). </p>
+
+<p>I'm forced to make a requested emergency bug fix to the live site. BUT any modification to .py files are not reflected on the site. I can even delete a view.py (and view.pyc) entirely and the page merrily continues to load. I have looked into caching (<a href=""https://docs.djangoproject.com/en/1.3/topics/cache/"" rel=""nofollow noreferrer"">https://docs.djangoproject.com/en/1.3/topics/cache/</a>), and have added the appropriate dummycache line:</p>
+
+<pre><code>CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
+</code></pre>
+
+<p>I've  tried forcing cache to 1 second:</p>
+
+<pre><code>CACHE_MIDDLEWARE_KEY_PREFIX = ''
+CACHE_MIDDLEWARE_SECONDS = 1
+CACHE_MIDDLEWARE_ALIAS = 'default'
+</code></pre>
+
+<p>Restarting nginx service does not help. I can run <code>/etc/init.d/nginx restart</code> and original files are still running after changes or being deleted completely. The only thing which forces the new files to be read and re-compiled to pyc is restarting the entire VPS instance! I can edit templates just fine and changes are reflected asap, its only py files not compiling to pyc.</p>
+
+<p>Some other points:</p>
+
+<ol>
+<li>I've also tried <code>sudo /etc/init.d/nginx reload</code>, no dice.</li>
+<li>This is an AWS EC2 linux VPS its running python via nginx not apache</li>
+<li>I've tried <code>touch &lt;project&gt;/wsgi.py</code></li>
+<li>Distro is CentOS release 6.5 (Final), so i've also tried <code>sudo service nginx reload</code> and <code>sudo service nginx restart</code>.</li>
+</ol>
+
+<p>Is anyone please able to shed some light on this?</p>
+
+<p>Edit: as a test, I've just deleted a critical view.py + view.pyc file to a sub section of the site, after 15 minutes, it is still running perfectly.</p>
+
+<p>Edit2: i'm starting to think I'm simply meant to restart nginx in a different way. What should I be calling? <a href=""https://stackoverflow.com/questions/25335912/saving-changes-to-django-with-nginx?rq=1"">Saving Changes To Django with Nginx?</a></p>
+
+<p>Edit3: Based on IgnacioVazquez-Abrams help below, found that it was using uwsgi via ps -ef processes. I then found that it was using supervisor as a manager and all appropriate conf files looked fine. Then simply had to restart supervisor and BAM files updated instantly. Needless to say, this was stretching my knowledge of linux + python.</p>
+","629222","","-1","","2017-05-23 11:44:40","2015-01-04 06:24:10","django holding onto files in cache, delete view.py and view.pyc file, still runs","<python><linux><django><nginx>","1","9","","","","CC BY-SA 3.0"
+"27762310","1","","","2015-01-04 04:18:48","","1","129","<p>hello everyone,</p>
+
+<p>I want to create a web application using jsp,servlet and jdbc etc.</p>
+
+<p>It simply create a table of name student,contains various field as information about student in database and different page perform different query tasks .</p>
+
+<p>The problem is that I want to create a war file to distribute this app to my client.</p>
+
+<p>When I write a sql query to create a table in my jsp page , it tries to create a new table every time whenever I run this project.</p>
+
+<p>Here i want that it creates a table only when the user run this first time.So that when I distribute the war file to my client ,on the first run it create a student name table and perform the required query and for the future run it only perform other query but not create a table again. </p>
+
+<p>I need your valuable guidance and overview for solving this problem.Any type of help will be appreciated.
+    ""thanks""  </p>
+","4414739","","330315","","2015-01-04 11:22:42","2015-01-05 07:34:01","what is the code to create a table in sql only at first run of project?","<sql><oracle><jsp><jdbc>","1","5","0","","","CC BY-SA 3.0"
+"27762311","1","","","2015-01-04 04:18:48","","1","5321","<p>I saw another post explaining the use of sequence table to create prefixed AUTO INCREMENT ID.</p>
+
+<p><a href=""https://stackoverflow.com/questions/17893988/how-to-make-mysql-table-primary-key-auto-increment-with-some-prefix"">Link to referenced post</a></p>
+
+<pre><code>SQL Fiddle
+http://sqlfiddle.com/#!2/0ed88/1
+</code></pre>
+
+<p>I need the generated auto increment format to be: YYMM + AUTO INCREMENT VALUE that reset every month. For example now is January, 2015. The generated id should be: 15011, 15012, 15013, etc. Next month February 2015, the generated id should be: 15021, 15022, 15023, etc. I can use the above method to generate the prefix, however how do I reset the AUTO INCREMENT value each month? Database is InnoDB. Any help will be greatly appreciated :)</p>
+
+<p>MODIFIED CODE</p>
+
+<pre><code>CREATE TABLE table1_seq
+(
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+)|
+
+CREATE TABLE Table1
+(
+  id VARCHAR(7) NOT NULL PRIMARY KEY DEFAULT '0', name VARCHAR(30)
+)|
+
+
+CREATE TRIGGER tg_table1_insert
+BEFORE INSERT ON table1
+FOR EACH ROW
+BEGIN
+  INSERT INTO table1_seq VALUES (NULL);
+  SET NEW.id = CONCAT(DATE_FORMAT(NOW(),'%y%m'), LAST_INSERT_ID());
+END |
+
+
+INSERT INTO Table1 (name) VALUES ('Jhon'), ('Mark')|
+</code></pre>
+","1404458","","-1","","2017-05-23 12:19:20","2016-01-10 20:28:05","MySQL AUTO INCREMENT with Prefix (YYMM) that reset every month","<mysql><sql><database><auto-increment>","3","1","","","","CC BY-SA 3.0"
+"27762313","1","27762724","","2015-01-04 04:19:09","","0","790","<p>I'm having a problem making an $http.post request on a forEach loop in angularjs. Only on the last loop (obj.dtype == 'Install') that the $http.post is triggered. How do i able to make the $http.post work on every loop? </p>
+
+<pre><code>angular.forEach($scope.data, function(obj, i){
+  if(obj.dtype == 'Remove'){
+    $http.post('url1').success();
+  } else if(obj.dtype == 'Install'){
+    $http.post('url2').success();
+  }
+});
+</code></pre>
+
+<p>Thanks in advance.</p>
+
+<p><strong>Solution:</strong> </p>
+
+<pre><code>angular.forEach($scope.data, function(obj, i){
+  if(obj.dtype == 'Remove'){
+    url = 'url1';
+    dataToUpload = {};
+  } else if(obj.dtype == 'Install'){
+    url = 'url2'
+    dataToUpload = {};
+  }
+
+ $http.post(url, dataToUpload).success();
+});
+</code></pre>
+","3016431","","3016431","","2015-01-04 08:13:37","2015-01-04 08:13:37","$http.post triggered only on the last loop on angular.forEach","<angularjs>","1","0","","","","CC BY-SA 3.0"
+"27762315","1","27762954","","2015-01-04 04:19:41","","0","115","<p>I'm utilizing the MEAN stack in a task-tracker app that has user accounts. There are regular users (with view-only pages available to them), and then there are admins who can add users and add/remove tasks.</p>
+
+<p><code>req.user</code> will display the current user's request, and in my html view <code>&lt;%= user.local.property-name %&gt;</code> will print out the current user's various properties.</p>
+
+<p>Is it possible to loop through the collection of users from passport.js to display for admins? For standard collections, I understand how to do this with standard collections but am not sure with passport.js due to my general unfamiliarity with node, express and mongo.</p>
+","1634449","","","","","2015-01-04 06:13:34","How to loop through users with passport.js and print userlist onto DOM","<javascript><node.js><mongodb><mean-stack>","1","0","","","","CC BY-SA 3.0"
+"27762318","1","","","2015-01-04 04:20:00","","0","119","<p>I have an unwind segue that i am using, and then i have a prepare for segue that i am using to push data.
+I need the unwind segue to push the data but i am having issues combining them.
+Here is the unwind segue code -</p>
+
+<pre><code>- (IBAction)unwindFromDetailViewController:(UIStoryboardSegue *)segue {
+    // ViewController *detailViewController = [segue sourceViewController];
+    NSLog(@""%@"", segue.identifier);
+}
+</code></pre>
+
+<p>And here is the prepare for segue code -</p>
+
+<pre><code>- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@""showRecipeDetail""]) {
+        NSIndexPath *indexPath = nil;
+        Recipe *recipe = nil;
+        if (self.searchDisplayController.active) {
+            indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+            recipe = [searchResults objectAtIndex:indexPath.row];
+        } else {
+            indexPath = [self.tableView indexPathForSelectedRow];
+            recipe = [recipes objectAtIndex:indexPath.row];
+        }
+
+        PersonDetailTVC *destViewController = segue.destinationViewController;
+        destViewController.recipe = recipe;
+
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+</code></pre>
+
+<p>And here is what i tried which is unwinding the segue, but not pushing the data.</p>
+
+<pre><code>- (IBAction)unwindFromDetailViewController:(UIStoryboardSegue *)segue {
+    if ([segue.identifier isEqualToString:@""CustomTableCell""]) {
+        NSIndexPath *indexPath = nil;
+        Recipe *recipe = nil;
+        if (self.searchDisplayController.active) {
+            indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+            recipe = [searchResults objectAtIndex:indexPath.row];
+        } else {
+            indexPath = [self.tableView indexPathForSelectedRow];
+            recipe = [recipes objectAtIndex:indexPath.row];
+        }       
+
+        PersonDetailTVC *destViewController = segue.destinationViewController;
+        destViewController.recipe = recipe;
+
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+</code></pre>
+","4181347","","","","","2015-01-04 05:37:42","Pushing data with unwind segues","<ios><xcode>","1","3","","","","CC BY-SA 3.0"
+"27762320","1","32686042","","2015-01-04 04:20:05","","0","3828","<p>Typically you can use <code>CC_CALLBACK_X</code> to set a callback for functions where it only accepts the <code>Ref*</code> param:</p>
+
+<pre><code>//cocos2dx builtins
+#define CC_CALLBACK_1(__selector__,__target__, ...) std::bind(&amp;__selector__,__target__, std::placeholders::_1, ##__VA_ARGS__)
+typedef std::function&lt;void(Ref*)&gt; ccMenuCallback;
+void MenuItem::setCallback(const ccMenuCallback&amp; callback)
+
+
+//my code starts here   
+MyClass::my_callback(Ref* sender) { ... };
+
+MyClass::init()
+{
+  auto menu = Menu::create();
+  auto menuitem = MenuItem::create();
+  menuitem-&gt;setCallback(CC_CALLBACK_1(MyClass::my_callback, this));
+};
+</code></pre>
+
+<p>which works fine. </p>
+
+<p>The problem is say I've got a callback I want to use with another arg, say an <code>int</code>, I don't know how to get it working.</p>
+
+<pre><code>MyClass::my_callback_with_param(Ref* sender, int arg1) { ... };
+MyClass::my_callback_with_param_swapped(int arg1, Ref* sender) { ... };
+
+//in the init func, I've tried stuff like
+
+int an_int = 2
+menuitem-&gt;setCallback(CC_CALLBACK_2(MyClass::my_callback_with_param, this, an_int));
+//or changing the signature of the function
+menuitem-&gt;setCallback(CC_CALLBACK_2(MyClass::my_callback_with_param_swapped, an_int, this));
+//or using std::bind (which I'm not very familiar with)
+menuitem-&gt;setCallback(CC_CALLBACK_1(std::bind(MyClass::my_callback_with_param, this, std::placeholders::_1) 1);
+//or a lambda
+menuitem-&gt;setCallBack(CC_CALLBACK_1([](Ref* sender){  }, this));
+</code></pre>
+
+<p>What do I need to do to be able to create a callback of a function with parameters already filled in?</p>
+","541208","","541208","","2015-09-20 21:16:21","2015-09-21 01:20:18","How to set a callback with parameters in cocos2dx?","<c++><cocos2d-x><cocos2d-x-3.0>","1","3","","","","CC BY-SA 3.0"
+"27762322","1","27762345","","2015-01-04 04:20:09","","0","42","<p>I think there is error in the code and I have no idea what is it but the mail() on the web server is definitely working.</p>
+
+<p><strong>The Html Mail Contain</strong></p>
+
+<pre><code>$to = $register_data['email'];
+
+$subject = 'Activate Your Account';
+
+$headers = ""non-reply@bruhkunt.herobo.com\r\n"";
+$headers .= ""CC: bruhkunt.herobo.com\r\n"";
+$headers .= ""MIME-Version: 1.0 \r\n"";
+$headers .= ""Content-Type: text/html; charset=ISO-8859-1\r\n"";
+
+$body = '&lt;html&gt;&lt;body&gt;';
+$body .= ""&lt;h1&gt;Hello, "" . $register_data['first_name'] . ""&lt;/h1&gt;\r\n"";
+$body .= ""&lt;p&gt;To activate your account click the link below:&lt;/p&gt;\r\n"";
+$body .= ""&lt;a href=\""http://bruhkunt.herobo.com/activate.php?email="" . $register_data['email'] . ""&amp;email_code="" .$register_data['email_code'].""\""&gt;&lt;/a&gt;\r\n"";
+$body .= ""&lt;p&gt;If it does not work, copy and paste the link below:&lt;/p&gt;\r\n"";
+$body .= ""http://bruhkunt.herobo.com/activate.php?email="" . $register_data['email'] . ""&amp;email_code="" .$register_data['email_code'].""\r\n"";
+$body .= '&lt;/body&gt;&lt;/html&gt;';
+</code></pre>
+
+<p><strong>The mail function:</strong> </p>
+
+<pre><code>function email($to, $subject, $body, $headers) {
+        mail($to, $subject, $body, $headers);
+}
+</code></pre>
+
+<p><strong>And this is sending the main thing:</strong></p>
+
+<pre><code>function register_user($register_data) {
+    array_walk($register_data, 'array_sanitize');
+    $register_data['password'] = crypt($register_data['password'], 'st');
+
+    $field = '`' . implode('`, `', array_keys($register_data)) . '`';
+    $data = '\'' . implode('\', \'', $register_data) . '\'';
+
+    mysql_query(""INSERT INTO `users` ($field) VALUES ($data)"");
+    email(include('core/activation_mail.php'));
+}
+</code></pre>
+","4364390","","333340","","2015-01-05 07:39:51","2015-01-05 07:39:51","The HTML Mail i think i did something wrong","<php>","1","2","0","","","CC BY-SA 3.0"
+"27762325","1","27762430","","2015-01-04 04:20:23","","3","14364","<p>im trying to put some videos, which name is located in this json file, inside a div, this is the json file:</p>
+
+<pre><code>{
+    ""videos"": {
+        ""name"": [
+            ""dfg.webm"",
+            ""fdgh.mp4""
+        ]
+    }
+}
+</code></pre>
+
+<p>this is the script:</p>
+
+<pre><code>(function(){
+    var app=angular.module(""index"",[]);
+
+    var videoUrl=function(name){
+        alert(""asd"");
+        return ""./videos/""+name;
+    };  
+    app.filter('videoUrl',function(){alert(""asd"");return videoUrl;});
+
+    var mainController=function($scope,$http){
+       var videosSuccess=function(response){
+           $scope.videosJSON=response.data;         
+       };
+       var videosError=function(response){};
+       $http({
+           method: 'GET',
+           url: ""http://192.168.1.66/videos.json"",
+       }).then(videosSuccess,videosError);
+    };
+    app.controller(""mainController"",[""$scope"",""$http"",mainController]);
+
+}());
+</code></pre>
+
+<p>and this is the html:</p>
+
+<pre><code>&lt;html lang=""es"" ng-app=""index""&gt;
+    &lt;head&gt;
+    ...
+    &lt;/head&gt;
+    &lt;body ng-controller=""mainController""&gt;
+        &lt;div id=""videosdiv""&gt;
+            &lt;video ng-repeat=""video in videosJSON.videos.name | filter:videoUrl track by $index"" preload=""metadata"" ng-src=""{{video}}"" type=""video/webm""&gt;      
+            &lt;/video&gt;
+        &lt;/div&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>the problem is that the browser is rendering this:</p>
+
+<pre><code>&lt;video data-ng-repeat=""video in videosJSON.videos.name | filter:videoUrl track by $index"" preload=""metadata"" ng-src=""dfg.webm"" type=""video/webm"" class=""ng-scope"" src=""dfg.webm""&gt;
+&lt;/video&gt;
+&lt;video data-ng-repeat=""video in videosJSON.videos.name | filter:videoUrl track by $index"" preload=""metadata"" ng-src=""fdgh.mp4"" type=""video/webm"" class=""ng-scope"" src=""fdgh.mp4""&gt;      
+&lt;/video&gt;
+</code></pre>
+
+<p>instead of this:</p>
+
+<pre><code>&lt;video ng-repeat=""video in videosJSON.videos.name track by $index"" preload=""metadata"" ng-src=""./videos/dfg.webm"" type=""video/webm"" class=""ng-scope"" src=""./videos/dfg.webm""&gt;      
+&lt;/video&gt;
+&lt;video ng-repeat=""video in videosJSON.videos.name track by $index"" controls="""" preload=""metadata"" ng-src=""./videos/fdgh.mp4"" type=""video/webm"" class=""ng-scope"" src=""./videos/fdgh.mp4""&gt;      
+&lt;/video&gt;
+</code></pre>
+
+<p>i think that the filter is not being used since the alert inside the function ""videoUrl"" is not triggered nor the ""ng-src"" or ""src"" properties are transformed... can somebody tellme what is happening or what did i do wrong? thanks</p>
+","3152041","","1009603","","2015-01-04 05:05:47","2015-01-04 05:13:58","angularjs ng-repeat with filter and track by $index not working","<arrays><angularjs><angularjs-ng-repeat><angularjs-filter>","1","0","0","","","CC BY-SA 3.0"
+"27762326","1","","","2015-01-04 04:20:37","","-1","559","<p>I have a pcie board with a segment of memory which is mapped to system address space.
+The memory controller can accept long burst read or write request.
+In the host program, when I use for loop to read or write the memory, will the host generate burst pcie read/write requests to my board automatically?
+If not, how the host will issue long burst requests?</p>
+
+<p>regards</p>
+
+<p>Xiang Chao</p>
+","4416464","","","","","2015-01-09 02:40:11","How a pc host issue long pcie read/write burst to my device?","<dma><pci-e>","1","0","0","","","CC BY-SA 3.0"
+"27762329","1","27832200","","2015-01-04 04:20:55","","0","261","<p>I downloaded the OpenIE by UWashington. The binary accepts a sentence and output the tags. However on their website <a href=""http://openie.cs.washington.edu/"" rel=""nofollow"">http://openie.cs.washington.edu/</a> they demonstrate the search functions. You could search ""person"" and ""location"" and get results like ""live in"", ""work in"", etc. However their github website doesn't tell you how to do this. How could I do this and supply my own data?</p>
+","1033138","","","","","2015-01-08 02:53:23","How to perform search using OpenIE","<nlp><opennlp><information-extraction>","1","0","","","","CC BY-SA 3.0"
+"27762335","1","27763137","","2015-01-04 04:21:44","","1","54","<p>In my Service I am executing this query to find out the # of prayer requests in each prayer request category:</p>
+
+<pre><code>SELECT a0_.prayer_request_category_reference AS prayer_request_category_reference_0, COUNT(a0_.reference) AS sclr_1 FROM acts2301_prayer.pr a0_ GROUP BY a0_.prayer_request_category_reference 
+</code></pre>
+
+<p>Then I assign the results to an array:</p>
+
+<pre><code>if (is_array($result) &amp;&amp; count($result) &gt; '0') {
+    foreach ($result AS $value) {
+        $cateogry_request_count[$value['prayerRequestCategoryReference']] = $value['category_request_count'];
+    }
+}
+</code></pre>
+
+<p>The results of "" print_r( $cateogry_request_count ) "" are</p>
+
+<pre><code> Array
+ {
+     [1] =&gt; 5
+     [2] =&gt; 5
+     [3] =&gt; 5
+     [4] =&gt; 2
+     [5] =&gt; 1
+     [8] =&gt; 3
+ )
+</code></pre>
+
+<p>I am unsure of how to represent this array within my Twig view.  I am displaying this within the context of a loop.  This variable in my service "" $value['prayerRequestCategoryReference'] "" equals "" value.reference "" in the loop within my Twig.</p>
+
+<p>The following are my unsuccessful attempts to present category_request_count.# </p>
+
+<p>Try #1:</p>
+
+<pre><code> {% set yourNewVarName = category_request_count.value.reference %}
+ {{ yourNewVarName|escape }}
+</code></pre>
+
+<p>Try #2:</p>
+
+<pre><code> {{ 'category_request_count' . value.reference }}
+</code></pre>
+
+<p>Try #3:</p>
+
+<pre><code> {{ category_request_count . value.reference }}
+</code></pre>
+","3123313","","","","","2015-01-04 06:43:30","How to represent a PHP array in a ZF2 ""twig"" view","<php><arrays><twig>","1","2","","","","CC BY-SA 3.0"
+"27762339","1","27762413","","2015-01-04 04:22:39","","1","71","<p>I don't know the right way to search for this question, but it's something I do a lot and wanted to figure out if I've been silently submarining my code all this time. Is something like this:</p>
+
+<pre><code>Int32 x = 5;
+Int32 y = 7;
+Int32 z = x+y;
+
+Console.Write(z.ToString());
+</code></pre>
+
+<p>The same as this:</p>
+
+<pre><code>Int32 x = 5;
+Int32 y = 7;
+
+Console.Write((x+y).ToString());
+</code></pre>
+
+<p>I tend to write the first one much more than the second. It's more verbose, but I find debugging it a lot simpler because I can see what the result of a method is. </p>
+
+<ul>
+<li>Is there any difference, performance or JIT compiler wise, to those?</li>
+<li>Does it matter whether I'm using value or reference types?</li>
+</ul>
+
+<p>I'm building and deploying a .net 4.5 application, 64 bit.</p>
+","439627","","439627","","2015-01-04 06:53:22","2015-01-04 06:53:22","impact of bypassing variables","<c#><performance><jit><il>","1","3","","","","CC BY-SA 3.0"
+"27762342","1","27783548","","2015-01-04 04:23:38","","0","130","<p>I'm writing simple UDP chat in Qt. There is QUDPSocket class providing listening and sending messages. Problem is it is controlled by signals so I must call app.exec() otherwise listening will not emit any signal. This is my main.cpp:</p>
+
+<pre><code>#include &lt;QtGui/QApplication&gt;
+#include ""receiver.h""
+
+int main(int argc, char *argv[])
+{
+QApplication app(argc, argv);
+int port = 5555;
+Receiver rec;
+rec.startListening(port);
+for(int i = 0; i &lt; 5000; i++)
+{
+    QByteArray ba;
+    ba = ""Hello"";
+    rec.send(ba, QHostAddress::LocalHost, port);
+    ba = rec.getLastMsg();
+    QTextStream(stdout) &lt;&lt; i &lt;&lt; "":"" &lt;&lt; ba.data() &lt;&lt; endl;
+}
+
+return app.exec();
+}
+</code></pre>
+
+<p>Well problem is the QUDPSocket start to work after app.exec() is called. It's mad. Is there a way provided by Qt to handle this without using another thread for sending UDP packets?</p>
+
+<p>Thanks</p>
+","3448304","","487892","","2015-01-04 05:41:54","2015-01-05 16:18:22","Qt - how to initialize some actions from inside of an application?","<c++><multithreading><sockets><udp><qt4>","1","0","","","","CC BY-SA 3.0"
+"27762343","1","27762546","","2015-01-04 04:23:40","","-1","15213","<p>I have two classes <code>Main</code> and <code>Object</code>. I need to sort the objects in array in ascending order according to its value. I return -1, 1, and 0 from compareTo and I need to run a for loop accordingly to sort my array. I don't want to use Arrays.sort, I need to do it manually. The sorting part n the <code>Main</code> class does not work. Any help could be useful. Thank you.</p>
+
+<pre><code>public class Main {
+
+public static void main(String[] args) {
+
+    Object[] arr = new Object[6];
+
+    arr[0] = new Object(2);
+    arr[1] = new Object(5);
+    arr[2] = new Object(3);
+    arr[3] = new Object(1);
+    arr[4] = new Object(6);
+    arr[5] = new Object(4);
+
+    System.out.println(""List of instances"");
+    for (int i = 0; i &lt; 5; i++) {
+        System.out.println(arr[i].getValue());
+    }
+
+    System.out.println();
+
+    Object tempVar;
+
+    for (int i = 0; i &lt; arr.length; i++) {
+
+        for (int j = 0; j &lt; 5; j++) {
+
+            int result = arr[i].compareTo(arr[i]);
+
+            if (result == -1) {
+                tempVar = arr[j + 1];
+                arr[j + 1] = arr[i];
+                arr[i] = tempVar;
+            }
+        }
+    }
+
+    System.out.println(""List of sorted instances"");
+    for (int i = 0; i &lt; arr.length; i++) {
+        System.out.println(arr[i].getValue());
+    }
+
+}
+</code></pre>
+
+<p>}</p>
+
+<pre><code>public class Object implements Comparable&lt;Object&gt; {
+
+private int value;
+
+public Object(int value) {
+    this.value = value;
+}
+
+public int getValue() {
+    return value;
+}
+
+public void setValue(int value) {
+    this.value = value;
+}
+
+@Override
+public int compareTo(Object o) {
+    int result = 0;
+
+    if (this.value &gt; o.getValue()) {
+        result = 1;
+    } else if (this.value &lt; o.getValue()) {
+        result = -1;
+    } else if (this.value == o.getValue()) {
+        result = 0;
+    }
+
+    return result;
+}
+</code></pre>
+
+<p>}</p>
+","4376896","","4376896","","2015-01-04 04:49:57","2015-01-04 04:57:46","Java compareTo array sort","<java><arrays><sorting><compareto>","1","8","","","","CC BY-SA 3.0"
+"27762347","1","","","2015-01-04 04:23:53","","0","75","<p>I have used JQuery Data Tables for one of my website. It worked well until to a certain time and now that page only show the normal table without modifying it by datatables. Is there any reason for such a thing ? Is there any fixes for that ?</p>
+
+<p>First I used CDN files, but when it stopped working I put the files with the website locally without using cdn. But the problem didn't went off.</p>
+
+<p>And also I tried with clearing cached content of the browser. But the problem didn't over. In some times something like randomly tables comes to working states and again it won't work without any modification by me.</p>
+
+<p>Is there any reason for this ? Any fix for this ?</p>
+
+<p><strong>Update:</strong></p>
+
+<p>I figured out the issue.
+It's because I have tried to stop auto sorting by this</p>
+
+<p>""aaSorting"": [], </p>
+
+<p>or by this</p>
+
+<p>""bSort"": false,</p>
+
+<p>But when I remove them, data tables looks like again as it should looks like.
+But the date column is automatically sorted with asc order. But I'm trying to stop that. Because the data I already sorted with date on desc order.</p>
+","4344019","","2302862","","2015-07-01 09:00:19","2015-07-01 09:00:19","JQuery Data Tables isn't working after few minutes","<jquery><twitter-bootstrap><datatables><cdn>","0","7","","","","CC BY-SA 3.0"
+"27762348","1","","","2015-01-04 04:24:09","","0","39","<p>I have a server and I use following Link to post data in my DB</p>
+
+<p><a href=""http://URL.php?action=insert&amp;vhc=vehiclenumber&amp;mobile=mobilenumberoftheperson&amp;time=currenttime"" rel=""nofollow"">http://URL.php?action=insert&amp;vhc=vehiclenumber&amp;mobile=mobilenumberoftheperson&amp;time=currenttime</a></p>
+
+<p>To keep record of vehicle entering time, Now I want to post same Data from Android for which I am using Following Code:</p>
+
+<p><strong><em>Inside Button Goes this:</em></strong></p>
+
+<pre><code> button.setOnClickListener(new View.OnClickListener() {
+
+        //Toast.makeText(getApplicationContext(),""Data is tried!"", Toast.LENGTH_LONG).show();
+        public void onClick(View v)
+        {
+            new Thread(new Runnable() {
+                public void run() {
+                    postData();
+                }
+            }).start();
+        }
+    });
+</code></pre>
+
+<p>And my PostData Function is defined below:</p>
+
+<pre><code>public void postData() {
+    // Create a new HttpClient and Post Header
+    HttpClient httpclient = new DefaultHttpClient();
+    HttpPost httppost = new HttpPost(""url.php"");
+
+    try {
+        List&lt;NameValuePair&gt; nameValuePairs = new ArrayList&lt;NameValuePair&gt;(2);
+        nameValuePairs.add(new BasicNameValuePair(""vhc"", ""ABC124""));
+        nameValuePairs.add(new BasicNameValuePair(""mobile"", ""089944440000""));
+        nameValuePairs.add(new BasicNameValuePair(""time"", ""2014-12-28 22:22:52""));
+        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+        // Execute HTTP Post Request
+        HttpResponse response = httpclient.execute(httppost);
+
+    } catch (ClientProtocolException e) {
+        message = e.getMessage();
+        // TODO Auto-generated catch block
+    } catch (IOException e) {
+        message= e.getMessage();
+
+        // TODO Auto-generated catch block
+    }
+}
+</code></pre>
+
+<p>Now I tried to debug and found it failing at HttpResponse response = httpclient.execute(httppost); step and leads it to IOException, Please indicate my error to resolve the issue. Thanks!</p>
+","3591950","","","","","2015-01-04 06:14:20","Android JSON Data Posting results in IO Exception Always","<java><php><android><json>","1","3","","","","CC BY-SA 3.0"
+"27762349","1","27762480","","2015-01-04 04:24:10","","1","4702","<p>To my knowledge, when I set these context constraints on GLFW:</p>
+
+<pre><code>glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+</code></pre>
+
+<p>I should get the maximum available OpenGL context on the running machine, provided that it's above OpenGL 3.3. However, by using <code>glGetString</code> to get the OpenGL context version, I am finding that this is not the case. Everytime I query <code>glGetString</code> for the context version, I only get the major and minor versions I set with <code>glfwWindowHint</code>, nothing above. Keep in mind, my GPU supports OpenGL 4.5.</p>
+
+<p>Another thing to note, when I set no constraints whatsoever, I do in fact get an OpenGL 4.5 context.</p>
+
+<p>Here is the full source code, which seems to replicate the problem:</p>
+
+<pre><code>#define GLEW_STATIC
+
+#include &lt;iostream&gt;
+
+#include &lt;GL\glew.h&gt;
+#include &lt;GLFW\glfw3.h&gt;
+#include &lt;glm\glm.hpp&gt;
+
+int main(int argc, char argv[])
+{
+
+    if (!glfwInit())
+    {
+        std::cerr  &lt;&lt; ""Failed to initialize GLFW 3.0.4"" &lt;&lt; std::endl;
+        getchar();
+
+        glfwTerminate();
+        return -1;
+    }
+
+    std::cout &lt;&lt; ""Initialized GLFW 3.0.4"" &lt;&lt; std::endl;
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    GLFWwindow* m_window = glfwCreateWindow(640, 480, ""Koala"", NULL, NULL);
+
+    if (!m_window)
+    {
+        std::cerr  &lt;&lt; ""Failed to create OpenGL 3.3+ context"" &lt;&lt; std::endl;
+        getchar();
+        glfwTerminate();
+        return -1;
+    }
+
+    glfwMakeContextCurrent(m_window);
+
+    std::cout &lt;&lt; ""Created OpenGL 3.3+ context"" &lt;&lt; std::endl;
+
+    glewExperimental = GL_TRUE;
+
+    if (glewInit() != GLEW_OK)
+    {
+        std::cerr &lt;&lt; ""Failed to initialize GLEW 1.11.0"" &lt;&lt; std::endl;
+        getchar();
+        glfwTerminate();
+        return -1;
+    }
+
+    std::cout &lt;&lt; ""Initialized GLEW 1.11.0"" &lt;&lt; std::endl;
+
+    const GLubyte* renderer = glGetString(GL_RENDERER);
+    const GLubyte* version = glGetString(GL_VERSION);
+
+    std::cout &lt;&lt; ""GPU: "" &lt;&lt; renderer &lt;&lt; std::endl;
+    std::cout &lt;&lt; ""OpenGL Version: "" &lt;&lt; version &lt;&lt; std::endl;
+
+    while (!glfwWindowShouldClose(m_window))
+    {
+        glfwSwapBuffers(m_window);
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+    return 0;
+
+}
+</code></pre>
+","3886129","","","","","2022-01-13 16:32:45","Why am I not getting a forward compatible OpenGL context with GLFW?","<c++><opengl><glfw><glew>","2","3","","","","CC BY-SA 3.0"
+"27762351","1","27762373","","2015-01-04 04:24:29","","1","52","<p>What is this block of code doing?</p>
+
+<pre><code>find_by_sql [&lt;&lt;-SQL, db_time_now, db_time_now]
+      UPDATE pages SET locked_at = ?, updated_at = ?
+      WHERE id IN (#{pages_subquery})
+      RETURNING *
+    SQL
+</code></pre>
+
+<p>I'm specifically confused how that SQL is correctly getting passed as the first parameter (what is it called to use the <code>&lt;&lt;-SQL</code> notation again?).</p>
+
+<p><code>find_by_sql</code> documentation: <a href=""http://apidock.com/rails/ActiveRecord/Querying/find_by_sql"" rel=""nofollow"">http://apidock.com/rails/ActiveRecord/Querying/find_by_sql</a></p>
+
+<p>This code is from: <a href=""https://github.com/Genius/trackback_scraper/blob/master/app/models/page.rb#L55-L59"" rel=""nofollow"">https://github.com/Genius/trackback_scraper/blob/master/app/models/page.rb#L55-L59</a></p>
+","716082","","","","","2015-01-04 04:28:47","Function with array and delineated string as parameters","<ruby-on-rails><ruby>","1","0","","","","CC BY-SA 3.0"
+"27762353","1","","","2015-01-04 04:25:21","","0","251","<p>I am working on creating Eclipse plugin which in turn requires to connect to svn repository.</p>
+
+<p>I see that eclipse subversion plugin has the svnkit extension point<img src=""https://i.stack.imgur.com/XVuMP.png"" alt=""SVNkit plugin screenshot""></p>
+
+<p>I am looking to use this extension point to connect to svn repository. But as per description it mentions ""This extension point allows additional SVNConnectorFactory to be pluged in.  It is for internal use."" </p>
+
+<p>Can someone point me in right direction of usage?</p>
+
+<p>Do I need to use separate library(maybe SVNKit) to connect to svn from my custom plugin?</p>
+","138604","","138604","","2015-01-04 05:51:32","2015-01-07 15:37:27","using subclipse extension points to connect to svn repo from custom plugin","<eclipse><svn><eclipse-plugin><subclipse>","1","1","0","","","CC BY-SA 3.0"
+"27762355","1","","","2015-01-04 04:26:07","","4","447","<p>I have a project that I built on my virtual machine using sbt. During the build process it installs several libraries in the ~/root/ directory in my virtual machine. For example, part of the .classpath file looks like: </p>
+
+<pre><code>&lt;classpathentry kind=""lib"" path=""/root/.ivy2/cache/org.apache.avro/avro/jars/avro-1.7.6.jar""/&gt;
+&lt;classpathentry kind=""lib"" path=""/root/.ivy2/cache/org.codehaus.jackson/jackson-core-asl/jars/jackson-core-asl-1.9.13.jar""/&gt;
+&lt;classpathentry kind=""lib"" path=""/root/.ivy2/cache/org.codehaus.jackson/jackson-mapper-asl/jars/jackson-mapper-asl-1.9.13.jar""/&gt;
+&lt;classpathentry kind=""lib"" path=""/root/.ivy2/cache/org.apache.commons/commons-compress/jars/commons-compress-1.4.1.jar""/&gt;
+</code></pre>
+
+<p>I am running Eclipse on my Mac OS on the host machine and when I import an Eclipse project (through a samba mount) I end up with a bunch of import errors because the class paths are only valid on my guest machine.</p>
+
+<p>What is the typical / standard way to develop Java / Scala projects within a virtual environment while running the Eclipse application from your host machine? </p>
+
+<p>Am I better off doing all the development on my host machine?</p>
+","3747110","","","","","2015-01-04 20:48:10","How do I develop on a virtual machine using Eclipse?","<java><eclipse><scala><sbt>","1","1","","","","CC BY-SA 3.0"
+"27762359","1","27766128","","2015-01-04 04:26:46","","5","3592","<p>I'm trying to combine two graphs with the same nodes, but such that the new graph edge weight is the sum of the two original graphs (but of course want the solution to extend to N graphs):</p>
+
+<pre><code>g1 &lt;- graph.empty(directed=FALSE) + vertices(letters[1:2])
+g1 &lt;- g1 + edge(""a"", ""b"")
+E(g1)$weight &lt;- 1
+
+g2 &lt;- graph.empty(directed=FALSE) + vertices(letters[1:2])
+g2 &lt;- g2 + edge(""a"", ""b"")
+
+E(g2)$weight &lt;- 2
+
+g3 &lt;- g1 %u% g2
+
+E(g3)$weight_1 #this is 1
+E(g3)$weight_2 #this is 2
+</code></pre>
+
+<p>But i want E(g3)$weight to be 3. </p>
+
+<p>Is there a more elegant way of doing this than summing across the edge weights _1, _2, ... afterwards? Something along the lines of simplify/contract?</p>
+","1623057","","","","","2015-01-04 13:44:53","Combine two graphs and add edge weights in R igraph","<r><igraph>","1","1","0","","","CC BY-SA 3.0"
+"27762360","1","","","2015-01-04 04:26:49","","0","66","<p>I have a question on javascript in which the function below will track the mouse movement when the user clicks the mouse, holds and moves it. I have another function that will redraw the canvas in certain interval checking or when the user changes something on the canvas based on ghostCanvasRedraw == true flag. However when I try to check whether the current mouse pointer within the rectangle I drawn, an error below occured: </p>
+
+<blockquote>
+  <p>NetworkError: 500 Internal Server Error</p>
+</blockquote>
+
+<p>The function to trigger redraw is as below. I expect the if comparison within for.. in loop is the culprit. Please help &amp; your suggestion is appreciated. Thanks.</p>
+
+<pre><code>    function addMouseMoveEvent(canvas) {
+        EventUtil.addHandler(canvas, 'mousemove', function(event) {
+            event = EventUtil.getEvent(event);
+            var rect = canvas.getBoundingClientRect();
+            mouseX = event.clientX - rect.left;
+            mouseY = event.clientY - rect.top;
+
+            if (!isDragging) {
+                console.log('Mouse move coordinate on Pdf document: ' + mouseX + ', ' + mouseY);
+            }
+            else if (isDragging) {
+                console.log('Mouse drag coordinate on Pdf document: ' + mouseX + ', ' + mouseY);
+
+                for (var i in boxes) {
+
+                    if (mouseX &gt; boxes[i].x &amp;&amp; mouseX &lt; boxes[i].x + boxes[i].w &amp;&amp; mouseY &gt; boxes[i].y &amp;&amp; mouseY &lt; boxes[i].y + boxes[i].h) {
+                        boxes[i].x = mouseX - boxes[i].w / 2;
+                        boxes[i].y = mouseY - boxes[i].h / 2;
+                        ghostCanvasRedraw = true;
+
+                        console.log('Box in dragging [' + boxes[i].x + ', ' + boxes[i].y + ', ' + boxes[i].w + ', ' + boxes[i].h + ']');
+                    }
+                }
+            }
+        });
+    } 
+</code></pre>
+
+<p>Boxes is an array contains box object. Added the box object and prototype:</p>
+
+<pre><code>    function Box() {
+        this.x = 0;
+        this.y = 0;
+        this.w = 1; 
+        this.h = 1;
+        this.lineWidth = 2;
+        this.lineColor = 'blue';
+        this.fill = '#444444';  
+    }
+
+    Box.prototype = {
+            // Draw rectangle
+            drawRectangle : function(ctx) {
+                console.log('Box in drawing [' + this.x + ', ' + this.y + ', ' + this.w + ', ' + this.h + ']');
+
+                ctx.beginPath();
+                ctx.strokeStyle = this.lineColor;
+                ctx.lineWidth = this.lineWidth;
+                ctx.fillStyle = this.fill;
+                // For box transparency
+                ctx.globalAlpha = 0.2;
+                // Draw filled rectangle
+                ctx.fillRect(this.x, this.y, this.w, this.h);
+                // Draw stroke for rectangle
+                ctx.strokeRect(this.x, this.y, this.w, this.h);
+
+                // Draw selection handles
+                var half = 3;
+
+                // 0  1  2
+                // 3     4
+                // 5  6  7
+                selectionHandles = [];
+
+                // top left, middle, right
+                selectionHandles.push({x : this.x - half, y : this.y - half});
+                selectionHandles.push({x : this.x + this.w / 2 - half, y : this.y - half});
+                selectionHandles.push({x : this.x + this.w - half, y : this.y - half});
+
+                //middle left
+                selectionHandles.push({x : this.x - half, y : this.y + this.h / 2 - half});
+
+                //middle right
+                selectionHandles.push({x : this.x + this.w - half, y : this.y + this.h / 2 - half});
+
+                //bottom left, middle, right
+                selectionHandles.push({x : this.x + this.w / 2 - half, y : this.y + this.h - half});
+                selectionHandles.push({x : this.x - half, y : this.y + this.h - half});
+                selectionHandles.push({x : this.x + this.w - half, y : this.y + this.h - half});
+
+                for (var i in selectionHandles) {
+                    ctx.fillRect(selectionHandles[i].x, selectionHandles[i].y, 6, 6);
+                    i += 1;
+            }
+        }
+    }
+</code></pre>
+","4416445","","4416445","","2015-01-05 02:04:28","2015-01-05 02:04:28","Javascript ""NetworkError: 500 Internal Server Error"" on for.. in comparison","<javascript>","0","3","","","","CC BY-SA 3.0"
+"27762364","1","","","2015-01-04 04:27:07","","6","3043","<p>Anybody know how to create a proper URL to link to <code>here.com</code> maps, from my site? We use an extensive amount of API calls to embed the maps inside our site, but I want to send emails to people with a <code>'Click Here for directions'</code> link inside pointing to <code>here.com</code> driving directions with the address or coordinates built into the URL.</p>
+
+<p>Example:</p>
+
+<p>With Google Maps, all we would have to do is make a simple link like this:</p>
+
+<pre><code>https://www.google.com/maps?saddr=32.5589671,-97.2586011&amp;daddr=32.7787855,-97.4495476
+</code></pre>
+
+<p>Just pass along the variables <code>saddr</code> and <code>daddr</code> within the URL. I've tried everything to build a proper URL for <code>here.com</code> maps and it doesn't process it properly.  </p>
+
+<p>My best attempt was:  </p>
+
+<pre><code>https://www.here.com/directions/drive/32.2589671,-97.4486011/Weatherford,_Texas?x=ep&amp;map=30.38114,-89.89326,6,normal
+</code></pre>
+
+<p>But it does not process this URL properly and now I'm pretty much stuck, since I have tried everything that I know to try.</p>
+","4416461","","1324","","2016-04-14 14:16:13","2016-04-14 14:16:13","Create URL to here.com maps Driving Directions with addresses/coordinates passed along","<here-api>","1","0","","","","CC BY-SA 3.0"
+"27762365","1","","","2015-01-04 04:27:10","","3","2463","<p>I am iterating over 80m lines in a 2.5gb file to create a list of offsets for the location of the start of each line.  The memory slowly increases as expected until I hit around line 40m, and then rapidly increases 1.5gb in 3-5 seconds before the process exits due to lack of memory.</p>
+
+<p>After some investigation, I discovered that the blow-up occurs around the time when the current offset (curr_offset) is around 2b, which happens to be around my sys.maxint (2^31-1).</p>
+
+<p>My questions are:</p>
+
+<ul>
+<li>Do numbers greater than sys.maxint require substantially more memory to store?  If so, why?  If not, why would I be seeing this behavior?</li>
+<li>What factors (e.g. which Python, which operating system) determine sys.maxint?
+<ul>
+<li>On my 2010 MacBook Pro using 64-bit Python, sys.maxint is 2^63-1.</li>
+<li>On my Windows 7 laptop using 64-bit IronPython, sys.maxint is the smaller 2^31-1.  Same with 32-bit Python.  For various reasons, I can't get 64-bit Python on my Windows machine right now.</li>
+</ul></li>
+<li>Is there a better way to create this list of offsets?</li>
+</ul>
+
+<p>The code in question:</p>
+
+<pre><code>f = open('some_file', 'rb')
+curr_offset = 0
+offsets = []
+for line in f:
+    offsets.append(curr_offset)
+    curr_offset += len(line)
+f.close()
+</code></pre>
+","4416388","","4416388","","2015-01-04 04:41:54","2015-01-05 09:37:48","When numbers are greater than Python's sys.maxint, do they require a lot more memory?","<python><memory><int>","6","8","0","","","CC BY-SA 3.0"
+"27762367","1","27762462","","2015-01-04 04:27:30","","0","709","<p>This happens only when I do a selection in the page and move the mouse to the right. Can you help? please look the attached picture.<img src=""https://i.stack.imgur.com/WTRnq.png"" alt=""enter image description here""></p>
+","439866","","","","","2015-01-04 05:04:47","Strange overflow in Google Chrome, How to fix it?","<html><css><html5-canvas>","2","5","","","","CC BY-SA 3.0"
+"27762370","1","","","2015-01-04 04:28:04","","-1","82","<p>when i open <strong>studio.exe</strong> it say </p>
+
+<blockquote>
+  <p>updating components</p>
+  
+  <p>the following components not installed</p>
+</blockquote>
+
+<p><em>But today only i downloaded standalone installer of android studio from offical website Please Help me</em></p>
+","4415947","","4326936","","2015-01-04 07:21:50","2015-01-04 07:21:50","Android studio not opening (windows)","<android><android-studio>","1","0","","","","CC BY-SA 3.0"
+"27762371","1","27763180","","2015-01-04 04:28:25","","1","526","<p>I am using angular to post data to PHP  JSON webservice but not able to get it correctly</p>
+
+<p>here is my code for .http method</p>
+
+<pre><code>    app.controller('AddCustomer',['$http','$scope',function($http,$scope){
+$scope.freshRequest = true;
+$scope.addCustomer=function(){
+    var data_to_send={};
+    data_to_send.name=$scope.name;
+    alert(data_to_send.name);
+    $http({
+        method: 'POST',
+        url: '../service/add_new_Customer.php', 
+        data: data_to_send,
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function(returnedData){
+        $scope.freshRequest = false;
+        $scope.response = returnedData.response;
+        $scope.accountNumber= returnedData.accountNumber;
+        $scope.updatedBalance= returnedData.updatedBalance;
+        $scope.transactionSuccessful = returnedData.transactionSuccessful;          
+    }).error(function (data, status, headers, config) {
+        $scope.status = status + ' ' + headers;
+        console.log($scope.status)});
+
+
+
+};}]);
+</code></pre>
+
+<p>below is the htm form that I am using to call the addCustomer() method</p>
+
+<pre><code>&lt;form class=""form-horizontal"" novalidate ng-controller=""AddCustomer as add"" ng-submit=""addCustomer()""&gt;
+&lt;input id=""name"" name=""name"" type=""text"" placeholder="""" class=""form-control input-md"" required="""" ng-model=""name""&gt;
+&lt;input id=""fname"" name=""fname"" type=""text"" placeholder="""" class=""form-control input-md"" required="""" ng-model=""fname""&gt;
+ &lt;button id=""button1id"" type=""submit"" name=""button1id"" class=""btn btn-primary""&gt;Add&lt;/button&gt;
+</code></pre>
+
+<p></p>
+
+<p>my php is getting  null for the field name when i am doing  $_REQUEST['name'] or $_POST['name'];</p>
+
+<p>below is the php code</p>
+
+<pre><code>&lt;?php
+class Summary{
+   public $response= ""Account Could not be added invalid data"";
+   public $transactionSuccessful= """";
+   public $updatedBalance= """";
+   public $accountNumber= """";
+}
+$e = new Summary();
+$final_res =json_encode($jsonObj) ;
+if( $_REQUEST['name'] ){
+$e-&gt;response =  $_REQUEST['name'];
+}
+else{
+$e-&gt;response =  ""Account Could not be added invalid data"";
+}
+ $e-&gt;transactionSuccessful= true;
+$e-&gt;updatedBalance=  $_POST['name'];
+$e-&gt;accountNumber=  $_POST['name'];  
+echo json_encode($e);
+</code></pre>
+","1069073","","","","","2015-01-04 06:48:30","unable to get data from http.post on php web service","<php><angularjs>","1","0","","","","CC BY-SA 3.0"
+"27762375","1","27762470","","2015-01-04 04:29:18","","0","77","<p>I want to add noise to a vector in R. I can do this with a loop:</p>
+
+<pre><code>N &lt;- 4; v &lt;- c(1,5,3,8)
+for (i in (1:N)) {
+   vec[i] &lt;- vec[i] + floor(runif(1, min = -4, max = 4)
+}
+</code></pre>
+
+<p>There must be an easy way to use lapply to do this, but it eludes me. Help appreciated.</p>
+","2816874","","","","","2015-01-04 04:45:00","How to apply noise sample to each member of a vector in R?","<r><for-loop><lapply>","1","2","","","","CC BY-SA 3.0"
+"27762377","1","","","2015-01-04 04:29:34","","7","9425","<p>What I'm trying to do in my application is to let the user choose a picture from his phone's gallery(Don't want to <a href=""https://stackoverflow.com/questions/9585303/android-get-only-image-from-gallery"">get gallery images only</a> but also allowing a user to choose their app of choice). The code I'm using is as follows: </p>
+
+<pre><code>Intent intent = new Intent();
+intent.setType(""image/*"");
+intent.setAction(Intent.ACTION_GET_CONTENT);
+intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+startActivityForResult(Intent.createChooser(intent, ""Select Picture""), 1);
+</code></pre>
+
+<p>As per <a href=""https://stackoverflow.com/questions/20620794/intent-extra-local-only-doesnt-work"">Intent.EXTRA_LOCAL_ONLY doesnt work</a> </p>
+
+<blockquote>
+  <p><strong>EXTRA_LOCAL_ONLY</strong> only tells the receiving app that it should return
+  only data that is present.</p>
+</blockquote>
+
+<p>After adding <code>intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);</code> in above code,it hide <strong>google drive app</strong> and <strong>picasa app</strong> but still shows <strong>google photos</strong>(those photos are not in my device.)</p>
+
+<p>Also I tried <a href=""https://stackoverflow.com/questions/9080109/android-image-picker-for-local-files-only"">Android image picker for local files only</a> but It hide all the apps having remote images excluding google photos.</p>
+
+<p>Note : All the image paths are correct as I did <a href=""https://stackoverflow.com/a/20559418/991085"">Android Gallery on KitKat returns different Uri for Intent.ACTION_GET_CONTENT</a> (thanks to @Paul Burke)  but I don't want to pick internet/remote images.</p>
+
+<p>So my question <strong>Is there any way to hide google photos app while pick an image from local device only.</strong> or Is google photos is part of <code>Intent.EXTRA_LOCAL_ONLY</code></p>
+","991085","","-1","","2017-05-23 11:54:00","2021-02-26 15:16:11","Android : Why Intent.EXTRA_LOCAL_ONLY shows Google Photos","<android><android-gallery>","1","0","0","","","CC BY-SA 3.0"
+"27762381","1","27799864","","2015-01-04 04:30:38","","-1","98","<p>I have the following code from <a href=""http://demos.telerik.com/aspnet-ajax/gantt/examples/overview/defaultvb.aspx?show-source=true"" rel=""nofollow"">this link</a>, for the implementation of <code>Gantt chart</code>. it is a new method of coding for me. how can i use the same from the back end? or is it possibility to use the same with <code>MySQL</code>? am using mysql database hence it is not working for me. </p>
+
+<pre><code>&lt;%@ Register TagPrefix=""sds"" Namespace=""Telerik.Web.SessionDS"" %&gt;
+  .......
+
+   &lt;sds:SessionDataSource ID=""TasksDataSource"" runat=""server"" DisplayWarning=""false""
+        PrimaryKeyFields=""ID"" ProviderName=""System.Data.SqlClient"" 
+        ConnectionString=""&lt;%$ ConnectionStrings:TelerikConnectionString %&gt;""
+        DeleteCommand=""DELETE FROM [GanttTasks] WHERE [ID] = @ID""
+        InsertCommand=""INSERT INTO [GanttTasks] ([ParentID], [OrderID], [Title], [Start], [End], [PercentComplete], [Expanded], [Summary]) VALUES (@ParentID, @OrderID, @Title, @Start, @End, @PercentComplete, @Expanded, @Summary)""
+        SelectCommand=""SELECT * FROM [GanttTasks]""
+        UpdateCommand=""UPDATE [GanttTasks] SET [ParentID] = @ParentID, [OrderID] = @OrderID, [Title] = @Title, [Start] = @Start, [End] = @End, [PercentComplete] = @PercentComplete, [Expanded] = @Expanded, [Summary] = @Summary WHERE [ID] = @ID""&gt;
+        &lt;DeleteParameters&gt;
+            &lt;asp:Parameter Name=""ID"" Type=""Int32"" /&gt;
+        &lt;/DeleteParameters&gt;
+        &lt;InsertParameters&gt;
+            &lt;asp:Parameter Name=""ParentID"" Type=""Int32"" /&gt;
+            &lt;asp:Parameter Name=""OrderID"" Type=""Int32"" /&gt;
+            &lt;asp:Parameter Name=""Title"" Type=""String"" /&gt;
+            &lt;asp:Parameter Name=""Start"" Type=""DateTime"" /&gt;
+            &lt;asp:Parameter Name=""End"" Type=""DateTime"" /&gt;
+            &lt;asp:Parameter Name=""PercentComplete"" Type=""Decimal"" /&gt;
+            &lt;asp:Parameter Name=""Expanded"" Type=""Boolean"" /&gt;
+            &lt;asp:Parameter Name=""Summary"" Type=""Boolean"" /&gt;
+        &lt;/InsertParameters&gt;
+        &lt;UpdateParameters&gt;
+            &lt;asp:Parameter Name=""ParentID"" Type=""Int32"" /&gt;
+            &lt;asp:Parameter Name=""OrderID"" Type=""Int32"" /&gt;
+            &lt;asp:Parameter Name=""Title"" Type=""String"" /&gt;
+            &lt;asp:Parameter Name=""Start"" Type=""DateTime"" /&gt;
+            &lt;asp:Parameter Name=""End"" Type=""DateTime"" /&gt;
+            &lt;asp:Parameter Name=""PercentComplete"" Type=""Decimal"" /&gt;
+            &lt;asp:Parameter Name=""Expanded"" Type=""Boolean"" /&gt;
+            &lt;asp:Parameter Name=""Summary"" Type=""Boolean"" /&gt;
+            &lt;asp:Parameter Name=""ID"" Type=""Int32"" /&gt;
+        &lt;/UpdateParameters&gt;
+    &lt;/sds:SessionDataSource&gt;
+</code></pre>
+","4373021","","","","","2015-01-06 13:39:32","Accsess SessionDataSource from back end","<mysql><sql><asp.net><vb.net><telerik>","1","1","","","","CC BY-SA 3.0"
+"27762385","1","","","2015-01-04 04:31:15","","0","65","<p>I'm getting a flicker of a conditional login template inside my admin template.</p>
+
+<p>so with a url of <code>http://0.0.0.0:3000/admin</code> and the following admin template:</p>
+
+<pre><code>&lt;template name=""admin""&gt;
+  &lt;div class=""row""&gt;
+    &lt;div class=""medium-12 columns""&gt;
+      {{#if currentUser}}
+        &lt;h2&gt;Admin Panel&lt;/h2&gt;
+        &lt;p&gt;&lt;a href=""/""&gt;View Site&lt;/a&gt;&lt;/p&gt;
+      {{else}}
+        {{&gt; login}}
+      {{/if}}
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+
+<p>Every time I visit that url, the login template flickers for a millisec before properly rendering the admin template. Any ideas on what's going here? Thanks for the help.</p>
+","2694165","","","","","2015-01-04 05:03:46","Template Flicker with Meteorjs","<javascript><templates><user-interface><meteor>","1","0","","","","CC BY-SA 3.0"
+"27762386","1","27771174","","2015-01-04 04:31:22","","2","1161","<p><strong>Background:</strong> I'm developing servlets using <code>guice</code> with <code>guice-servlet</code> frameworks. I'd like to test my servlets by:</p>
+
+<ol>
+<li>Servlet <strong>unit tests</strong>: isolating servlets from other dependencies and simulating client, by providing get/post requests</li>
+<li>Servlet <strong>integration tests</strong>: simulating clients, but without servlet isolation. Also, as part of integration tests, I'd like to test my integration with Guice itself.</li>
+</ol>
+
+<p><strong>Question:</strong> I'm looking for servlet testing framework which can allow me to perform both kinds of tests described above.</p>
+
+<p>Meanwhile I took a look at <code>HttpUnit</code>, but I didn't find a way to connect <code>Guice</code> to it: servlets can be registered in <code>ServletRunner</code>, but they are provided by class name. This means that ServletRunner will instantiate them (without injecting dependencies).</p>
+
+<p>Also I found <code>tadedon</code> project's <a href=""https://code.google.com/p/tadedon/wiki/GuiceServletMockModule"" rel=""nofollow"">GuiceServletMockModule</a>. Seems like exactly what I'm looking for. But I'm not sure it is still maintained. For example, I was not able to fetch their maven package from their maven repository.</p>
+
+<p>Thanks </p>
+","2409886","","","","","2015-01-04 22:40:37","Guice-servlet unit testing","<java><unit-testing><servlets><guice><guice-servlet>","1","0","","","","CC BY-SA 3.0"
+"27762390","1","27762436","","2015-01-04 04:31:44","","-1","218","<p>I wrote a procedure that is supposed to return a value from my database.  The value to be returned is an integer. Here is my code:</p>
+
+<pre><code>    Private Sub btnSelectProducts_Click(sender As Object, e As EventArgs) Handles btnSelectProducts.Click
+
+    Try
+
+    'Connection Variables
+    Dim cnn As SqlCeConnection
+    Dim connectionString As String
+
+    'Connect to database
+    connectionString = ""Data Source=|DataDirectory|\Database\ContactsAndInventory.sdf""
+    cnn = New SqlCeConnection(connectionString)
+
+    Dim Stream As New MemoryStream()
+    cnn.Open()
+
+    Dim command As New SqlCeCommand(""SELECT CATEGORY_ID FROM PRODUCT_CATEGORY WHERE (CATEGORY_NAME = @CATEGORY_NAME)"", cnn)
+    command.Parameters.AddWithValue(""@CATEGORY_NAME"", txtCategoryName.Text)
+
+        Dim catId As Integer() = CType(command.ExecuteScalar(), Integer())'Error Here
+
+    MsgBox(catId)
+
+        cnn.Close()
+
+    Catch ex As Exception
+
+        MsgBox(ex.ToString)
+
+    End Try
+
+
+End Sub
+</code></pre>
+
+<p>I am getting the error: </p>
+
+<pre><code>System.InvalidCastException: Unable to cast objct to type System.Int32 to type System.Int32[]
+</code></pre>
+
+<p>In can't figure out why, the field is an Integer field and the value I am trying to return is an integer.  What am I doing wrong?</p>
+","2494051","","1842065","","2015-01-04 09:51:08","2015-01-04 09:51:08","Procedure returns error: Cannot cast System.Int32 to System.Int32[]","<vb.net><sql-server-ce>","1","1","","","","CC BY-SA 3.0"
+"27762392","1","27766890","","2015-01-04 04:31:55","","0","100","<p>I am using EZAudio and trying to write some samples generated by my softaware to an AudioBuffer provided by this library <a href=""https://github.com/syedhali/EZAudio"" rel=""nofollow"">https://github.com/syedhali/EZAudio</a> as seen in the example ""Playback By Manual Override"".</p>
+
+<p>My code looks like this...</p>
+
+<pre><code>// Completely override the output callback function
+- (void)
+                 output:(EZOutput *)output
+callbackWithActionFlags:(AudioUnitRenderActionFlags *)ioActionFlags
+            inTimeStamp:(const AudioTimeStamp *)inTimeStamp
+            inBusNumber:(UInt32)inBusNumber
+         inNumberFrames:(UInt32)inNumberFrames
+                 ioData:(AudioBufferList *)ioData {
+    //grab latest sample from sample queue
+    if (currentAudioPiece == nil || currentAudioPiece.duration &gt;= currentAudioPieceIndex) {
+        self.currentAudioPiece = sampleQueue.dequeue;
+    }
+    AudioBuffer audioBuffer = ioData-&gt;mBuffers[0];
+
+
+    if (true) {
+        for (int i = 0; i &lt; audioBuffer.mDataByteSize; i++) {
+            uint8_t rofl[2048];
+            arc4random_buf(&amp;rofl, 2048);
+            audioBuffer.mData = rofl;
+        }
+
+        return;
+    }
+
+    //... more code that I'll debug later...'
+</code></pre>
+
+<p>Essentially I am unable to get a sanity check that a random bunch of memory playing back should make some noise.  I think the problem is with ""audioBuffer.mData = rofl;"".  I'm rather confused about working with memory at void*.</p>
+","97901","","","","","2015-01-04 15:11:00","Not able to hear 'noise' when writing random values AudioBuffer in iOS","<ios><objective-c><audio><core-audio>","1","2","","","","CC BY-SA 3.0"
+"27762400","1","27902738","","2015-01-03 16:40:22","","1","912","<p>I don't have a clue about what the redundancy() function in the semPLS package does and could not find an explanation on the help pages or other semPLS papers.</p>
+
+<p>Take the ecsi model for example:
+<img src=""https://i.stack.imgur.com/Y4juS.gif"" alt=""enter image description here""></p>
+
+<pre><code>library(semPLS)
+data(ECSImobi)
+ecsi &lt;- sempls(model=ECSImobi, data=mobi, wscheme=""pathWeighting"")
+
+redundancy(ecsi)
+</code></pre>
+
+<p>Will give me:</p>
+
+<pre><code>             redundancy
+Image                 .
+Expectation        0.12
+Quality            0.18
+Value              0.29
+Satisfaction       0.47
+Complaints            .
+Loyalty            0.24
+
+    Average redundancy: 0.26 
+</code></pre>
+
+<p>Apparently as ckluss pointed out, the redundancy method is calculated as</p>
+
+<pre><code>as.matrix(communality(ecsi)[, 1] * rSquared(ecsi)[, 1])
+</code></pre>
+
+<p>communality is the AVE (Average Variance Extracted) and rSquared, the coefficient of determination, means how well the data fits the model. The question remains: how to interpret these indices.</p>
+","2919513","jannic","250259","","2020-12-29 23:44:05","2020-12-29 23:44:05","R: semPLS redundancy() function","<r><structural-equation-model>","1","2","","","","CC BY-SA 3.0"
+"27762401","1","","","2015-01-04 04:32:56","","0","102","<p>I am new to Rails and have used Devise gem for User authentication etc. On my app I would also like to track additional User attributes such as First Name, Last Name, etc.. </p>
+
+<p>What is the best way to be able to manage the additional User information. Do I add the columns required to the User model created by the Devise gem OR do I create a brand new model/table to hold this information with the appropriate associations between the two models?</p>
+
+<p>thanking in advance.</p>
+
+<p>regards</p>
+","4200716","","","","","2015-01-04 13:13:31","Rails Devise gem User","<ruby-on-rails><devise>","1","2","","","","CC BY-SA 3.0"
+"27762405","1","","","2015-01-04 04:33:28","","0","36","<p>I am looking for a more pythonic way or better practice to simplify filtering data. Basically, I have class-structured data, and I want to select and group attributes. Is there a good way to do this without flattening to a tabular format?</p>
+
+<p>Example:</p>
+
+<pre><code>class Point:
+    def __init__(self, x, y)
+        self.x = x
+        self.y = y
+
+class Square:
+    def __init__(self,origin,length,rotation,color):
+        self.origin = origin
+        self.length = length
+        ...
+
+
+#populated with all squares
+square_list = get_squares()
+
+#create x,y map of all squares
+XYindex = defaultdict(list)
+for square in square_list:
+    XYindex[str(square.origin.x)+','+str(square.origin.y)].append(square)
+
+
+colorindex = defaultdict(list)
+for square in square_list:
+    colorindex[str(square.color)].append(square)
+
+#find black squares at 0,0
+result = []
+for square in colorindex['black']:
+    if square in XYindex['0,0']:
+        result.append(square)
+</code></pre>
+","1542046","","","","","2015-01-04 07:55:54","Indexing Heirarchial Data with Python","<python><sorting><indexing><hierarchical-data>","1","0","","","","CC BY-SA 3.0"
+"27762406","1","27769564","","2015-01-04 04:33:31","","0","2404","<p>Using kinetic-v4.7.2.min.js library how to allow the image draggable only on X Axis ? can anyone help me? 
+In this <a href=""http://jsfiddle.net/LuZbV/23/"" rel=""nofollow"">fiddle</a>, i want house image draggable horizontally.</p>
+
+<p>HTML Code:</p>
+
+<pre><code>&lt;h5&gt;Drag the icon from the toolbar to the Kinetic.Stage&lt;br&gt;This creates new Kinetic.Images&lt;/br&gt;The images on the stage are draggable.&lt;/h5&gt;
+&lt;div id=""toolbar""&gt;
+    &lt;img id=""house"" width=32 height=32 src=""https://dl.dropboxusercontent.com/u/139992952/stackoverflow/house32x32transparent.png""&gt;
+    &lt;br&gt;
+&lt;/div&gt;
+&lt;div id=""container""&gt;&lt;/div&gt;
+</code></pre>
+
+<p>JS Code:</p>
+
+<pre><code>// get a reference to the house icon in the toolbar
+// hide the icon until its image has loaded
+var $house = $(""#house"");
+$house.hide();
+
+// get the offset position of the kinetic container
+var $stageContainer = $(""#container"");
+var stageOffset = $stageContainer.offset();
+var offsetX = stageOffset.left;
+var offsetY = stageOffset.top;
+
+// create the Kinetic.Stage and layer
+var stage = new Kinetic.Stage({
+    container: 'container',
+    width: 350,
+    height: 350
+});
+var layer = new Kinetic.Layer();
+stage.add(layer);
+
+// start loading the image used in the draggable toolbar element
+// this image will be used in a new Kinetic.Image
+var image1 = new Image();
+image1.onload = function () {
+    $house.show();
+}
+image1.src = ""https://dl.dropboxusercontent.com/u/139992952/stackoverflow/house32x32transparent.png"";
+
+// make the toolbar image draggable
+$house.draggable({
+    helper: 'clone',
+});
+
+// set the data payload
+$house.data(""url"", ""house.png""); // key-value pair
+$house.data(""width"", ""32""); // key-value pair
+$house.data(""height"", ""33""); // key-value pair
+$house.data(""image"", image1); // key-value pair
+
+// make the Kinetic Container a dropzone
+$stageContainer.droppable({
+    drop: dragDrop,
+});
+
+// hangle a drop into the Kinetic container
+function dragDrop(e, ui) {
+
+    // get the drop point
+    var x = parseInt(ui.offset.left - offsetX);
+    var y = parseInt(ui.offset.top - offsetY);
+
+    // get the drop payload (here the payload is the image)
+    var element = ui.draggable;
+    var data = element.data(""url"");
+    var theImage = element.data(""image"");
+
+    // create a new Kinetic.Image at the drop point
+    // be sure to adjust for any border width (here border==1)
+    var image = new Kinetic.Image({
+        name: data,
+        x: x,
+        y: y,
+        image: theImage,
+        draggable: true
+    });
+    layer.add(image);
+    layer.draw();
+}
+</code></pre>
+","3860765","","1940394","","2015-01-04 05:35:07","2015-01-04 19:39:41","Image is draggable only on x Axis","<javascript><html5-canvas><kineticjs>","1","7","0","","","CC BY-SA 3.0"
+"27762409","1","27771443","","2015-01-04 04:34:57","","1","209","<p>how to encrypt published dll and ViewFiles to deny End user to convert output files to source files</p>
+","1439208","","","","","2023-02-16 08:49:44","Protect my published project output dll and View","<c#><.net><asp.net-mvc><visual-studio>","3","1","","","","CC BY-SA 3.0"
+"27762420","1","","","2015-01-04 04:37:04","","0","105","<p>I've been experimenting trying to get my highscore to save or when the app terminates and reopens in displays the previous highscore. I'm using NSUserDefaults, but haven't had much luck. Here is my code. </p>
+
+<p>This is used to get/set the high score:</p>
+
+<pre><code>-(NSInteger)setHighScore {
+
+
+highScore = self.score;
+key = @""highScore"" ;
+[[NSUserDefaults standardUserDefaults] setInteger:highScore forKey:key];
+
+return highScore;
+}
+
+
+-(NSInteger)getPreviousHighScore {
+
+
+highScore = [[NSUserDefaults standardUserDefaults] integerForKey:key];
+
+return highScore; }
+</code></pre>
+
+<p>Both the NSInteger ""highScore"" and string ""key"" are static and properly declared at the beginning of the class.</p>
+
+<pre><code>static NSInteger highScore;
+static NSString *key = @""highScore"";
+</code></pre>
+
+<p>In my didMoveToView I have a label to test the getting of the previous high score... This is the code for that.</p>
+
+<pre><code>SKLabelNode *label = [SKLabelNode labelNodeWithFontNamed:@""Chalkduster""];
+label.text = [NSString stringWithFormat:@""%i"", [self getPreviousHighScore]];
+label.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+label.fontColor = [UIColor blackColor];
+[self addChild:label];
+</code></pre>
+
+<p>And then finally, in my AppDelegate.m I have this:</p>
+
+<pre><code> [[NSUserDefaults standardUserDefaults] synchronize];
+</code></pre>
+
+<p>After all this my label just shows a 0 every time. What am I doing wrong?</p>
+","4414212","","201863","","2015-01-04 10:48:38","2015-01-04 10:48:38","Save/Load High Score After Termination in SpriteKit","<ios><objective-c><sprite-kit><nsuserdefaults>","0","6","0","","","CC BY-SA 3.0"
+"27762422","1","27762532","","2015-01-04 04:37:27","","-2","1339","<p>I create filter to format date into times ago,like 2015-01-03 01:00:00 give  1 hours ago,
+for  accomplish that i create angular filter as following.</p>
+
+<pre><code>angular.module('myApp').filter('from', function() {
+  return function(date) {
+    return moment(date).fromNow();
+  }
+});
+</code></pre>
+
+<p>When I apply it. withing my angular controller. as following </p>
+
+<pre><code>  {{2015-01-02 01:00:00 | from }}
+</code></pre>
+
+<p>Instead of given 1 days ago it give 45 years ago  i can't understand why   </p>
+","2315073","","","","","2015-01-04 04:56:16","angular js filter using moment js give wrong date ago","<angularjs><momentjs>","1","3","","","","CC BY-SA 3.0"
+"27762426","1","","","2015-01-04 04:37:49","","3","3081","<p>One of the lines in my jinja2 template needs to return</p>
+
+<pre><code>   STACKNAME=\"""",{""Ref"":""AWS::StackName""},""\""
+</code></pre>
+
+<p>Putting the above into the template returns</p>
+
+<pre><code>   STACKNAME=\\\""\"",{\""Ref\"":\""AWS::StackName\""},\""\\\""
+</code></pre>
+
+<p>I tried creating a variable</p>
+
+<pre><code> DQ = '""'
+</code></pre>
+
+<p>and setting the template as</p>
+
+<pre><code>STACKNAME=""{{DQ}},{{{DQ}}Ref{{DQ}}:{{DQ}}AWS::StackName{{DQ}}},{{DQ}}""
+</code></pre>
+
+<p>but the result still puts a backslash in front of the {{DQ}} variable</p>
+
+<p>I also tried putting in a unique string  %%%DQ%%% and then getting the results and then doing a string replace but it still gives me the backslash.</p>
+
+<p>How do I get the results I want?</p>
+
+<p>UPDATE:
+My apologies. It turns out that it is not the jinja2 template that is returning the escaped quotes. I am making a later call in the script to:</p>
+
+<pre><code>lc.UserData=Base64(Join("""", [commandList]))
+</code></pre>
+
+<p>And it is this call to the Troposphere Module for Base64 and/or Join that is causing the problem and inserting the escapes.</p>
+
+<p>Testing Further shows specifically that it is Base64 that does the escaping.</p>
+","4396468","","4396468","","2015-01-04 22:25:27","2015-01-04 22:29:11","In python the Jinja2 template returns a backslash in front of a double quote, I need to remove that","<python><templates><jinja2><troposphere>","1","0","","","","CC BY-SA 3.0"
+"27762428","1","","","2015-01-04 04:37:56","","2","107","<p>I'd like to be able to put a text and it's translation side by side, in such a way that the original and the translation are each a single run of text (that could be highlighted, for copy-paste, etc), but without the two texts getting more than a line or two out of sync.</p>
+
+<p>This sort of thing is usually done with tables - a column for each language and a row for each paragraph, verse or line. The problem, then, is that you can't highlight down one column without grabbing-in the adjacent column. Also, the markup becomes a disaster.</p>
+
+<p>What I'd like to do is have the markup look something like:</p>
+
+<pre><code>&lt;div id=""Pig-Latin""&gt;
+  &lt;p id=""pl-1""&gt;Isthay isay inelay unway.&lt;/p&gt;
+  &lt;p id=""pl-2""&gt;Igpay Atinlay isay ardhay anguagelay.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id=""English""&gt;
+  &lt;p id=""en-1""&gt;Translation of line one.&lt;/p&gt;    
+  &lt;p id=""en-2""&gt;Translation of line two.&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Have the two languages in columns side by side, and use something (javascript, I imagine) to make sure that en-1 and pl-1 line up, etc...</p>
+
+<p>Actually -- it would be even better if it was markers that didn't wrap any text: </p>
+
+<p><code>&lt;a id=""en-1""&gt;&lt;/a&gt; This is line one....</code>
+(Of if there is some html element I don't know about that would be more semantically appropriate...)</p>
+
+<p>On a smaller screen, or if the user so desired, one column or the other could be shown alone.</p>
+
+<p>Other question of a similar nature have yielded the ""use tables"" answer, which I would like not to do - as I mention.</p>
+","1371052","","","","","2015-01-04 04:52:43","Side by Side Translations on Page without Table","<javascript><html><css><typography>","1","1","","","","CC BY-SA 3.0"
+"27762431","1","27774690","","2015-01-04 04:38:15","","0","1176","<p>this is my spring-security.xml,</p>
+
+<pre><code>&lt;http auto-config=""true""&gt;
+    &lt;access-denied-handler error-page=""/accessDenied"" /&gt;
+
+    &lt;form-login login-page=""/login"" 
+        authentication-success-handler-ref=""mySuccessHandler""
+        authentication-failure-url=""/loginError"" /&gt;
+
+    &lt;logout invalidate-session=""true"" logout-success-url=""/main""
+        logout-url=""/logout"" delete-cookies=""JSESSIONID"" /&gt;
+    &lt;remember-me key=""j_spring_security_rememberme""/&gt;
+
+    &lt;intercept-url pattern=""/**"" access=""ROLE_ADMIN""/&gt;
+    &lt;session-management invalid-session-url=""/login""
+        session-fixation-protection=""none""&gt;
+        &lt;concurrency-control max-sessions=""1""
+            error-if-maximum-exceeded=""false"" /&gt;
+    &lt;/session-management&gt;
+    &lt;session-management
+        session-authentication-strategy-ref=""sas"" /&gt;
+&lt;/http&gt;
+
+
+&lt;!-- 验证成功后跳转的方法 --&gt;
+&lt;beans:bean id=""mySuccessHandler"" class=""mocha.cms.security.LoginSuccessHandle"" &gt;
+&lt;/beans:bean&gt;
+
+
+&lt;!-- authentication-manager 设置alias别名 --&gt;
+&lt;authentication-manager alias=""authenticationManager""&gt;
+    &lt;authentication-provider user-service-ref=""defaultUserDetailServiceImpl""&gt;
+        &lt;password-encoder hash=""md5"" base64=""false""&gt;
+            &lt;salt-source user-property=""username"" /&gt;
+        &lt;/password-encoder&gt;
+    &lt;/authentication-provider&gt;
+&lt;/authentication-manager&gt;
+
+ &lt;beans:bean id=""defaultUserDetailServiceImpl"" class=""mocha.cms.security.MyUserDetailServiceImpl"" /&gt;  
+</code></pre>
+
+<p>and after i click ""login"" button, it jumpped into MyUserDetailServiceImpl , and finish it,but then can't execut  LoginSuccessHandle, what's wrong with it ?</p>
+
+<p>this is the MyUserDetailServiceImpl.java</p>
+
+<pre><code>Collection&lt;GrantedAuthority&gt; auths = new ArrayList&lt;GrantedAuthority&gt;();
+
+    AdminVo loginAdmin =  adminService.getAdminByName(username);
+    if(loginAdmin == null){
+        throw new UsernameNotFoundException(username);
+    }       
+
+    List&lt;String&gt; permissionIdList = ImmutableList.copyOf(Splitter. on( "","").omitEmptyStrings().split(loginAdmin.getPermissionId()));
+
+    for (String permissionId : permissionIdList) {
+               auths.add(new SimpleGrantedAuthority(""ROLE_ADMIN""));    
+    }
+    boolean enables = true;
+    boolean accountNonExpired = true;
+    boolean credentialsNonExpired = true;
+    boolean accountNonLocked = true;
+
+
+    User user = new User(username, loginAdmin.getPassword(), enables, accountNonExpired, credentialsNonExpired, accountNonLocked,
+      auths);
+
+    return user;
+</code></pre>
+
+<p>this is LoginSuccessHandle.java</p>
+
+<pre><code>public class LoginSuccessHandle implements AuthenticationSuccessHandler{
+
+public void onAuthenticationSuccess(HttpServletRequest request,
+        HttpServletResponse response, Authentication authentication) throws IOException,ServletException {
+
+
+    String path = request.getContextPath() ;
+    String basePath = request.getScheme()+""://""+request.getServerName()+"":""+request.getServerPort()+path+""/"";  
+    response.sendRedirect(basePath+""manage/folder/allList.htm"");        
+}
+</code></pre>
+
+<p>}   </p>
+","4372802","","4372802","","2015-01-04 07:30:52","2015-01-05 06:50:51","spring security can't execute authentication-success-handler-ref","<spring><spring-mvc><spring-security>","1","5","","","","CC BY-SA 3.0"
+"27762433","1","27762639","","2015-01-04 04:38:26","","0","42","<p>I have the following simple SQL update:</p>
+
+<pre><code>update t2 set col = 2 
+from t2, t1
+where t2.id = t1.id
+    and t1.name = 'test';
+</code></pre>
+
+<p>But all the rows in t2 are updated! i.e. not just the one with the <code>id</code> where <code>name</code> is 'test', how do I achieve this in Postgres?</p>
+","349528","","","","","2015-01-04 05:16:03","PostgreSQL updating more rows than in where condition?","<sql><postgresql>","2","2","","","","CC BY-SA 3.0"
+"27762434","1","27763062","","2015-01-04 04:38:26","","1","66","<p>I've followed along with a tutorial video (112 videos in length) and so I'm quite ignorant in many aspects still when it comes to coding; although I've learned a tonne.</p>
+
+<p>What I am having difficulty doing is just what the title says. In the admin panel, which I am currently working on, I have (for instance) assigned to a paragraph tag the jquery bootstrap helper class of ""alert alert-success"" as you can see here: <code>http://i1379.photobucket.com/albums/...ps44962161.png</code>.</p>
+
+<p>The reason why it is working in the above example is because the SQL which runs upon hitting save (inserting and updating) do not require ajax.</p>
+
+<p>The code being executed when INSERTING and UPDATING is in a file named ""queries.php"" in the config folder. It is as follows (the error handling portion of course):</p>
+
+<pre><code>case 'pages':
+
+if (isset($_POST['submitted']) &amp;&amp; $_POST['submitted'] == 1) {
+// POST vars    
+$title = mysqli_real_escape_string($dbc, $_POST['title']);
+$label = mysqli_real_escape_string($dbc, $_POST['label']);
+$header = mysqli_real_escape_string($dbc, $_POST['header']);
+$body = mysqli_real_escape_string($dbc, $_POST['body']);
+
+if (isset($_POST['id']) AND $_POST['id'] != ''){
+
+$action = ""updated"";    
+// UPDATE   
+$query = ""UPDATE posts SET user = $_POST[user], slug = '$_POST[slug]', title = '$title', label =     '$_POST[label]', header = '$header', body = '$body' WHERE id = $_GET[id]""; 
+
+}else{
+
+$action = ""added"";  
+// INSERT 
+$query = ""INSERT INTO posts (type, user, slug, title, label, header, body) VALUES (1, $_POST[user],  '$_POST[slug]', '$title','$label','$header','$body')"";
+
+}
+
+$result = mysqli_query($dbc, $query);
+
+//Error Handling    
+if ($result) {
+$message = '&lt;p class = ""alert alert-success""&gt;Page was '.$action.'!&lt;/p&gt;';
+}else{
+$message = '&lt;p class = ""alert alert-danger""&gt;Page could not be '.$action.' because:         '.mysqli_error($dbc).'&lt;/p&gt;';
+$message .= '&lt;p class = ""alert alert-warning""&gt;Query: '.$query.'&lt;/p&gt;'; 
+}   
+}
+
+if (isset($_GET['id'])) {$opened = data_post($dbc, $_GET['id']);} 
+
+break;
+</code></pre>
+
+<p>HOWEVER, I do not know how to get the $message variable to be echoed when DELETING a post. I'm using ajax so that the post immediately disappears from the list to the left.</p>
+
+<p>Here's the Javascript:</p>
+
+<pre><code>$("".page-delete"").on(""click"", function(){
+
+var selected = $(this).attr(""id"");
+var page_id = selected.split(""del_"").join("""");
+
+var confirmed = confirm(""Are you sure you wanted to DELETE this page?"");
+
+if (confirmed == true) {
+
+$.get(""ajax/pages.php?id=""+page_id); 
+
+$(""#page_""+page_id).remove();
+
+};
+</code></pre>
+
+<p>...and here's the ajax:</p>
+
+<pre><code>include '../../config/connection.php';
+
+$id = $_GET['id'];
+
+$query = ""DELETE FROM posts WHERE id = $id"";
+$result = mysqli_query($dbc, $query);
+
+if ($result) {
+echo ""Page Deleted."";
+}   else {
+""There was an error...&lt;br&gt;"";
+echo $query.'&lt;br&gt;';
+echo mysqli_error($dbc);
+}
+</code></pre>
+
+<p>Here's where I'm trying to spit out the message:</p>
+
+<pre><code>&lt;/div&gt;  &lt;!-- END col-md-3 --&gt;
+
+&lt;div class=""col-md-9""&gt;
+
+&lt;!--FORM--&gt; 
+&lt;form role=""form"" action=""index.php?page=pages&amp;id=&lt;?php echo $opened['id']; ?&gt;"" method=""post""&gt;
+
+&lt;?php if(isset($message)) { echo $message; } ?&gt;
+
+&lt;!-- INPUT FIELD for title --&gt;  
+&lt;div class=""form-group""&gt;
+
+&lt;label for=""title""&gt;Page Title&lt;/label&gt;
+&lt;input type=""text"" class=""form-control"" value=""&lt;?php echo $opened['title'];?&gt;"" name=""title""         id=""title"" placeholder=""Page's Title"" /&gt;
+
+&lt;/div&gt;
+</code></pre>
+
+<p>Thanks to anyone who can help, and I apologize for not knowing something so likely basic.</p>
+
+<p>Again, thanks for reading. Peace!</p>
+","4249043","","939299","","2015-01-04 06:08:17","2015-01-04 06:30:57","Do not know how to output html onto a page with ajax","<javascript><php><jquery><ajax><twitter-bootstrap>","1","3","","","","CC BY-SA 3.0"
+"27762441","1","","","2015-01-04 04:39:44","","2","1342","<p>If I have a singly linked list in Haskell:</p>
+
+<pre><code>data LL a = Empty | Node a (LL a) deriving (Show, Eq)
+</code></pre>
+
+<p>I can easily implement methods to insert at the end and at the beginning. But what about inserting after or before a particular element? If I have a <code>LL</code> of <code>Integer</code>, can I make a distinction in Haskell between inserting <code>4</code> after a particular node containing a <code>1</code>, rather than the first <code>1</code> that it sees when processing the list?</p>
+
+<pre><code>Node 1 (Node 2 (Node 3 (Node 1 Empty)))
+</code></pre>
+
+<p>I'm curious how an <code>insertAfter</code> method would look that you would be able to specify ""insert 5 after this particular node containing a 1"". If I wanted to insert after the first node containing <code>1</code>, would I have to pass in the entire list to specify this, and for the last node, only <code>Node 1 Empty</code>?</p>
+
+<p>I'm not sure if it's right to address this as 'object equality'- but I'm wondering if there's a way to refer to particular elements of a type with the same payload in a data structure like this.</p>
+","2666425","","625403","","2015-01-04 04:55:45","2015-01-05 05:16:33","Is there a sense of 'object equality' in Haskell?","<haskell><identity><equality>","4","3","","","","CC BY-SA 3.0"
+"27762445","1","27762490","","2015-01-04 04:41:08","","0","1111","<p>I have been testing out with this snippet of code:</p>
+
+<pre><code>public class Test {
+    public static int longToInt(long num) {
+        return (int) (num);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(longToInt(100000000L));
+    }
+}
+</code></pre>
+
+<p>I ran it but longToInt only returned 0. What is going on?</p>
+","4357240","","4357240","","2015-01-04 04:51:39","2015-01-04 05:17:49","Converting long to int gives 0","<java><int><type-conversion><long-integer>","2","5","","","","CC BY-SA 3.0"
+"27762450","1","27762785","","2015-01-04 04:41:42","","1","75","<p>I am trying to follow this video <a href=""http://railscasts.com/episodes/364-active-record-reputation-system"" rel=""nofollow"">railscast #364</a> but I am having a lot of trouble with my nested routes. When I use this code:</p>
+
+<pre><code>&lt;%= link_to ""up"", vote_movie_review_path(@movie, @reviews, type: ""up""), method: ""post"" %&gt;
+</code></pre>
+
+<p>I get this error when I select up vote:</p>
+
+<pre><code>ActiveRecord::RecordNotFound in ReviewsController#vote 
+
+Couldn't find Review with 'id'=# &lt;Review::ActiveRecord_Relation:0x007f0358c1e550&gt;
+</code></pre>
+
+<p>This is my route:</p>
+
+<pre><code>vote_movie_review POST   /movies/:movie_id/reviews/:id/vote(.:format) genre_linkers#vote
+</code></pre>
+
+<p>I created another model that was not nested using this code:</p>
+
+<pre><code>&lt;%= link_to ""up"", vote_movie_path(movie, type: ""up""), method: ""post"" %&gt;
+</code></pre>
+
+<p>and that one worked. So I am thinking it has to be something wrong with my path or how I am calling the objects. I have spent almost all day working on this, I really need help. </p>
+
+<p><strong>review_controller.rb</strong></p>
+
+<pre><code>class ReviewsController &lt; ApplicationController
+  before_action :set_review, only: [:show, :edit, :update, :destroy]
+  before_action :set_movie
+  before_action :authenticate_user!
+  respond_to :html
+
+  def index
+    @reviews = Review.all
+    respond_with(@reviews)
+  end
+
+  def show
+
+  end
+
+  def vote
+    value = params[:type] == ""up"" ? 1 : -1
+    @review = Review.find(params[:id])
+    @review.add_evaluation(:vote, value, current_user)
+    redirect_to :back, notice: ""thanks for the vote""
+  end
+
+
+  def new
+    @review = Review.new
+    respond_with(@review)
+  end
+
+  def edit
+  end
+
+  def create
+    @review = Review.new(review_params)
+    @review.user_id = current_user.id
+    @review.movie_id = @movie.id
+
+    if @review.save
+      redirect_to @movie
+    else
+      render 'new'
+    end
+  end
+
+  def update
+    @review.update(review_params)
+    respond_with(@review)
+  end
+
+  def destroy
+    @review.destroy
+    respond_with(@review)
+  end
+
+  private
+  def set_review
+    @review = Review.find(params[:id])
+  end
+
+  def set_movie
+    @movie = Movie.find(params[:movie_id])
+  end
+
+  def review_params
+    params.require(:review).permit(:genre, :description, :vote)
+  end
+
+end
+</code></pre>
+
+<p><strong>routes.rb</strong></p>
+
+<pre><code>Rails.application.routes.draw do
+
+  devise_for :users
+  resources :movies do 
+    resources :reviews  do 
+      member { post :vote }
+    end
+  end
+
+   root 'movies#index'
+
+
+end
+</code></pre>
+
+<p>and the model
+<strong>review.rb</strong></p>
+
+<pre><code>class Review &lt; ActiveRecord::Base
+   belongs_to :user
+   belongs_to :movie
+
+   has_reputation :votes, source: :user, aggregated_by: :sum
+end
+</code></pre>
+","4273344","","4273344","","2015-01-04 05:14:33","2015-01-04 05:44:07","Activerecord reputation system - nested routes","<ruby-on-rails><ruby><activerecord>","1","3","","","","CC BY-SA 3.0"
+"27762451","1","27762497","","2015-01-04 04:42:04","","0","32","<p>I'm trying to add 2 numbers together. The first number is from the database say it's 150 it comes from the $sql1 and the second number comes from the form and is in the POST array say it's 25. Once the $sql2 is run the number in the database should be 175 but it's still 150, any ideas on what i'm missing/doing wrong?</p>
+
+<pre><code>$sql1 = ""SELECT points FROM users WHERE userID = ?"";
+$qc1 = $pdo_conn-&gt;prepare($sql1);
+$qc1-&gt;execute(array($_POST['userID']));
+$result = $qc1-&gt;fetch(PDO::FETCH_ASSOC);
+
+$points = $result + $_POST['addPoints'];
+
+$sql2 = ""UPDATE users SET points = ? WHERE userID = ?"";
+$qc2 = $pdo_conn-&gt;prepare($sql2);
+$qc2-&gt;execute(array($points, $_POST['userID']));
+</code></pre>
+","2020220","","","","","2015-01-04 04:51:03","Add 2 numbers together, one from a database result and the other from post array","<mysql><post><pdo><sql-update><addition>","1","2","","","","CC BY-SA 3.0"
+"27762452","1","","","2015-01-04 04:42:11","","0","459","<p>I have a Register Callback method on a Game class that objects can register a callback with for when the game is shutting down.</p>
+
+<pre><code>public void RegisterAsyncShutdownCallback(Func&lt;Task&gt; callback)
+{
+    if (this.asyncShutdownCallbacks.Contains(callback))
+    {
+        return;
+    }
+
+    this.asyncShutdownCallbacks.Add(callback);
+}
+</code></pre>
+
+<p>When the game shuts down, i invoke the callbacks.</p>
+
+<pre><code>public virtual async Task ShutdownGame()
+{
+    var callbackTasks = new List&lt;Task&gt;();
+    foreach (var callback in this.asyncShutdownCallbacks)
+    {
+        callbackTasks.Add(callback());
+    }
+
+    // Invoke all of the asynchronous callbacks first.
+    await Task.WhenAll(callbackTasks);
+}
+</code></pre>
+
+<p>My question is, what if the owner of one of these callbacks becomes null, because the monster dies or the item was set to null etc. Am I holding a strong reference to the callback owner? If so, is it better practice to provide a unregister method or should I wrap them in a WeakReference? </p>
+
+<p>The engine is using callbacks in place of events so I can perform async operations in player, monster, battle code etc. So a lot of my objects have this RegisterCallback style of method, and invokes callbacks when certain events happen within the object. If I am holding a strong reference, I'd prefer to hold a weak reference and self clean up rather than rely on objects properly unregistering. The engine provides an API that lets 3rd party users create plugins and register callbacks. I don't want to rely on the devs properly unregistering objects if I can control it within the engine itself.</p>
+","1815321","","","","","2015-01-04 04:42:11","Are Action<T> and Func<T> passed as strong references?","<c#><callback><strong-references>","0","7","","","","CC BY-SA 3.0"
+"27762456","1","","","2015-01-04 04:43:07","","0","1788","<p>I've been trying to install Rails on my computer today but I can't seem to figure it out. After using </p>
+
+<pre><code>gem install rails
+</code></pre>
+
+<p>I get a lot of errors I can't seem to decipher. They seem to be related to Nokogiri, but after 3-4 hours of seemingly random installations and ""fixes"" I am nowhere. </p>
+
+<p>I tried using</p>
+
+<pre><code>gem install nokogiri -v 1.6.5 -- --use-system-libraries
+</code></pre>
+
+<p>and got</p>
+
+<pre><code>ERROR:  Error installing nokogiri:
+ERROR: Failed to build gem native extension.
+
+/Users/xlforloser/.rvm/rubies/ruby-2.1.5/bin/ruby -r ./siteconf20150103-18446-1ac5ew1.rb extconf.rb --use-system-libraries
+checking if the C compiler accepts ... yes
+checking if the C compiler accepts -Wno-error=unused-command-line-argument-hard-error-in-      future... no
+Building nokogiri using system libraries.
+libxml2 version 2.6.21 or later is required!
+</code></pre>
+
+<p>If I only run <code>gem install rails</code>, I got</p>
+
+<pre><code>ERROR:  Error installing rails:
+ERROR: Failed to build gem native extension.
+
+Running 'compile' for libxml2 2.9.2... ERROR, review '/Users/xlforloser/.rvm/rubies/ruby-2.1.5/lib/ruby/gems/2.1.0/gems/nokogiri-1.6.5/ext/nokogiri/tmp/x86_64-apple-darwin14.0.0/ports/libxml2/2.9.2/compile.log' to see what happened.
+</code></pre>
+
+<p>Please help!</p>
+","4087094","","128421","","2015-01-05 18:48:19","2015-02-06 05:50:33","Error with compiling Nokogiri to install Rails","<ruby-on-rails><ruby><nokogiri><osx-mavericks>","1","2","0","","","CC BY-SA 3.0"
+"27762466","1","27762548","","2015-01-04 04:44:29","","1","336","<p>I am struggling my way through trying to build OpenArena 0.8.8 from source.</p>
+
+<p>I am currently stuck on this build error message.</p>
+
+<p>I already installed:
+sudo apt-get install vorbis-tools-dbg &amp; sudo apt-get install vorbis-tools</p>
+
+<p>I'm pretty confident there is an easy fix, I'm just too inexperienced with this to know what it is. Thanks!</p>
+
+<pre><code>make[1]: Entering directory `/home/reimu/Desktop/openarena-engine-source-0.8.8'
+
+Building openarena in build/release-linux-x86_64:
+  PLATFORM: linux
+  ARCH: x86_64
+  VERSION: 1.36
+  COMPILE_PLATFORM: linux
+  COMPILE_ARCH: x86_64
+  CC: cc
+
+  CFLAGS:
+    -Wall
+    -fno-strict-aliasing
+    -Wimplicit
+    -Wstrict-prototypes
+    -pipe
+    -DUSE_ICON
+    -DNO_GZIP
+    -DUSE_LOCAL_HEADERS
+    -DPRODUCT_VERSION=""1.36""
+    -MMD
+    -DNDEBUG
+    -O3
+    -fomit-frame-pointer
+    -funroll-loops
+    -falign-loops=2
+    -falign-jumps=2
+    -falign-functions=2
+    -fstrength-reduce
+    -ffast-math
+
+  CLIENT_CFLAGS:
+    -D_GNU_SOURCE=1
+    -D_REENTRANT
+    -I/usr/include/SDL
+    -DUSE_OPENAL
+    -DUSE_OPENAL_DLOPEN
+    -DUSE_CURL
+    -DUSE_CURL_DLOPEN
+    -DUSE_CODEC_VORBIS
+    -Icode/SDL12/include
+    -DUSE_MUMBLE
+    -DUSE_VOIP
+    -DFLOATING_POINT
+    -DUSE_ALLOCA
+    -Icode/libspeex/include
+
+  SERVER_CFLAGS:
+    -DUSE_VOIP
+
+  LDFLAGS:
+
+  LIBS:
+    -ldl
+    -lm
+
+  CLIENT_LIBS:
+    -lSDL
+    -lGL
+    -lvorbisfile
+    -lvorbis
+    -logg
+    -lrt
+
+  Output:
+    build/release-linux-x86_64/oa_ded.x86_64
+    build/release-linux-x86_64/openarena.x86_64
+
+make[2]: Entering directory `/home/reimu/Desktop/openarena-engine-source-0.8.8'
+make[2]: `build/release-linux-x86_64/oa_ded.x86_64' is up to date.
+LD build/release-linux-x86_64/openarena.x86_64
+/usr/bin/ld: cannot find -lvorbisfile
+/usr/bin/ld: cannot find -lvorbis
+/usr/bin/ld: cannot find -logg
+collect2: error: ld returned 1 exit status
+make[2]: *** [build/release-linux-x86_64/openarena.x86_64] Error 1
+make[2]: Leaving directory `/home/reimu/Desktop/openarena-engine-source-0.8.8'
+make[1]: *** [targets] Error 2
+make[1]: Leaving directory `/home/reimu/Desktop/openarena-engine-source-0.8.8'
+make: *** [release] Error 2
+</code></pre>
+","2704832","","","","","2015-01-04 04:57:51","Compiling Link Error: OpenArena","<ubuntu><makefile><linker-errors><building>","1","0","","","","CC BY-SA 3.0"
+"27762468","1","","","2015-01-04 04:44:37","","1","651","<p>I have a problem with changing passed variable between two view controllers.</p>
+
+<p>In the first view controller I do next:</p>
+
+<pre><code>var index: NSNumber = 0
+
+override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  if segue.identifier == ""secondView"" {
+    let dest = segue.destinationViewController as SecondViewController
+    dest.index = index
+  }
+}
+</code></pre>
+
+<p>In the second next:</p>
+
+<pre><code>var index: NSNumber!
+
+override func viewDidLoad() {
+  super.viewDidLoad()
+  index = 1
+  self.navigationController?.popViewControllerAnimated(true)
+}
+</code></pre>
+
+<p>But the variable ""index"" has not been changed after interaction. What is wrong?</p>
+
+<p>Please help me, I spent on that problem whole night!</p>
+","4273066","","","","","2015-01-04 04:44:37","Passing variables between view controllers in swift","<ios><variables><swift>","0","8","0","","","CC BY-SA 3.0"
+"27762475","1","27763398","","2015-01-04 04:46:24","","2","1637","<p>i wrote the follow code in linux(ubuntu 12.04 linux kernel 3.12.17), and it compare success, but when i move the code in android with the eclipse, and compare with ndk,it shows error: incompatible types when assigning to type 'struct in_addr' from type 'int'.</p>
+
+<pre><code>addrs = inet_makeaddr(inet_netof(sin-&gt;sin_addr), INADDR_ANY);
+</code></pre>
+
+<p>the whole code is :</p>
+
+<pre><code>#include &lt;jni.h&gt;
+#include &lt;linux/if.h&gt;
+#include &lt;linux/in.h&gt;
+#include &lt;linux/sockios.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;sys/endian.h&gt;
+static struct in_addr *getbroadcastaddr(char *inter, int sock, char *buf){
+    struct ifconf ifc;
+    struct ifreq ifreq,*ifr;
+    static struct in_addr addrs;
+    struct sockaddr_in *sin;
+    bzero(&amp;addrs,sizeof(addrs));
+    ifc.ifc_len = UDPMSGSIZE;
+    ifc.ifc_buf = buf;
+    if (ioctl(sock, SIOCGIFCONF, (char *)&amp;ifc) &lt; 0) {
+        perror(""broadcast: ioctl (get interface configuration)"");
+        return(&amp;addrs);
+    }
+    ifr = ifc.ifc_req;
+    for (ifr=ifc.ifc_req;ifr-&gt;ifr_name[0];ifr++) {
+        if (strcmp(ifr-&gt;ifr_name,inter)) continue;
+        ifreq = *ifr;
+        if (ioctl(sock, SIOCGIFFLAGS, (char *)&amp;ifreq) &lt; 0) {
+            perror(""broadcast: ioctl (get interface flags)"");
+            continue;
+        }
+        if ((ifreq.ifr_flags &amp; IFF_BROADCAST) &amp;&amp;
+               (ifreq.ifr_flags &amp; IFF_UP) &amp;&amp;
+               (ifr-&gt;ifr_addr.sa_family == AF_INET)) {
+            sin = (struct sockaddr_in *)&amp;ifr-&gt;ifr_addr;
+            if (ioctl(sock, SIOCGIFBRDADDR, (char *)&amp;ifreq) &lt; 0) {
+                addrs = inet_makeaddr(inet_netof(sin-&gt;sin_addr), INADDR_ANY);
+            } else {
+                addrs = ((struct sockaddr_in *)
+                        (&amp;ifreq.ifr_broadaddr))-&gt;sin_addr;
+            }
+            printf(""Interface : %s\n"",ifr-&gt;ifr_name);
+            return(&amp;addrs);
+        }
+    }
+    return(NULL);
+}
+</code></pre>
+
+<p>why? did the function 'inet_makeaddr' in android-ndk is different in the gun ?</p>
+","2309793","","2309793","","2015-01-04 05:07:16","2015-01-04 07:26:12","incompatible types when assigning to type 'struct in_addr' from type 'int'","<android><c><linux><networking><android-ndk>","1","0","0","","","CC BY-SA 3.0"
+"27762476","1","27763864","","2015-01-04 04:46:25","","2","2083","<p>I'd like to maniplate the following curl request into swift(or objective-c).</p>
+
+<pre><code>curl -X POST \ -d ""login_id=mylogin_id"" \ 
+-d ""api_key=myapi_key"" \ 
+https://~~~~~/v2/authenticate/api
+</code></pre>
+
+<p>The following is what I wrote.</p>
+
+<pre><code>func authentication(){
+    var loginID = ""mylogin_id""
+    var apiKey = ""myapi_key""
+    var post:NSString = ""login_id=\(loginID)&amp;api_key=\(apiKey)""
+
+    NSLog(""PostData: %@"",post);
+
+    var url:NSURL = NSURL(string:""https://~~~~~/v2/authenticate/api"")!
+
+    var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
+
+    var postLength:NSString = String( postData.length )
+
+    var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+    request.HTTPMethod = ""POST""
+    request.HTTPBody = postData
+    request.setValue(postLength, forHTTPHeaderField: ""Content-Length"")
+    request.setValue(""application/x-www-form-urlencoded"", forHTTPHeaderField: ""Content-Type"")
+    request.setValue(""application/json"", forHTTPHeaderField: ""Accept"")
+
+
+    var reponseError: NSError?
+    var response: NSURLResponse?
+
+    var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&amp;response, error:&amp;reponseError)
+}
+</code></pre>
+
+<p>If the login is successful a token will be returned, however, I cannot get it.</p>
+
+<pre><code>{""auth_token"": ""ea6d13c7bc50feb46cf978d137bc01a2""}
+</code></pre>
+
+<p>I referred <a href=""https://stackoverflow.com/questions/5991789/iphone-objective-c-executing-curl-based-actions-in-objective-c"">this link</a>.
+Thank you for your kindness.</p>
+
+<p>//////
+※Update Jan4th PM2:30</p>
+
+<p>I have rewritten the code from ""var request~~"" as following, then get ""Error"", therefore it looks like this code returns urlData as nil.</p>
+
+<p>If you will find how to solve problem, please help me.</p>
+
+<pre><code>var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+    request.HTTPMethod = ""POST""
+    request.HTTPBody = postData
+    //request.setValue(postLength, forHTTPHeaderField: ""Content-Length"")
+    request.setValue(""application/x-www-form-urlencoded"", forHTTPHeaderField: ""Content-Type"")
+    //request.setValue(""application/json"", forHTTPHeaderField: ""Accept"")
+
+    var reponseError: NSError?
+    var response: NSURLResponse?
+    var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&amp;response, error:&amp;reponseError)
+    if (urlData != nil){
+        var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
+        let res = response as NSHTTPURLResponse!;
+
+        NSLog(""Response code: %ld"", res.statusCode);
+
+        if (res.statusCode &gt;= 200 &amp;&amp; res.statusCode &lt; 300){
+            var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
+
+            NSLog(""Response ==&gt; %@"", responseData);
+        }
+    }else{
+        NSLog(""Error"");
+    }
+</code></pre>
+","3575850","","-1","","2017-05-23 11:54:22","2015-01-04 08:43:15","Swift(or objective-c) equivalent of curl request","<objective-c><api><swift><curl><http-post>","1","4","0","","","CC BY-SA 3.0"
+"27762477","1","","","2015-01-04 04:46:34","","0","544","<p>I want to create just like this in picture.
+<img src=""https://i.stack.imgur.com/Fb4CQ.png"" alt=""enter image description here""></p>
+
+<p>carousel is a fantastic pattern to show off featured items and relevant new arrivals. For example, new items matching the customer’s last search in their local area would be a sure winner.</p>
+
+<p>I <strong><a href=""http://www.smashingmagazine.com/2013/02/01/android-carousel-design-pattern/"" rel=""nofollow noreferrer"">followed</a></strong> but could not create just like this,where multiple horizontal carousel.</p>
+","2340490","","","","","2015-01-04 05:13:19","How to create mutile horizontal carousel scroll view in android","<android><carousel><horizontal-scrolling>","1","0","","","","CC BY-SA 3.0"
+"27762485","1","27762679","","2015-01-04 04:48:23","","1","375","<p>I'm writing a <strong>chef cookbook</strong> recipe which aims to place a file onto a node server.</p>
+
+<pre><code>  cookbook_file ""/path/to/node/dir/file_name"" do
+    source ""file_name""
+    owner ""ec2-user""
+    group ""ec2-user""
+  end
+</code></pre>
+
+<p>I intend to allow a user of this cookbook to place the source file in his/her <strong>knife solo repository's ""site-cookbooks""</strong> directory.</p>
+
+<p>The problem is this configuration throws <code>Chef::Exceptions::FileNotFound: Cookbook 'my-cookbook' (0.1.0) does not contain a file at any of these locations: ...</code> upon <code>knife solo cook</code> deployment.</p>
+
+<p>I tried specifying different <code>cookbook_path</code> options in the knife solo repository's <code>.chef/knife.rb</code> file but was unsuccessful.</p>
+
+<p>What is the right way to achieve this? Or does chef not work like this and if so, what is the preferred alternative methodology? Is this a sign I should consolidate the cookbook and the knife solo repository into a single knife solo repository?</p>
+","670433","","670433","","2015-01-04 04:55:24","2015-01-04 05:24:33","How to reference knife solo site-cookbook files from a chef cookbook","<chef-infra><chef-solo><knife-solo>","1","0","","","","CC BY-SA 3.0"
+"27762487","1","","","2015-01-04 04:48:37","","0","1454","<p>This is my pc specification. Will Android studio HAXM work on this pc?</p>
+
+<pre><code>OS Name Microsoft Windows 8.1
+Version 6.3.9600 Build 9600
+Other OS Description    Not Available
+OS Manufacturer Microsoft Corporation
+System Name MAX-PC
+System Manufacturer LENOVO
+System Model    INVALID
+System Type x64-based PC
+System SKU  Montevina_Fab
+Processor   Pentium(R) Dual-Core CPU       T4500  @ 2.30GHz, 2300 Mhz, 2 Core(s), 2 Logical Processor(s)
+BIOS Version/Date   LENOVO 4FCNA1WW, 12/26/2011
+SMBIOS Version  2.4
+Embedded Controller Version 3.06
+BIOS Mode   Legacy
+BaseBoard Manufacturer  LENOVO
+BaseBoard Model Not Available
+BaseBoard Name  Base Board
+Platform Role   Mobile
+Secure Boot State   Unsupported
+PCR7 Configuration  Binding Not Possible
+Windows Directory   C:\Windows
+System Directory    C:\Windows\system32
+Boot Device \Device\HarddiskVolume1
+Locale  United States
+Hardware Abstraction Layer  Version = ""6.3.9600.16384""
+Installed Physical Memory (RAM) 2.00 GB
+Total Physical Memory   1.93 GB
+Available Physical Memory   261 MB
+Total Virtual Memory    3.59 GB
+Available Virtual Memory    447 MB
+Page File Space 1.66 GB
+Page File   C:\pagefile.sys
+Hyper-V - VM Monitor Mode Extensions    No
+Hyper-V - Second Level Address Translation Extensions   No
+Hyper-V - Virtualization Enabled in Firmware    No
+Hyper-V - Data Execution Protection Yes
+</code></pre>
+
+<p>I get this error when trying to start emulator in android studio:</p>
+
+<p><strong>C:\android-sdk\tools\emulator.exe -avd Nexus_5_API_19 -netspeed full -netdelay none
+emulator: ERROR: x86 emulation currently requires hardware acceleration!
+Please ensure Intel HAXM is properly installed and usable.
+CPU acceleration status: HAX kernel module is not installed!</strong></p>
+
+<p>If I can't install HAXM, how do I run emulator without haxm in android studio?</p>
+","4405943","","1816580","","2015-11-10 11:34:02","2015-11-10 11:34:02","Will Android studio HAXM support for this PC specification?","<android><eclipse><android-studio><intel><haxm>","2","0","","","","CC BY-SA 3.0"
+"27762488","1","","","2015-01-04 04:48:41","","8","6832","<p>I found <a href=""http://dig.cs.illinois.edu/papers/lambdaRefactoring.pdf"">this article</a> to be very informative in comparison of old-style functions to new Java-8 lambda-functions and parallel processing. One thing I couldn't quite understand was one restriction on the lambda-functions: From page 4:</p>
+
+<blockquote>
+  <p>3.3 Preconditions
+  Although lambda expressions are intended as a more con-
+  cise alternative to
+  AIC
+  , they are not a complete replacement.
+  There are several preconditions that
+  LambdaFicator
+  checks
+  before refactoring an
+  AIC
+  into a lambda expression. These
+  preconditions are inherent to how lambda expressions are
+  implemented in Java, not limitations of our tool.
+  (P1)
+  AIC
+  must instantiate from an interface. Instances of
+  abstract or concrete classes cannot be converted to lambda
+  expressions.
+  (P2)
+  AIC
+  must have no fields, and declare only one method.
+  A lambda expression represents a single anonymous func-
+  tion; therefore, an
+  AIC
+  with multiple methods can not be
+  converted to a single lambda expression.
+  (P3)
+  AIC
+  must not have references to
+  this
+  or
+  super
+  . In
+  a lambda expression,
+  this
+  and
+  super
+  are lexically scoped,
+  meaning they are interpreted just as they would be in the
+  enclosing environment, e.g., as if they appeared in the state-
+  ment before the lambda expression [6]. However, in an
+  AIC
+  they refer to the inner class itself.
+  (P4)
+  AIC
+  must not declare a recursive method. In order to
+  perform the recursive call, we must obtain a reference to the
+  anonymous function. While
+  LambdaFicator
+  could perform
+  this refactoring, this could introduce unneeded complexity
+  into the code and harm understandability.</p>
+</blockquote>
+
+<p>On P4, ""AIC must not declare a recursive method... LambdaFicator could perform this refactoring..."", how could one refactor a lambda expression to reference itself? Since by definition these lambda anonymous-functions don't have a name that can be referenced, and don't have a reference to themselves (P3 above).?</p>
+","778234","","","","","2021-12-17 03:30:19","How can a Java lambda-expression reference itself?","<lambda><java-8>","4","1","0","","","CC BY-SA 3.0"
+"27762491","1","","","2015-01-04 04:49:07","","0","39","<p>im used this sliding menu in app <a href=""https://github.com/jfeinstein10/SlidingMenu"" rel=""nofollow"">https://github.com/jfeinstein10/SlidingMenu</a>  action bar showing in api above 8 but action bar not showing in api 8 how to resolve this?tnx</p>
+","4416505","","6343685","","2016-07-12 11:48:18","2016-07-12 11:48:18","Actionbarsherlock not showing in android 2.2","<android><actionbarsherlock>","0","5","","","","CC BY-SA 3.0"
+"27762492","1","27762550","","2015-01-04 04:49:17","","0","204","<p>I'm trying to generate random numbers in C using srand(). I want to generate numbers from 1 to 25 without duplication, So i have implemented the following program.</p>
+
+<pre><code>#include &lt;stdio.h&gt; 
+#include &lt;time.h&gt;
+int main()
+{
+int i=0,n,a[25]={0},b[25]={0},cntr=0;
+srand(time(NULL));
+while(cntr!=25)
+{
+    n=rand()%26;
+    if(n!=9)
+    {
+        if(a[n]!=1)
+        {
+            a[n]=1;
+            printf(""%d  "",n);
+            b[i]=n;
+            printf(""%d\n"",b[i]);
+            cntr++;
+            i++;
+        }
+    }
+}
+for(i=0;i&lt;25;i++)
+{
+    printf(""%d  "",b[i]);
+}
+return 0;
+}
+</code></pre>
+
+<p>Now there is a weird problem. When i print the array b inside the loop where the random number is generated it prints correct numbers. But when i print it outside the loop the first element of the array b changes to 1 and i get duplicate value of 1 in the random numbers. I would appreciate if anyone can help to find error in the program.</p>
+
+<p>Here is the link to ideone where i have provided the output of the program : <a href=""http://ideone.com/nUxYSZ"" rel=""nofollow"">Ideone Link</a> </p>
+","4416498","","","","","2015-01-04 06:14:28","Simple C Program Error..Can't resolve it","<c><srand>","2","7","","","","CC BY-SA 3.0"
+"27762496","1","","","2015-01-04 04:50:34","","0","355","<p>With a normal button, I can create a Touch Up Inside method easily. With a <code>UIBarButtonItem</code>, the only <code>IBAction</code> available is <code>Selector</code>. Looking at previous Stack Overflow answers, I tried pressing a down button on the <code>UIBarButtonItem</code> to reveal a button, but there isn't any:</p>
+
+<p><img src=""https://i.stack.imgur.com/He5Np.png"" alt=""enter image description here""></p>
+
+<p>How can I create this <code>IBAction</code>? Thank you!</p>
+
+<p>UPDATE: I tried creating an IBAction manual, and then ctrl dragging that IBAction to the Quit button in the file selector in the storyboard. But the method still isn't being triggered:</p>
+
+<p><img src=""https://i.stack.imgur.com/FnWT4.png"" alt=""enter image description here""></p>
+
+<p>The line isn't being printed. Please help! Thanks.</p>
+","4372269","","4372269","","2015-01-06 12:21:09","2015-01-06 12:21:09","Can't create a UIBarButtonItem TouchUpInside method?","<ios><uibutton><uibarbuttonitem><ibaction><touch-up-inside>","0","7","","","","CC BY-SA 3.0"
+"27762498","1","27769936","","2015-01-04 04:50:48","","1","1563","<p>After my Yosemite upgrade homebrew was not working. I had to remove the folders manually to reinstall it again. the installation process went fine. Installation of  brew itself is fine.</p>
+
+<p>Now I reinstalled GIT by downloading it using the brew (<code>brew install git</code>). It is installed to the directory <code>/usr/local/bin/git</code>. However, when I check the installation by checking its version (<code>git --version</code>), I get an error: <code>**/usr/bin/git: No such file or directory**</code></p>
+
+<p>I tried changing PATH in my profile to no avail. I have no .bashrc or .bash_profile in my system. Could someone help me with this?</p>
+","3584846","","55075","","2015-09-22 18:14:21","2015-09-22 18:15:20","GIT installation after homebrew reinstall in OSX Yosemite","<git><homebrew><osx-yosemite>","1","1","0","","","CC BY-SA 3.0"
+"27762502","1","","","2015-01-04 04:51:28","","0","604","<p>i am developing a media player using MVVM Light and windows 8.1 store app.</p>
+
+<p>I would like to synchronize my mediaelement with a slider so i can go to any part of my media just by interacting with the slider.</p>
+
+<p>Here is how my slider is declared in my view :</p>
+
+<pre><code>&lt;Slider Width=""589"" Height=""102"" Value=""{Binding Position, Mode=TwoWay}"" Minimum=""0"" Maximum=""{Binding PosMax, Mode=TwoWay}""/&gt;
+</code></pre>
+
+<p>Here is how i manage my viewModel : </p>
+
+<pre><code>public class PlayerViewModel : ViewModelBase
+{
+  private readonly MediaElement _video;
+  private readonly string _filename;
+  private double _volume;
+  private double _position;
+  private double _posmax;
+  public event PropertyChangedEventHandler PropertyChanged;
+  private DispatcherTimer _timer = null;
+
+public PlayerViewModel()
+{
+    _filename = ""animal.mp4"";
+    _video = new MediaElement { AutoPlay = true };
+    //don't load the stream until the control is ready
+    _video.Loaded += VideoLoaded;
+    _volume = 1;
+
+}
+
+protected virtual void OnPropertyChanged(string propertyName)
+{
+    if (PropertyChanged != null)
+    {
+        PropertyChanged(this,
+            new PropertyChangedEventArgs(propertyName));
+    }
+} 
+
+public double Volume
+{
+    set
+    {
+        _volume = value;
+        OnPropertyChanged(""Volume"");
+        _video.Volume = _volume;
+    }
+    get
+    {
+        return _volume;
+    }
+}
+
+public double Position
+{
+    set
+    {
+        _position = (int) value;
+        setMediaPostion(_position);
+        OnPropertyChanged(""Position"");
+    }
+    get
+    {
+        return _position;
+    }
+}
+
+public double PosMax
+{
+    set
+    {
+        _posmax = value;
+        OnPropertyChanged(""PosMax"");
+    }
+    get
+    {
+        return _posmax;
+    }
+}
+
+private void setMediaPostion(double _position)
+{
+    TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)_position);
+    _video.Position = ts;
+}
+
+public MediaElement Video
+{
+    get { return _video; }
+}
+
+private async void VideoLoaded(object sender, RoutedEventArgs e)
+{
+    var file = await KnownFolders.VideosLibrary.GetFileAsync(_filename);
+    var stream = await file.OpenAsync(FileAccessMode.Read);
+    _video.SetSource(stream, file.FileType);
+    _posmax = (double)_video.NaturalDuration.TimeSpan.TotalMilliseconds;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>If anyone has an idea, i'll be very grateful.</p>
+","4416492","","","","","2015-01-18 11:08:46","How can i dynamically synchronize a slider with the time of a mediaelement using MVVM and Windows store app?","<timer><slider><windows-8.1><mvvm-light><mediaelement>","1","0","","","","CC BY-SA 3.0"
+"27762504","1","27766705","","2015-01-04 04:51:52","","2","376","<p>I'm in an annoying situation with Eclipse and I want to know if there's a better way I can setup my project / git repository to avoid having to constantly manually fix my project to compile.</p>
+
+<p><strong>Background:</strong></p>
+
+<p>While developing our Android App we had a version 1.1.x live and in git.</p>
+
+<p>We're now working on version 1.2.x in development, which is a fork of 1.1.x.  At the same time, we have to switch back to the 1.1.x line to fix bugs in what's currently live.</p>
+
+<p>The issue is that the 1.2.x line has a new Library Project in it, which is only present in the 1.2.x branch.  I have to switch between both branches a lot to do development for both, but Eclipse isn't handling it very well.</p>
+
+<p><strong>When switching to the 1.1.x branch:</strong></p>
+
+<p>Problem: Eclipse complains e.g. ""AndroidManifest.xml file missing!"", because the folder for the library project no longer exists on the file system (git has deleted it - remember it's not in the 1.1.x branch).  </p>
+
+<p>Current Fix: Click on the folder in Package Explorer, delete it.</p>
+
+<p><strong>When switching to the 1.2.x branch:</strong></p>
+
+<p>Problem: I deleted the folder for the 1.1.x branch, so now that dependency is missing when Eclipse goes to build the project, and there's a bunch of build errors.  To be clear, project.properties lists the dependency and it's in the Build Path - but (I don't know the terminology) the Eclipse <em>whatever</em> is missing from the workspace, and the dependency is listed as missing (shows as a red X under Project Properties > Android > Library).</p>
+
+<p>Current Fix: Because of two different Eclipse bugs (<a href=""https://stackoverflow.com/questions/5784652/eclipse-invalid-project-description-when-creating-new-project-from-existing-so"">Eclipse &quot;Invalid Project Description&quot; when creating new project from existing source</a>, <a href=""https://stackoverflow.com/questions/6715403/some-projects-cannot-be-imported-because-they-already-exist-in-the-workspace-err"">Some projects cannot be imported because they already exist in the workspace error in Eclipse</a>), I have to Import > General > Existing ..., Browse... for the root directory, uncheck Copy, click refresh, and finally select the project and click Finish.</p>
+
+<p><strong>What can I do so that this process is automated when jumping across branches?</strong></p>
+","1281880","","-1","","2017-05-23 11:50:56","2015-01-04 14:49:21","How can I setup Eclipse to avoid missing library projects when switching git branches?","<eclipse><git>","1","1","0","","","CC BY-SA 3.0"
+"27762506","1","27762538","","2015-01-04 04:52:20","","-3","42","<p>I definitely regret asking such a simple question, but it's been driving me off the wall, and I'm not sure if it's because of an update or anything. But can anyone tell me what the error with the following SQL statement is?</p>
+
+<pre><code>$iname = mysql_query(""SELECT * FROM calendarevents WHERE 'EventMonth'=""January"" AND 'EventDay'=""1"""")
+or die(mysql_error());
+</code></pre>
+","4415407","","3993662","","2015-01-04 04:53:42","2015-01-04 05:09:30","SQL Command Syntax Error?","<php><mysql><sql>","5","2","","2015-01-05 18:25:05","","CC BY-SA 3.0"
+"27762508","1","27762657","","2015-01-04 04:52:48","","0","647","<p>Anyone know how to add the full upload feed from YouTube to a website using html coding??? I've been able to get single videos, but haven't found anything regarding all videos.</p>
+","2700537","","","","","2015-01-04 05:20:56","HTML YouTube to Show All Videos?","<html><video><youtube><web><feed>","1","0","","","","CC BY-SA 3.0"
+"27762510","1","27763732","","2015-01-04 04:53:15","","2","1319","<p>I am using Julia/JuMP to implement an algorithm. In one part, I define a model with continues variables and solve the linear model. I do some other calculations based on which I add a couple constraints to the model, and then I want to solve the same problem but with integer variables. I could not use <code>convert()</code> function as it does not take variables.</p>
+
+<p>I tried to define the variable again as integer, but the model did not seem to consider it! I provide a sample code here:</p>
+
+<pre><code>m = Model()
+@defVar(m, 0 &lt;= x &lt;= 5)
+@setObjective(m, Max, x)
+@addConstraint(m, con, x &lt;= 3.1)
+solve(m) 
+println(getValue(x))
+@defVar(m, 0 &lt;= x &lt;= 1, Bin)
+solve(m) 
+println(getValue(x))
+</code></pre>
+
+<p>Would you please help me do this conversion?</p>
+","3460791","","","","","2021-02-11 10:43:31","How to convert type of a variable when using JuMP","<type-conversion><julia><julia-jump>","2","0","","","","CC BY-SA 3.0"
+"27762516","1","27762536","","2015-01-04 04:54:00","","0","79","<p>This is an attempt at placing a fixed navigation bar at the top of the web page. There is an <code>{% if %}</code> statement in the the .html that effects the .css rendering.</p>
+
+<p>This is the <strong>.html</strong> content:</p>
+
+<pre><code>&lt;body&gt;
+    &lt;div class=""navbar""&gt;
+        &lt;div class=""nav-div"" id=""site-links""&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href=""{% url 'index' %}""&gt;Home&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=""/this_site/about/""&gt;About&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+        &lt;div class=""nav-div"" id=""auth-links""&gt;
+            {% if user.is_authenticated %}
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=""{% url 'auth_logout' %}?next=/this_site/""&gt;Logout&lt;/a&gt;&lt;/li&gt;
+            {% else %}
+                    &lt;li&gt;&lt;a href=""{% url 'auth_login' %}""&gt;Login&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=""{% url 'registration_register' %}""&gt;Register&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            {% endif %}
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        {% block body_block %}{% endblock %}
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p>In this case, the <code>&lt;div&gt;</code> elements are not aligned horizontally when the page is rendered because the <code>&lt;ul&gt;</code> in <code>class=""nav-div""</code> is not processed by the css (no red border).
+<img src=""https://i.stack.imgur.com/83SDk.png"" alt=""""></p>
+
+<p>It renders properly when I remove the <code>{% if %}</code> tags as shown below:</p>
+
+<pre><code>&lt;body&gt;
+    &lt;div class=""navbar""&gt;
+        &lt;div class=""nav-div"" id=""site-links""&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href=""{% url 'index' %}""&gt;Home&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=""/this_site/about/""&gt;About&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+        &lt;div class=""nav-div"" id=""auth-links""&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=""{% url 'auth_logout' %}?next=/this_site/""&gt;Logout&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=""{% url 'auth_login' %}""&gt;Login&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=""{% url 'registration_register' %}""&gt;Register&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        {% block body_block %}{% endblock %}
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p><img src=""https://i.stack.imgur.com/j6AVN.png"" alt=""""></p>
+
+<p>To illustrate, I've added borders to the list elements in the <strong>.css file</strong>:</p>
+
+<pre><code>.navbar {
+    background-color: #191A14;
+    height: 10%;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    }
+
+.navbar a {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    }
+
+.navbar ul {
+    list-style-type: none;
+    border: 1px solid red;
+    }
+
+.navbar li {
+    display:inline-block;
+    border: 2px solid yellow;
+    }
+
+.nav-div {
+    width: 45%;
+    border: 3px solid green;
+    }
+
+#site-links {
+    float: left;
+    }
+
+#auth-links {
+    text-align: right;
+    float: right;
+    }
+</code></pre>
+
+<p>Where is the error? (For what it's worth, I'm using Django 1.7 with Python 3.4)</p>
+","4285117","","","","","2015-01-04 04:56:38","Django template tags disrupting css output","<html><css><django>","1","0","","","","CC BY-SA 3.0"
+"27762518","1","27768678","","2015-01-04 04:54:07","","0","2559","<p>I am writing a C application that captures images from a webcam using OpenCv, then saves the images to a file. It is running on Raspian OS Wheezy against OpenCv 2.3.1-11.</p>
+
+<p>If I just open and close the webcam like so, there is no memory leak, so I don't think I'm encountering an older bug about a ""webcam opening tax"":</p>
+
+<pre><code>CvCapture* capture;
+while (1) {
+  // No increase in memory consumption at all
+  capture = cvCreateCameraCapture(0);
+  cvReleaseCapture(&amp;capture);
+}
+</code></pre>
+
+<p>However, when I actually start acquiring images, memory consumption explodes, and every iteration chews up another 2MB in memory. I've confirmed via <code>free -s 2</code> at the command line while manually triggering image acquisition, and noticing that eventually, my application complains about not having enough memory to acquire images.</p>
+
+<pre><code>capture = cvCreateCameraCapture(0);
+while (1) {
+   if (capture) {
+      frame = cvQueryFrame(capture);
+   }
+   if (frame) {
+      CvSize size = cvSize(100, 100);
+      tmp = cvCreateImage(size, IPL_DEPTH_8U, 3);
+      cvResize(frame, tmp, CV_INTER_CUBIC);
+      // Do some stuff with tmp
+   }
+}
+cvReleaseCapture(&amp;capture);
+</code></pre>
+
+<p>I've checked various posts online, and it says I'm not support to modify the data stored in <code>frame</code>. If I use <code>cvReleaseImage</code> on <code>frame</code>, it has no effect. In fact, memory usage explodes just from the <code>cvQueryFrame</code> call alone. Even the following example below causes this issue to pop up:</p>
+
+<pre><code>capture = cvCreateCameraCapture(0);
+while (1) {
+   if (capture) {
+      frame = cvQueryFrame(capture);
+   }
+}
+cvReleaseCapture(&amp;capture);
+</code></pre>
+
+<p>How do I go about resolving this?</p>
+
+<p>Do I truly have to go with the C++ API (not really a choice for me at the moment), or is there some other way about this? This is a Gtk+-2.0 application, and the only headers I'm including are:</p>
+
+<pre><code>/*******************************************************************************
+ * Preprocessor Directives
+ ******************************************************************************/
+#include ""opencv/cxcore.h""
+#include ""opencv2/highgui/highgui_c.h""
+#include ""opencv2/imgproc/imgproc_c.h""
+
+#include &lt;gtk/gtk.h&gt;
+#include &lt;gdk-pixbuf/gdk-pixbuf.h&gt;
+</code></pre>
+
+<p>There is a mix of <code>opencv</code> and <code>opencv2</code> in there it would seem, but I can't find a way to have just <code>opencv</code> headers and have access to the camera without them. I was concerned maybe this is causing certain pieces of C++-only code to be initialized in an undefined manner. Any help in resolving the memory leak or, if need be, creating the equivalent code in C++ without the leak would be very helpful.</p>
+
+<p>Thank you for your help.</p>
+","","anon","","anon","2015-01-04 06:55:48","2015-01-04 18:08:29","OpenCv - Memory leak when capturing frames from webcam","<c++><c><opencv><memory-leaks><gtk>","3","9","0","","","CC BY-SA 3.0"
+"27762519","1","27762811","","2015-01-04 04:54:07","","4","224","<p>I want to write:</p>
+
+<pre><code>minimum $ map _x elems
+</code></pre>
+
+<p>using lenses. I want to use the <code>minimumOf</code> lens, but I can't figure out how to use it from its type.</p>
+
+<p>I'm looking for something like </p>
+
+<pre><code>elems ^.. minimumOf x
+</code></pre>
+
+<p>but it does not type check:</p>
+
+<pre><code>Prelude Control.Lens Data.Map&gt; let elems = [(1,2),(3,4)] :: [(Double, Double)]
+Prelude Control.Lens Data.Map&gt; elems ^.. minimumOf _1
+
+&lt;interactive&gt;:62:11:
+    Couldn't match type ‘Maybe a0’
+                  with ‘[(Double, Double)]
+                        -&gt; Const (Data.Monoid.Endo [a]) [(Double, Double)]’
+    Expected type: Getting (Data.Monoid.Endo [a]) [(Double, Double)] a
+      Actual type: (a -&gt; Const (Data.Monoid.Endo [a]) a) -&gt; Maybe a0
+    Relevant bindings include it :: [a] (bound at &lt;interactive&gt;:62:1)
+    Possible cause: ‘minimumOf’ is applied to too many arguments
+    In the second argument of ‘(^..)’, namely ‘minimumOf _1’
+    In the expression: elems ^.. minimumOf _1
+</code></pre>
+","3859566","","3859566","","2015-01-04 05:02:25","2015-01-04 05:48:37","How to use the ""Of"" lenses? (Haskell)","<haskell><lenses>","1","0","","","","CC BY-SA 3.0"
+"27762522","1","27768737","","2015-01-04 04:54:26","","3","1405","<p>In a file using an older version of Python, I found the following piece of code:</p>
+
+<pre><code>PROP_UI_COMBO = 'Prop_UI_ComboBox'
+PROP_UI_COMBO[[]] = [_[1], [x for x in range(-1, 10)] + [26, 28, 30]]
+</code></pre>
+
+<p>And I'm wondering what it means to set <code>PROP_UI_COMBO[[]]</code>. What do the double brackets mean?
+Also, (I may be wrong) I believe that <code>_[1]</code> is just the temporary list of <code>[x for x in range(-1, 10)]</code>. So as my question presents, what is the <code>[[]]</code> for, and what is the equivalent in Python 3.4?</p>
+","3496038","","3496038","","2015-01-04 04:59:56","2015-01-04 18:13:55","Using double square brackets?","<python><python-3.x>","1","4","0","","","CC BY-SA 3.0"
+"27762526","1","","","2015-01-04 04:55:26","","0","202","<p>I'm trying to learn the basics of jquery ajax and JSON formatting</p>
+
+<p>My page (call it page-1) receives a json encoded response from a php script. Using my browser network tool the preview from the php script script looks as expected and it contains an id that is always unique</p>
+
+<pre><code>{""id"":""875""}
+</code></pre>
+
+<p>on page-1 I would like to be able to have a button that retrieves the value for the id and uses it in a <strong>NEW</strong> ajax request that goes to a different php script (delete_list.php)</p>
+
+<p>I have been trying the following:</p>
+
+<pre><code>&lt;script type=""text/javascript""&gt;
+ $(""#dformclose"").click(function() {
+  if (confirm(""Are you sure you want to cancel this? Your image and any information in this form will be deleted"")) {
+    var id = id;  /*I think the problem is here*/
+        $.ajax({
+            type: ""POST"",
+            dataType:""json"",
+            url: ""delete_list.php"",
+            data: id,
+            success: function(response) {
+            return false;
+            }
+        });
+    }
+         else 
+      { 
+    return false;
+   }
+});
+&lt;/script&gt;
+</code></pre>
+
+<p>the page delete-list.php starts with</p>
+
+<pre><code>&lt;?php
+$idc = $_POST[""id""];
+</code></pre>
+
+<p>When I run #dformclose and use my browsers network analysis tool on the delete_list.php file it always gives the response</p>
+
+<pre><code>{""success"":true,""idc"":null}
+</code></pre>
+
+<p>How do I define Id here using the value from the json return</p>
+
+<p>Here is my first ajax request that does not process any data:</p>
+
+<pre><code> $.ajax(url, {
+    type: ""post"",
+    data: data,
+    processData: false,
+    contentType: false,
+
+    beforeSend: function () {
+      _this.submitStart();
+    },
+
+    success: function (data) {
+      _this.submitDone(data);
+    },
+
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      _this.submitFail(textStatus || errorThrown);
+    },
+
+    complete: function () {
+      _this.submitEnd();
+    }
+  });
+},
+</code></pre>
+
+<p>Why is value always null, how can I send the value 'id' to the delete_list.php?</p>
+","3194651","","3194651","","2015-01-04 05:11:58","2015-01-04 05:11:58","Parse json and insert the variable into a new jquery ajax request","<javascript><jquery><ajax><json>","0","16","","","","CC BY-SA 3.0"
+"27762527","1","","","2015-01-04 04:55:32","","1","146","<p>I'm working on a live search system for a Cellphone comparison website. I have the phones stored in a table on MySQL and with a variable called ""completename"" and ""id"". The ""completename"" variable is for showing the complete name on the results and the id is for creating the link to the specific cellphone.</p>
+
+<p>The code works, I type a name and it shows similar results in the table. If I type Sony, it will show up to 5 phones that contain the word Sony in its name. </p>
+
+<p>What i Want to do is to convert those results in links so they are clickable and send the user to the respective phone info viewer.</p>
+
+<p>Here's the code for the searchbox:</p>
+
+<pre><code>&lt;script src=""http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js""&gt;&lt;/script&gt;
+&lt;link rel=""stylesheet"" href=""https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css""&gt;
+&lt;link rel=""stylesheet"" href=""https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css""&gt;
+&lt;script src=""https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js""&gt;&lt;/script&gt;
+&lt;script src=""typeahead.min.js""&gt;&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function(){
+$('input.typeahead').typeahead({
+    name: 'typeahead',
+    remote:'search.php?key=%QUERY',
+    limit : 10
+});
+});
+&lt;/script&gt;
+&lt;div class=""panel panel-default""&gt;
+&lt;div class=""bs-example""&gt;
+    &lt;input type=""text"" name=""typeahead"" class=""typeahead tt-query"" autocomplete=""off"" spellcheck=""false"" placeholder=""Type your Query""&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p></p>
+
+<p>And here's for search.php:</p>
+
+<pre><code>&lt;?php
+$key=$_GET['key'];
+$array = array();
+$con=mysql_connect(""localhost"",""user"",""pass"");
+$db=mysql_select_db(""database"",$con);
+$query=mysql_query(""SELECT * FROM phones where completename LIKE '%{$key}%'"");
+while($row=mysql_fetch_assoc($query))
+{
+  $array[] = '&lt;a href=""viewer.php?id=' . $row['id'] . '""&gt;' . $row['completename'] . '&lt;/a&gt;';
+}
+echo json_encode($array);
+?&gt;
+</code></pre>
+
+<p>My problem is that when I click the result, which is a link and works, for a moment, while the request is being sent by the browser, in the search textbox I can see the source code that is in the $array variable (the 
+
+<p>So, how can I prevent this?</p>
+
+<p>Thanks a lot!</p>
+","4383309","","","","","2015-01-04 04:55:32","AJAX searchbox shows part of source code on textbox","<javascript><php><mysql><ajax>","0","1","","","","CC BY-SA 3.0"
+"27762528","1","","","2015-01-04 04:55:35","","0","1988","<p>How to load data in memory in extjs .by using an ajax response.ajax response give an json data.
+when i try to load into paging grid it doesnt show anything .can any one you idea.its help full to me</p>
+
+<pre><code>var itemsPerPage = 10;   // set the number of items you want per page
+
+//  i am creating a store to load data into memory    
+var store = Ext.create('Ext.data.Store', {    
+    autoLoad: true,
+    fields:['id','name', 'email'],
+    pageSize: itemsPerPage, // items per page
+    proxy: {
+        type:'memory',
+        enablePaging: true,
+        reader: {
+            type: 'json',
+            root: 'users',
+            successProperty: 'success'
+         }
+    }         
+});
+
+// i am creating a ajax request to get json data
+Ext.Ajax.request({
+    url: 'app/data/users.json',     
+    success: function(resp) {            
+       var result = resp.responseText;
+       store.loadRawData(result);
+    },        
+});
+
+// to view data in store 
+Ext.define('AM.view.user.list' ,{
+    extend: 'Ext.grid.Panel',
+    alias: 'widget.userlist',
+    title: 'All Users',
+    initComponent: function() {
+        Ext.create('Ext.grid.Panel', {
+            title: 'My Test Demo',
+            store:store,
+            columns: [
+                { header: 'ID',  dataIndex: 'id' }, 
+                { header: 'Name',  dataIndex: 'name' },
+                { header: 'Email', dataIndex: 'email', flex: 1 }
+              ],
+            width: 350,
+            height: 280,
+            dockedItems: [{
+                xtype: 'pagingtoolbar',
+                store:store,   // same store GridPanel is using
+                dock: 'bottom',
+                displayInfo: true,
+                pageSize:5,       
+            }],
+            renderTo: Ext.getBody()             
+        });
+
+        this.callParent(arguments);
+    }
+});
+</code></pre>
+
+<p>and my json data look like this</p>
+
+<pre><code>{
+""success"": true,
+""users"": [
+    {""id"": 1, ""name"": 'Ed',    ""email"": ""ed@sencha.com""},
+    {""id"": 2, ""name"": 'Tommy', ""email"": ""tommy@sencha.com""},
+
+      {""id"": 3, ""name"": 'Tommy', ""email"": ""tommy@sencha.com""},
+
+      {""id"": 4, ""name"": 'Tommy', ""email"": ""tommy@sencha.com""},
+
+      {""id"": 5, ""name"": 'Tommy', ""email"": ""tommy@sencha.com""},
+
+    {""id"": 11, ""name"": 'Ed',    ""email"": ""ed@sencha.com""},
+    {""id"": 12, ""name"": 'Tommy', ""email"": ""tommy@sencha.com""},
+
+      {""id"": 13, ""name"": 'Tommy', ""email"": ""tommy@sencha.com""},
+
+      {""id"": 14, ""name"": 'Tommy', ""email"": ""tommy@sencha.com""},
+
+      {""id"": 15, ""name"": 'Tommy', ""email"": ""tommy@sencha.com""},
+
+
+        {""id"": 21, ""name"": 'Ed',    ""email"": ""ed@sencha.com""},
+    {""id"": 22, ""name"": 'Tommy', ""email"": ""tommy@sencha.com""},
+
+      {""id"": 23, ""name"": 'Tommy', ""email"": ""tommy@sencha.com""},
+
+      {""id"": 24, ""name"": 'Tommy', ""email"": ""tommy@sencha.com""},
+
+      {""id"": 25, ""name"": 'Tommy', ""email"": ""tommy@sencha.com""},
+
+
+]
+</code></pre>
+
+<p>}</p>
+","1516348","","77782","","2015-01-04 05:33:59","2015-01-04 06:49:24","how to load ajax response in memory in extjs","<ajax><extjs><extjs4>","1","0","","","","CC BY-SA 3.0"
+"27762535","1","","","2015-01-04 04:56:35","","0","461","<p>I have a GameForm with 7 pictureboxes to represent cards from a player hand. There are 2 players and 2 picture boxes in the middle. The picturebxoes in the middle is for the player to Discard his card and another is to draw cards. When the player clicks on a image the card will go to Discard Pile picture box and thus leaving the picturebox in the hand empty. How do I make it so that when a player draws a card it goes to an empty picture box ?  !</p>
+
+<p>I've tried using this method </p>
+
+<pre><code>if (pictureBox1.Image == null) {
+        pictureBox1.ImageLocation = images[n];
+        }
+ ...
+ ...
+if (pictureBox7.Image == null) {
+        pictureBox7.ImageLocation = images[n];
+        }
+</code></pre>
+
+<p>But if I did that, then if 2 Picturebox are empty, Both will get filled with the random card drawn.. 
+Any suggestion on how to only draw 1 card and set to only 1 empty picturebox everytime ?
+Thanks in advance !</p>
+","4415380","","","","","2015-01-04 05:08:44","How to detect and set image to only 1 picture box that is empty?","<c#><picturebox>","1","0","","","","CC BY-SA 3.0"
+"27762539","1","","","2015-01-04 04:56:57","","1","926","<p>I recently hosted my website using github static pages. I am very new to web related things. I found that using <code>.htaccess</code> file we can block certain countries simply using <code>SetEnvIf CF-IPCountry RU BuzzOff=1</code>.</p>
+
+<p>But <code>.htaccess</code> is not supported for github pages. There is a workaround for redirecting web pages.</p>
+
+<p>When I google for blocking access to certain countries for github pages all I get is which countries have blocked github and what github did to undone the block.</p>
+
+<p>Is there a simple way to block website for certain country? Its not about privacy. But I am having unnecessary large no.of visitors from certain country and its very annoying to use Google Analytics because of it. </p>
+","1256369","","1256369","","2015-01-04 07:31:17","2016-02-12 21:49:27","Block Github Pages for certain country","<.htaccess><google-analytics><hosting><github-pages><web-traffic>","1","1","","","","CC BY-SA 3.0"
+"27762540","1","27762831","","2015-01-04 04:56:57","","2","1222","<p>Having a bit of trouble with pong collision detection. I made a class for Pong initialized my canvas the attributes of the window etc and the velocity of the pong ball. Created the paddles using images and then resized them to the paddle dimensions that I wanted using PIL same for the pong ball. </p>
+
+<p>Right now im using the canvas.coords method to detect the current location of my paddles and ball. According to my CPSC page this is supposed to return four values the upper right left and lower right/left corners and i can then detect collisions using these. </p>
+
+<p>However, it is only returning two values, and it detects collisions in the midpoint of the paddle all the way down the screen - 
+as in say the paddle is at the very top in the middle of the screen and the ball is then passes in the center of the canvas it will detect a collision and change velocities. Relevant code for collisions posted below.</p>
+
+<pre><code>def animate_pong_ball(self):
+    self.C1.move(self.animated_ball, self.pong_dx, self.pong_dy)
+    x1, y1 = self.C1.coords(self.animated_ball)
+
+    if x1 &lt;= 0:
+        self.pong_dx *= -1
+    elif x1 &gt; WINDOW_WIDTH / 2:
+        self.pong_dx *= -1
+    if y1 &lt;= 0:
+        self.pong_dy *= -1
+    elif y1 &gt; WINDOW_HEIGHT:
+        self.pong_dy *= -1
+
+def detect_collisions(self):
+
+    p1_x, p1_y = self.C1.coords(self.paddle_1)
+    p2_x, p2_y = self.C1.coords(self.paddle_2)
+    b_x, b_y = self.C1.coords(self.animated_ball)
+
+    if p1_x == b_x or p2_x == b_x:
+        self.pong_dx *= -1
+    if p1_y == b_y or p2_y == b_y:
+        self.pong_dy *= -1
+</code></pre>
+
+<p>Full code at <a href=""http://pastebin.com/KfEkpsAN"" rel=""nofollow"">http://pastebin.com/KfEkpsAN</a> 
+Know theres errors in there rough copy just trying to get collisions working properly at the moment and cannot figure out whats wrong</p>
+","","user4416510","","user4416510","2015-01-04 05:03:10","2015-01-04 05:52:07","Pong collision method in tkinter","<python><class><tkinter><pong><collision>","1","3","","","","CC BY-SA 3.0"
+"27762541","1","","","2015-01-04 04:57:08","","-3","77","<p>The answer to this question is B and C. I understand why B is one of the answers, but I can't understand why C is also correct.</p>
+
+<p>Can someone explain why is C correct?</p>
+
+<p><img src=""https://i.stack.imgur.com/j6NrB.png"" alt=""enter image description here""></p>
+","4413164","","4413164","","2016-08-31 08:20:55","2016-08-31 08:20:55","In what sequence Java FileVisitor work","<data-structures><java-io><filevisitor>","1","0","","","","CC BY-SA 3.0"
+"27762547","1","27763902","","2015-01-04 04:57:48","","48","6470","<p>I want to assign the first 1024 terms of <a href=""http://oeis.org/A007814"" rel=""nofollow noreferrer"" title=""OEIS A007814"">this sequence</a> to a list. I initially guessed that hardcoding this list would be the fastest way. I also tried generating the list algorithmically and found this to be faster than hardcoding. I therefore tested various compromise approaches, using increasingly long hardcoded lists and algorithmically extending to 1024 items. The fastest way I found involved hardcoding the first 128 items and generating the rest.</p>
+
+<p>I'd like to understand why hardcoding the first 128 items in the sequence and calculating the rest is faster than hardcoding all 1024 items. Code and profile results are shown below, using Python 3.4.2 Shell (<a href=""http://en.wikipedia.org/wiki/IDLE_%28Python%29"" rel=""nofollow noreferrer"">IDLE</a>) and <strike>cProfile</strike> <strong>timeit</strong> (
+<em>Thanks to <a href=""https://stackoverflow.com/a/27763902/3344075"">Veedrac's answer</a> for the improved profiling code</em>). I've left the hardcoded lists on one very long line to avoid cluttering the question with rows of numbers, but apart from this the code does not require horizontal scrolling.</p>
+
+<h1>Code</h1>
+
+<pre><code>def hardcoded():
+    m = [0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,6,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,7,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,6,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,8,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,6,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,7,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,6,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,9,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,6,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,7,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,6,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,8,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,6,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,7,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,6,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,10]
+
+def softcoded():
+    m = [0]
+    for k in range(10):
+        m += m
+        m[-1] += 1
+
+def hybrid():
+    m = [0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,6,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,7]
+    for k in range(3):
+        m += m
+        m[-1] += 1
+
+from timeit import Timer
+
+def p_time(func, n=10000):
+    print(func.__name__)
+    print(min(Timer(func).repeat(10, n)) / n)
+
+p_time(hardcoded)
+p_time(softcoded)
+p_time(hybrid)
+</code></pre>
+
+<h1>Timings</h1>
+
+<pre><code>hardcoded
+1.593102711162828e-05
+softcoded
+1.1183638458442147e-05
+hybrid
+9.69246251002005e-06
+</code></pre>
+
+<p>I ran all of the timings several times and pasted in the lowest.</p>
+","3344075","","-1","","2017-05-23 11:59:55","2015-01-06 23:15:59","Why is hardcoding this list slower than calculating it?","<python><performance><python-3.x><python-internals>","2","7","0","","","CC BY-SA 3.0"
+"27762553","1","27787000","","2015-01-04 04:58:50","","3","11827","<p>I have id and password, in table account. I'll login with id and password. And the results is bad</p>
+
+<p>auth.php</p>
+
+<pre><code>'driver' =&gt; 'database',
+'model' =&gt; 'Pass',
+'table' =&gt; 'account',
+</code></pre>
+
+<p>models/Pass.php</p>
+
+<pre><code>use Illuminate\Auth\UserTrait;
+use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\Reminders\RemindableTrait;
+use Illuminate\Auth\Reminders\RemindableInterface;
+
+class Pass extends \Eloquent implements UserInterface, RemindableInterface 
+{
+    use UserTrait, RemindableTrait;
+
+protected $table = 'account';
+</code></pre>
+
+<p>PassController.php</p>
+
+<pre><code>public function authenticate()
+{
+$userdata = array( 'id' =&gt; Input::get('id'), 'password' =&gt; Input::get('password'));
+    if(Auth::attempt($userdata)) 
+    {
+        echo 'oke';
+    } 
+    else 
+    {
+        echo 'bad';
+    }
+}
+</code></pre>
+
+<p>in views</p>
+
+<pre><code>{{Form::open(array('action' =&gt; 'PassController@authenticate')) }}
+...
+</code></pre>
+
+<p>routes.php</p>
+
+<pre><code>Route::post('book/auth', 'PassController@authenticate');
+</code></pre>
+
+<p>How to resolve this? I use laravel 4.2</p>
+","4416515","","4416515","","2015-01-04 05:11:18","2015-01-07 22:21:25","Basic laravel auth cannot login","<php><authentication><laravel>","1","7","0","","","CC BY-SA 3.0"
+"27762556","1","","","2015-01-04 04:59:43","","1","353","<p>I want to parse xml file in <code>hadoop</code>. It contains a tag like </p>
+
+<pre><code>&lt;article name=""..."" year=""...."" /&gt; 
+</code></pre>
+
+<p>If I give <code>article</code> as my start tag in <code>xmlinputformat start_tag_key</code> it doesn't recognize the article tag since my file contains article tag with attributes.</p>
+
+<p>How can I specify <code>start_tag_key</code> in <code>xmlinputformat</code> for the above mentioned article tag.</p>
+","4416509","","13302","","2015-01-04 08:16:00","2015-05-25 16:46:55","How to give xml start tag with attributes in xmlinputformat hadoop","<xml><hadoop>","2","1","","","","CC BY-SA 3.0"
+"27762558","1","","","2015-01-04 05:00:04","","1","224","<p>I have a custom sender and receiver app that both work as expected on desktop. However if I try to run my app from chrome on iOS I run into issues. </p>
+
+<p>Based on the info Im gathering from debugging the receiver app, it is getting into my castReceiverManager.onSenderConnected function and I can log out the event.data and useragent (iOS CastSDK,,iPhone,iPhone OS,8.1.2). It never gets into where I listen for onMessage though.</p>
+
+<pre><code>window.messageBus = window.castReceiverManager.getCastMessageBus('urn:x-cast:com.whatever');
+
+window.messageBus.onMessage = function(event) {
+    console.log('Message [' + event.senderId + ']: ' + event.data);
+}
+</code></pre>
+
+<p>UPDATE:  A year later and I still haven't figured this out.</p>
+","1426644","","1426644","","2016-01-17 16:35:40","2016-01-17 16:35:40","Communicate with custom receiver app from chrome on iOS","<ios><google-chrome><chromecast><google-cast><mobile-chrome>","0","5","","","","CC BY-SA 3.0"
+"27762559","1","","","2015-01-04 05:00:07","","-1","358","<p>I'm a scheme noob, teaching myself scheme as a way of getting a deeper understanding of functional style and technique.  I've run into a problem with recursion and base cases.</p>
+
+<p>Sometimes I will get an unexpected error when the recursion hits the base case:</p>
+
+<pre><code>ERROR: In procedure #&lt;unspecified&gt;:
+ERROR: Wrong type to apply: #&lt;unspecified&gt;
+</code></pre>
+
+<p>I've played with different ways of expressing the base case.  I've discovered enough working patterns that I can always come up with an incantation that will behave as I intend.  But I don't really understand why some of the following examples fail and some succeed.</p>
+
+<pre><code>(define (pt t)
+   (display t)
+   (if (&gt; t 0)
+       (pt (- t 1))))
+
+;;good
+(define (pt t)
+   (if (&gt; t 0)
+       ((display t)
+    (pt (- t 1)))))
+
+;;bad
+(define (pt t)
+   (if (&gt; t 0)
+       (pt (- t 1)))
+   (display t))
+
+;;good
+(define (pt t)
+   (if (&gt; t 0)
+       (pt (- t 1))))
+
+;;bad
+(define (pt t)
+   (if (&gt; t 0)
+       ((pt (- t 1)))))
+
+;;good
+(define (pt t)
+   (define (qt t)
+      (display t)
+      (pt (- t 1)))
+   (if (&gt; t 0)
+       (qt t)))
+</code></pre>
+
+<p>These are all toy procedures to help me understand the recursion mechanism.  I'd like to understand why the procedures labeled <code>;;bad</code> toss an error.</p>
+
+<p>I suspect the problem is related to the fact the (if) is not a procedure.  If anyone can get me pointed in the right direction, I'd be grateful.</p>
+
+<p>The scheme that I'm using is guile 2.0.11</p>
+","4416460","","849891","","2015-01-04 08:44:25","2015-01-05 10:19:29","recursion in scheme: base cases and unexpected errors","<recursion><scheme>","1","2","","","","CC BY-SA 3.0"
+"27762560","1","27762683","","2015-01-04 05:00:17","","-1","94","<p>I am trying to use two functions to find files and process them, the output of which, ultimately, will be sent to a SQlite3 database.  I have the second part working when NOT a function, but for this, need to enter the name of each file to be processed.  I want it automated, hence the first function with oswalk.  However, when I add the first function, which finds the files and returns them to the second function, something is going wrong.  In the code posted, I just want to test that the files are being passed and can be opened and read one at a time.</p>
+
+<p>Notes about what is happening and pointers to the output (which will be pasted below the code) are hashed out in the code below.</p>
+
+<pre><code>import os
+import fnmatch
+
+def findFiles (path, filter):
+    Files = []
+    for root, dirs, files in os.walk(path):
+        for file in fnmatch.filter(files, filter):
+           Files.append(os.path.join(root, file))
+    return Files
+
+def fastq2SQlite(Files):
+    for file in Files:
+        print file    ## At this point, I have a list of files.  See ""A"" below.  
+
+        with open(file, 'r'):  ##If this block is then added, it's evident that the files shown 
+                               ##in ""A"" are not being recognized as files.  Output is ""A"" 
+                               ##transposed, each line a letter of a file name.
+            for line in file:
+                print line
+</code></pre>
+
+<p>Output ""A""<br>
+C:/Users/Documents/JKC10/test.txt<br>
+C:/Users/Documents/JKC10/test2.txt<br>
+C:/Users/Documents/JKC10/test3.txt<br>
+None</p>
+
+<p>I have even unsuccessfully tried to get the files to be read by modifying them so that their names become (example):
+'C:/Users/Documents/JKC10/test_out.txt'</p>
+
+<p>by adding a block that looks like:</p>
+
+<pre><code>def fastq2SQlite(Files):
+    for file in Files:
+        f = ""'"" + file + ""'""
+</code></pre>
+","3814464","","","","","2015-01-04 05:24:59","Python: Using oswalk in first function to find files, pass name, then trying to open in second function","<python><function><argument-passing>","1","4","","","","CC BY-SA 3.0"

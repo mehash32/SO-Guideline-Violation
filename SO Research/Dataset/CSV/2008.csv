@@ -1,0 +1,1410 @@
+Id,PostTypeId,AcceptedAnswerId,ParentId,CreationDate,DeletionDate,Score,ViewCount,Body,OwnerUserId,OwnerDisplayName,LastEditorUserId,LastEditorDisplayName,LastEditDate,LastActivityDate,Title,Tags,AnswerCount,CommentCount,FavoriteCount,ClosedDate,CommunityOwnedDate,ContentLicense
+"215144","1","","","2008-10-18 15:11:10","","5","818","<p>I wanted to derive a class from Predicate&lt;IMyInterface>, but it appears as if Predicate&lt;> is sealed. In my case I wanted to simply return the inverted (!) result of the designated function. I have other ways to accomplish the goal. My question is what might the MS designers have been thinking when deciding to seal Predicate&lt;>?</p>
+
+<p>Without much thought I came up with:
+(a) simplified their testing, just a time vs cost trade off
+(b) ""no good"" could come from deriving from Predicate&lt;></p>
+
+<p>What do you think?</p>
+
+<p>Update: There are n predicates that are dynamically added to a list of Predicates during an initialization phase. Each is mutually exclusive (if Abc is added, NotAbc wont be added). I observed a pattern that looks like:</p>
+
+<pre><code>bool Happy(IMyInterface I) {...}
+bool NotHappy(IMyInterface I) { return !Happy(I); }
+bool Hungry(IMyInterface I) {...}
+bool NotHungry(IMyInterface I) { return !Hungry(I); }
+bool Busy(IMyInterface I) {...}
+bool NotBusy(IMyInterface I) { return !Busy(I); }
+bool Smart(IMyInterface I) {...}
+bool NotSmart(IMyInterface I) {...} //Not simply !Smart
+</code></pre>
+
+<p>Its not that I can't solve the problem, its that I wonder why I couldn't solve it a certain way.</p>
+","27068","","27068","","2008-10-18 17:01:24","2013-01-03 14:52:00","Why is Predicate<> sealed?","<c#><predicate>","3","2","","","","CC BY-SA 2.5"
+"215160","1","215177","","2008-10-18 15:22:55","","0","563","<p>I have the following javascript:</p>
+
+<pre><code>$.ajax({
+  type: ""POST"",
+  dataType: ""json"",
+  url: ""/Home/Submit"",
+  data: {
+    email: strEmail,
+    message: strMessage
+  },
+  success: function(result) {
+    //alert('here');
+    alert(result.message);
+  },
+  error: function(error) {
+    alert(error);
+  }
+});
+</code></pre>
+
+<p>This makes a call to this function:<BR></p>
+
+<pre><code>public JsonResult Submit(string Email, string Message) {
+  return Json(new {
+    message = ""yep""
+  });
+}
+</code></pre>
+
+<p>This works fine in debug mode on the inbuilt webserver.</p>
+
+<p>However if I go to the virtual dir directly it does not and hits the error bit. I attached to the process and the code behind never gets hit. </p>
+
+<p>I am using Vista. </p>
+
+<p>Additionally how do you get the error description in the bit where it says  alert(error);</p>
+
+<p>Thanks,</p>
+
+<p>Alex</p>
+","23066","alexmac","10165426","Nick Berardi","2019-12-13 16:25:03","2019-12-13 16:25:03","JSON call + .net works in debug mode on inbuilt web server but not by going to virtual dir directly","<asp.net><javascript><jquery><json>","2","0","","","","CC BY-SA 4.0"
+"215164","1","224678","","2008-10-18 15:26:09","","8","3677","<p>A general architecture question in Sitecore 6...</p>
+
+<p>Let’s say we have a situation where we have 10,000 items implementing a “Press Release” template. These items are stored in Sitecore at <code>/sitecore/content/home/press/*</code>. On our homepage, we’d like to display some information concerning the 3 most recent press releases.</p>
+
+<p>We’re looking to construct something equivalent to SQL’s:</p>
+
+<pre><code>SELECT TOP 3 * FROM PressReleases ORDER BY ReleaseDate
+</code></pre>
+
+<p>Reading through the Sitecore query documentation, it sounds like the majority of this query must be handled in our C# application. Something like:</p>
+
+<pre><code>public Item[] GetRecentPressReleases()
+{
+   string query = ""/sitecore/content/home/press/*"";
+   Item[] items = Sitecore.Context.Database.SelectItems(query);
+   Array.Sort(items, new PressReleaseDateComparer());
+   return items.Take(3).ToArray();
+}
+</code></pre>
+
+<p>It would seem that loading 10,000 Sitecore items from the database into memory and then sorting them every time our homepage is hit would be unacceptable from a performance perspective.</p>
+
+<p>Is there a more efficient way to express this query? Or should I be focused on output caching and/or pre-calculating?</p>
+","7194","Kyle Chafin","","user212218","2011-03-07 16:57:52","2011-03-07 17:12:21","Sitecore's ""Latest"" Item","<c#><asp.net><sitecore>","2","0","0","","","CC BY-SA 2.5"
+"215183","1","215244","","2008-10-18 15:44:50","","8","7893","<p>For example, I want just the ""filename"" of a file in a field.  Say I have myimage.jpg  I only want to display ""myimage""  How do I get just that?  </p>
+","26121","Gene R","850882","Nick Berardi","2012-01-12 19:25:06","2020-05-27 13:05:03","How do I get the contents of a string minus the extension in ColdFusion?","<coldfusion>","5","2","","","","CC BY-SA 3.0"
+"215189","1","215191","","2008-10-18 15:49:09","","1","206","<p>I once heard a prominent scientist say, of global warming, that he didn't realize how much he would have to learn about politics.</p>
+
+<p>I just read an excellent article in DDJ about the <a href=""http://en.wikipedia.org/wiki/Jacobsen_v._Katzer"" rel=""nofollow noreferrer"">Jacobsen verus Katzer</a> case. When in university, I didn't know how much <strong><em>I</em></strong> would have to learn about the law.</p>
+
+<p>It seems to me that a big hole in the classic comp sci education is that of legal issues.  Many of us talk about licenses, copyright, copyleft, prior art, etc, but our terms are often vague and probably inaccurate.</p>
+
+<p>What are some resources where the average developer can learn about copyright law and become an informed citizen of IT? </p>
+","12704","Michael Easter","50776","Jakub Šturc","2012-08-29 12:50:24","2012-08-29 12:50:24","what are some resources to learn about copyright law?","<open-source>","6","0","0","2012-08-29 12:50:28","","CC BY-SA 2.5"
+"215211","1","217051","","2008-10-18 16:10:20","","5","7520","<p>Is there a way to change the colors used by plain Win32 menus (background, text, and highlight) for a single process, <em>without</em> using SetSysColors?</p>
+
+<p>(SetSysColors does a global change, which is bad, and if you crash or forget to set the colors back with SetSysColors again before exiting, they will not be restored until you logout.)</p>
+","28258","CesarB","","","","2008-10-19 22:05:53","Changing Win32 menu colors","<winapi><menu><colors>","3","0","","","","CC BY-SA 2.5"
+"215213","1","215230","","2008-10-18 16:13:24","","2","692","<p>I'm trying this:</p>
+
+<pre><code>Type ThreadContextType = typeof(Application).GetNestedType(""ThreadContext"", System.Reflection.BindingFlags.NonPublic);
+MethodInfo FDoIdleMi = ThreadContextType.GetMethod(""FDoIdle"", BindingFlags.NonPublic |
+    BindingFlags.Instance, null, new Type[] { typeof(Int32) }, null);
+</code></pre>
+
+<p>ThreadContextType is ok but FDoIdleMi is null. I know there is something wrong in the GetMethod call because FDoIdle comes from the UnsafeNativeMethods.IMsoComponent interface.</p>
+
+<p>How to do that? Thanks.</p>
+","29244","Nico","29244","Nico","2008-10-18 16:30:17","2008-10-18 17:00:16","How to get a MethodInfo in the ThreadContext class?","<c#><reflection>","2","0","","","","CC BY-SA 2.5"
+"215215","1","215272","","2008-10-18 16:16:24","","0","512","<p>So I have an IList of business entities that I loop through in a ListView into an unordered list. I created an extension method on this Entity in my presentation layer. In code behind, I can Response.Write the result of this extension method, but when I try to access it through the ListView I get an error. The method is called IsCurrent and returns a bool... Here is my code: </p>
+
+<pre><code>&lt;li&gt;&lt;%#((CB.CMSFramework.WebPage)Container.DataItem).IsCurrent(Guid.Empty) %&gt;&lt;/li&gt;
+</code></pre>
+
+<p>The error I get is: 'CB.CMSFramework.WebPage' does not contain a definition for 'IsCurrent' and no extension method 'IsCurrent' accepting a first argument of type 'CB.CMSFramework.WebPage' could be found (are you missing a using directive or an assembly reference?)</p>
+
+<p>However... I get no error when I do this type of code from code behind:</p>
+
+<pre><code>WebPage w = new WebPage();
+Response.Write(w.IsCurrent(Guid.Empty));
+</code></pre>
+","6350","EvilSyn","","","","2008-10-18 16:54:09","Extension method output in Container.DataItem?","<extension-methods><presentation-layer><frontend>","1","0","0","","","CC BY-SA 2.5"
+"215219","1","215231","","2008-10-18 16:22:34","","49","68269","<p>I have a really long 3 column table. I would like to </p>
+
+<pre><code>&lt;table&gt;
+    &lt;tr&gt;&lt;td&gt;Column1&lt;/td&gt;&lt;td&gt;Column2&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Column1&lt;/td&gt;&lt;td&gt;Column2&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Start&lt;/td&gt;&lt;td&gt;Hiding&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Column1&lt;/td&gt;&lt;td&gt;Column2&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Column1&lt;/td&gt;&lt;td&gt;Column2&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Column1&lt;/td&gt;&lt;td&gt;Column2&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;End&lt;/td&gt;&lt;td&gt;Hiding&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Column1&lt;/td&gt;&lt;td&gt;Column2&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Column1&lt;/td&gt;&lt;td&gt;Column2&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+</code></pre>
+
+<p>This is the result I'm trying to obtain using jQuery.</p>
+
+<pre><code>Column1  Column2
+Column1  Column2
+...Show Full Table...
+Column1  Column2
+Column1  Column2
+</code></pre>
+
+<p>I would like to use jQuery's show/hide feature to minimize the table but still show part of the top and bottom rows. The middle rows should be replace with text like ""Show Full Table"" and when clicked will expand to show the full table from start to finish.</p>
+
+<p>What is the best way to do this in jQuery?</p>
+
+<p>BTW I've already tried adding a class ""Table_Middle"" to some of the rows but it doesn't hide it completely the space it occupied is still there and I don't have the text to give the user a way to expand the table fully.</p>
+
+<p><strong>[EDIT] Added Working Example HTML inspired by Parand's posted answer</strong></p>
+
+<p><strong><em>The example below is a complete working example, you don't even need to download jquery. Just paste into a blank HTML file.</em></strong></p>
+
+<p><em>It degrades nicely to show only the full table if Javascript is turned off. If Javascript is on then it hides the middle table rows and adds the show/hide links.</em></p>
+
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=""Content-Type"" content=""text/html; charset=windows-1252""&gt;
+        &lt;title&gt;Example Show/Hide Middle rows of a table using jQuery&lt;/title&gt;
+        &lt;script src=""http://code.jquery.com/jquery-latest.js""&gt;&lt;/script&gt;
+        &lt;script type=""text/javascript""&gt;
+            $(document).ready(function() {
+                $(""#HiddenRowsNotice"").html(""&lt;tr&gt;&lt;td colspan='2'&gt; &lt;a href='#'&gt;&gt;&gt; some rows hidden &lt;&lt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;"");
+                $(""#ShowHide"").html(""&lt;tr&gt;&lt;td colspan='2'&gt;&lt;a href='#'&gt;show/hide middle rows&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;"");
+                $(""#HiddenRows"").hide();
+
+                $('#ShowHide,#HiddenRowsNotice').click( function() {
+                    $('#HiddenRows').toggle();  
+                    $('#HiddenRowsNotice').toggle();
+                });
+            });
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;table&gt;
+            &lt;tbody id=""ShowHide""&gt;&lt;/tbody&gt;
+                &lt;tr&gt;&lt;th&gt;Month Name&lt;/th&gt;&lt;th&gt;Month&lt;/th&gt;&lt;/tr&gt;
+            &lt;tbody&gt;
+                &lt;tr&gt;&lt;td&gt;Jan&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;    
+            &lt;/tbody&gt;
+            &lt;tbody id=""HiddenRowsNotice""&gt;&lt;/tbody&gt;
+            &lt;tbody id=""HiddenRows""&gt;
+                &lt;tr&gt;&lt;td&gt;Feb&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;td&gt;Mar&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;td&gt;Apr&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;/tr&gt;    
+            &lt;/tbody&gt;
+            &lt;tbody&gt;
+                &lt;tr&gt;&lt;td&gt;May&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;/tr&gt;            
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>[EDIT] Link my <a href=""http://www.developerbuzz.com/2008/10/use-jquery-to-show-and-hide-part-of.html"" rel=""nofollow noreferrer"">blog post</a> and working example.</p>
+","3747","brian","4370109","Brian Boatright","2016-09-14 10:24:43","2016-09-14 10:24:43","How do I hide the middle of a table using jQuery?","<jquery><html><html-table>","6","0","0","","","CC BY-SA 2.5"
+"215232","1","223145","","2008-10-18 16:33:07","","2","277","<p>My organization is starting to take SOA seriously but before we jump in one of the components we seem to be missing is a rock solid repository for tracking these services across the enterprise.  Can anyone suggest a product that they have worked with?  If the product is also an ESB please mention that in your answer.</p>
+","2701","Toran Billups","","","","2009-12-09 13:42:14","What repository products are available for keeping track of web services?","<esb>","3","0","0","","","CC BY-SA 2.5"
+"215233","1","","","2008-10-18 16:34:01","","-1","297","<p>I am trying to create an Xercesc DOM Parser in my code and for some reason and try to instiate an XercescDOM object I get a NULL pointer returned. I am using xercesc version 2.8
+Here the code.</p>
+
+<pre><code>using namespace xercesc;
+int main(int argc, char*argv[])
+{
+try
+{
+    XMLPlatformUtils::Initialize();
+}
+catch (const XMLException&amp; e) 
+{
+    char* errMsg = XMLString::transcode(e.getMessage());
+    cout &lt;&lt; ""Problem initializing parser: "" &lt;&lt; errMsg;
+    XMLString::release(&amp;errMsg);
+}
+
+XercesDOMParser* parser = new XercesDOMParser();
+if (!parser)
+    cout &lt;&lt; ""Failed to create parser"";
+}
+</code></pre>
+","24560","","14065","Martin York","2008-10-18 16:45:41","2008-11-02 16:07:55","Error creating xercesc dom parser object","<c++>","2","1","","","","CC BY-SA 2.5"
+"215235","1","215332","","2008-10-18 16:34:58","","16","21083","<p>Anybody know how to get gmail's OpenID working?  All I find is this <a href=""http://openid-provider.appspot.com/"" rel=""noreferrer"">http://openid-provider.appspot.com/</a>, which gives 302 moved followed by GET not supported on this URL.</p>
+
+<p>I'm assuming this one is broken. Any others?</p>
+","14768","Joshua","437948","","2011-05-24 12:54:12","2016-12-13 11:06:34","OpenId for gmail","<openid>","5","0","0","2013-06-06 07:10:00","","CC BY-SA 3.0"
+"215236","1","","","2008-10-18 16:35:18","","27","34149","<p>In Java, is there a programmatic way to find out how many concurrent threads are supported by a CPU?</p>
+
+<p><strong>Update</strong></p>
+
+<p>To clarify, I'm not trying to hammer the CPU with threads and I am aware of Runtime.getRuntime().availableProcessors() function, which provides me part of the information I'm looking for.</p>
+
+<p>I want to find out if there's a way to automatically tune the size of thread pool so that:</p>
+
+<ul>
+<li>if I'm running on a 1-year old server, I get 2 threads (1 thread per CPU x an arbitrary multiplier of 2)</li>
+<li>if I switch to an Intel i7 quad core two years from now (which supports 2 threads per core), I get 16 threads (2 logical threads per CPU x 4 CPUs x the arbitrary multiplier of 2).</li>
+<li>if, instead, I use a eight core Ultrasparc T2 server (which supports 8 threads per core), I get 128 threads (8 threads per CPU x 8 CPUs x the arbitrary multiplier of 2)</li>
+<li>if I deploy the same software on a cluster of 30 different machines, potentially purchased at different years, I don't need to read the CPU specs and set configuration options for every single one of them.</li>
+</ul>
+","20689","","20689","lhorie.blogspot.com","2008-10-18 18:26:09","2020-11-14 10:02:53","Threads per Processor","<java><concurrency>","7","0","0","","","CC BY-SA 2.5"
+"215248","1","215269","","2008-10-18 16:43:03","","10","34590","<p>I'm using a ListView in C# to make a grid.  I would like to find out a way to be able to highlight a specific cell, programatically.  I only need to highlight one cell.</p>
+
+<p>I've experimented with Owner Drawn subitems, but using the below code, I get highlighted cells, but no text!  Are there any ideas on how to get this working?  Thanks for your help.</p>
+
+<pre><code>//m_PC.Location is the X,Y coordinates of the highlighted cell.
+
+
+void listView1_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+{
+    if ((e.ItemIndex == m_PC.Location.Y) &amp;&amp; (e.Item.SubItems.IndexOf(e.SubItem) == m_PC.Location.X))
+        e.SubItem.BackColor = Color.Blue;
+    else
+        e.SubItem.BackColor = Color.White;
+    e.DrawBackground();
+    e.DrawText();
+}
+</code></pre>
+","29249","Mike Christiansen","","","","2012-10-22 22:41:14","C# ListView Detail, Highlight a single cell","<c#><listview><highlight><ownerdrawn>","3","0","0","","","CC BY-SA 2.5"
+"215251","1","","","2008-10-18 16:45:38","","4","1351","<p>I'm designing a database for an events management site - there is a table of venues and a table of events. Each event is in a venue (stores the venue's id) and each venue is in a city. It must be possible to search for event by city, should city be a field in the venues table (which could possibly result in duplicate cities due to misspellings) or should there be a table of cities (each with an id and a name) and a one-to-many table linking cities with venues (cityid, venueid)?</p>
+
+<p>I know this is a pretty basic question, but I'm not really sure whether the extra join and extra two tables would be worth it or not.</p>
+
+<p>Thanks in advance</p>
+
+<p>[EDIT] @tvanfosson: Changed from many-to-many to one-to-many since each venue is associated with a single city.</p>
+","17457","hacama","12950","tvanfosson","2008-10-18 17:45:05","2009-03-16 06:29:32","Database design question - field or new table + one to many","<database-design><normalization>","7","0","0","","","CC BY-SA 2.5"
+"215252","1","4289323","","2008-10-18 16:45:54","","45","25122","<p>I get a ""UUID mismatch"" warning at the console when I try to build and run my app on my iPhone.</p>
+
+<blockquote>
+  <p>warning: UUID mismatch detected with
+  the loaded library - on disk is:
+  /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.1.sdk/usr/lib/liblockdown.dylib
+  =uuid-mismatch-with-loaded-file,file=""/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.1.sdk/usr/lib/liblockdown.dylib</p>
+</blockquote>
+
+<p>Anyone has this issue and managed to resolve the warning ?</p>
+","1987","ronin","1987","Ned Batchelder","2010-04-07 19:13:45","2012-01-19 18:59:07","UUID mismatch detected with the loaded library","<iphone><objective-c><cocoa-touch>","14","0","0","","","CC BY-SA 2.5"
+"215255","1","","","2008-10-18 16:47:26","","264","58659","<blockquote>
+  <p><strong>Possible Duplicate:</strong><br>
+  <a href=""https://stackoverflow.com/questions/7074/in-c-sharp-what-is-the-difference-between-string-and-string"">In C# what is the difference between String and string</a>  </p>
+</blockquote>
+
+
+
+<p>In C# the string keyword (highlighted in Visual Studio as a data type) is just a shortcut to the String class right?</p>
+
+<p>In that case, it would be the same to use either while coding from the semantic point of view. However, is it the same from the performance point of view? I mean, when the mapping is performed: during compilation (I guess so), during compilation or during JIT compilation in execution? </p>
+
+<p>Or maybe this is all wrong: string and String are not the same thing in C# so there are some situations where they cannot be interchanged</p>
+","26699","Toto","-1","Toto","2017-05-23 12:32:39","2011-12-03 19:53:47","String vs string in C#","<c#><.net><performance><string><types>","0","0","0","2012-02-12 16:15:35","","CC BY-SA 2.5"
+"215267","1","215298","","2008-10-18 16:51:02","","1","2032","<p>We've been using Trac for task/defect tracking and things were going well enough, but this morning it started serving up a 500 error. Looking in the Apache error_log, I get a stack trace that culminates in:</p>
+
+<pre>
+PythonHandler trac.web.modpython_frontend:
+  ExtractionError: Can't extract file(s) to egg cache
+
+The following error occurred while trying to extract file(s) to the Python egg
+cache:
+
+  [Errno 13] Permission denied: '/.python-eggs'
+
+The Python egg cache directory is currently set to:
+
+  /.python-eggs
+
+Perhaps your account does not have write access to this directory?  You can
+change the cache directory by setting the PYTHON_EGG_CACHE environment
+variable to point to an accessible directory
+</pre>
+
+<p>So I explicitly set PYTHON_EGG_CACHE to /srv/trac/plugin-cache. I restarted Apache. Yet I get the same error (it still says ""egg cache directory current set to: \n\n /.python_eggs."")</p>
+
+<p>How should I proceed? Is the simplest thing to do to reinstall Trac? If I go that route, what steps do I need to take to ensure that I don't lose existing data?</p>
+","10116","","1","Jeff Atwood","2008-10-18 16:53:06","2009-01-02 05:39:07","How do you fix a Trac installation that begins giving errors relating to PYTHON_EGG_CACHE?","<python><configuration><trac><python-egg-cache>","5","0","","","","CC BY-SA 2.5"
+"215271","1","27095994","","2008-10-18 16:53:10","","64","125905","<p>I've got a <strong>large</strong> array of primitive types (double).
+How do I sort the elements in <strong>descending order</strong>?</p>
+<p>Unfortunately the Java API doesn't support sorting of <strong>primitive</strong> types with a Comparator.</p>
+<p>The first approach that probably comes to mind is to convert it to a list of objects (boxing):</p>
+<pre><code>double[] array = new double[1048576];    
+Arrays.stream(array).boxed().sorted(Collections.reverseOrder())…
+</code></pre>
+<p>This solution is probably good enough for many (or even most) use cases but <strong>boxing</strong> each primitive in the array is <strong>too slow and causes a lot of GC pressure</strong> if the array is large!</p>
+<p>Another approach would be to sort and then reverse:</p>
+<pre><code>double[] array = new double[1048576];
+...
+Arrays.sort(array);
+// reverse the array
+for (int i = 0; i &lt; array.length / 2; i++) {
+     // swap the elements
+     double temp = array[i];
+     array[i] = array[array.length - (i + 1)];
+     array[array.length - (i + 1)] = temp;
+}
+   
+</code></pre>
+<p><strong>This approach can also be too slow</strong> if the array is already sorted quite well.</p>
+<p>What's a better alternative if the arrays are large and performance is the major optimization goal?</p>
+","4308","bene","4308","","2022-09-12 10:21:46","2022-09-12 10:21:46","Sort large arrays of primitive types in descending order","<java><sorting>","22","0","0","","","CC BY-SA 4.0"
+"215274","1","","","2008-10-18 16:54:47","","3","956","<p>We need to implement a large-scale key-value store (let's say up to 500GB) and BerkeleyDB seemed like it might be a decent option, but we would really like it to be network accessible. This led me to look at memcachedb. I haven't found much on the web where people talk about actual experiences with memcachedb, so my questions are, if you've used memcachedb:</p>
+
+<ul>
+<li>would you recommend using it for a large k-v store?</li>
+<li>if not, why not?</li>
+</ul>
+
+<p>Thanks in advance!</p>
+
+<p>Francis</p>
+","29250","","1553","InSciTek Jeff","2008-10-18 19:23:26","2008-10-19 11:47:02","Opinions about using memcachedb as a large-scale key-value store","<database>","2","0","0","","","CC BY-SA 2.5"
+"215285","1","215290","","2008-10-18 17:03:44","","7","1775","<p>I know a fair bit about the Windows Task Manager in XP, but I would like to understand it better in Vista.  What is the difference between ""Working Set (Memory)"" and ""Memory (Private Working Set)"".  What is the Paged Pool, what is the NP Pool (Non-Paged?).  How do I use these to determine what is going on with memory usage?  As an aside, when you minimize a program it frequently returns 90% of the memory it is using.  Is there any way to do this without minimizing it?</p>
+","29140","","356440","Ferruccio","2013-01-03 10:03:35","2013-01-03 10:03:35","Programmer's understanding of Memory in the Vista Windows Task Manager","<windows><memory><windows-vista>","2","0","0","","","CC BY-SA 3.0"
+"215297","1","","","2008-10-18 17:18:15","","9","2167","<p>First some background. I recently went for an interview and some of the questions asked to me was about Enterprise Content Management. Obviously, I did not have any experience and did not get the offer. </p>
+
+<p>But, it increased my curiosity and tried Internet to get some info on the topic. Wikipedia made me more confused with even more buzzwords. Most of the stuff on the web is marketing related and relevant to specific products like Sharepoint or Drupal etc.</p>
+
+<p>I need some help in understanding more about the topic or the <strong>domain</strong> in simpler terms. What is the requirement to use it? What kind of companies use it? What are the problem areas it tries to address? Any popular use cases? Any places where it looks like a good fit but it is not actually?</p>
+
+<p>Lastly, any good book or articles on the topic without being specific to any product?</p>
+","29254","Tim","","Mark Brady","2008-11-04 18:05:46","2012-07-16 09:33:43","How to define Content Management","<content-management>","3","0","0","2012-07-16 10:16:18","","CC BY-SA 2.5"
+"215302","1","215305","","2008-10-18 17:25:04","","5","3536","<p>I am trying to create a file in the <code>/tmp</code> directory (working on a Linux UBUNTU 7.10), that has read/write/execute access for any user.</p>
+<p>So I am using the</p>
+<pre><code>open(fileName,O_CREAT|O_RDWR,0777)
+</code></pre>
+<p>function to create the file (from a C program) in <code>user1</code> account and I would like <code>user2</code> to be able to write to the specific file.</p>
+<p>However, when I check the <code>/tmp</code> directory, using</p>
+<pre><code>ls -l
+</code></pre>
+<p>I see that I do not have the <strong>write access permission</strong> for <code>user2</code> (considering the fact that <code>user1</code> created it, I have write access  for <code>user1</code>, but <code>user2</code>, who is considered to be &quot;others&quot; does not have any access).</p>
+<p>I have tried to use mode <code>0766</code> in the <code>open</code> function (and such combinations of <code>7</code> and <code>6</code> for modes), so that I may get write access for <code>user2</code>, but I still don't have the required access.</p>
+","23486","AndreiC","5104596","","2021-04-04 17:03:38","2021-04-04 17:03:38","How do I create a file in UNIX /tmp directory so that all users can read and write to it?","<c><unix><security>","5","0","0","","","CC BY-SA 4.0"
+"215306","1","215469","","2008-10-18 17:28:26","","19","2120","<p>I run a small php/mysql website for a camera club where users can upload photos. I have recently started storing email addresses for doing password resets. </p>
+
+<p>My question is what is the best practice for dealing with users' personal information: are there any laws/legislation regarding what I can do with personal information? Do I need to display my policy for dealing with personal information?</p>
+
+<p>Any further information regarding this subject is greatly received.</p>
+
+<p>Thanks</p>
+","26111","Funky Si","50776","nickf","2012-08-29 14:19:20","2012-09-17 12:05:55","Storing Personal Information Dos and Don'ts","<security>","8","1","0","2012-08-29 14:19:24","","CC BY-SA 2.5"
+"215316","1","215445","","2008-10-18 17:35:55","","7","11445","<p>I've got a tomcat 6 web app running with Apache httpd as the front end. I'm using mod_proxy and mod_proxy_ajp to forward the requests to tomcat. My server is running Ubuntu. Now I'm trying to use mod_rewrite to remove the leading www, so that my canonical website URL is <code>http://example.com</code> rather than <code>http://www.example.com</code></p>
+<p>I've read a number of tutorials on using mod_rewrite, but I can't get any rewriting to work. I've tried putting the rewrite rule in an <code>.htaccess</code> file (after modifying my <code>/etc/apache/sites-available/default</code> file to set AllowOverride all). I've tried putting the rewrite rule in <code>apache2.conf</code>, <code>httpd.conf</code>, and <code>rewrite.conf</code>. I've tried all of these with rewrite logging turned on. The log file gets created, but Apache has written nothing to it. I thought maybe mod_proxy was somehow preventing the rewrite rules from being used, so I tried disabling that as well...and I still get no rewrite, and nothing to the log.</p>
+<p>At this point I have absolutely no idea what to try next. How do I go about troubleshooting why Apache isn't using my rewrite rules?</p>
+<p>For reference, here are my rewrite directives:</p>
+<pre><code>&lt;IfModule mod_rewrite.c&gt;
+
+    RewriteEngine on
+    RewriteCond %{HTTP_HOST} ^www.example.com$ [NC]
+    RewriteRule ^(.*)$ http://example.com/$1 [R=301,L]
+    RewriteLog &quot;/var/log/apache2/rewrite.log&quot;
+    RewriteLogLevel 3
+
+&lt;/IfModule&gt;
+</code></pre>
+<p>the responses below are helpful to my particular case, but probably not as helpful to the community-at-large as answers about how you troubleshoot Apache directives in general. For example, is there a way to enable logging to the point where it would tell me which directives are being applied in which order as the request comes in?</p>
+<p><strong>Edit 2</strong>: I've gotten things to work now. My virtual hosts weren't quite set up right, and I also didn't quite have the rewrite regex right. Here is the final rewrite directives I got to work:</p>
+<pre><code>&lt;IfModule mod_rewrite.c&gt;
+        RewriteEngine On
+        RewriteCond %{HTTP_HOST} ^www\.example\.com [NC]
+        RewriteRule ^(.*)$ http://example.com$1 [L,R=301]
+&lt;/IfModule&gt;
+</code></pre>
+","29262","","1145388","Myron","2022-07-11 22:04:20","2022-07-11 22:04:20","How do I troubleshoot why my rewrite rules aren't being applied by Apache?","<apache><tomcat><mod-rewrite>","4","2","0","","","CC BY-SA 4.0"
+"215347","1","216724","","2008-10-18 18:02:06","","7","1440","<p>How do large web sites which cannot be completely stateless achieve extreme scalability at the web tier?</p>
+
+<p>There are sites like eBay and Amazon, which cannot be completely stateless, as they have a shopping cart or something like that. It isn't feasible to encode every item in the shopping cart into the URL, nor is it feasible to encode every item into a cookie and send it at every connection. So Amazon simply stores the session-id into the cookie which is being sent. So I understand that the scalability of the web tier of eBay and Amazon should be much harder than the scalability of the google search engine, where everything can be encoded restful into the URL. </p>
+
+<p>On the other hand, both eBay as well as Amazon scaled absolutely massively. Rumor is that there are some 15000 J2EE Application Servers at eBay.</p>
+
+<p>How do these sites handle both: extreme scalability and statefulness? As the site is stateful, it isn't feasible to do a simple DNS-Balancing. So one would assume that these companies have a hardware based load balancer like BigIP, Netscaler or something like that, which is the sole device behind the single IP address of that site. This load balancer would decrypt the SSL (if encoded), inspect the cookie and decide depending on the session id of that cookie which application server holds the session of that customer.</p>
+
+<p>But this just can't possibly work as no single load-balancer could possibly handle the load of thousands of application servers? I would imagine that even these hardware load balancers do not scale to such a level.</p>
+
+<p>Also, the load-balancing is being done transparently for the user, i.e. the users are not forwarded to different addresses, but still all collectively stay at www.amazon.com the whole time.</p>
+
+<p>So my question is: Is there some special trick with which one can achieve something like transparent sharding of the web tier (not the database tier as done commonly)? As long as the cookie isn't inspected there is no way to know which application server is holding this session.</p>
+
+<p><strong>Edit:</strong> I realized that there is only a need for transparency, if there is a need for the site to be spidered and bookmarked. E.g. if the site is a mere web app, something like a plane or train ticket reservation system, there should be no problem with just redirecting the users to specific clusters of web servers behind different urls, e.g. a17.ticketreservation.com. In this specific case, it would be feasible to just use multiple clusters of application servers, each behind his own load balancer.
+Interestingly, I did not find a site which uses this kind of concept.
+<strong>Edit:</strong> I found this concept <a href=""http://highscalability.com/save-load-balancer-using-client-side-load-balancing"" rel=""nofollow noreferrer"">discussed</a> at <a href=""http://highscalability.com/"" rel=""nofollow noreferrer"">highscalability.com</a>, where the discussion refers to an article by Lei Zhu named <strong><a href=""http://www.digital-web.com/articles/client_side_load_balancing/"" rel=""nofollow noreferrer"">""Client Side Load Balancing for Web 2.0 Applications""</a></strong>. Lei Zhu uses cross scripting to do this client side load balancing transparently.</p>
+
+<p>Even if there are drawbacks, like bookmarking, xss, etc, I do think that this sounds like a extremely good idea for certain special situations, namely almost content-free web applications, which are not needed to be spidered or bookmarked (e.g. ticket reservation systems or something like that). Then there is no need to do the load balancing transparently.</p>
+
+<p>There could be a simple redirect from the main site to the server, e.g. a redirect from www.ticketreservation.com to a17.ticketreservation.com. From there on the user stays at the server a17. a17 is not a server, but a cluster itself, by which redundancy could be achieved.</p>
+
+<p>The initial redirect server could itself be a cluster behind a load balancer. This way, a really high scalability could be achieved, as the primary load balancer behind www is only hit once at the beginning of each session.</p>
+
+<p>Of course, the redirect to different urls looks extremely nasty, but with mere web applications (which do not need to be spidered, deep-linked or deep-bookmarked anyway), this should be only an optical problem for the user?</p>
+
+<p>The redirect-cluster could poll the load of the application clusters and adapt the redirects accordingly, thus achieving balancing and not mere load distribution.</p>
+","11609","","8425002","","2017-09-02 20:36:03","2017-09-02 20:36:03","Sharding (sic!) the web tier in order to prevent a load balancer bottleneck?","<design-patterns><architecture><jakarta-ee><scalability>","4","0","0","","","CC BY-SA 3.0"
+"215361","1","215366","","2008-10-18 18:14:28","","2","900","<p>I need a regex that matches all strings ending in .cs, but if they end in .g.cs they should not match. I'm using .NET regular expressions.</p>
+","7532","Mark Heath","","","","2008-10-18 19:55:53","Regex for strings ending in .cs but not in .g.cs","<.net><regex>","2","0","0","","","CC BY-SA 2.5"
+"215375","1","215384","","2008-10-18 18:22:58","","8","895","<p>I am testing some weird-looking CSS code that I wrote (I'm using a mix of percentages and pixel values for width of DIVs, basically). While I'm not convinced that it's right, it works perfectly on all screen sizes on IE 5.5, IE 6.0 (<a href=""http://tredosoft.com/Multiple_IE"" rel=""nofollow noreferrer"">thanks to these guys</a>!), IE 7.0, Firefox 3.0 and Safari 3.12... all on Windows XP. Do I need to further worry about testing the code on Mac and Linux, or will it most likely work on these two without fail?</p>
+<hr />
+<h3>Edit:</h3>
+<p>After a few months of working with this problem, I've found that Safari and Firefox are amazingly consistent between Mac and PC.</p>
+","8047","Daniel Rosenstark","-1","Daniel Rosenstark","2020-06-20 09:12:55","2009-06-01 19:47:11","If your slightly strange CSS code works on all browsers on Windows, will it work on Mac and Linux?","<css><multiple-browsers>","7","1","","","","CC BY-SA 2.5"
+"215383","1","215531","","2008-10-18 18:26:56","","5","22956","<p>I have a custom UIView that generates a set of subviews and display them in rows and columns like tiles. What I am trying to achieve is to allow the user to touch the screen and as the finger move, the tiles beneath it disappears. </p>
+
+<p>The code below is the custom UIView that contains the tiles:</p>
+
+<pre><code>- (id)initWithFrame:(CGRect)frame {
+
+    if (self = [super initWithFrame:frame]) {
+        int i, j;
+        int maxCol = floor(self.frame.size.width/TILE_SPACING);
+        int maxRow = floor(self.frame.size.height/TILE_SPACING);
+
+        CGRect frame = CGRectMake(0, 0, TILE_WIDTH, TILE_HEIGHT);
+        UIView *tile;       
+
+        for (i = 0; i&lt;maxCol; i++) {
+            for (j = 0; j &lt; maxRow; j++) {
+                frame.origin.x =  i * (TILE_SPACING) + TILE_PADDING;
+                frame.origin.y =  j * (TILE_SPACING) + TILE_PADDING;
+                tile = [[UIView alloc] initWithFrame:frame];
+
+                [self addSubview:tile];
+                [tile release]; 
+            }
+        }
+
+    }
+    return self;
+}
+
+
+- (void)touchesBegan: (NSSet *)touches withEvent:(UIEvent *)event {
+    UIView *tile = [self hitTest:[[touches anyObject] locationInView:self] withEvent:nil];
+
+    if (tile != self)
+        [tile setHidden:YES];
+}
+
+
+
+- (void)touchesMoved: (NSSet *)touches withEvent:(UIEvent *)event {
+    UIView *tile = [self hitTest:[[touches anyObject] locationInView:self] withEvent:nil];
+
+    if (tile != self)
+        [tile setHidden:YES];
+}
+</code></pre>
+
+<p>This approach works but however if the tiles get denser (i.e. small tiles and more tiles on the screen). The iPhone is less responsive as the finger move. It may be the hitTest taking a toll on the processor as it struggles to keep up but would like some opinions.</p>
+
+<p>My questions are:</p>
+
+<ol>
+<li><p>Is this an efficient way / right way to implement the touchesMoved?</p></li>
+<li><p>If it isn't, what would be the recommended approach?</p></li>
+<li><p>I tried moving the functionality into a custom Tile class (a sub UIView) which the class above would create and add as a subview. This subview Tile can handle the TouchesBegan but as the finger move, the other tiles does not receive the TouchesBegan even since the touches are still part of the initial touch sequence. Is there a way to implement it through the subview Tile class, how do other tiles receive the TouchesBegan/TouchesMoved event as the finger move?</p></li>
+</ol>
+","1987","ronin","14343","Ned Batchelder","2008-11-09 21:47:55","2009-04-19 22:35:43","Right way to implement TouchesMoved?","<iphone><objective-c><cocoa-touch>","3","0","0","","","CC BY-SA 2.5"
+"215387","1","216551","","2008-10-18 18:30:46","","0","1883","<p>I have an MS Access 2002 database with password security. </p>
+
+<p>When I exit the application, the password dialog box reappears. Now, after this I can only exit the application if I give in the password again or press Cancel.</p>
+
+<p>I don't know why this dialog appears on exit.</p>
+","384","Adhip Gupta","","","","2013-01-09 16:18:40","Access asking for password on exit","<ms-access>","2","0","","2008-10-19 16:44:23","","CC BY-SA 2.5"
+"215389","1","265334","","2008-10-18 18:31:10","","11","5583","<p>I'm working on a database project and I need to create Outlook 2007 plugin that saves the current previewed message into my database.</p>
+
+<p>Can someone give me a step-by-step guide on how to create an Outlook plugin in Delphi, and how to deploy it?</p>
+
+<p>Thanks</p>
+","29276","Salameh","672","kogus","2008-10-21 19:09:18","2011-11-16 11:08:35","How to Create an Outlook Plugin using Delphi?","<delphi><com><plugins><outlook>","5","0","0","","","CC BY-SA 2.5"
+"215390","1","","","2008-10-18 18:31:55","","54","51274","<p>I'm starting a web application that will target Mobile Safari on iPhone/iPod Touch.  I'm evaluating the available client-side JavaScript/CSS libraries/frameworks that are currently out there.</p>
+
+<p>These are the ones I'm currenlty aware of:</p>
+
+<ul>
+<li><a href=""http://code.google.com/p/iui/"" rel=""nofollow noreferrer"" title=""iUI"">iUI</a></li>
+<li><a href=""http://code.google.com/p/ciui-dev"" rel=""nofollow noreferrer"">CiUI</a></li>
+<li><a href=""http://code.google.com/p/iphone-universal/"" rel=""nofollow noreferrer"">UiUIKit</a></li>
+<li><a href=""http://webapp.net.free.fr/"" rel=""nofollow noreferrer"">WebApp.Net</a></li>
+<li><a href=""http://snippetspace.com/projects/iwebkit/"" rel=""nofollow noreferrer"">iWebKit</a></li>
+<li><a href=""http://developer.apple.com/documentation/AppleApplications/Conceptual/Dashcode_UserGuide/Contents/Resources/en.lproj/Introduction/chapter_1_section_1.html"" rel=""nofollow noreferrer"">Apple's Dashcode Application</a> - not really a standalone library/framework, but it provides/generates JavaScript, CSS, and images that conform to the native iPhone UI metaphors.</li>
+</ul>
+
+<p>Are there any others out there?  I want to make sure I'm not missing any before I make a decision.  I'm only looking for client-side JavaScript/CSS solutions and building one from scratch isn't an option because of time constraints.  No server-side PHP, Ruby, Python, Java, etc. solutions.</p>
+
+<p>I am aware of the <a href=""https://stackoverflow.com/questions/8756/iphone-web-applications-templates-frameworks"">iPhone web applications, templates, frameworks?</a> question that was asked, but this only mentioned iUI and UiUIKit.</p>
+
+<p>Thank you</p>
+","29148","methym","-1","methym","2017-05-23 12:34:01","2012-12-19 02:48:45","Available iPhone Web Application JavaScript UI Library/Frameworks","<javascript><iphone><frameworks><mobile-safari>","11","1","0","","","CC BY-SA 3.0"
+"215392","1","215489","","2008-10-18 18:33:41","","5","3664","<p>I am busy writing my thesis (so, I guess this could count as a homework question). Now, one of the things that came up was the Unix <code>select</code> system call. I would like to add a reference to the appropriate man page, but all I can find that seems the slight bit official is the Single Unix Specification site that wants my money first. Sure, the Linux guys all have man pages, but they have real geeky urls that don't look like they will stay around forever. What to do? So far I am referring to <em>See SELECT(2) UNIX man page</em>...</p>
+","2260","Daren Thomas","","user1228","2013-07-24 13:58:46","2013-07-24 13:58:46","How to reference man pages in CS papers?","<language-agnostic>","4","0","0","","","CC BY-SA 2.5"
+"215399","1","","","2008-10-18 18:39:49","","14","9906","<p>Suppose I have a class where I want the user to be able to have a reference to one of my members. Which is preferred?</p>
+
+<pre><code>class Member;
+
+class ClassWithWeakPtr
+{
+private:
+   boost::shared_ptr&lt;Member&gt; _member;
+public:
+   boost::weak_ptr&lt;Member&gt; GetMember();
+};
+</code></pre>
+
+<p>or</p>
+
+<pre><code>class Member;
+
+class ClassWithCppReference
+{
+private:
+    Member _member;
+public:
+    Member&amp; GetMember() {return _member;}
+};
+</code></pre>
+
+<p>What do you think? When is one better than another?</p>
+","8123","Doug T.","","","","2009-07-22 18:01:53","Better to return a C++ reference or a weak_ptr?","<c++><boost><reference>","9","0","0","","","CC BY-SA 2.5"
+"215412","1","215435","","2008-10-18 18:46:46","","23","29706","<p>Is there a way to programmatically change the screen resolution or enable/disable multiple monitors in Windows XP?  For example to change from 1024x768 with one monitor to 1280x1024 on two monitors?  I would be most interested in a win32 function to do this but anything that can be tied to a windows shortcut would suffice.</p>
+","6320","jacobsee","2921691","","2021-10-25 09:49:13","2021-10-25 09:49:13","Programmatically change screen resolution?","<windows><winapi><resolution><multiple-monitors>","4","5","0","","","CC BY-SA 4.0"
+"215413","1","215418","","2008-10-18 18:47:39","","1","420","<p>I got some problems with finding a bug in php/mysql application, and I wonder if I can do something like this: <code>UPDATE table SET userid='2' WHERE userid='1'</code> - > Can I update something I state in WHERE?</p>
+","21209","Skuta","1209430","","2012-05-01 13:28:32","2012-05-01 13:45:22","Is this correct way of update query in MySQL?","<mysql><sql-update>","2","0","","","","CC BY-SA 3.0"
+"215421","1","215442","","2008-10-18 18:51:35","","4","310","<p>I have a fairly simple addition to the HTTP standard.  An ambitious goal I know, but I'd at least like to submit a proposal and get feedback on the idea.  What is the proper forum/method of doing so?</p>
+","1200558","gdean2323","1553","InSciTek Jeff","2008-10-18 19:18:40","2008-10-18 19:18:40","How do I suggest a change to the HTTP standard?","<http><standards><rfc>","2","1","0","","","CC BY-SA 2.5"
+"215430","1","215432","","2008-10-18 18:58:19","","2","1498","<p>I have to use unsigned integers that could span to more than 4 bytes, what type should I use?</p>
+
+<p>PS Sorry for the ""noobism"" but that's it :D</p>
+
+<p>NB: I need integers because i have to do divisions and care only for the integer parts and this way int are useful</p>
+","22963","luiss","","","","2008-10-18 20:42:23","What type for an integer of more than 4 bytes?","<c++><integer>","5","0","","","","CC BY-SA 2.5"
+"215451","1","","","2008-10-18 19:13:12","","3","650","<p>With one worker, who can only perform one task at a time (but can switch between tasks instantly)</p>
+
+<p>Given a list of tasks,<br>
+-- defined as ""n seconds, every m seconds"" (eg, 5 seconds every 3600 seconds)</p>
+
+<p>How could I find the best starting times and count for each task?</p>
+
+<p>If every task were ""1 second, every 60 seconds"", each would have an unique starting second, and the count would be infinite (steady state).<br>
+If it was ""1 second every 4 seconds"" and ""1 second every 3 seconds"", the result would be: "" 0, infinite and 3, 3 times"" </p>
+
+<p>-- 
+Hopefully simplest form   </p>
+
+<p>If already I have a list of tasks, elaborated with ""start second and number of times"", what would a function that returns: {start, count} for an additional {n seconds every m seconds} task look like?</p>
+
+<p>-- 
+(Slightly more complex form --<br>
+if instead of ""n seconds every m seconds"",<br>
+the tasks were defined as ""n seconds every l..o seconds"",<br>
+where I could pick a number m in the range l - o (but would have to commit to that m until the task was finished),<br>
+would that allow  better worker utilization?<br>
+How would I choose the best 'm' ? </p>
+","24404","Procedural Throwback","24404","Procedural Throwback","2008-10-18 19:39:03","2008-11-28 07:32:00","Scheduling a worker with overlapping periodic tasks","<algorithm><math><puzzle>","4","0","0","","","CC BY-SA 2.5"
+"215457","1","218370","","2008-10-18 19:15:54","","1","6849","<p>I am looking for a way to display a modal window in WPF the same way as a window in Cocoa can be displayed as a sheet, i.e. it slides down from the titlebar in front of the main parent window.</p>
+
+<p>My guess is that this would be accomplished by having the modal window as a user control which is loaded into a panel when displayed, and that this panel is the one which would be animated somehow from the titlebar.</p>
+
+<p>Any ideas on how to do this?</p>
+
+<p><em>P.S: <a href=""http://cocoadevcentral.com/articles/000014.php"" rel=""nofollow noreferrer"">Here</a> is a brief description of the NSWindow/sheet in case you don't what it is</em>.</p>
+","4582","Geir-Tore Lindsve","3204551","","2015-04-16 20:34:13","2015-04-16 20:34:13","Display WPF modal window/dialog/panel the same way as a NSWindow can be displayed like a sheet in Cocoa","<.net><wpf><cocoa><modal-dialog>","4","0","","","","CC BY-SA 2.5"
+"215458","1","215462","","2008-10-18 19:16:02","","161","76256","<p>The calculations in my code are well-tested, but because there is so much GUI code, my overall code coverage is lower than I'd like. Are there any guidelines on unit-testing GUI code? Does it even make sense?</p>
+
+<p>For example, there are graphs in my app. I haven't been able to figure out how to automate the testing of the graphs. It takes a human eye, AFAIK, to check if the graph is correct.</p>
+
+<p>(I'm using Java Swing)</p>
+","2959","Steve McLeod","458982","","2019-12-02 22:29:35","2019-12-02 22:29:35","How can I unit test a GUI?","<unit-testing><user-interface><code-coverage>","14","5","0","","","CC BY-SA 2.5"
+"215461","1","215468","","2008-10-18 19:17:33","","6","6278","<p>How do I programmatically force the deletion of files that are locked by the operating system or any other program with C/C++? The functionality should be similar to the software ""Unlocker"" at <a href=""http://ccollomb.free.fr/unlocker"" rel=""nofollow noreferrer"">http://ccollomb.free.fr/unlocker</a>.</p>
+","29281","alrashedf","5640","Rich B","2009-03-23 21:28:01","2009-03-23 21:28:01","How can I force the deletion of locked files in C/C++?","<c++><c>","3","1","0","","","CC BY-SA 2.5"
+"215470","1","","","2008-10-18 19:23:47","","8","912","<p>If you were allowed to add another coding guideline to the 101 guidelines of the <a href=""http://www.gotw.ca/publications/c++cs.htm"" rel=""noreferrer"">""C++ coding standards"" (Herb Sutter and Andrei Alexandrescu)</a>, which would you add?</p>
+","19863","andreas buykx","","","","2009-02-19 14:57:25","C++ Coding Guideline 102","<c++><coding-style>","5","0","0","","","CC BY-SA 2.5"
+"215471","1","215538","","2008-10-18 19:25:39","","1","5282","<p>In VS2008 I have written a C# service, an installer, and have created a setup package to install it. The service needs to load an xml file to operate. Where is the best place to put this file in the various filesystem folders offered by the VS setup project, and how do I then refer to these paths from my code?</p>
+<p>I should point out the the service runs as <code>LocalService</code>, which means that the ApplicationData folder offered by the &quot;User's Application Data Folder&quot; item in the VS setup project is not accessible, even when &quot;Install for all users&quot; is used during installation. I could easily hack around this, but would like to understand best practice.</p>
+","14357","spender","17142802","user3850","2022-04-01 15:50:21","2022-04-01 15:50:21","Locating installer paths in c#","<c#><visual-studio-2008><installation><service>","4","0","0","","","CC BY-SA 4.0"
+"215497","1","215505","","2008-10-18 19:53:12","","3641","2529955","<p>In Java, are there clear rules on when to use each of access modifiers, namely the default (package private), <code>public</code>, <code>protected</code> and <code>private</code>, while making <code>class</code> and <code>interface</code> and dealing with inheritance?</p>
+","625","","1063716","","2018-09-11 14:54:49","2023-05-03 17:32:40","What is the difference between public, protected, package-private and private in Java?","<java><private><public><protected><access-modifiers>","30","12","0","","","CC BY-SA 4.0"
+"215498","1","","","2008-10-18 19:53:20","","1","437","<p>It's been my experience that some security software (like Symantec's Norton AntiVirus) oftentimes prohibit their removal from a Windows system via the ""Add or Remove Programs"" utility, going so far as to occasionally require a removal program obtained from Symantec's homepage.  (I assume this it to prevent a malicious program from disabling the security software... any other reason?)</p>
+
+<p>How can a program be configured to resist removal via a system's uninstall utility, or via deleting the program's directory?  Is Norton the only software suite that employs this technique, or is this widespread amongst security software?  Are there similar techniques that can be used on Unix / -like systems?</p>
+","28076","Chance","21755","Paul","2008-11-15 16:34:52","2009-02-27 20:06:45","How Does Security Software Prevent its Unauthorized Removal from System?","<security><uninstallation><antivirus>","3","0","","","","CC BY-SA 2.5"
+"215515","1","215659","","2008-10-18 20:07:15","","51","178228","<p>I have a simple class that essentially just holds some values. I have overridden the <code>ToString()</code> method to return a nice string representation.</p>
+
+<p>Now, I want to create a <code>ToXml()</code> method, that will return something like this:</p>
+
+<pre><code>&lt;Song&gt;
+    &lt;Artist&gt;Bla&lt;/Artist&gt;
+    &lt;Title&gt;Foo&lt;/Title&gt;
+&lt;/Song&gt;
+</code></pre>
+
+<p>Of course, I could just use a <code>StringBuilder</code> here, but I would like to return an <code>XmlNode</code> or <code>XmlElement</code>, to be used with <code>XmlDocument.AppendChild</code>.</p>
+
+<p>I do not seem to be able to create an <code>XmlElement</code> other than calling <code>XmlDocument.CreateElement</code>, so I wonder if I have just overlooked anything, or if I really either have to pass in either a <code>XmlDocument</code> or <code>ref XmlElement</code> to work with, or have the function return a String that contains the XML I want?</p>
+","91","Michael Stum","63550","Michael Stum","2010-05-15 22:21:56","2022-07-03 12:29:01","Creating an XmlNode/XmlElement in C# without an XmlDocument?","<c#><xml>","12","2","0","","","CC BY-SA 2.5"
+"215516","1","215653","","2008-10-18 20:07:41","","1","1433","<p>I am working on a winforms html editor with multiple editor windows as each editor window will be written to a database field.</p>
+
+<p>I am creating the editor windows as a control array and was hoping to just have one toolbar above them that would handle the events such as apply bold, italic... based on the window I was currently in. Unfortunately obviously the event handler of an event on the toolbar doesn't know what the control selected before it was. </p>
+
+<p>Is there a way to get this or should I be adding an onenter event to each editor window and storing statically the last editor window used.</p>
+","16989","","12950","tvanfosson","2008-10-18 21:01:35","2008-10-18 22:22:08","C# handle control array event caused by another control","<c#><winforms><events><control-array>","2","0","","","","CC BY-SA 2.5"
+"215517","1","215551","","2008-10-18 20:08:04","","5","983","<p>Does anyone know of any code or tools that can strip literal values out of SQL statements?</p>
+
+<p>The reason for asking is I want to correctly judge the SQL workload in our database and I'm worried I might miss out on bad statements whose resource usage get masked because they are displayed as separate statements.  When, in reality, they are pretty much the same thing except for different IDs being passed in.  </p>
+
+<p>I'd prefer a database independent solution if any exists.  I had thought there might be a nifty Perl module for this but I haven't found any.</p>
+
+<p>Thanks for your help.</p>
+","29286","Mark S","2766176","brian d foy","2008-10-20 14:29:50","2009-06-17 08:27:12","What's the best way to strip literal values out of SQL to correctly identify db workload?","<sql><database><perl><parsing>","6","0","0","","","CC BY-SA 2.5"
+"215524","1","215614","","2008-10-18 20:12:46","","6","7729","<p>Some iPhone applications, such as Pandora seem to directly manipulate the hardware volume and respond to physical volume button. How is this done?</p>
+
+<p>AudioSessionServices allows you to get the current hardware output volume with the <code>kAudioSessionProperty_CurrentHardwareOutputVolume</code> property, but it is (allegedly) read-only.</p>
+","4468","amrox","","","","2012-02-29 21:39:15","How do you set the hardware volume in an iPhone app?","<iphone><cocoa-touch><audio><volume>","2","0","0","","","CC BY-SA 2.5"
+"215537","1","","","2008-10-18 20:26:03","","1","1125","<p>So am I crazy for considering doing a beta/production release on Glassfish V3 Prelude?
+Since all of my content is dynamic, I'm not even thinking of bothering to set up apache in front either.  Doing so complicates the setup by requiring something like AJP or mod_jk and will not offer us much in terms of capability.</p>
+
+<p>So there will be three war files on deployment.
+3 JNDI data sources with about 90 connections parked, scaling up to 160 to a PGSQL datastore....</p>
+
+<p>The three wars comprise a CMS system and a grails application?</p>
+
+<p>Is my logic fatally flawed that I don't need to put apache in front of this setup?</p>
+","1129162","DanielHonig","1129162","DanielHonig","2008-10-18 20:56:36","2008-10-21 06:36:46","Startup Deployment Architecture- Running Glassfish V3 Prelude without Apache","<apache><deployment><grails><glassfish><ajp>","2","0","0","","","CC BY-SA 2.5"
+"215542","1","215695","","2008-10-18 20:38:57","","7","3015","<p>I'd like to create a script to manipulate Apache2 configuration directly, reading and writing its properties (like adding a new VirtualHost, changing settings of one that already exists).</p>
+
+<p>Are there any libs out there, for Perl, Python or Java that automates that task?</p>
+","14540","kolrie","","","","2014-04-04 20:50:05","What's a good library to manipulate Apache2 config files?","<java><python><perl><apache>","6","0","0","2021-03-03 11:25:44","","CC BY-SA 2.5"
+"215548","1","215562","","2008-10-18 20:47:40","","282","50826","<p>Background: Over the next month, I'll be giving three talks about or at least including <code>LINQ</code> in the context of <code>C#</code>. I'd like to know which topics are worth giving a fair amount of attention to, based on what people may find hard to understand, or what they may have a mistaken impression of. I won't be specifically talking about <code>LINQ</code> to <code>SQL</code> or the Entity Framework except as examples of how queries can be executed remotely using expression trees (and usually <code>IQueryable</code>).</p>
+
+<p>So, what have you found hard about <code>LINQ</code>? What have you seen in terms of misunderstandings? Examples might be any of the following, but please don't limit yourself!</p>
+
+<ul>
+<li>How the <code>C#</code> compiler treats query expressions</li>
+<li>Lambda expressions</li>
+<li>Expression trees</li>
+<li>Extension methods</li>
+<li>Anonymous types</li>
+<li><code>IQueryable</code></li>
+<li>Deferred vs immediate execution</li>
+<li>Streaming vs buffered execution (e.g. OrderBy is deferred but buffered)</li>
+<li>Implicitly typed local variables</li>
+<li>Reading complex generic signatures (e.g. <a href=""http://msdn.microsoft.com/en-us/library/bb549267.aspx"" rel=""nofollow noreferrer"">Enumerable.Join</a>)</li>
+</ul>
+","22656","Jon Skeet","16853","John Sheehan","2009-06-27 13:50:26","2011-08-04 08:50:01","What's the hardest or most misunderstood aspect of LINQ?","<c#><linq><c#-3.0>","42","11","0","2011-08-20 18:27:37","2009-06-04 12:12:37","CC BY-SA 2.5"
+"215557","1","215575","","2008-10-18 20:59:26","","32","72655","<p>How do I implement a circular list that overwrites the oldest entry when it's full? </p>
+
+<p>For a little background, I want to use a circular list within GWT; so using a 3rd party lib is <strong>not</strong> what I want.</p>
+","22992","Miguel Ping","16587","Miguel Ping","2016-03-04 22:34:36","2020-07-21 02:43:30","How do I implement a circular list (ring buffer) in C?","<c><queue>","8","0","0","","","CC BY-SA 3.0"
+"215570","1","216187","","2008-10-18 21:12:07","","10","1083","<p>From what I understand, the parent attribute of a db.Model (typically defined/passed in the constructor call) allows you to define hierarchies in your data models. As a result, this increases the size of the entity group. However, it's not very clear to me why we would want to do that. Is this strictly for ACID compliance? I would like to see scenarios where each is best suited or more appropriate.</p>
+","10708","fuentesjr","4370109","","2023-07-02 14:07:48","2023-07-02 14:07:48","What's the difference between a parent and a reference property in Google App Engine?","<python><google-app-engine>","2","0","0","","","CC BY-SA 2.5"
+"215581","1","215676","","2008-10-18 21:18:46","","82","36871","<p>What is the purpose of the colon before a block in Python?</p>
+
+<p>Example:</p>
+
+<pre><code>if n == 0:
+    print ""The end""
+</code></pre>
+","14732","Joshua Swink","","","","2023-07-07 16:06:42","What is the purpose of the colon before a block in Python?","<python><syntax>","5","5","0","","","CC BY-SA 2.5"
+"215582","1","215586","","2008-10-18 21:18:56","","4","2188","<p>how can I save a java applet from a website so I can run it offline?</p>
+","","amrsp","","","","2008-10-18 21:20:48","save applet from website","<applet><save>","1","0","","","","CC BY-SA 2.5"
+"215584","1","","","2008-10-18 21:19:47","","1","943","<p>I am currently a student and trying to design a Visual C++ application to allow me to visually insert an oriented graph in order to create a text file with the graph's matrix. At this point I have created an onClick event to create nodes and have used the form's Paint  event to draw the nodes. I have also inserted the conditions to avoid nodes from overlapping.</p>
+
+<p>I am currently working on creating the links between nodes. The problem that I have encountered is that the line that unites two nodes crosses another node. I consider that writing an algorithm to detect overlapping and calculate how much the line needs to arch in order to avoid that is too tedious in this situation.</p>
+
+<p>Therefore I thought about creating a line that can be arched by the user by clicking and dragging it to the left or right, however I have had problems finding any tutorials on how to do this. So if anyone has ever had to introduce this kind of arching line in a project or has any idea where I could find some information about this I would deeply appreciate it.</p>
+
+<p>Mentions:</p>
+
+<ol>
+<li>please do not recommend any fancy graphics libraries for doing this, as I am not interested in installing 3rd party stuff for this program. The function I want to insert the code into is named something like form1_onPaint, so I would like to keep it strictly to the C++ standard libraries.</li>
+<li>I know I said I am interested in arching a line through click and drag, however if someone could suggest another viable solution to this, such as a function that detects overlapping in onPaint events or anything else that could be of use to solve this it would be of great help.</li>
+</ol>
+","29293","","635608","Ferruccio","2012-09-16 20:09:17","2021-02-12 04:32:34","Avoiding overlapping of paint events, arching lines through click and drag?","<visual-c++><graphics><gdi>","2","0","","","","CC BY-SA 3.0"
+"215589","1","215599","","2008-10-18 21:21:21","","23","1876","<p>Is it better to learn how to code AJAX without the use of an AJAX library? What are the advantages of coding from scratch over using a library such as jQuery?</p>
+<h3>See also:</h3>
+<p><a href=""https://stackoverflow.com/questions/122902/what-are-some-of-the-pros-and-cons-of-using-jquery"">What are some of the pros and cons of using jQuery?</a></p>
+","29297","Brendan L","-1","tvanfosson","2020-06-20 09:12:55","2008-10-23 01:04:12","Should I avoid using a JavaScript library while learning how to write AJAX client code?","<javascript><ajax>","6","0","0","2015-07-22 17:55:02","","CC BY-SA 2.5"
+"215605","1","215679","","2008-10-18 21:39:10","","8","3235","<p>What is a good resource to get started with Windows file system driver development for a newbie?</p>
+","4946","Net Citizen","1450","John Topley","2008-10-19 09:05:03","2016-06-23 16:18:27","What is a good resource to get started with Windows file system driver development?","<windows><filesystems><drivers>","6","0","0","","","CC BY-SA 2.5"
+"215612","1","","","2008-10-18 21:46:56","","4","1812","<p>I'm looking for some examples for asp.net mvc that use the integrated asp.net forms-authentication based membership providers with edit and post scenarios. I'm looking for best practices here.</p>
+
+<p>Let's say I have a Contacts table in my database with a Name field, and a UserId field which is tied to the aspnet_Users UserId field. I thought of something like this:</p>
+
+<pre><code>public ActionResult Save([Bind(Include=""Name"")] Contact contact)
+{
+       // if null etc. checks omitted for this example
+       MembershipUser currentUser = Provider.GetUser(User.Identity.Name, true);
+       contact.UserId = (Guid)currentUser.ProviderUserKey;
+       //save etc.
+}
+</code></pre>
+
+<p>Any tips or guides to this one?</p>
+","13466","kitsune","","","","2014-01-15 23:22:21","Examples of asp.net mvc and authentication","<asp.net-mvc><asp.net-membership><forms-authentication>","1","0","0","","","CC BY-SA 2.5"
+"215615","1","2736872","","2008-10-18 21:49:02","","1","1469","<p>Erlang support to partition its nodes into groups using the <a href=""http://erlang.org/doc/man/global_group.html"" rel=""nofollow noreferrer"">global_group</a> module.
+Further, Erlang supports adding nodes on the fly to the node-network. Are these two features usable with each other?<br>
+As far as I understand, you have to name every node on startup to use the global groups.</p>
+","23760","ZeissS","","","","2010-04-30 04:10:07","Adding nodes dynamically and global_groups in Erlang","<erlang><erlang-otp>","2","0","","","","CC BY-SA 2.5"
+"215620","1","328645","","2008-10-18 21:55:30","","6","22525","<p>How do I load MS Word document (.doc and .docx) to memory (variable) without doing this?:</p>
+
+<p><em>wordApp.Documents.Open</em> </p>
+
+<p>I don't want to open MS Word, I just want that text inside. </p>
+
+<p>You gave me answer for DOCX, but what about DOC? I want free and high performance solution - not to open 12.000 instances of Word to process all of them. :( Aspose is commercial product, and 900$ is a way too much for what I do.</p>
+","21209","Skuta","1993501","Skuta","2014-09-22 14:21:25","2014-09-22 14:21:25","How to load text of MS Word document in C# (.NET)?","<c#><.net><ms-word><docx><doc>","7","0","0","","","CC BY-SA 3.0"
+"215624","1","215660","","2008-10-18 21:58:07","","2","1241","<p>I am trying to use some pinvoke code to call a C function.  The function fills a buffer with data.</p>
+
+<p>The structure is set up as a DWORD for the length, followed by a string.  How do I extract the string from the IntPtr?</p>
+
+<pre><code> IntPtr buffer = Marshal.AllocHGlobal(nRequiredSize);
+ PInvokedFunction(buffer, nRequiredSize);
+ string s = Marshal.PtrToStringAuto(buffer + 4); //this is an error.
+ Marshal.FreeHGlobal(buffer);
+</code></pre>
+","4066","Adam Tegen","635608","","2011-10-29 14:43:47","2011-10-29 14:43:47","Pointer math in C#","<c#><pinvoke><pointer-arithmetic>","3","0","0","","","CC BY-SA 2.5"
+"215636","1","215646","","2008-10-18 22:07:29","","0","711","<p>I'm having some trouble with Visual Studio 2008 on my Windows XP SP2 laptop.</p>
+
+<p>What happens is that when I start a program with a few textboxes and stuff like that, the boxes are see-through. I can litteraly see through them and see what's on the underlaying screen. Like if I only have this Form showing and behind that my wallpaper, I can see my wallpaper through the Textbox, ComboBox, even through the small cracks between various elements.</p>
+
+<p>i've searched the web but haven't encountered info on this yet. Does anybody know what might be causing this and how to solve it? I'm in the process of trying to see how the text in my TextBoxes is parsed, but I can't since I can't even enter anything. I click on the textbox and I'm focused on the desktop...</p>
+","11795","Vordreller","","user3850","2008-11-02 00:39:56","2008-11-02 00:39:56","Visual Studio GUI is see-through?","<winforms><visual-studio-2008><textbox><transparency>","2","2","","","","CC BY-SA 2.5"
+"215638","1","215662","","2008-10-18 22:09:22","","7","5289","<p>I'm trying to access the message in a jthrowable while handing an exception generated when I fail to find a class.  However, I am unable to access the message ID of getMessage() on the jthrowable object, and I don't know why.  I've tried changing the signature of getMessage to ""()Ljava/lang/String"" (without the semicolon at the end, but that's necessary, right?) with no joy.  I'm confused as hell about this.  I even tried replacing getMessage with toString, and <em>that</em> didn't work.  Obviously I'm doing something trivially wrong here.</p>
+
+<p>Here's the code I'm using:</p>
+
+<pre><code>jthrowable java_exception;
+jclass java_class;
+jmethodID method;
+
+java_exception = (*jEnv)-&gt;ExceptionOccurred(jEnv);
+assert (java_exception != NULL);
+java_class = (*jEnv)-&gt;GetObjectClass (jEnv, java_exception);
+assert (java_class != NULL);
+method = (*jEnv)-&gt;GetMethodID (jEnv, java_class, ""getMessage"", ""()Ljava/lang/String;"");
+if (method == NULL) {
+printf (""Seriously, how do I get here?!\n"");
+(*jEnv)-&gt;ExceptionDescribe (jEnv);
+return;
+}
+</code></pre>
+
+<p>The output of this code (amongst other things) looks like this:</p>
+
+<blockquote>
+  <p>Seriously, how do I get here?!<br>
+  Exception in thread ""main"" java.lang.NoClassDefFoundError: com/planet/core360/docgen/Processor</p>
+</blockquote>
+
+<p><code>javap -p -s java.lang.Throwable</code> gives me this:</p>
+
+<blockquote>
+  <p>Compiled from ""Throwable.java""<br>
+  public class java.lang.Throwable extends java.lang.Object implements java.io.Serializable{<br>
+  ...<br>
+  public java.lang.String getMessage();<br>
+    Signature: ()Ljava/lang/String;<br>
+  ...  </p>
+</blockquote>
+","23309","offby1","","","","2008-10-18 22:54:34","Why does my JNI code not successfully find a jthrowable's getMessage method?","<java><exception><java-native-interface>","2","0","0","","","CC BY-SA 2.5"
+"215661","1","215794","","2008-10-18 22:32:35","","12","15482","<p>A similar question was already asked ( 
+<a href=""https://stackoverflow.com/questions/7492/how-do-you-stress-test-a-web-application"">Performing a Stress Test on Web Application?</a>), but I'd like to test a web application that prevents double-submits and takes some counter-XSRF actions and therefore REQUIRES JavaScripts to be evaluated.</p>
+
+<p>Has anybody done stress tests with web apps that require (and use) JS and any experience to share?</p>
+
+<p>jMeter wouldn't work I guess...</p>
+
+<p>Thanks!</p>
+","5218","wilth","-1","lc","2017-05-23 12:19:46","2018-02-28 08:04:10","How to stress test a javascript-requiring Web App","<testing><load-testing>","10","0","0","","","CC BY-SA 2.5"
+"215664","1","","","2008-10-18 22:35:34","","4","1491","<p>I would like to provide my users the ability to send an image/picture (displayed through a UIImageView in the app) to their friends via email using the built-in Mail app.</p>
+
+<p>In a way, I want a very similar user experience to the way the Photos app does this. User clicks on a button, the image/picture is copied onto a new ""compose"" mail window on Mail app, and then they can finish sending the message over to whoever they want.</p>
+
+<p>I searched quite a bit for tips on how to do this, and found nothing. A few people actually posted before on different message boards that this is not possible at all in SDK-land.</p>
+
+<p>Anyone with more information on this?</p>
+","","loady","419","Kev","2008-10-18 23:42:42","2019-04-07 12:24:12","How do I send an image via email through the built-in iPhone Mail app?","<iphone>","2","1","0","","","CC BY-SA 2.5"
+"215667","1","","","2008-10-18 22:37:05","","2","1509","<p>I am trying to develop a script to pull some data from a large number of html tables.  One problem is that the number of rows that contain the information to create the column headings is indeterminate.  I have discovered that the last row of the set of header rows has the attribute border-bottom for each cell with a value.  Thus I decided to find those cells with the attribute border-bottom.  As you can see I initialized a list.  I intended to find the parent of each of the cells that end up in the borderCells list.  However, when I run this code only one cell, that is the first cell in allCells with the attribute border-bottom is added to the list borderCells.  For your information allCells has 193 cells, 9 of them have the attr border-bottom.  Thus I was expecting nine members in the borderCells list.  Any help is appreciated.</p>
+
+<pre><code>borderCells=[]
+for each in allCells:
+if each.find(attrs={""style"": re.compile(""border-bottom"")}):
+    borderCells.append(each)
+</code></pre>
+","","Burch Kealey","","Burch Kealey","2008-10-18 22:53:51","2008-10-18 23:45:51","How do I find all cells with a particular attribute in BeautifulSoup?","<python><parsing><beautifulsoup>","3","0","0","","","CC BY-SA 2.5"
+"215672","1","","","2008-10-18 22:42:26","","4","254","<p>Does anyone have experience with a query language for the web?</p>
+
+<p>I am looking for project, commercial or not, that does a good job at making a webpage queryable and that even follows links on it to aggregate information from a bunch of pages.</p>
+
+<p>I would prefere a sql or linq like syntax. I could of course download a webpage and start doing some XPATH on it but Im looking for a solution that has a nice abstraction.</p>
+
+<p>I found websql </p>
+
+<p><a href=""http://www.cs.utoronto.ca/~websql/"" rel=""nofollow noreferrer"">http://www.cs.utoronto.ca/~websql/</a></p>
+
+<p>Which looks good but I'm not into Java</p>
+
+<pre><code>SELECT a.label
+FROM Anchor a SUCH THAT base = ""http://www.SomeDoc.html""
+WHERE a.href CONTAINS "".ps.Z"";
+</code></pre>
+
+<p>Are there others out there? </p>
+
+<p>Is there a library that can be used in a .NET language?</p>
+","25145","Tom Pester","","","","2008-10-20 13:14:42","SQL for the web","<c#><.net><sql><linq>","4","0","","","","CC BY-SA 2.5"
+"215684","1","215692","","2008-10-18 23:00:17","","1","2125","<p>I have a std::multimap where key is a custom class. Something like this:</p>
+
+<pre><code>Class X {
+public:
+    std::string s;
+    int x;
+    operator &lt;(const X&amp; other) const { return s &lt; other.s; }
+};
+std::multimap&lt;X, int&gt; mymap;
+</code></pre>
+
+<p>Now, I'd like to use upper_bound and lower_bound to iterate over all elements with the same value of ""s"". Do I need to implement some other operator for X (for example: ==). Or it will work properly just like this?</p>
+
+<p>Also, what should I supply as argument for <em>upper_bound</em> and <em>lower_bound</em>? I assume I should create a dummy object with desired value of ""s""?</p>
+","14690","Milan Babuskov","14690","Milan Babuskov","2008-10-18 23:06:31","2008-10-19 22:28:05","Requirement for key in std::multimap","<c++><multimap>","2","0","","","","CC BY-SA 2.5"
+"215685","1","218475","","2008-10-18 23:00:55","","4","506","<p>I often find myself trying to come up with good names for complementary pairs of variables; where two variables denote opposing concepts, two participants in some sort of duologue, and so on.</p>
+
+<p>This might be better explained by a counter-example - I maintain an app that prints two graphics as part of a print advertisement. They're stored in the database as <code>TopLogo</code> and <code>LowerLogo</code>, which I have to stop and double-check every time I use them because I'm expecting <code>top</code> to complement <code>bottom</code>, and <code>lower</code> should complement <code>upper</code>. </p>
+
+<p>There's some obvious examples that I think work well:</p>
+
+<p><code>client / server</code><br>
+<code>source / target</code> for copying/moving data or files from one variable to another<br>
+<code>minimum / maximum</code>  </p>
+
+<p>but there's some concepts that just don't lend themselves to such neat naming schemes. For example, when paging through records, does 'last' mean 'final' or 'previous' ? I recently saw some  code that used <code>firstPage</code>, <code>previousPage</code>, <code>nextPage</code> and <code>finalPage</code> to avoid the ambiuous <code>lastPage</code> completely, which I thought was very beat, hence this question.</p>
+
+<p>Do you have any particularly neat variable name pairs you'd care to share with us? (Bonus points if they're the same length, which makes the code so much neater in monospaced fonts.)</p>
+","5017","Dylan Beattie","","","","2009-11-05 21:39:23","Do you use particular conventions for naming complementary variables?","<language-agnostic><naming-conventions><variable-names>","4","1","","","","CC BY-SA 2.5"
+"215689","1","","","2008-10-18 23:07:28","","18","12045","<p>I still haven't got my head around decorators in Python.</p>
+
+<p>I've already started using a lot of closures to do things like customize functions and classes in my coding.</p>
+
+<p>Eg.</p>
+
+<pre><code>class Node :
+    def __init__(self,val,children) :
+        self.val = val
+        self.children = children
+
+def makeRunner(f) :
+    def run(node) :
+        f(node)
+        for x in node.children :
+            run(x)
+    return run
+
+tree=Node(1,[Node(2,[]),Node(3,[Node(4,[]),Node(5,[])])])
+
+def pp(n) : print ""%s,"" % n.val
+printTree = makeRunner(pp)
+printTree(tree)
+</code></pre>
+
+<p>As far as I can see, decorators are just a different syntax for doing something similar. </p>
+
+<p>Instead of </p>
+
+<pre><code>def pp(n) : print ""%s,"" % n.val
+printTree = makeRunner(pp)
+</code></pre>
+
+<p>I would write :</p>
+
+<pre><code>@makeRunner
+def printTree(n) : print ""%s,"" % n.val
+</code></pre>
+
+<p>Is this all there is to decorators? Or is there a fundamental difference that I've missed? </p>
+","8482","interstar","8482","interstar","2008-11-15 00:59:12","2020-11-24 15:52:58","Why Python decorators rather than closures?","<python><decorator>","4","0","0","","","CC BY-SA 2.5"
+"215696","1","215703","","2008-10-18 23:14:38","","3","700","<p>Say I've got a client-side counter variable. When I send a request to the server, I send this variable's value, then increment it by one (for the next request to the server). The server keeps track of this counter independantly, and checks to make sure that the count sent by the client is 1 more than it's own (server-side) copy of the count. This is all fine and dandy, but consider the following situation:</p>
+
+<ol>
+<li>The client sends, say, 23 to the server.</li>
+<li>The server receives 23, validates it, and increments its own counter to 23.</li>
+<li>The server returns the All-Okay code to the client</li>
+</ol>
+
+<p>-BUT-</p>
+
+<p>Along the way from the server to the client, the return code gets corrupted. The client thus thinks that the server did not update its counter, and so leaves the client-side counter at 23. From this point onwards, the client and server are out of sync.</p>
+
+<p>Does anybody know any robust schemes that would work in the face of such possible corruption/errors?</p>
+
+<p>Thanks,<br>
+Cameron</p>
+","21475","Cameron","","","","2008-10-18 23:33:32","Synchronizing a variable between client and server","<error-handling><synchronization><client>","3","0","","","","CC BY-SA 2.5"
+"215702","1","","","2008-10-18 23:17:38","","1","837","<p>I had a problem a week or so ago.  Since I think the solution was cool I am sharing it here while I am waiting for an answer to the question I posted earlier.  I need to know the relative position for the column headings in a table so I know how to match the column heading up with the data in the rows below.  I found some of my tables had the following row as the first row in the table</p>
+
+<pre><code>&lt;!-- Table Width Row --&gt;
+&lt;TR style=""font-size: 1pt"" valign=""bottom""&gt;
+&lt;TD width=""60%""&gt;&amp;nbsp;&lt;/TD&gt; &lt;!-- colindex=01 type=maindata --&gt;
+&lt;TD width=""1%""&gt;&amp;nbsp;&lt;/TD&gt;  &lt;!-- colindex=02 type=gutter --&gt;
+&lt;TD width=""1%"" align=""right""&gt;&amp;nbsp;&lt;/TD&gt;    &lt;!-- colindex=02 type=lead --&gt;
+&lt;TD width=""9%"" align=""right""&gt;&amp;nbsp;&lt;/TD&gt;    &lt;!-- colindex=02 type=body --&gt;
+&lt;TD width=""1%"" align=""left""&gt;&amp;nbsp;&lt;/TD&gt; &lt;!-- colindex=02 type=hang1 --&gt;
+
+&lt;TD width=""3%""&gt;&amp;nbsp;&lt;/TD&gt;  &lt;!-- colindex=03 type=gutter --&gt;
+&lt;TD width=""1%"" align=""right""&gt;&amp;nbsp;&lt;/TD&gt;    &lt;!-- colindex=03 type=lead --&gt;
+&lt;TD width=""4%"" align=""right""&gt;&amp;nbsp;&lt;/TD&gt;    &lt;!-- colindex=03 type=body --&gt;
+&lt;TD width=""1%"" align=""left""&gt;&amp;nbsp;&lt;/TD&gt; &lt;!-- colindex=03 type=hang1 --&gt;
+&lt;TD width=""3%""&gt;&amp;nbsp;&lt;/TD&gt;  &lt;!-- colindex=04 type=gutter --&gt;
+&lt;TD width=""1%"" align=""right""&gt;&amp;nbsp;&lt;/TD&gt;    &lt;!-- colindex=04 type=lead --&gt;
+
+&lt;TD width=""4%"" align=""right""&gt;&amp;nbsp;&lt;/TD&gt;    &lt;!-- colindex=04 type=body --&gt;
+&lt;TD width=""1%"" align=""left""&gt;&amp;nbsp;&lt;/TD&gt; &lt;!-- colindex=04 type=hang1 --&gt;
+&lt;TD width=""3%""&gt;&amp;nbsp;&lt;/TD&gt;  &lt;!-- colindex=05 type=gutter --&gt;
+&lt;TD width=""1%"" align=""right""&gt;&amp;nbsp;&lt;/TD&gt;    &lt;!-- colindex=05 type=lead --&gt;
+&lt;TD width=""5%"" align=""right""&gt;&amp;nbsp;&lt;/TD&gt;    &lt;!-- colindex=05 type=body --&gt;
+&lt;TD width=""1%"" align=""left""&gt;&amp;nbsp;&lt;/TD&gt; &lt;!-- colindex=05 type=hang1 --&gt;
+
+ &lt;/TR&gt;
+</code></pre>
+
+<p>I thought wow, this will be easy because the data is in the column below type=body.  Counting down I knew that in the data rows I would need to get the values in columns [3, 7, 11, 15].  So I set out to accomplish that using this code:</p>
+
+<pre><code>indexComment = souptoGetColIndex.findAll(text=re.compile(""type=body""))
+indexRow=indexComment[0].findParent()
+indexCells=indexRow.findAll(text=re.compile(""type=body""))
+for each in range(len(indexCells)):
+    collist.append(tdlist.index(indexCells[each].previousSibling.previousSibling))
+</code></pre>
+
+<p>what I got back was collist=[0, 3, 7, 7, 15]</p>
+
+<p>It turns out I think that because cells in the 7th and 11th position looked exactly alike the same index position was returned.  I was trying to figure out how to deal with this, clearly I had to make them look different.  So what I did was make them look different by first using a readlines to read each line of the file in and change the blank spaces to a random integer.</p>
+
+<pre><code>for each in toGetColIndex:
+   newlt.append(each.replace(r""&amp;nbsp;"",str(random.randint(1,14567))))
+</code></pre>
+
+<p>a friend pointed out that I could lower overhead by using this instead</p>
+
+<pre><code>for each in toGetColIndex:
+   newlt.append(each.replace(r""&amp;nbsp;"",str(toGetColIndex.index(each))))
+</code></pre>
+
+<p>Nonetheless, each of these approaches gets me a list with the colindex for the location of my headers for each column and to use on the data rows.  Note that replace function is missing the blank space since I guess the html is causing it to disappear the actual code uses r""&amp;.n.b.s.p;"" without the periods</p>
+","","Burch Kealey","","","","2008-10-20 16:13:14","How can you use BeautifulSoup to get colindex numbers?","<python><html><parsing><beautifulsoup>","1","0","","","","CC BY-SA 2.5"
+"215718","1","215731","","2008-10-18 23:34:02","","5613","2853467","<p>How do I revert a modified file to its previous revision at a specific commit hash (which I determined via <a href=""https://git-scm.com/docs/git-log"" rel=""noreferrer""><code>git log</code></a> and <a href=""https://git-scm.com/docs/git-diff"" rel=""noreferrer""><code>git diff</code></a>)?</p>
+","3410","Hates_","365102","","2022-07-08 04:17:52","2023-05-24 08:23:33","How do I reset or revert a file to a specific revision?","<git><version-control><git-checkout>","36","1","0","","","CC BY-SA 4.0"
+"215719","1","219769","","2008-10-18 23:34:28","","2","3811","<p>I'm following the <a href=""http://www.asp.net/learn/mvc-videos/video-395.aspx"" rel=""nofollow noreferrer"">ASP.Net MVC ""TaskList"" example video</a> and on clicking Run in Visual Studio (~14:00 min into the video) I'm getting the following error message in the browser:</p>
+
+<pre><code>Server Error in '/' Application.
+
+Bad IL format.
+Description: An unhandled exception occurred during the execution of the 
+current webrequest. Please review the stack trace for more information 
+about the error andwhere it originated in the code.
+
+Exception Details: System.BadImageFormatException: Bad IL format.
+
+Source Error:
+
+Line 12:         ' (2) URL with parameters
+Line 13:         ' (3) Parameter defaults
+Line 14:         routes.MapRoute( _
+Line 15:             ""Default"", _
+Line 16:             ""{controller}/{action}/{id}"", _
+
+
+Source File: C:\Users\...\TaskList\TaskList\Global.asax.vb    Line: 14
+
+Stack Trace:
+
+[BadImageFormatException: Bad IL format.]
+   VB$AnonymousType_0`3..ctor(T0 controller, T1 action, T2 id) +0
+   TaskList.MvcApplication.RegisterRoutes(RouteCollection routes) in
+    C:\Users\...\TaskList\TaskList\Global.asax.vb:14
+   TaskList.MvcApplication.Application_Start() in
+    C:\Users\...\TaskList\TaskList\Global.asax.vb:23
+
+
+Version Information:
+   Microsoft .NET Framework Version:2.0.50727.1434;
+   ASP.NET Version:2.0.50727.1434 
+</code></pre>
+
+<p>I've double-checked the code I've typed in, what am I missing?</p>
+
+<p>Thank you!</p>
+
+<p>Versions:</p>
+
+<ul>
+<li>ASP.Net MVC Beta  (16th October 2008)</li>
+<li>Visual Studion 2008 (9.0.21022.8 RTM)</li>
+<li>Vista Ultimate SP1</li>
+<li>IIS 7.0.6000.16386</li>
+</ul>
+","5662","Andrew","5662","Andrew","2008-10-20 20:26:27","2016-10-21 17:14:25","ASP.Net MVC error - Bad IL format","<asp.net-mvc>","4","0","","","","CC BY-SA 2.5"
+"215729","1","215749","","2008-10-18 23:39:16","","9","2026","<p>What is the state of native SVG support in the most popular browsers in their latest releases?</p>
+
+<ul>
+<li>Internet explorer</li>
+<li>Firefox</li>
+<li>Opera</li>
+<li>Safari</li>
+<li>Chrome</li>
+<li>Konqueror</li>
+<li>Camino</li>
+</ul>
+","3153","Brian R. Bondy","3153","Brian R. Bondy","2008-10-18 23:51:14","2013-10-10 14:27:05","What is the state of native SVG support in the most popular browsers?","<svg><w3c><web-standards>","5","0","0","2013-10-14 18:48:55","","CC BY-SA 2.5"
+"215733","1","218968","","2008-10-18 23:41:44","","3","704","<p>What the best way to get up to speed on MathML and its usage in the world?</p>
+
+<p>In particular I mean:</p>
+
+<ul>
+<li>What do you use for rendering/editing it</li>
+<li>Is it used in any commercial/open source applications that you can point me to</li>
+<li>Is it popular and used a lot?</li>
+<li>Are there any viewers that can be used inside a C#, C++, Java, ... application?</li>
+<li>... (any other info available about MathML)</li>
+</ul>
+","3153","Brian R. Bondy","3153","Brian R. Bondy","2008-10-19 00:49:33","2008-12-02 23:53:18","What the best way to get up to speed on MathML and its usage in the world?","<w3c><mathml>","3","2","0","","","CC BY-SA 2.5"
+"215735","1","","","2008-10-18 23:43:18","","1","5274","<p>I am trying to draw a domain model or class diagram in UML for car dealership. I am stuck with how to present test drive in the model. One way is to have appointment class and then test-drive as sub class.  A dealer also offers after-sale vehicle service so i could have appointment/booking class as super class and then vehicle service and test-drive as two sub classes.</p>
+
+<p>Another way is to have the customer class have a direct relationship with test drive class and vehicle service class under appointment class.</p>
+
+<p>A dealer also sells new and used cars and their parts.</p>
+
+<p>A dealer also offers finance for car sale.</p>
+
+<p>Would testdrive class have relationship with vehicle class or there is separate class for display and testdrive class?</p>
+
+<p>Another question is how do I show potential customers and their inquiries about sale and service in the model.  A dealer wants to save details of potential customers if they allow for marketing purposes.  Shall I have two classes: one for customers and one for potential customers or it can be achieved just by using an attribute in customer class?</p>
+","29312","","18255","Cade Roux","2008-10-18 23:51:00","2011-06-10 14:22:29","Domain Modeling or class diagram for car dealership","<class><uml><dns><diagram><modeling>","4","1","","","","CC BY-SA 2.5"
+"215741","1","216591","","2008-10-18 23:50:29","","71","62836","<p>MTOM is the W3C Message Transmission Optimization Mechanism, a method of efficiently sending binary data to and from web services.</p>
+
+<p>How does it work in general?</p>
+","3153","Brian R. Bondy","","","","2017-04-29 03:57:11","How does MTOM work?","<w3c><mtom>","3","0","0","","","CC BY-SA 2.5"
+"215742","1","216302","","2008-10-18 23:50:45","","34","19834","<p><em>By Logic Programming I mean the a sub-paradigm of declarative programming languages.  Don't confuse this question with ""What problems can you solve with if-then-else?""</em></p>
+
+<p>A language like Prolog is very fascinating, and it's worth learning for the sake of learning, but I have to wonder what class of real-world problems is best expressed and solved by such a language.  Are there better languages?  Does logic programming exist by another name in more trendy programming languages?  Is the cynical version of the answer a variant of the <a href=""http://www.paulgraham.com/pypar.html"" rel=""noreferrer"">Python Paradox</a>?</p>
+","18446","","1937197","","2021-01-20 21:42:27","2021-01-20 22:20:41","What are the best uses of Logic Programming?","<functional-programming><prolog><logic><logic-programming><minikanren>","8","0","0","","","CC BY-SA 3.0"
+"215743","1","215756","","2008-10-18 23:52:01","","2","780","<p>Our application (C#/.NET) needs a lot of queries to search. Google's 50,000 policy per day is not enough. We need something that would crawl Internet websites by specific rules we set (for ex. country domains) and gather URLs, Texts, keywords, name of websites and create our own internal catalogue so we wouldn't be limited to any massive external search engine like Google or Yahoo.</p>
+
+<p>Is there any free open source solution we could use to install it on our server? </p>
+
+<p>No point in re-inventing the wheel.</p>
+","21209","Skuta","321731","","2014-05-14 20:44:01","2014-05-14 20:44:01","Is there a search engine including indexing bot which can be used to make up special catalogue by feeding the bot with certain properties?","<search-engine><bots><web-crawler>","1","0","0","","","CC BY-SA 3.0"
+"215745","1","215806","","2008-10-18 23:52:30","","7","1937","<p>Are there any other ways to avoid LazyInitializationExceptions in a Hibernate web application besides using the OpenSessionInView pattern? Are there any downsides to using OpenSessionInView?</p>
+","18995","Paul C","","","","2014-10-26 21:29:27","Strategies to avoid Hibernate LazyInitializationExceptions","<java><database><hibernate>","4","1","0","","","CC BY-SA 2.5"
+"215748","1","215796","","2008-10-18 23:57:29","","11","10377","<p>I'm currently working on project with Haskell, and have found myself some trouble. I'm supposed to read and insert into a list each line in a ""dictionary.txt"" file, but I can't seem to do so. I've got this code:</p>
+
+<pre><code>main = do
+    let list = []
+    loadNums ""dictionary.txt"" list
+
+loadNums location list = do
+    inh &lt;- openFile location ReadMode
+    mainloop inh list
+    hClose inh
+
+mainloop inh list = do 
+    ineof &lt;- hIsEOF inh
+    if ineof
+        then return ()
+        else do 
+            inpStr &lt;- hGetLine inh
+            inpStr:list
+            mainloop inh list
+</code></pre>
+
+<p>It is supposed to get every line (I know it does get every line, since replacing the ""inpStr:list"" with a ""putStrLn inpStr"" works correctly, displaying all lines), and insert it into a list but I get the following error:</p>
+
+<pre><code>Couldn't match expected type `IO' against inferred type `[]'
+</code></pre>
+
+<p>Probably because the hGetLine isn't a String, but a IO String, which I have no idea how to handle in order to obtain a proper string I can insert in my list. I have no idea how this could be solved, or what the problem is exactly, but if anyone has any idea of how to properly get every line in a file into a list, I'd appreciate it.</p>
+
+<p>Thanks in advance!</p>
+","9506","Fireblend","","","","2008-10-19 01:04:47","Haskell: Inserting every line from a file into a list","<file><haskell><input><io>","2","0","0","","","CC BY-SA 2.5"
+"215752","1","215874","","2008-10-18 23:59:37","","15","9714","<p>While working on a C++ project, I was looking for a third party library for something that is not my core business. I found a really good library, doing exactly what's needed, but it is written in Python. I decided to experiment with embedding Python code in C++, using the Boost.Python library.</p>
+
+<p>The C++ code looks something like this:</p>
+
+<pre><code>#include &lt;string&gt;
+#include &lt;iostream&gt;
+#include &lt;boost/python.hpp&gt;
+
+using namespace boost::python;
+
+int main(int, char **) 
+{
+    Py_Initialize();
+
+    try 
+    {
+        object module((handle&lt;&gt;(borrowed(PyImport_AddModule(""__main__"")))));
+
+        object name_space = module.attr(""__dict__"");
+        object ignored = exec(""from myModule import MyFunc\n""
+                          ""MyFunc(\""some_arg\"")\n"",
+                          name_space);
+
+        std::string res = extract&lt;std::string&gt;(name_space[""result""]);
+    } 
+    catch (error_already_set) 
+    {
+        PyErr_Print();
+    }
+
+    Py_Finalize();
+    return 0;
+}
+</code></pre>
+
+<p>A (very) simplified version of the Python code looks like this:</p>
+
+<pre><code>import thirdparty
+
+def MyFunc(some_arg):
+    result = thirdparty.go()
+    print result
+</code></pre>
+
+<p>Now the problem is this: 
+'MyFunc' executes fine, i can see the print of 'result'.
+What i cannot do is read 'result' back from the C++ code. The extract command never finds 'result' in any namespace.
+I tried defining 'result' as a global, i even tried returning a tuple, but i cannot get it to work.</p>
+","25287","yoav.aviram","95735","","2009-07-11 18:58:46","2009-07-11 18:58:46","Python embedded in CPP: how to get data back to CPP","<c++><python><boost-python>","4","0","0","","","CC BY-SA 2.5"
+"215753","1","215755","","2008-10-19 00:00:17","","2","166","<p>I was watching a tutorial on Rails and was very impressed that you could so easily create an editing system for a class just by defining it.</p>
+
+<p>Can this be done in ASP.NET?</p>
+
+<p>I know there are ORMs out there, but do they come with an editing system?</p>
+
+<p>To explain what I mean by an editing system, consider a class for defining people</p>
+
+<pre><code>class Person
+{
+  string First_Name;
+  string Last_Name
+}
+</code></pre>
+
+<p>And then perhaps with one bold stroke something like this:</p>
+
+<pre><code>CreateEditAbleClass(Person)
+</code></pre>
+
+<p>You would get the functionality below in a browser:</p>
+
+<p><a href=""http://www.yart.com.au/images/orm_editor.jpg"" rel=""nofollow noreferrer"">http://www.yart.com.au/images/orm_editor.jpg</a></p>
+
+<p>And this functionality would extend to all the UML definitions – inheritance, association, aggregation etc. In addition, there would be a simple way of adding customisable validation and so forth.</p>
+
+<p>I currently use DataGrids and a lot of manual coding to achieve these results.</p>
+","24696","Petras","496830","","2011-11-01 15:59:34","2011-11-01 15:59:34","Can you create an ASP.NET editing system for a class just by defining it?","<asp.net><ruby-on-rails><class><editing>","5","0","","","","CC BY-SA 3.0"
+"215758","1","216723","","2008-10-19 00:07:32","","3","4822","<p>Anyone have a C# example showing an owner drawn tabcontrol with hot-tracking effects?</p>
+
+<p>I've implemented a nice owner drawn tabcontrol using C# and .NET 2.0 but i'm stumped when it comes to implementing hot-tracking effects.</p>
+
+<p>Any Ideas?</p>
+","13227","Gary Willoughby","","","","2008-10-19 17:46:37","Anyone have a C# example showing an owner drawn tabcontrol with hot-tracking effects?","<c#><.net><tabcontrol><ownerdrawn>","1","0","0","","","CC BY-SA 2.5"
+"215759","1","","","2008-10-19 00:08:02","","6","1915","<p>I am working on car dealership business domain model/UML class diagram.</p>
+
+<p>I am new to modeling, so I would like to know how to validate the class diagram. It's very important for me to have an appropriate, if not 100 percent correct, class diagram to use further development (use cases, etc.).</p>
+
+<p>Is it possible to build a completely incorrect model? Or are there only appropriate and less appropriate models?</p>
+
+<p>If I have a Customer associated with SalesTeam modeling a customer being served by SalesTeam, is that wrong? I have seen in examples of Customer being associated with Order, Order with ItemOrder and ItemOrder with ItemInventory. Where the SalesTeam or Staff is associated with Order.</p>
+
+<p>How do I validate my model and relationships?</p>
+","29312","","635608","zacherates","2012-09-16 20:08:03","2012-09-16 20:08:03","How do I validate the class diagram for a given domain?","<oop><validation><uml><class-diagram>","3","0","0","","","CC BY-SA 2.5"
+"215766","1","","","2008-10-19 00:14:27","","0","413","<p>Due to legacy issues I have two folders under App_Code directory. One for VB.Net and another for C#. Problem is, I have a service in the C# folder that needs to leverage a class in the VB.Net folder but they dont seem to know about each other. Any ideas are welcome :)</p>
+
+<p>Thanks in advance!</p>
+
+<p>Trev</p>
+","16624","","","","","2008-10-22 14:04:19","How can you reference code written in another language in the App_Code folder in ASP.Net?","<c#><asp.net>","4","1","","","","CC BY-SA 2.5"
+"215767","1","215860","","2008-10-19 00:14:28","","14","9534","<p>If you have something like:</p>
+
+<pre><code>val myStuff = Array(Person(""joe"",40), Person(""mary"", 35))
+</code></pre>
+
+<p>How do you create an XML value with that data as nodes? I know how to use { braces } in an XML expression to put a value, but this is a collection of values. Do I need to iterate explicitly or is there something better?</p>
+
+<pre><code>val myXml = &lt;people&gt;{ /* what here?! */ }&lt;/people&gt;
+</code></pre>
+
+<p>The resulting value should be something like:</p>
+
+<pre><code>&lt;people&gt;&lt;person&gt;&lt;name&gt;joe&lt;/name&gt;&lt;age&gt;40&lt;/age&gt;&lt;/person&gt;
+&lt;person&gt;&lt;name&gt;mary&lt;/name&gt;&lt;age&gt;39&lt;/age&gt;&lt;/person&gt;&lt;/people&gt;
+</code></pre>
+","17138","Germ&#225;n","","","","2018-07-17 05:30:33","Scala: how to create XML nodes from some collection","<xml><scala>","3","0","0","","","CC BY-SA 2.5"
+"215770","1","215884","","2008-10-19 00:18:27","","4","776","<p>I'm a very novice OCaml programmer so please forgive me if this is a stupid/obvious question.  There's <em>a lot</em> to absorb and I may have missed this in the documentation.</p>
+
+<p>I have a base of code that's starting to look like this:</p>
+
+<pre><code>let update_x p x =
+  add_delta p;
+  p.x &lt;- x;
+  refresh p
+
+let update_y p y =
+  add_delta p;
+  p.y &lt;- y;
+  refresh p
+
+let update_z p z =
+  add_delta p;
+  p.z &lt;- z;
+  refresh p 
+</code></pre>
+
+<p>The duplication is starting to bug me because I <em>want</em> to write something like this:</p>
+
+<pre><code>let update_scalar p scalar value =
+    add_delta p;
+    magic_reflection (p, scalar) &lt;- value;
+    refresh p
+</code></pre>
+
+<p>This way when I update x I can simply call:</p>
+
+<pre><code>update_scalar p 'x' value
+</code></pre>
+
+<p>This calls out ""macros!"" to me but I don't believe OCaml has a macro system.  What else can I do?</p>
+","18446","","","","","2011-01-24 13:16:43","Can record field updates in OCaml be generalized?","<macros><ocaml><records>","3","0","","","","CC BY-SA 2.5"
+"215779","1","","","2008-10-19 00:29:45","","1","602","<p>Does a GNU Emacs major mode for editing JavaFX Script (JavaFX 1.x) files exist?</p>
+","13940","Greg","1725096","Greg","2013-12-21 11:15:48","2013-12-21 11:15:48","Emacs JavaFX Script mode?","<emacs><javafx><elisp><javafx-1>","1","0","","","","CC BY-SA 3.0"
+"215799","1","","","2008-10-19 00:50:09","","6","2685","<p>I'm looking it over and it seems to be that it is fundamentally broken.</p>
+
+<ul>
+<li>Only 5 instance methods aren't marked obsolete. </li>
+<li>There doesn't appear to be any built-in way to
+parse query-string variables.</li>
+<li>There are no methods to mutate the Uri, for example appending a new query variable.</li>
+<li>HttpUtility works on strings, not URIs</li>
+</ul>
+
+<p>So is there anything it is good for? Should I really be using this instead of just strings?</p>
+","5274","Grauenwolf","5274","Grauenwolf","2008-10-19 01:19:41","2008-10-21 13:41:44","Is there any reason to use System.Uri?","<.net>","4","0","","","","CC BY-SA 2.5"
+"215810","1","","","2008-10-19 01:02:39","","2","1150","<p>I've got an unmanaged Linux VPS running ubuntu that I'm using for the web server for a personal website.  I'd like to get a barebones email server up and running.  All the installation guides I've found so far are for a full-fledged email server with a webmail interface and everything.  That's a lot more than I need.  There's only two things I need:</p>
+
+<ul>
+<li>My web application needs to be able to send email.  Specifically, it'll be emailing me when an exception occurs.</li>
+<li>I want all email sent to [anything]@domain.com forwarded to my personal gmail account.  The server doesn't even need to retain the email or anything.</li>
+</ul>
+
+<p>I want to reserve resources for the actual web app, so I don't want to install anything I won't need for this.</p>
+","29262","Myron","","","","2013-02-21 20:03:34","Installing and configuring a barebones email server on Ubuntu","<email><ubuntu><webserver>","3","0","","","","CC BY-SA 2.5"
+"215815","1","","","2008-10-19 01:06:03","","13","14508","<p>I've been playing with mod_python in apache2 which seems to work differently than python does in general - there's a bit different syntax and things you need to do. It's not very well documented and after a few days of playing with it, I'm really not seeing the point of mod_python at all, especially when things like php are so well documented and available.</p>
+
+<p>I can see how Python works well for system programming, but can anyone give any information as to why I shouldn't just dump python for a web-based application?</p>
+","","Mike","3153","Brian R. Bondy","2008-10-19 01:13:57","2013-02-15 17:00:19","Python for web development in Apache","<python><apache><mod-python>","2","1","0","2013-02-15 20:09:08","","CC BY-SA 2.5"
+"215820","1","215863","","2008-10-19 01:09:24","","45","42126","<p>Years ago when I was working with C# I could easily create a temporary file and get its name with this function:</p>
+
+<pre><code>Path.GetTempFileName();
+</code></pre>
+
+<p>This function would create a file with a unique name in the temporary directory and return the full path to that file. </p>
+
+<p>In the Cocoa API's, the closest thing I can find is:</p>
+
+<pre><code>NSTemporaryDirectory
+</code></pre>
+
+<p>Am I missing something obvious or is there no built in way to do this?</p>
+","28106","lfalin","14343","Ned Batchelder","2008-11-09 21:05:03","2020-10-21 18:12:05","How do I create a temporary file with Cocoa?","<objective-c><cocoa><file-io>","11","1","0","","","CC BY-SA 2.5"
+"215851","1","217507","","2008-10-19 01:31:08","","12","2216","<p>I am developing a kernel for an operating system. In order to execute it, I've decided to use GRUB. Currently, I have a script attached to GRUB's <code>stage1</code>, <code>stage2</code>, a pad file and the  kernel itself together which makes it bootable.  The only problem is that when I run it, you have to let GRUB know where the kernel is and how big it is manually and then boot it, like this:</p>
+
+<pre>kernel 200+KERNELSIZE
+boot</pre>
+
+<p><code>KERNELSIZE</code> is the size of the kernel in blocks. This is fine and alright for a start, but is it possible to get these values in the binary and make GRUB boot the kernel automatically? Any suggestions on how to accomplish that?</p>
+","1256","Cristi&#225;n Romo","","user6283551","2016-05-04 23:32:05","2016-05-04 23:32:05","Enabling GRUB to automatically boot from the kernel","<operating-system><kernel><osdev><grub>","2","3","0","","","CC BY-SA 3.0"
+"215854","1","216747","","2008-10-19 01:35:50","","35","33553","<p>When using XmlDocument.Load , I am finding that if the document refers to a DTD, a connection is made to the provided URI. Is there any way to prevent this from happening?</p>
+","14357","spender","","","","2013-10-10 10:31:12","Prevent DTD download when parsing XML","<c#><.net><xml>","5","0","0","","","CC BY-SA 2.5"
+"215883","1","614707","","2008-10-19 02:04:54","","2","1046","<p>I have an s-expression bound to a variable in Common Lisp:</p>
+
+<pre><code>(defvar x '(+ a 2))
+</code></pre>
+
+<p>Now I want to create a function that when called, evaluates the expression in the scope in which it was defined.  I've tried this:</p>
+
+<pre><code>(let ((a 4))
+  (lambda () (eval x)))
+</code></pre>
+
+<p>and</p>
+
+<pre><code>(let ((a 4))
+  (eval `(lambda () ,x)))
+</code></pre>
+
+<p>But both of these create a problem: EVAL will evaluate the code at the top level, so I can't capture variables contained in the expression.  Note that I cannot put the LET form in the EVAL.  Is there any solution?</p>
+
+<p>EDIT: So if there is not solution to the EVAL problem, how else can it be done?</p>
+
+<p>EDIT: There was a question about what exactly I am try to do.  I am writing a compiler.  I want to accept an s-expression with variables closed in the lexical environment where the expression is defined.  It may indeed be better to write it as a macro.</p>
+","7492","Eric Normand","7492","Eric Normand","2008-11-03 16:54:09","2009-03-05 19:15:02","Creating a lambda from an s-expression","<lisp><lambda><eval><common-lisp><closures>","5","2","","","","CC BY-SA 2.5"
+"215885","1","216050","","2008-10-19 02:06:52","","28","16037","<p>If I add an after_save callback to an ActiveRecord model, and on that callback I use update_attribute to change the object, the callback is called again, and so a 'stack overflow' occurs (hehe, couldn't resist).</p>
+
+<p>Is it possible to avoid this behavior, maybe disabling the callback during it's execution? Or is there another approach?</p>
+
+<p>Thanks!</p>
+","16957","Ivan","","","","2016-10-03 06:50:03","Using the after_save callback to modify the same object without triggering the callback again (recursion)","<ruby-on-rails>","13","0","0","","","CC BY-SA 2.5"
+"215891","1","453983","","2008-10-19 02:13:03","","7","8747","<p>For performance reasons, I draw the strings for my UITableViewCell in a custom view that overrides its drawRect method to draw strings directly in the view rectangle using NSString:drawInRect. This is similar to Apple's TableViewSuite Example 5-CustomTableViewCell.</p>
+
+<p>However, when I invoke setEditing on the cell to bring up the delete button, the view ends up with a squeezed appearance after the animation completes. To demonstrate this, invoke setEditing:YES on the CustomTableViewCell example mentioned above and observe the distortion. Is there any way around this or should I just revert back to using UILabels for my text?</p>
+","1967","drewh","","","","2012-01-30 17:29:34","How to make a custom drawn UITableViewCell resize properly?","<iphone>","4","0","0","","","CC BY-SA 2.5"
+"215896","1","215909","","2008-10-19 02:20:23","","7","20962","<p>I'm writing a PHP script and the script outputs a simple text file log of the operations it performs.  How would I use PHP to delete the first several lines from this file when it reaches a certain file size?</p>
+
+<p>Ideally, I would like it to keep the first two lines (date/time created and blank) and start deleting from line 3 and delete X amount of lines.  I already know about the <code>filesize()</code> function, so I'll be using that to check the file size.</p>
+
+<p>Example log text:</p>
+
+<pre><code>*** LOG FILE CREATED ON 2008-10-18 AT 03:06:29 ***
+
+2008-10-18 @ 03:06:29  CREATED: gallery/thumbs
+2008-10-18 @ 03:08:03  RENAMED: gallery/IMG_9423.JPG to gallery/IMG_9423.jpg
+2008-10-18 @ 03:08:03  RENAMED: gallery/IMG_9188.JPG to gallery/IMG_9188.jpg
+2008-10-18 @ 03:08:03  RENAMED: gallery/IMG_9236.JPG to gallery/IMG_9236.jpg
+2008-10-18 @ 03:08:03  RENAMED: gallery/IMG_9228.JPG to gallery/IMG_9228.jpg
+2008-10-18 @ 03:08:03  RENAMED: gallery/IMG_3104.JPG to gallery/IMG_3104.jpg
+2008-10-18 @ 03:08:03  RENAMED: gallery/First dance02.JPG to gallery/First dance02.jpg
+2008-10-18 @ 03:08:03  RENAMED: gallery/BandG02.JPG to gallery/BandG02.jpg
+2008-10-18 @ 03:08:03  RENAMED: gallery/official03.JPG to gallery/official03.jpg
+2008-10-18 @ 03:08:03  RENAMED: gallery/Wedding32.JPG to gallery/Wedding32.jpg
+2008-10-18 @ 03:08:03  RENAMED: gallery/Gettaway car16.JPG to gallery/Gettaway car16.jpg
+2008-10-18 @ 03:08:04  CREATED: gallery/thumbs/Afterparty05.jpg
+2008-10-18 @ 03:08:04  CREATED: gallery/thumbs/IMG_9254.jpg
+2008-10-18 @ 03:08:04  CREATED: gallery/thumbs/IMG_9175.jpg
+2008-10-18 @ 03:08:04  CREATED: gallery/thumbs/official05.jpg
+2008-10-18 @ 03:08:04  CREATED: gallery/thumbs/First dance01.jpg
+2008-10-18 @ 03:08:04  CREATED: gallery/thumbs/Wedding29.jpg
+2008-10-18 @ 03:08:04  CREATED: gallery/thumbs/men walking.jpg
+</code></pre>
+","27025","PHLAK","2246344","","2014-08-10 09:33:01","2017-12-26 22:22:07","How to use PHP to delete X number of lines from the beginning of a text file?","<php><file><logging>","9","0","0","","","CC BY-SA 3.0"
+"215908","1","215952","","2008-10-19 02:31:06","","3","3499","<h3>Note</h3>
+
+<p>This is not a REBOL-specific question. You can answer it in any language.</p>
+
+<h3>Background</h3>
+
+<p>The <a href=""http://www.rebol.com"" rel=""nofollow noreferrer"">REBOL</a> language supports the creation of domain-specific languages known as ""dialects"" in REBOL <em>parlance</em>. I've created such a dialect for list comprehensions, which aren't natively supported in REBOL.</p>
+
+<p>A good cartesian product algorithm is needed for list comprehensions.</p>
+
+<h3>The Problem</h3>
+
+<p>I've used meta-programming to solve this, by dynamically creating and then executing a sequence of nested <code>foreach</code> statements. It works beautifully. However, because it's dynamic, the code is not very readable. REBOL doesn't do recursion well. It rapidly runs out of stack space and crashes. So a recursive solution is out of the question.</p>
+
+<p>In sum, I want to replace my meta-programming with a readable, non-recursive, ""inline"" algorithm, if possible. The solution can be in any language, as long as I can reproduce it in REBOL. (I can read just about any programming language: C#, C, C++, Perl, Oz, Haskell, Erlang, whatever.)</p>
+
+<p>I should stress that this algorithm needs to support an arbitrary number of sets to be ""joined"", since list comprehension can involve any number of sets.</p>
+","27779","Revolucent","100754","Revolucent","2009-08-11 04:51:49","2013-11-06 13:03:57","What's a good, non-recursive algorithm to calculate a Cartesian product?","<algorithm><language-agnostic><rebol><cartesian-product>","6","0","0","","","CC BY-SA 2.5"
+"215912","1","215926","","2008-10-19 02:34:10","","8","3042","<p>I develop and maintain small intranet web apps written in JSP and Java.
+They run on a Resin web server, without dedicated httpd like Apache.</p>
+
+<p>Before performing maintenance, I activate a very simple Ajax message to urge users to logout.</p>
+
+<p>What I want is, while I do maintenance, a user trying to log in to that particular app 
+to see a ""Sorry, temporarily out of service"" page, while all other web apps running on the same web server are available as usual.</p>
+
+<p>What are some best practices in this situation?</p>
+","29197","ulm","29197","ulm","2008-10-19 12:05:12","2008-10-19 12:05:12","How can I show a ""temporarily out of service"" page to web-app users during maintenance?","<java><jsp>","3","0","","","","CC BY-SA 2.5"

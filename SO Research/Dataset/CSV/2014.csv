@@ -1,0 +1,3337 @@
+Id,PostTypeId,AcceptedAnswerId,ParentId,CreationDate,DeletionDate,Score,ViewCount,Body,OwnerUserId,OwnerDisplayName,LastEditorUserId,LastEditorDisplayName,LastEditDate,LastActivityDate,Title,Tags,AnswerCount,CommentCount,FavoriteCount,ClosedDate,CommunityOwnedDate,ContentLicense
+"21248805","1","","","2014-01-21 03:50:40","","0","1849","<p>I am trying to create form by dynamically adding rows and deleting it when user clicks on delete button using php code,</p>
+
+<p><img src=""https://i.stack.imgur.com/gP9RX.png"" alt=""enter image description here""></p>
+
+<p>below is my code to render first row while opening the form ,</p>
+
+<pre><code>&lt;div class=""selector-details"" style=""display:none""&gt;
+    &lt;div class='newfield'&gt;
+      &lt;div id='container'&gt;  
+      &lt;table id=""tid""&gt;
+       &lt;tr&gt;
+        &lt;td&gt;&lt;?php echo CHtml::dropDownList('field_list','',$field_name); ?&gt;&lt;/td&gt;
+       &lt;td&gt;&lt;?php echo CHtml::dropDownList('field_list','',$operator); ?&gt;&lt;/td&gt;
+       &lt;td&gt;&lt;?php echo CHtml::textField('querybox'); ?&gt;&lt;/td&gt;
+       &lt;td&gt; &lt;?php echo CHtml::imageButton(Yii::app()-&gt;request-&gt;baseUrl.'/images/Trash.jpg',array('class'=&gt;'trash-action')); ?&gt;&lt;/td&gt;
+       &lt;?php echo ""&lt;br&gt;""; ?&gt;
+        &lt;td&gt; &lt;?php echo CHtml::dropDownList('condition_check','',$condition_check);?&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+
+      &lt;/table&gt;
+
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;?php 
+    echo CHtml::button('Add',array('class'=&gt;'addfield-button','background-style'=&gt;'none'));
+</code></pre>
+
+<p>how i should make call the above code to add rows and delete particular row when user clicks on the row delete button ? I am new to yii please provide any idea to go further.</p>
+","3129123","","","","","2014-06-06 10:42:34","Dynamically adding and deleting table rows - Yii Framework","<javascript><php><yii>","1","0","","","","CC BY-SA 3.0"
+"21248808","1","21248907","","2014-01-21 03:50:49","","1","10566","<p>I've stumbled upon one blog post where an author explains how to expand the size of a cell gradually while you scroll over the entire table view, using the following method:</p>
+
+<pre><code>
+-(void)tableView:(UITableView *)tableView willDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.transform = CGAffineTransformMakeScale(0.8, 0.8);
+    [UIView animateWithDuration:0.5 animations:^{
+        cell.transform = CGAffineTransformIdentity;
+    }];
+}
+</code></pre>
+
+<p>However, when I implemented the above method in my view controller's implementation section, and ran the simulator, the result didn't look changed pre- and post-implementation.</p>
+
+<p>So I then add <code>cell.textLabel.text = [UIColor greenColor];</code> just beneath <code>cell.transform = CGAffineTransformMakeScale(0.8, 0.8);</code> of the method above, and ran the simulator again, the screen didn't display any cells whose text is colored with green.</p>
+
+<p>So what does this method do and when should I use it?</p>
+
+<p>I create my template using master-detail application with core data, but even if I didn't  use core data it didn't change at all.</p>
+
+<p>I'm on Xcode 5.0.2 and use iOS 7 simulator.</p>
+","2360798","","","","","2014-10-17 05:33:29","UITableView: willDisplayCell: forRowAtIndexPath: method - what does this method do?","<ios><objective-c><uitableview>","2","0","","","","CC BY-SA 3.0"
+"21248811","1","21248834","","2014-01-21 03:51:00","","0","93","<p>Now, I'm aware of the thousand or so questions that have already been answered regarding punctuation stripping. However mine is a bit different than the ones I've looked at.</p>
+
+<p>I need a code that strips all punctuation, EXCEPT hyphens and single apostrophes.</p>
+
+<p>The code I've found so far is:</p>
+
+<pre><code>import re
+def textStrip():
+    text = input(""Text? "")
+    return re.compile('\w+').findall(text)
+</code></pre>
+
+<p>This works fantastic for stripping all punctuation, now I'm wondering if there is a way to add exceptions to this? Or if someone has a better way all together, that would help tremendously. Thanks!</p>
+
+<p>Sample:</p>
+
+<pre><code>""A tall-ish wall, with trim.I don't want to paint it;""
+</code></pre>
+
+<p>Would return:</p>
+
+<pre><code>[""A"", ""tall-ish"", ""wall"", ""with"", ""trim"", ""I"", ""don't"", ""want"", ""to"", ""paint"", ""it""]
+</code></pre>
+","3195358","","2225682","","2014-01-21 03:53:28","2014-01-21 03:53:28","Specific Punctuation Stripping Python","<python><regex><punctuation><stripping>","1","0","","","","CC BY-SA 3.0"
+"21248813","1","21248910","","2014-01-21 03:51:11","","0","815","<p>I'm trying to recursively  find the ith positive integer for which the predicate is true. I need to keep it general for every function.</p>
+
+<pre><code>ithTrueValue :: (Int -&gt; Bool) -&gt; Int-&gt; Int
+ithTrueValue func i
+    | i &lt; 1 = error ""Integer MUST BE greater than 0"" 
+    | ithTrueValue func i = 1 + ithTrueValue(func i-1   )
+    | otherwise = ithTrueValue(func i-1)
+
+I get a type error:
+
+ERROR file:.\new  10.hs:6 - Type error in guard
+*** Term           : ithTrueValue func i
+*** Type           : Int
+*** Does not match : Bool
+</code></pre>
+","","user1713330","","","","2014-01-21 06:14:59","Haskell Type Error (Int -> Bool Function Parameter)","<haskell>","2","1","","","","CC BY-SA 3.0"
+"21248816","1","","","2014-01-21 03:51:19","","1","1964","<p>sI cannot make alias 'sublime' to work suing</p>
+
+<pre><code>ln -s ""/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"" ~/bin/subl
+</code></pre>
+
+<p>I checked path:</p>
+
+<pre><code>/Applications/Sublime Text.app/Contents/SharedSupport/bin/
+</code></pre>
+
+<blockquote>
+  <p>$ls- la</p>
+</blockquote>
+
+<p>total 0</p>
+
+<blockquote>
+  <p>drwxr-xr-x  2 ks  admin   68 Jan 19 11:22 .</p>
+  
+  <p>drwxr-xr-x  3 ks  admin  102 Dec 16 21:25 ..</p>
+</blockquote>
+
+<p>This is what I tired to do:</p>
+
+<ol>
+<li>open file using subl</li>
+<li>$ cd subl</li>
+</ol>
+
+<blockquote>
+  <p>-bash: cd: subl: No such file or directory</p>
+</blockquote>
+
+<ol>
+<li>$ open subl</li>
+</ol>
+
+<blockquote>
+  <p>The file /Applications/Sublime
+  Text.app/Contents/SharedSupport/bin/subl does not exist.</p>
+</blockquote>
+
+<ol>
+<li>$ subl --help</li>
+</ol>
+
+<blockquote>
+  <p>-bash: subl: command not found</p>
+</blockquote>
+","1576481","","184184","","2014-01-21 12:47:44","2016-04-11 01:15:03","Sublime Text 3 - OS X Command Line, subl doesn't work","<sublimetext><sublimetext3>","3","2","0","","","CC BY-SA 3.0"
+"21248817","1","21248895","","2014-01-21 03:51:28","","0","9443","<p>So I'm still kinda new to HTML/CSS and I imported a custom font. I have a lot of one line headers and paragraphs on my website but they require lots of different styles. I can't use ""H1-6"" or ""header"" or ""p"" every time. What's a better way to address Headers/Paragraphs? Thanks!</p>
+
+<pre><code>&lt;h1&gt;Qualenist&lt;/h1&gt;
+&lt;h2&gt;Lorem ipsum dolor sit amet &amp; consectetur adipisicing elit&lt;/h2&gt;
+&lt;h3&gt;Sign Up&lt;/h3&gt;
+&lt;h4&gt;learn more&lt;/h4&gt;
+&lt;h6&gt;&lt;span&gt;already a member?&lt;/span&gt; Sign in&lt;/h6&gt;
+&lt;header&gt;How it works&lt;/header&gt;
+</code></pre>
+","2605157","","2605157","","2014-01-21 04:55:22","2014-01-21 04:55:22","CSS/HTML Addressing Multiple Headers","<html><css>","4","4","","2014-02-28 13:57:30","","CC BY-SA 3.0"
+"21248818","1","","","2014-01-21 03:51:31","","-2","886","<p>This is my <code>Select</code> query.</p>
+
+<pre><code>select * 
+from  
+    #temptableforRiskDisiplineStaLvl 
+inner join 
+    #temptableforRiskDisipline on #temptableforRiskDisiplineStaLvl.PROJ_ID = #temptableforRiskDisipline.PROJ_ID
+</code></pre>
+
+<p>Which is fetching below result set.</p>
+
+<pre><code>PROJ_ID test Risk_Status    test2 Risk_Status   PROJ_ID     test Owner      test2 Owner
+  20            Green           Red                 20              XXXXXX          NULL
+  21            NULL            NULL                21          YYYYYY          NULL
+</code></pre>
+
+<p>Is there any way to re-align my column order into this format?</p>
+
+<pre><code>PROJ_ID test Risk_Status    test Owner  test2 Risk_Status   test2 Owner.
+</code></pre>
+
+<p>The main thing here is two temp tables columns are dynamically generated from other table columns using PIVOT. So I could not judge what are all the table columns going to be. </p>
+","2511556","","13302","","2014-01-21 05:36:21","2014-01-21 11:31:45","SQL Query to re-align column order","<sql-server-2008><pivot>","1","4","","","","CC BY-SA 3.0"
+"21248820","1","21253347","","2014-01-21 03:51:49","","0","166","<p>I am trying to create a grid in MATLAB. </p>
+
+<p>The number of rows and columns for the grid are to be entered by the user during run-time.</p>
+
+<p>When the user clicks on a particular block/square of the grid,</p>
+
+<ol>
+<li><p>I need to obtain the co-ordinates of the block (i.e. <code>(1,1)</code>, <code>(2,3)</code> etc.)</p></li>
+<li><p>I also need to color that square/block.</p></li>
+</ol>
+
+<p>Any suggestions as to how I can do so?</p>
+","1821324","","2778484","","2014-01-21 06:35:29","2014-01-22 08:11:34","Interactive Grid","<matlab><grid><interactive>","1","0","","","","CC BY-SA 3.0"
+"21248821","1","21248964","","2014-01-21 03:51:49","","0","8123","<p>I have got the NSIndexPath from a uitableview before but I'm not sure why this doesn't work for collectionview? Any help would be greatly appreciated!</p>
+
+<p>Here's the code I need to fix:</p>
+
+<pre><code>NSIndexPath *indexPath = [self.collectionView indexPathForSelectedRow];
+sqlColumns *author = [self.favoriteExercises objectAtIndex:indexPath.row];
+</code></pre>
+","1959893","","1226963","","2014-01-21 03:53:54","2014-01-21 04:20:06","UICollectionView NSIndexPath?","<ios><objective-c><uicollectionview><nsindexpath>","2","10","0","","","CC BY-SA 3.0"
+"21248825","1","21257110","","2014-01-21 03:52:11","","0","884","<p>I am new to Apache camel. I have very common use case that i am struggling to configure camel route. The use case is to take execution context </p>
+
+<ol>
+<li>Update database using execution context. </li>
+<li>Then using event on the execution context, create a byte message and send over MQ. </li>
+<li>Then in the next step again use execution context and perform event processing. </li>
+<li>Update database using execution context. </li>
+</ol>
+
+<p>So basically its kind of nested routes. In the below configuration I need to have access to the executionContext that executionController has created in the updateSchedulerState, sendNotification, processEvent and updateSchedulerState i.e. steps annotated as 1,2, 3 and 4 respectively.</p>
+
+<pre><code>from(""direct:processMessage"")
+    .routeId(""MessageExecutionRoute"")
+    .beanRef(""executionController"", ""getEvent"", true)
+    .beanRef(""executionController"", ""updateSchedulerState"", true)    (1)
+    .beanRef(""executionController"", ""sendNotification"", true)        (2)
+                 .beanRef(""messageTransformer"", ""transform"", true)       
+                 .to(""wmq:NOTIFICATION"")
+    .beanRef(""executionController"", ""processEvent"", true)            (3)
+                 .beanRef(""eventProcessor"", ""process"", true)
+                 .beanRef(""messageTransformer"", ""transform"", true)       
+                 .to(""wmq:EVENT"")
+    .beanRef(""executionController"", ""updateSchedulerState"", true);   (4)
+</code></pre>
+
+<p>Kindly let me know how should i configure the route for the above use case.</p>
+
+<p>Thanks,
+Vaibhav</p>
+","3165236","","1236217","","2014-01-21 04:03:32","2014-01-21 11:41:41","Apache camel nested routes","<apache><apache-camel>","1","0","","","","CC BY-SA 3.0"
+"21248828","1","21248981","","2014-01-21 03:52:33","","1","1260","<p>I'm trying to redirect to the home page after logging out by using django's <code>logout_then_login</code> function describe at <a href=""https://docs.djangoproject.com/en/1.5/topics/auth/default/"" rel=""nofollow"">https://docs.djangoproject.com/en/1.5/topics/auth/default/</a> but I think I'm not passing the url in correctly (I'm fairly new to django) </p>
+
+<p>Any feedback is greatly appreciated.</p>
+
+<p><strong>Homepage URL</strong></p>
+
+<pre><code>url(r'^$', 'myfitgames.views.home', name='home'),
+</code></pre>
+
+<p><strong>Logout URL</strong></p>
+
+<pre><code>url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login(request,""/"")', name='logout'),
+</code></pre>
+","2016740","","2225682","","2015-04-13 11:02:22","2015-04-13 11:02:22","django redirect to home page after logging out","<python><django><django-urls>","1","0","","","","CC BY-SA 3.0"
+"21248833","1","","","2014-01-21 03:53:04","","0","302","<p>I have a problem using codeigniter pagination. The problem is when I open the 2nd page during paging it is showing the error <code>404 page not found</code>. I do not know why but for the 1st page it is working.</p>
+
+<p><strong>Model:</strong></p>
+
+<pre><code>    public function home($limit='',$segment=''){ 
+    $data = array();
+    $this-&gt;db-&gt;where(array('produk.status_produk'=&gt;'1'))-&gt;limit($limit,$segment); 
+    $i=0;
+    foreach ($this-&gt;get_all() as $item){
+        $data[$i] = $item;
+        $this-&gt;db-&gt;where(array('produk_id'=&gt;$item-&gt;id_produk,'default'=&gt;'1'));
+        if($this-&gt;db-&gt;get('foto_produk')-&gt;num_rows() &gt; 0){
+            $this-&gt;db-&gt;where(array('produk_id'=&gt;$item-&gt;id_produk,'default'=&gt;'1'));
+            $foto = $this-&gt;db-&gt;get('foto_produk')-&gt;result();
+            foreach ($foto as $pic) {
+                $data[$i]-&gt;image = $pic-&gt;image;
+                $data[$i]-&gt;thumb = $pic-&gt;thumb;
+            }
+        } else {
+            $data[$i]-&gt;image = '';
+            $data[$i]-&gt;thumb = '';
+        }
+        $i++;
+    }
+    return $data;
+}
+</code></pre>
+
+<p><strong>Controller:</strong></p>
+
+<pre><code>            $cari = $this-&gt;input-&gt;post('search');
+        $this-&gt;db-&gt;like('deskripsi_produk', $cari);
+        $this-&gt;db-&gt;or_like('nama_produk', $cari);
+        $this-&gt;db-&gt;order_by('id_produk','desc');
+        $t = $this-&gt;produk_m-&gt;home();
+
+        $this-&gt;data-&gt;search = $this-&gt;input-&gt;post('search');
+
+        $this-&gt;load-&gt;library('pagination');
+        $perPage = 2;
+        $uri_segment = 2;
+        $total = count($t); 
+        $config['base_url'] = site_url('search');
+        $config['total_rows'] = $total;
+        $config['per_page'] = $perPage;
+        $config['num_links'] = '2';
+        $config['uri_segment'] = $uri_segment;
+
+        $this-&gt;pagination-&gt;initialize($config);
+        $this-&gt;data-&gt;pagination = $this-&gt;pagination-&gt;create_links();
+
+        $this-&gt;db-&gt;like('deskripsi_produk', $cari);
+        $this-&gt;db-&gt;or_like('nama_produk', $cari);
+        $this-&gt;db-&gt;order_by('id_produk','desc');
+        $this-&gt;data-&gt;produk = $this-&gt;produk_m-&gt;home($config['per_page'],$this-&gt;uri-&gt;segment(2));
+
+
+        $this-&gt;template-&gt;set_judul('PT Bintang Sriwijaya')
+        -&gt;set_css('style')
+        -&gt;set_parsial('sidebar','sidebar_view',$this-&gt;data)
+        -&gt;set_parsial('topmenu','top_view',$this-&gt;data)
+        -&gt;render('search',$this-&gt;data);   
+}
+</code></pre>
+
+<p><strong>View:</strong> </p>
+
+<pre><code>&lt;h2&gt;Hasil Pencarian&lt;/h2&gt;&lt;br /&gt;
+&lt;?php if($produk):?&gt;
+&lt;h3&gt;&lt;center&gt;&lt;?php echo $pagination;?&gt;&lt;/center&gt;&lt;/h3&gt;&lt;br /&gt;
+&lt;?php foreach($produk as $item): ?&gt;
+    &lt;div class=""produk-wrap""&gt;
+        &lt;div class=""image-wrap""&gt;
+            &lt;div class=""image-iner""&gt;
+                &lt;a href=""&lt;?php echo base_url().'index.php/produk/'.$item-&gt;nama_kategori.'/'.$item-&gt;url_produk;?&gt;""&gt;
+                &lt;?php if($item-&gt;thumb == ''): ?&gt;
+                    &lt;div class=""no-image""&gt;
+                        &lt;span&gt;Belum ada Gambar&lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;?php else: ?&gt;
+                    &lt;img src=""&lt;?php echo base_url().$item-&gt;thumb ?&gt;"" /&gt;
+                &lt;?php endif; ?&gt;
+                &lt;?php if ($item-&gt;stok == 0): ?&gt;
+                    &lt;div class=""trans""&gt;
+                        &lt;span&gt;Stok Habis&lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;?php endif; ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=""produk-name""&gt;
+            &lt;?php echo $item-&gt;nama_produk;?&gt;
+        &lt;/div&gt;
+        &lt;?php if($item-&gt;harga_baru != 0): ?&gt;
+            &lt;div class=""harga-lama""&gt;
+                Rp. &lt;?php echo $this-&gt;cart-&gt;format_number($item-&gt;harga_jual) ?&gt;
+            &lt;/div&gt;
+            &lt;div class=""harga-jual""&gt;
+                Rp. &lt;?php echo $this-&gt;cart-&gt;format_number($item-&gt;harga_baru) ?&gt;
+            &lt;/div&gt;
+        &lt;?php else: ?&gt;
+            &lt;div class=""harga-jual""&gt;
+                Rp. &lt;?php echo $this-&gt;cart-&gt;format_number($item-&gt;harga_jual) ?&gt;
+            &lt;/div&gt;
+        &lt;?php endif; ?&gt;
+        &lt;/a&gt;
+    &lt;/div&gt;
+&lt;?php endforeach; ?&gt;
+&lt;?php else:
+echo ""Data yang dicari belum ada"";
+endif;?&gt;
+</code></pre>
+","3180033","","1397504","","2014-01-21 03:56:02","2014-01-21 04:22:29","2nd page not working pagination","<php><codeigniter><pagination>","1","0","","","","CC BY-SA 3.0"
+"21248840","1","21249082","","2014-01-21 03:53:47","","36","167194","<p>I know that <code>waitpid()</code> is used to wait for a process to finish, but how would one use it exactly?</p>
+
+<p>Here what I want to do is, create two children and wait for the first child to finish, then kill the second child before exiting.</p>
+
+<pre><code>//Create two children
+pid_t child1;
+pid_t child2;
+child1 = fork();
+
+//wait for child1 to finish, then kill child2
+waitpid() ... child1 {
+kill(child2) }
+</code></pre>
+","3063864","","3782727","","2014-08-13 05:27:14","2019-05-23 19:11:35","Example of waitpid() in use?","<c><fork><parent-child><waitpid>","3","2","0","","","CC BY-SA 3.0"
+"21248844","1","","","2014-01-21 03:54:11","","0","459","<p>client :in  plist file 
+Required background modes:</p>
+
+<pre><code>[App plays audio or streams audio/video using AirPlay,App provides Voice over IP services]
+</code></pre>
+
+<p>in function <strong>createStream</strong>  </p>
+
+<pre><code> CFReadStreamSetProperty(readStream, kCFStreamNetworkServiceType, kCFStreamNetworkServiceTypeVoIP);
+    CFWriteStreamSetProperty(writeStream, kCFStreamNetworkServiceType, kCFStreamNetworkServiceTypeVoIP);
+</code></pre>
+
+<p>in function <strong>applicationDidEnterBackground</strong></p>
+
+<pre><code>BOOL backgroundAccepted = [application setKeepAliveTimeout:600 handler:^{
+    [self send:[NSString stringWithFormat:@""%@ KeepAliveTimeout"",[NSDate date]]];
+}];
+if (backgroundAccepted)
+{
+    DLog(@""VOIP background"");
+}
+_bgTaskId=[application beginBackgroundTaskWithExpirationHandler:^{
+    [self alert:@""ExpirationHandler""];
+    [application endBackgroundTask:_bgTaskId];
+    _bgTaskId=UIBackgroundTaskInvalid;
+}];
+</code></pre>
+
+<p>in function  <code>applicationWillEnterForeground</code></p>
+
+<pre><code>[application clearKeepAliveTimeout];
+</code></pre>
+
+<p>server send message to client every 5 senconds with NSTimer.client app use local notification to show message in background immediately;</p>
+","3214569","","3214569","","2014-01-21 04:11:10","2015-04-22 06:25:18","ios voip socket run in background,after 9min,SIGSTOP sigal recevied. Why?","<ios><sockets><background><voip>","2","0","","","","CC BY-SA 3.0"
+"21248845","1","21249259","","2014-01-21 03:54:18","","0","1127","<p>In C# client side, we can open SQL connections based on connection string. Connection pool is used to improve the client performance.</p>
+
+<p>We want to monitor how many connections are active and how many are free for use, which is very important to client side health check. Unfortunately, I didn't find any way to get this kind of information. Can any one tell me? Or I have to implement it by myself?</p>
+","2873417","","","","","2014-01-21 04:36:04","how to monitor SQL client connection number in C#","<c#><sql><connection><monitor>","2","2","","","","CC BY-SA 3.0"
+"21248851","1","21249388","","2014-01-21 03:55:00","","0","916","<p>What is the format of the .tar.gz file for setting up firefox preference from selenium python? </p>
+
+<pre><code>from selenium import webdriver
+profile = webdriver.FirefoxProfile()
+profile.set_preference('browser.helperApps.neverAsk.saveToDisk',('application/tgz'))
+
+browser = webdriver.Firefox(firefox_profile = profile)
+</code></pre>
+
+<p>above code did not work.
+Would be fine if someone has tried out it before.</p>
+","2964502","","","","","2014-01-21 04:47:27","What is the format of the .tar.gz file for setting up firefox preference from selenium python?","<python><firefox><selenium>","1","0","","","","CC BY-SA 3.0"
+"21248860","1","21249159","","2014-01-21 03:56:10","","0","72","<p>So I am trying to parse a web page for all the non html-tag matches. I was using RegExr and one of their sample patterns worked perfectly for what I need. The only problem is I am using Perl 5 and it keep spitting out this error:</p>
+
+<pre><code>Variable length lookbehind not implemented in regex m/((?&lt;=^|&gt;)[^&gt;&lt;]+?(?=&lt;|$))/ at POODLE_calc.pl line 36.
+</code></pre>
+
+<p>I've read many other posts on here about this error but still cant get it to work! I've tried rewriting the pattern as many different ways as I can think of or find on google and tried \K as suggested in one of the stackoverflow posts but still nothing works.</p>
+
+<p>This is the excerpt from the HTML page I was experimenting on in RegExr (Full page made it crash)</p>
+
+<pre><code>&lt;TABLE border cellspacing=""2""&gt;
+    &lt;TR align=""center""&gt;
+        &lt;TD width=""50""&gt; no. &lt;/TD&gt; 
+        &lt;TD width=""50""&gt; AA &lt;/TD&gt; 
+        &lt;TD width=""50""&gt; ORD/DIS &lt;/TD&gt; 
+        &lt;TD width=""50""&gt; Prob. &lt;/TD&gt; 
+    &lt;/TR&gt;
+    &lt;tr align=""center""&gt;
+        &lt;td&gt; 1 &lt;/td&gt;
+        &lt;td&gt; M &lt;/td&gt;
+        &lt;td&gt; -1 &lt;/td&gt;
+        &lt;td&gt; 0.1029 &lt;/td&gt;
+    &lt;/tr&gt;
+</code></pre>
+
+<p>If you could help me figure out a pattern that will give me ""no. AA ORD/DIS Prob. 1 M -1 0.1029"" that Perl will accept I would greatly appreciate it!</p>
+
+<p>Thanks,<br>
+Hobbit</p>
+
+<p><strong>EDIT</strong></p>
+
+<p>I used the pattern suggested by ikegami and it stopped the Perl error but it is only returning ""no."" and all of the space characters.
+Here is the code that is doing the parsing:</p>
+
+<pre><code>while (&lt;FILE&gt;){
+    $_ =~ /((?:^|(?&lt;=&gt;))[^&gt;&lt;]+?(?=&lt;|$))/g;
+    $proteinScores .= $1;
+}
+print $proteinScores.""\n"";
+</code></pre>
+","1744399","","1744399","","2014-01-21 04:20:05","2014-01-21 04:25:01","Perl 5 regex match all non html-tags without variable length lookbehind","<regex><perl>","2","1","","","","CC BY-SA 3.0"
+"21248862","1","","","2014-01-21 03:56:21","","0","643","<p>I am trying to find a simple, easy to understand explanation of </p>
+
+<p><code>instruction set</code> and <code>instruction set architecture</code> (if there is a difference.) I can only find technical references. </p>
+
+<p>I would appreciate if somebody can help explain in a few paragraphs what it is and its importance to a programmer.</p>
+","2597181","","1397504","","2014-01-21 03:58:33","2014-01-21 04:15:50","What is an Instruction Set Architecture (ISA)","<cpu-architecture>","1","1","0","","","CC BY-SA 3.0"
+"21248867","1","21248951","","2014-01-21 03:56:36","","1","4763","<p>I'm attempting to create a responsive navbar that is fixed at the top of the page, and with the links full height (100%) so that their background colors can change. I've so far only succeeded in making the navbar fixed, and the links are only somewhat compatible across devices. I'm going for this effect, where the media queries force the menu into a nav contained in an image. <a href=""http://getbootstrap.com/examples/navbar-fixed-top/"" rel=""nofollow"">http://getbootstrap.com/examples/navbar-fixed-top/</a>. I dislike bootstrap, and I want to be able to do this on my own in the future. Any tips?</p>
+
+<p>Here is the code I have:</p>
+
+<p>Jade:</p>
+
+<blockquote>
+  <p>head</p>
+  
+  <p>link(rel=""stylesheet"", href=""/main.css"")</p>
+  
+  <p>nav</p>
+
+<pre><code>ul
+
+   li
+
+       a(href=""/"") Home
+
+       a(href=""/about"") About
+
+       a(href=""/contact"") Contact
+</code></pre>
+</blockquote>
+
+<p>and </p>
+
+<p>LESS:</p>
+
+<blockquote>
+  <p>nav {</p>
+  
+  <p>width:100%;</p>
+  
+  <p>height:3em;</p>
+  
+  <p>top:0px;</p>
+  
+  <p>left:0px;</p>
+  
+  <p>position:fixed;</p>
+  
+  <p>background-color:#000;</p>
+  
+  <p>ul li a {</p>
+
+<pre><code>   height:100%;
+
+   text-align:center;
+
+   margin-top: -3.5em;
+
+   text-decoration:none;
+
+   padding-right: 9%;
+
+   padding-left: 9%;
+
+   &amp;:hover {
+
+       color:#7f8c8d;
+
+   }
+</code></pre>
+  
+  <p>}  </p>
+  
+  <p>}</p>
+</blockquote>
+","3172050","","","","","2014-01-21 04:21:38","How can I make a responsive navbar that is fixed to the top of the screen","<html><css><pug>","1","0","0","","","CC BY-SA 3.0"
+"21248868","1","21249011","","2014-01-21 03:56:38","","1","778","<p>Is there any way to implement associative array in LotusScript?<br>
+If yes, post a little demo code please.<br>
+Many thanks!</p>
+","2005817","","","","","2014-01-21 04:09:16","Associative arrays in LotusScript","<lotusscript><lotus>","1","0","0","","","CC BY-SA 3.0"
+"21248871","1","21248893","","2014-01-21 03:56:52","","4","649","<p>I have a use case that the request to be dispatched by trimming request URL to same context by setting some attributes with it. Will this be handled in same thread or in new thread?</p>
+","2659821","","","","","2014-01-21 03:58:48","Will request.getRequestDispatcher().forward creates new thread?","<java><servlets>","1","0","0","","","CC BY-SA 3.0"
+"21248872","1","21249376","","2014-01-21 03:56:55","","0","160","<p>So I'm making a game, and I have a clickable grid as shown in this fiddle: <a href=""http://jsfiddle.net/6qkdP/2/"" rel=""nofollow"">http://jsfiddle.net/6qkdP/2/</a></p>
+
+<p>The user in the game navigates around the grid by clicking on adjacent tiles, but a user has suggested using arrow keys instead.</p>
+
+<p>My thought is just to do some simple math, and figure out which tile the user is wanting to move to based on which arrow key they hit.  So if they were on array index <code>24</code> and moved left, the new index would be <code>23</code>.</p>
+
+<p>My question is, how do I trigger a click all the information I have provided to me is the index in the array that the user is moving to?</p>
+
+<p>Edit: To clarify, I'm of aware trigger in jQuery, I just don't know what to pass it.  If I have 100 tiles (from 0 to 99), and I want to trigger number 23, how do I do that?</p>
+
+<p>Another Edit: I ended up giving the grid an ID (gameGrid), and then used this:</p>
+
+<p><code>$('#gameGrid td:eq('+tile+')').trigger('click');</code></p>
+","1703946","","1703946","","2014-01-21 04:50:03","2014-01-21 05:47:26","How to trigger a click on a clickable table","<javascript><jquery><html>","2","2","","","","CC BY-SA 3.0"
+"21248879","1","21248918","","2014-01-21 03:57:21","","0","56","<p>Recently I've seen these kinds of URLs in CDN documents:</p>
+
+<pre><code>//cloudflare.cdnjs.com/foo
+</code></pre>
+
+<p>And I realised that they lacked the <code>http:</code> or <code>https:</code> in front of them.</p>
+
+<p>Hmm, I thought, and tried implementing them in a local test, and realised that they didn't work (they resolved <code>//</code> to be <code>file://</code>, though it was supposed to be <code>http:</code>).</p>
+
+<p>Then when I uploaded this to my testing server, it worked (resolved <code>//</code> to be <code>http://</code>).</p>
+
+<p>So I was wondering, why would anybody write it without the protocol?</p>
+
+<p>Thanks.</p>
+","1136709","","1136709","","2015-12-29 02:10:09","2015-12-29 02:10:09","Exclusion of the URL scheme in front of a URL","<javascript><html><protocols>","2","2","0","","","CC BY-SA 3.0"
+"21248883","1","21248917","","2014-01-21 03:57:57","","2","914","<p><strong>Using jQuery</strong>, if I have elements with the class <code>test</code> scattered throughout an HTML page, with no defined structure to indicate where they might be found, and if I have a variable called <code>currentItem</code> that contains <code>&lt;div class=""test""&gt;This is a test.&lt;/div&gt;</code>, which is located halfway through the page, then how can I find the NEXT element with the <code>test</code> class that appears in the DOM?</p>
+","420217","","","","","2014-01-21 04:15:33","Get next element with same class, regardless of its location in the DOM","<javascript><jquery><html><dom><document>","2","0","","","","CC BY-SA 3.0"
+"21593322","1","21593408","","2014-02-06 03:18:50","","0","915","<p>How do I hide and show a DIV based on a value from an array?</p>
+
+<p>I've figured out how to edit a DIV in a UIWebView using the following:</p>
+
+<pre><code>-(void)webViewDidFinishLoad:(UIWebView *)jsWebView
+{
+    // Replace the &lt;div id=""footer""&gt; in a webpage with an &lt;img&gt; instead.
+    NSString *jsStuff = [jsWebView stringByEvaluatingJavaScriptFromString:@""document.getElementById('footer').innerHTML='&lt;img src=\""http://url.to.image.png\""&gt;'""];
+}
+</code></pre>
+
+<p>I then have an NSArray that is populated with the Active Directory groups a person is a member of. This array is pulled from the keychain using a library tied to another app and is populated different for each person depending on which group they're in. </p>
+
+<p>So, now I need to figure out how to show and hide a DIV in the UIWebView based on if they're in a particular group or not. I have each DIV labeled with a unique ID, so I'm thinking 'getElementById' will work for identifying which DIV is which. But how do I match them up similar to this:</p>
+
+<pre><code>if(NSArray contains thisValue) {
+divID.visible =  show;
+} else {
+divID.visible = hide;
+}
+</code></pre>
+
+<p>EDIT: I ended up adding the values from the array to the query string, and used javascript to evaluate and show/hide the different divs based on what it finds in the query string.</p>
+","2019560","","2019560","","2014-05-01 23:02:47","2014-05-01 23:02:47","Show and hide DIV in UIWebView based on keychain iOS Xcode","<ios><xcode><html><uiwebview>","1","0","","","","CC BY-SA 3.0"
+"21593323","1","","","2014-02-06 03:19:09","","-2","129","<p>I have been struggling with this code through out yesterday and today. No suitable answer on this forum that I can apply.I have used the code before and it worked perfectly, I wonder what I am doing wrong. when I enter the url and values on the browser, it works but curl function doesn't. when I checked for error it gave me info:0 but it still doesn't work or post my value.</p>
+
+<p>here is my code</p>
+
+<pre><code>    $contact_phone = $_POST['contact_phone'];
+    $message = $_POST['message'];
+
+    function sendMessage($contact_phone, $message) { 
+
+        $postValue = ""sender=$contact_phone&amp;message=$message&amp;pass=***"";
+
+
+        $apiUrl = ""http://mydomain.com/components/com_simserver/sim_api.php?"";
+    //next is to fake a browser form submitted 
+    //firefox is our choosing browser
+        $browserType = ""Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.4) Gecko/20030624 Netscape/7.1 (ax)"";
+
+   /initiating the curl library
+    $ci = curl_init();
+curl_setopt($ci,CURLOPT_FAILONERROR,true);
+//set the url to be used  for processing the data
+    curl_setopt($ci, CURLOPT_URL, $apiUrl);
+
+//set our browser type that has been initiad before
+    curl_setopt($ci, CURLOPT_USERAGENT, $browserType);
+
+//set the maxmium time to execute the script before timing out
+    curl_setopt($ci, CURLOPT_CONNECTTIMEOUT, 0);
+
+//accept the response after the execution 
+    curl_setopt($ci, CURLOPT_RETURNTRANSFER, true);
+
+// set the post method for passing variables to the server 
+    curl_setopt($ci, CURLOPT_POST, 1);
+
+//assigning the values to be posted to the sms gateway
+    curl_setopt($ci, CURLOPT_POSTFIELDS, $postValue);
+
+//execute the function and get result from the gateway
+    $gatewayResult = curl_exec($ci);
+
+ echo ""Info: "" . print_r(curl_error($ci)) . ""\n"";
+    curl_close($ci); // close the connection 
+
+    return $gatewayResult; //returning the gateway feedback
+
+    /*   return ""Message sent""; */
+}
+
+
+    $smsGateWay = sendMessage($contact_phone, $message);
+                     if (isset($smsGateWay))
+                {
+                    echo ""message sent""
+                    }
+
+    ?&gt;
+    &lt;form method=""post""&gt;
+    &lt;input type=""text"" name=""contact_phone"" /&gt;
+    &lt;input type=""text"" name=""message"" /&gt;
+    &lt;input type=""submit"" value""submit"" /&gt;
+    &lt;/form&gt;
+</code></pre>
+","2790677","","2790677","","2014-02-06 10:47:34","2014-02-06 13:31:56","php curl only works on browser. why?","<php><curl>","2","2","","","","CC BY-SA 3.0"
+"21593327","1","","","2014-02-06 03:19:26","","2","214","<p>I was tasked to create an admin tool to download crawl issues for one of our sites. I used the code from <a href=""https://github.com/eyecatchup/GWT_CrawlErrors-php"" rel=""nofollow"">https://github.com/eyecatchup/GWT_CrawlErrors-php</a>. </p>
+
+<p>The only modification I made was to use OAuth 2.0 for authentication since circumstances do not allow me to have access to the webmasters account.</p>
+
+<p>My implementation worked fine and I was already able to download the csv files but cross-checking results between the api and the web tool reveals that the api returns only about <strong>16K+</strong> entries while the web tool has about <strong>40K+</strong>. I also tested this using Google's <a href=""https://developers.google.com/oauthplayground/"" rel=""nofollow"">OAuth 2.0 Playground</a> and the results show <strong>16K+</strong> entries also.</p>
+
+<p>Is there any limit imposed on google web masters tools api that is not mentioned in their <a href=""https://developers.google.com/webmaster-tools/docs/2.0/developers_guide_protocol#Crawl"" rel=""nofollow"">docs</a>?</p>
+","1530805","","","","","2014-02-06 03:19:26","Is there a limit to Google Webmasters Tools Api when fetching for crawl issues","<api><google-search-console>","0","0","","","","CC BY-SA 3.0"
+"21593337","1","21593821","","2014-02-06 03:20:12","","2","236","<p>I'm new to PHP (and CodeIgniter) and I'm having trouble trying to get a simple call of $this-&gt;db-&gt;query() to work. In my code (see bottom of post) I am looking through the errors and warnings that have been logged in my database table eventLog and comparing each to a list of accepted error messages. If any message isn't found to be on that list, then I want to acknowledge it by setting &quot;ack = 't'&quot;. However the code can't successfully run and gives the message:</p>
+<blockquote>
+<p>Error Number: 1064</p>
+<p>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1</p>
+<p>UPDATE eventLog SET ack = 't' WHERE id =</p>
+</blockquote>
+<p>This message seems to indicate that &quot;$row['id']&quot; is not working the way I intended. It should give me the id of the error or warning, but the error suggests that it's giving nothing, or in the wrong format. What am I missing? Or is there a better way to do this that may bypass my problem?</p>
+<p>MY CODE:</p>
+<pre><code>$acceptedMessages = array(&quot;whatever&quot;,
+                          &quot;whateverelse&quot;
+                          );
+
+$sql = &quot;(SELECT id, mesg FROM eventLog WHERE level = 'error') UNION   
+          (SELECT id, mesg FROM eventLog WHERE level LIKE 'warn%')&quot; ; 
+
+foreach ($this-&gt;db-&gt;query($sql) as $row) { 
+  foreach ($acceptedMessages as $messagePart) { 
+
+    $pos = strpos($row['mesg'], $messagePart); 
+    if ($pos !== false) { 
+      continue 2; 
+    } 
+  } 
+  // if we get here the eventLog message didn't match any accepted messages, so
+  // acknowledge it
+  $idNum = $row['id']; 
+  $sql3 = &quot;UPDATE eventLog SET ack = 't' WHERE id = &quot; . $idNum; 
+  $res = $this-&gt;db-&gt;query($sql3); 
+  if (!$res) { echo &quot;Failed to acknowledge error/warning with id &quot; . $row['id'] . &quot; in eventLog&quot;; } 
+} 
+</code></pre>
+","845274","","-1","","2020-06-20 09:12:55","2014-02-06 04:09:32","MySQL call from PHP (CodeIgniter) not working right","<php><mysql><sql><codeigniter>","2","0","","","","CC BY-SA 3.0"
+"21593342","1","21593384","","2014-02-06 03:20:43","","0","29","<p>I'm having this weird issue where when I place a list in a div, it causes a huge gap at the top of the div. What is causing this and how can I fix it? </p>
+
+<pre><code>body {
+background-color:aliceblue;
+margin:0px 0px 0px 0px;
+padding:0px 0px 0px 0px;
+}
+
+#logosearch {
+background-color:lightgray;
+width:1024px;
+margin:0px 0px 0px 0px;
+padding:0px 0px 0px 0px;
+}
+
+#nav {
+background-color:lightblue;
+width:1024px;
+margin:0px 0px 0px 0px;
+padding:0px 0px 0px 0px;
+}
+</code></pre>
+
+<p><a href=""http://jsfiddle.net/myvegancookbook/JP899/"" rel=""nofollow"">http://jsfiddle.net/myvegancookbook/JP899/</a></p>
+","3247313","","3247313","","2014-02-06 03:29:41","2014-02-06 04:01:44","Gaps on top of Div when placing lists in them","<html><css>","2","6","","","","CC BY-SA 3.0"
+"21593347","1","21593507","","2014-02-06 03:21:41","","-3","45","<p>I posted before but my question was not right. So Why my shoots are not following my ship which is shooting????? It is just stays only at one position even if i move ship away.......I added everything I guess.....Out of ideas..Any help will appreciated.</p>
+
+<pre><code>      function shoot(){
+       context.fillStyle = ""black"";
+        context.fillRect(X2, Y2--, 5,10);
+        context.fillStyle = ""red"";
+        context.fillRect(X2, Y2, 5,10);
+        if (Y2&gt;=0) {
+                timer=setTimeout(shoot(), 1);
+            }
+           else {
+                context.fillstyle=""black"";
+                context.fillRect(X2, Y2, 5,10);
+                Y2=320;
+                context.fillRect(X+23, Y2, 5,10);
+            }
+
+      }
+</code></pre>
+","3247903","","3247903","","2014-02-06 03:39:57","2015-07-31 05:52:19","Code with a ship which shooting wrong","<javascript><canvas>","1","0","","2014-11-30 15:50:33","","CC BY-SA 3.0"
+"21593351","1","21614269","","2014-02-06 03:21:55","","1","458","<p>I have the following POJOs:</p>
+
+<pre><code>@XmlRootElement(name = ""Root"")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class DataList&lt;T&gt;
+{
+    @XmlElementWrapper(name=""ResultTableSection"")
+    @XmlAnyElement(lax = true)
+    public List&lt;T&gt; elements;
+}
+
+@XmlRootElement(name = ""ResultTable"")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Event
+{
+    @XmlElement(name = ""TSSEVENTID"", required = true)
+    public Integer id;
+    ...
+}
+</code></pre>
+
+<p>When in the response XML <strong>TSSEVENTID</strong> tag is missing I get a DataList in which Event.id field is NULL regardless of the set required=true. Nothing fails.
+Is it the expected behavior ? How can I enable validation ?</p>
+
+<p>Unmarshall code:</p>
+
+<pre><code>JAXBContext.newInstance(DataList.class, Hall.class).createUnmarshaller().unmarshal(xmlDocument);
+</code></pre>
+
+<p>Dependency:</p>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.eclipse.persistence&lt;/groupId&gt;
+    &lt;artifactId&gt;org.eclipse.persistence.moxy&lt;/artifactId&gt;
+    &lt;version&gt;2.5.1&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+","599570","","","","","2014-02-06 21:20:05","MOXy ignores XmlElement(required=true)","<xml><unmarshalling><moxy>","1","0","","","","CC BY-SA 3.0"
+"21593357","1","","","2014-02-06 03:23:14","","0","46","<p>If we want to get to the run parameters of the application we write:</p>
+
+<pre><code>NavigationContext.QueryString.TryGetValue(""ms_nfp_launchargs"", out value);
+</code></pre>
+
+<p>What is exacly <code>ms_nfp_launchargs</code>? Where is it defined? What is the background of that value?</p>
+
+<p>I know that it is a key, but I want to know more.</p>
+","1123020","","1123020","","2014-02-06 03:36:22","2014-02-06 17:24:51","What is exacly ms_nfp_launchargs in Windows Phone?","<c#><windows-phone>","1","0","","","","CC BY-SA 3.0"
+"21718748","1","21719417","","2014-02-12 04:35:25","","2","241","<p>I'm using Twitter Bootstrap for the beginnings of a very basic web store. I began using it mostly for some easy styling and whatnot, but as I got I find myself using more of their layout features.</p>
+
+<p>One thing I'm curious about: I recall being told that I should, in general, not use HTML tables for page layout. I.e. it's fine to use them for tabulated data (its intended purpose) but not for arranging elements on a page. </p>
+
+<p>My question is this: should the Bootstrap row and col classes be used for page layout, or exclusively for tabulated data? It seems very similar to using tables, but it also seems like they built Bootstrap with row/col being used for responsive layouts. Why are they different, if they are?</p>
+","1756625","","1756625","","2014-02-12 05:19:52","2014-02-12 05:44:09","Should Twitter Bootstrap Row/Col be used for layout?","<html><css><twitter-bootstrap>","3","2","","","","CC BY-SA 3.0"
+"21718749","1","21733189","","2014-02-12 04:35:34","","3","4120","<p>I've build a custom android ROM. I've signed my application with platform signature and have added <code>android:sharedUserId=""android.uid.system""</code> in the manifest file. My app is granted all ""signature"" and ""system"" level permission but access to system files are not granted.</p>
+
+<pre><code>    Log.w(""PC"", String.valueOf(checkCallingOrSelfPermission(""android.permission.ACCESS_SURFACE_FLINGER"")== PackageManager.PERMISSION_GRANTED)); // true
+    Log.w(""PC"", String.valueOf(checkCallingOrSelfPermission(""android.permission.READ_FRAME_BUFFER"")== PackageManager.PERMISSION_GRANTED));      // true
+    Log.w(""PC"", String.valueOf(checkCallingOrSelfPermission(""android.permission.INJECT_EVENTS"")== PackageManager.PERMISSION_GRANTED));          // true
+
+    Log.w(""PC"", String.valueOf(new File(""/dev/graphics/fb0"").canRead()));                      // false
+    Log.w(""PC"", String.valueOf(new File(""/data/misc/wifi/wpa_supplicant.conf"").canRead()));   // false
+</code></pre>
+
+<p>permissions of the files are:</p>
+
+<pre><code>ls -l /dev/graphics/fb0
+crw-rw---- root     graphics  29,   0 2014-02-12 09:43 fb0
+
+ls -l /data/misc/wifi/wpa_supplicant.conf
+-rwxrwx--- wifi     wifi          282 2014-02-11 19:04 wpa_supplicant.conf
+</code></pre>
+
+<p>Is there any way to get the access to these files?</p>
+","925202","","168868","","2014-02-12 07:48:11","2016-09-29 16:29:53","Cannot read system files even after obtaining platform signature","<android><android-permissions>","3","4","0","","","CC BY-SA 3.0"
+"21718758","1","","","2014-02-12 04:36:08","","0","764","<p>I have a jqgrid with inline cell editing. I have my grid setup like this</p>
+
+<pre><code>$(""#jqGrid"").jqGrid({
+            datatype: function (postdata) {
+            },
+            gridview: true,
+            cellEdit: true,
+            //cellurl is not used, but its required. should do more research.
+            cellurl: '',
+            beforeSaveCell: function(rowid, cellname, value, iRow, iCol) {
+                UpdateCell(cellname, value);
+            }
+        });
+</code></pre>
+
+<p>I am saving the data in the cell using beforeSaveCell. I don't want to use cellurl. But when I don't give cellurl, I get an error ""url is not provided"". how can i save the cell data without actually using the cellurl if there is? </p>
+","1341773","","1341773","","2014-02-23 05:17:32","2014-02-23 05:19:15","jqgrid inline cell editing","<jquery><jqgrid>","1","0","","","","CC BY-SA 3.0"
+"21718759","1","","","2014-02-12 04:36:14","","11","3381","<p>Is there a way to find out the acceptance rate of one's GitHub PR's, probably using the API?</p>
+
+<p>While at that, it would be interesting to find out how many of the issues I reported have been closed vs. are still open, across all repos.</p>
+","1269037","","10341207","","2023-06-22 14:05:41","2023-06-22 14:05:41","How can I find how many of my GitHub pull requests have been accepted?","<git><github><github-api><pull-request>","4","0","0","","","CC BY-SA 3.0"
+"21718764","1","21718966","","2014-02-12 04:36:25","","0","224","<p>I have the following program in C, which is intended to convert UNIX text files to Windows format (LF->CR LF).  Basically the intended usage is <code>addcr infile &gt; outfile</code> in the command line:</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+int main(int argc, char *argv[])
+{
+    FILE *fp;
+    char *buffer;
+    int i, flen;
+    if(argc&lt;2)
+    {
+        printf(""Usage: addcr filename\n"");
+        return 0;
+    }
+    fp=fopen(argv[1], ""r"");
+    if(fp==NULL)
+    {
+        printf(""Couldn't open %s.\n"", argv[1]);
+        return 0;
+    }
+    fseek(fp, 0, SEEK_END);
+    flen=ftell(fp);
+    rewind(fp);
+    buffer=(char*)malloc(flen+1);
+    fread(buffer, 1, flen, fp);
+    fclose(fp);
+    buffer[flen]=0;
+    for(i=0;i &lt; strlen(buffer);i++)
+    {
+        if(buffer[i]==0x10)
+        {
+            printf(""%c"", '\r');
+        }
+        printf(""%c"", buffer[i]);
+    }
+
+    free(buffer);
+    return 0;
+}
+</code></pre>
+
+<p>However, sometimes it prints out garbage at the end of the file contents, as indicated by comparing its output to the TYPE command:</p>
+
+<pre><code>C:\Temp&gt;addcr sample.txt
+He did not wear his scarlet coat,
+                 For blood and wine are red,
+               And blood and wine were on his hands
+                 When they found him with the dead,
+               The poor dead woman whom he loved,
+                 And murdered in her bed.
+Window
+C:\Temp&gt;type sample.txt
+He did not wear his scarlet coat,
+                 For blood and wine are red,
+               And blood and wine were on his hands
+                 When they found him with the dead,
+               The poor dead woman whom he loved,
+                 And murdered in her bed.
+
+C:\Temp&gt;
+</code></pre>
+
+<p>It appears to sometimes print out some unpredictable portion of a string in my Environment Variables.  I have absolutely no clue what could be causing it.  Does anyone know how to resolve this problem?</p>
+","1773434","","","","","2014-02-12 05:06:44","Add Carriage-Return utility in C printing garbage?","<c><console><text-files><line-endings>","3","0","","","","CC BY-SA 3.0"
+"21718766","1","","","2014-02-12 04:36:32","","0","291","<p>I'm trying to write an application in node that will first parse a json stirng, validate if that string contains required key/value pairs, and eventually do more processing on that data. We are using async.waterfall to call our functions as the result will need to be passed through from one function to the next.</p>
+
+<p>The problem I keep running into is that of scope I believe. I'd like to emit either an 'error' or 'success' message as a part of the final callback of the waterfall, but no matter what I do, I can't seem to capture that message. The important parts of my file looks like this:</p>
+
+<pre><code>var MetadataIngester = function() {
+    var status, returnValue;
+    eventEmitter.call(this);
+}
+
+util.inherits(MetadataIngester, eventEmitter);
+
+MetadataIngester.prototype.sendEvent = function(eventType, eventMessage) {
+    this.emit(eventType, eventMessage);
+}
+
+MetadataIngester.prototype.clobber = function(itemString) {
+    var self = this;
+    var asyncParseItem = self.parseItem;
+    var asyncValidateItem = self.validateItem;
+    var asyncSendvent = self.sendEvent;
+    async.waterfall(
+        [
+            function(callback) {
+                asyncParseItem(itemString, callback);
+            },
+           asyncValidateItem
+        ],
+        function(err, result) {
+            if (err) {
+                asyncSendEvent.call(self, 'wtf', result);
+            } else {
+                asyncSendEvent.call(self, 'success', {
+                    'remedia_id': 123
+                });
+            }
+        }
+    );
+</code></pre>
+
+<p>To test this, I'm doing the following:</p>
+
+<pre><code>describe(""#clobber"", function() {
+    it('should emit an error event if item has not been inserted', function() {
+        item = ""{}"";
+        metadata.on('wtf', errorSpy);
+        metadata.clobber(item);
+        expect(errorSpy).to.have.been.called;
+    });
+
+
+});
+
+describe(""#sendEvent"", function() {
+     it('should emit an wtf event if an error event type is passed in', function() {
+         metadata.on('wtf', errorSpy);
+         metadata.sendEvent('wtf', {'ihateyou': 'wtf'});
+         expect(errorSpy).to.have.been.called;
+     });
+});
+</code></pre>
+
+<p>When I run the first test, the event is emitted, but the spy is never called. However, if I call the function that emits the event directly as in the case of the second test, it works just fine, and I'm not sure why. I need to get the events captured by the test file as eventually I will be using this MetadataIngester with a queue that pulls messages off a queue and that consumer is what calls this file and expects back events so it will know what to do next.</p>
+
+<p>Any help will be greatly appreciated.</p>
+","2258640","","","","","2014-02-12 08:38:08","node eventEmitter usage and scope within async.waterfall call","<javascript><node.js><events><asynchronous>","1","2","","","","CC BY-SA 3.0"
+"21718767","1","21721700","","2014-02-12 04:36:37","","1","2640","<p>I'm hoping someone can help me adjust a plot in R. <a href=""https://www.dropbox.com/s/hh8yb4tem6ewqif/occupancy.csv"" rel=""nofollow"">csv file here</a> I have plotted mean values with error bars of three series (Ctr, Fat, Imp). However, I would like to offset them so they are not all stacked on top of one another. </p>
+
+<p>The data look like:</p>
+
+<pre><code>Spp occ   L.95CRI   U.95CRI bait
+A   0.633   0.374   0.868   Fat
+A   0.915   0.682   1       Imp
+A   0.779   0.581   0.94    Ctr
+B   0.51    0.102   0.866   Fat
+B   0.767   0.235   1       Imp
+B   0.676   0.279   0.98    Ctr
+</code></pre>
+
+<p>where ""Spp"" is the categorical x-axis label and ""occ"" is the value I want to plot with error bars for each series ""bait"". Lower error values are ""L.95CRI"" and upper errors are ""U.95CRI"".</p>
+
+<p>The code I'm using is: </p>
+
+<pre><code>data&lt;-read.csv(""occupancy.csv"")
+library(ggplot2)
+qplot(Spp, occ, data=data, colour=bait, geom=c(""line"",""point"")) 
+   + geom_errorbar(aes(ymin=L.95CRI, ymax=U.95CRI))
+</code></pre>
+
+<p>My current graph looks like <a href=""https://www.dropbox.com/s/3m09406knqay3ot/graph.png"" rel=""nofollow"">this</a></p>
+
+<p>I would like the green ""Fat"" series to be shifted over so that it plots just to the right of the red ""Ctr"" series, and the blue ""Imp"" series shifted over so that it plots just to the right of the green ""Fat"" series. This way all 3 series for ""A"" can be viewed side-by-side instead of overlayed on top of one another, then all 3 series for ""B"", and so forth. Thank you!</p>
+","3299942","","","","","2014-02-12 08:02:33","Space/offset series plotted on same graph with categorical x values in R","<r><plot><ggplot2>","2","0","","","","CC BY-SA 3.0"
+"21718774","1","21718820","","2014-02-12 04:37:11","","59","41425","<p>I have a question about the single threaded nature of Javascript.</p>
+
+<pre><code>console.log(""1"");
+setTimeout(function(){console.log(""2"");},3000);
+console.log(""3"");
+setTimeout(function(){console.log(""4"");},1000);
+</code></pre>
+
+<p>The result of this code is <code>1 3 4 2</code>. As you see, <code>4</code> comes after <code>2</code> which makes me wonder that in a single threaded environment shouldn't <code>2</code> have come after <code>4</code>? If not, then how come JS knows the second <code>setTimeout</code> should finish before the first one? Shouldn't there be two threads which work concurrently to complete the two <code>setTimeout</code>s in order to notify <code>EventLoop</code>?</p>
+","44852","","","","","2019-03-18 06:39:25","How is Javascript single threaded?","<javascript><multithreading>","6","6","0","","","CC BY-SA 3.0"
+"21718778","1","21719190","","2014-02-12 04:37:15","","0","229","<p>I have this sample/example response from a query using USPS Rate Calculator Web Tool API:</p>
+
+<pre><code>&lt;service id=""15""&gt;
+    &lt;pounds&gt;0&lt;/pounds&gt;
+    &lt;ounces&gt;15&lt;/ounces&gt;
+    &lt;mailtype&gt;Package&lt;/mailtype&gt;
+    &lt;container&gt;RECTANGULAR&lt;/container&gt;
+    &lt;size&gt;LARGE&lt;/size&gt;
+    &lt;width&gt;2&lt;/width&gt;
+    &lt;length&gt;13&lt;/length&gt;
+    &lt;height&gt;13&lt;/height&gt;
+    &lt;girth&gt;30&lt;/girth&gt;
+    &lt;country&gt;ARGENTINA&lt;/country&gt;
+    &lt;postage&gt;16.25&lt;/postage&gt;
+    &lt;extraservices&gt;
+        &lt;extraservice&gt;
+            &lt;serviceid&gt;6&lt;/serviceid&gt;
+            &lt;servicename&gt;Certificate of Mailing&lt;/servicename&gt;
+            &lt;available&gt;True&lt;/available&gt;
+            &lt;price&gt;1.30&lt;/price&gt;
+        &lt;/extraservice&gt;
+        &lt;extraservice&gt;
+            &lt;serviceid&gt;0&lt;/serviceid&gt;
+            &lt;servicename&gt;Registered Mail&lt;/servicename&gt;
+            &lt;available&gt;True&lt;/available&gt;
+            &lt;price&gt;13.65&lt;/price&gt;
+        &lt;/extraservice&gt;
+    &lt;/extraservices&gt;
+    &lt;valueofcontents&gt;32.25&lt;/valueofcontents&gt;
+    &lt;inscomment&gt;SERVICE&lt;/inscomment&gt;
+    &lt;svccommitments&gt;Varies by destination&lt;/svccommitments&gt;
+    &lt;svcdescription&gt;First-Class Package International Service&amp;amp;lt;sup&amp;amp;gt;&amp;amp;#8482;&amp;amp;lt;/sup&amp;amp;gt;**&lt;/svcdescription&gt;
+    &lt;maxdimensions&gt;Other than rolls: Max. length 24"", max length, height and depth (thickness) combined 36""&amp;lt;br&amp;gt;Rolls: Max. length 36"". Max length and twice the diameter combined 42""&lt;/maxdimensions&gt;
+    &lt;maxweight&gt;4&lt;/maxweight&gt;
+&lt;/service&gt;
+&lt;/package&gt;
+&lt;/intlratev2response&gt;
+</code></pre>
+
+<p>This is a section of the whole response. There are two other service elements, but this is the node that I wish to return. (I left the parent closures in at the bottom for you to see, FYI.) The ID for these different service elements seem static, but there is nothing in the API to indicate that these are intended to be usable. In short, I am reticent to rely on them. The essential identifier for this node is that the SvcDescription = First-Class Package International Service. There is some html encoded hooey that follows, but this is the element I'm trying to locate, and store the parent of it in a SimpleXMLElement.</p>
+
+<p>This is my best shot at the xpath:</p>
+
+<pre><code>$rate = $result-&gt;xpath('//Service[SvcDescription=""*First-Class Package International Service""]/Postage');
+</code></pre>
+
+<p>When I var_dump($rate), I am returning an empty array. I have been messing around with this for hours. I could use some guidance. Please let me know if you need more information, and thank you in advance for your help.</p>
+","3299931","","3299931","","2014-02-12 04:54:21","2014-02-12 05:10:07","writing the correct xpath query to prune USPS Rate Calculator API XML response","<php><xpath><simplexml><usps>","1","0","","","","CC BY-SA 3.0"
+"21718781","1","","","2014-02-12 04:37:43","","1","927","<p>Following answer 3 to this question ""<a href=""https://stackoverflow.com/questions/21292236/highlight-search-term-in-mysql-php-search"">Highlight search term in mysql php search</a>"" I could achieve word highlighting, the only thing I still can not figure out is how to highlight accented versions of the word, the query do find for instance ""wesha"" and ""weshá"" but highlighting only works for ""wesha""..</p>
+
+<p>here is my code:</p>
+
+<pre><code>echo ""&lt;p&gt;"".str_replace($palabra,""&lt;strong&gt;$palabra&lt;/strong&gt;"",$row['definicion']).""&lt;/p&gt;"";
+</code></pre>
+
+<p>Thanks</p>
+
+<p>By the way, changing to <code>str_ireplace</code> makes the match with words in capital but change them into non capital letters, is there a way to include this also? </p>
+","443381","","-1","","2017-05-23 10:29:37","2022-01-08 14:23:10","Highlight search term in mysql php search accented characters also","<php><mysql><search>","3","5","","","","CC BY-SA 3.0"
+"21718782","1","","","2014-02-12 04:37:48","","0","29","<p>I found a weird thing that the HTML code under if statement is not able to print out, I check the html source code and could not find it.</p>
+
+<p>Here is part of the code:  </p>
+
+<pre><code>&lt;div id=""block-subheaderbar""&gt;
+    &lt;?php if (count($sub_menu = wp_nav_menu(array('sub_menu' =&gt; true))) ) : ?&gt;
+    &lt;div class=""wrapper max-width80""&gt;
+        &lt;header id=""header"" class=""clearfix ""&gt;
+            &lt;?php wp_nav_menu(array('sub_menu' =&gt; true)); ?&gt;
+        &lt;/header&gt;
+    &lt;/div&gt;
+    &lt;?php endif; ?&gt;
+&lt;/div&gt; 
+</code></pre>
+
+<p>The code:  </p>
+
+<pre><code>&lt;div class=""wrapper max-width80""&gt;
+&lt;header id=""header"" class=""clearfix ""&gt;
+</code></pre>
+
+<p>cannot print out in html, could you explain why? and how to fix that?</p>
+","3112938","","897733","","2014-02-12 07:47:08","2014-02-12 07:47:08","In wordpress HTML code cannot print in if statement","<php><wordpress>","1","0","","","","CC BY-SA 3.0"
+"21718783","1","21718833","","2014-02-12 04:37:55","","2","38","<p>I'm trying to apply <code>background-color</code> to a table-cells. <a href=""http://jsfiddle.net/DKNyf/"" rel=""nofollow"">jsFiddle</a></p>
+
+<pre><code>&lt;table&gt;
+&lt;tr&gt;
+            &lt;td&gt;
+                text
+            &lt;/td&gt;
+            &lt;td&gt;
+                text
+            &lt;/td&gt;
+            &lt;td&gt;
+                text
+            &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+
+td{
+    background-color: rgb(172,0,20);
+}
+</code></pre>
+
+<p>How can I remove spacing between the table cells?</p>
+","","user2953119","","","","2014-02-12 04:42:35","Table cell's spacing","<html><css>","4","0","","","","CC BY-SA 3.0"
+"21718786","1","","","2014-02-12 04:38:08","","1","64","<p>Let's say I have a grid of UIViewControllers, arranged in two rows of 4 each.</p>
+
+<p>I'm using iOS 7 and want to setup custom transitions between them; a user could go up and down between the rows, or left and right between them in a single row.</p>
+
+<p>What's the best way to set up and manage this? I know how to do the transitions to indicate the left-right and up-down motion through the application space, but I'm not sure the best way to manage the overall structure of the UIViewController grid.</p>
+
+<p>I thought at first I'd use UINavigationController, but I specifically do not want the push/pop model; I just want each UIViewController to have top, bottom, left, and right neighbors and navigate between them.</p>
+
+<p>And I don't mind instantiating them each time, if that's the right way to do it; it just seems a bit clunky, like it might be better to have some object that keeps track of the grid and manages the links between them -- like UINavigationController, but a matrix, rather than a stack.</p>
+
+<p>Any feedback or advice appreciated! Thanks much</p>
+","3188423","","","","","2014-02-12 04:42:07","How can I manage and transition between a grid of UIViewControllers?","<ios><objective-c><uiviewcontroller>","1","0","","","","CC BY-SA 3.0"
+"21718788","1","","","2014-02-12 04:38:27","","5","2354","<p>My users are having trouble logging into my site in Internet Explorer (10 and 11, perhaps older).</p>
+
+<p>Through some trial and error, I discovered that IE is setting the <code>PHPSESSID</code> cookie twice. This is visible by typing <code>document.cookie</code> into the F12 developer toolbar.</p>
+
+<p>Research suggests that this may be caused by having a ""www."" version and non-www version of the cookie. I'm not sure how to verify this, but I was hoping I could boycott the issue by setting the domain explicitly by calling <a href=""http://ca2.php.net/manual/en/function.session-set-cookie-params.php"" rel=""nofollow""><code>session_set_cookie_params</code></a>.</p>
+
+<p>Thus I have:</p>
+
+<pre><code>$host = $_SERVER['HTTP_HOST'];
+if(substr($host, 0, 4) === 'www.') $host = substr($host, 4);
+$colon = strrpos($host, ':');
+if($colon !== false) $host = substr($host, 0, $colon);
+session_set_cookie_params(0, '/', $host);
+session_start();
+</code></pre>
+
+<p>I'm stripping the port too (developing on localhost:81) because that's what <code>document.domain</code> returns.</p>
+
+<p>Host is now simply <code>localhost</code> (haven't tried on live site yet), and I can't log in at all in IE. Works fine in Firefox, does <em>not</em> work in Chrome.</p>
+
+<p>How can I get PHP or the browser to share session cookies between the www subdomain and no subdomain versions of the site?</p>
+
+<hr>
+
+<p>I tried throwing a dot in there per the related question:</p>
+
+<pre><code>$host = $_SERVER['HTTP_HOST'];
+if(substr($host, 0, 4) === 'www.') $host = substr($host, 4);
+$colon = strrpos($host, ':');
+if($colon !== false) $host = substr($host, 0, $colon);
+session_set_cookie_params(0, '/', '.'.$host);
+session_start();
+</code></pre>
+
+<p>I dumped <code>session_get_cookie_params()</code> to confirm it was set correctly. This does not appear to solve my issue either. The session keeps getting reset.</p>
+","65387","","65387","","2014-02-12 05:45:59","2014-02-15 12:25:02","PHP, Session Cookies and Internet Explorer","<php>","1","2","0","2014-02-28 07:00:47","","CC BY-SA 3.0"
+"21718797","1","","","2014-02-12 04:39:16","","1","546","<p>I have written a function in C++ which  takes a Mat class object and returns a Mat after processing. I want to integrate this to a UI written in VB.NET </p>
+
+<p>I wrote this code segment in C++</p>
+
+<pre><code>extern ""C"" _declspec(dllexport) Mat cropImage(Mat matA){
+     Mat matB = processingObject.doSomething(matA);
+     return matB;
+}
+</code></pre>
+
+<p>processingObject.doSomething(matA) works fine. </p>
+
+<p>How Can I use this dll in VB? I don't mind changing the C++ code to make this work.</p>
+
+<p>Thanks</p>
+
+<p><strong>Update</strong> >>>></p>
+
+<p>Found a workaround for the problem. Not 100% What I was looking for though</p>
+
+<p><strong>C++</strong></p>
+
+<pre><code>extern ""C"" __declspec(dllexport) int* cropImage(char* path, int&amp; size)
+{
+    Mat matA = pavObj.cropped_liquid_region(path);
+
+    int rows = matA.rows;
+    int cols = matA.cols;
+    int channels = matA.channels();
+
+    int length = rows*cols*channels + 3;
+    size = length;
+    int* arr = new int[length];
+
+    arr[0] = rows;
+    arr[1] = cols;
+    arr[2] = channels;
+
+    Mat layer[3];
+    split(matA, layer); // split into color layers BGR
+    int count = 3;
+
+    for(int i=0;i&lt;3;i++){
+        for(int j=0;j&lt;layer[i].rows;j++){
+            for(int k=0;k&lt;layer[i].cols;k++){
+                arr[count] = layer[i].at&lt;uchar&gt;(j, k);
+                count++;
+            }
+        }
+    }
+
+    return arr; 
+}
+
+extern ""C"" __declspec(dllexport) int ReleaseMemory(int* pArray)
+{
+    delete[] pArray;
+    return 0;
+}
+</code></pre>
+
+<p><strong>VB Signatures</strong></p>
+
+<pre><code>&lt;DllImport(""mat.dll"", CallingConvention:=CallingConvention.Cdecl)&gt; _
+Public Shared Function cropImage(ByVal path As String, ByRef sz As Integer) As IntPtr
+End Function
+
+&lt;DllImport(""mat.dll"", CallingConvention:=CallingConvention.Cdecl)&gt; _
+Public Shared Function ReleaseMemory(ByVal ptr As IntPtr) As Integer
+End Function
+</code></pre>
+
+<p><strong>VB call to dll</strong></p>
+
+<pre><code>Dim size As Integer
+Dim ptr As IntPtr = cropImage(path, size)
+Dim result(size) As Integer
+Marshal.Copy(ptr, result, 0, size)
+ReleaseMemory(ptr)
+</code></pre>
+
+<p>So what basically happens is that the content of the image is taken to a 1D array and passed to the managed side where the image is reconstructed again.</p>
+","2156472","","2156472","","2014-02-19 07:30:10","2014-02-19 07:30:10","Returning a Mat from C++ dll to VB.Net","<c++><.net><vb.net><opencv>","1","0","0","","","CC BY-SA 3.0"
+"21718798","1","","","2014-02-12 04:39:27","","-1","1133","<p>How to align/float other forms from parent form?</p>
+
+<p>All I can found is MDI, for what I have understand, mdi will make the form visible inside the form, but what I wanted is to align other form from parent. Is it possible?</p>
+","2922445","","719186","","2018-05-16 15:12:25","2018-05-16 15:12:25","Form Align to Parent Form (left or Right)","<vb.net><winforms>","1","4","","","","CC BY-SA 4.0"
+"21718799","1","","","2014-02-12 04:39:29","","0","317","<p>Trying to use Neo4jClient, getting this exception saying that it couldn't handle the otherwise valid response from Neo4j:</p>
+
+<pre><code>{""Neo4j returned a valid response, however Neo4jClient was unable to deserialize into the object structure you supplied.
+
+First, try and review the exception below to work out what broke.
+
+If it's not obvious, you can ask for help at http://stackoverflow.com/questions/tagged/neo4jclient
+
+Include the full text of this exception, including this message, the stack trace, and all of the inner exception details.
+
+Include the full type definition of MyStory.Logic.DbUpdateSlice.Model.DbUpdate.
+
+Include this raw JSON, with any sensitive values replaced with non-sensitive equivalents:
+
+{
+  \""columns\"" : [ \""dbUpdates\"" ],
+  \""data\"" : [ [ {
+    \""outgoing_relationships\"" : \""http://127.255.0.0:20001/db/data/node/853098/relationships/out\"",
+    \""data\"" : {
+      \""UpdateStart\"" : \""2014-10-24T15:30:23\"",
+      \""UpdateMethodName\"" : \""abc.def\"",
+      \""DbUpdateState\"" : \""Running\"",
+      \""UniqueId\"" : 1
+    },
+    \""traverse\"" : \""http://127.255.0.0:20001/db/data/node/853098/traverse/{returnType}\"",
+    \""all_typed_relationships\"" : \""http://127.255.0.0:20001/db/data/node/853098/relationships/all/{-list|&amp;|types}\"",
+    \""property\"" : \""http://127.255.0.0:20001/db/data/node/853098/properties/{key}\"",
+    \""self\"" : \""http://127.255.0.0:20001/db/data/node/853098\"",
+    \""properties\"" : \""http://127.255.0.0:20001/db/data/node/853098/properties\"",
+    \""outgoing_typed_relationships\"" : \""http://127.255.0.0:20001/db/data/node/853098/relationships/out/{-list|&amp;|types}\"",
+    \""incoming_relationships\"" : \""http://127.255.0.0:20001/db/data/node/853098/relationships/in\"",
+    \""extensions\"" : {
+    },
+    \""create_relationship\"" : \""http://127.255.0.0:20001/db/data/node/853098/relationships\"",
+    \""paged_traverse\"" : \""http://127.255.0.0:20001/db/data/node/853098/paged/traverse/{returnType}{?pageSize,leaseTime}\"",
+    \""all_relationships\"" : \""http://127.255.0.0:20001/db/data/node/853098/relationships/all\"",
+    \""incoming_typed_relationships\"" : \""http://127.255.0.0:20001/db/data/node/853098/relationships/in/{-list|&amp;|types}\""
+  } ], [ {
+    \""outgoing_relationships\"" : \""http://127.255.0.0:20001/db/data/node/853099/relationships/out\"",
+    \""data\"" : {
+      \""UpdateStart\"" : \""2014-11-04T01:32:23\"",
+      \""UpdateMethodName\"" : \""xyz.123.987\"",
+      \""DbUpdateState\"" : \""Failed\"",
+      \""UniqueId\"" : 2
+    },
+    \""traverse\"" : \""http://127.255.0.0:20001/db/data/node/853099/traverse/{returnType}\"",
+    \""all_typed_relationships\"" : \""http://127.255.0.0:20001/db/data/node/853099/relationships/all/{-list|&amp;|types}\"",
+    \""property\"" : \""http://127.255.0.0:20001/db/data/node/853099/properties/{key}\"",
+    \""self\"" : \""http://127.255.0.0:20001/db/data/node/853099\"",
+    \""properties\"" : \""http://127.255.0.0:20001/db/data/node/853099/properties\"",
+    \""outgoing_typed_relationships\"" : \""http://127.255.0.0:20001/db/data/node/853099/relationships/out/{-list|&amp;|types}\"",
+    \""incoming_relationships\"" : \""http://127.255.0.0:20001/db/data/node/853099/relationships/in\"",
+    \""extensions\"" : {
+    },
+    \""create_relationship\"" : \""http://127.255.0.0:20001/db/data/node/853099/relationships\"",
+    \""paged_traverse\"" : \""http://127.255.0.0:20001/db/data/node/853099/paged/traverse/{returnType}{?pageSize,leaseTime}\"",
+    \""all_relationships\"" : \""http://127.255.0.0:20001/db/data/node/853099/relationships/all\"",
+    \""incoming_typed_relationships\"" : \""http://127.255.0.0:20001/db/data/node/853099/relationships/in/{-list|&amp;|types}\""
+  } ] ]
+}
+Parameter name: content""}
+</code></pre>
+
+<hr>
+
+<p>Definition of DbUpdate</p>
+
+<pre><code>public class DbUpdate
+{
+    public long UniqueId { get; set; }
+    public string UpdateMethodName { get; set; }
+    public DateTime? UpdateStart { get; set; }
+    public DateTime? UpdateEnd { get; set; }
+    public DbUpdateState DbUpdateState { get; set; }
+}
+</code></pre>
+
+<hr>
+
+<p>Actual test code:</p>
+
+<pre><code>        var dbUpdate1 = new DbUpdate()
+        {
+            UpdateMethodName = ""abc.def"",
+            UpdateStart = new DateTime(2014, 10, 24, 15, 30, 23),
+            UpdateEnd = null,
+            DbUpdateState = DbUpdateState.Running
+        };
+
+        long dbUpdate1UniqueId = dbUpdateRepository.CreateDbUpdate(dbUpdate1);
+
+        var dbUpdates = dbUpdateRepository.GetAllDbUpdates().ToList();
+</code></pre>
+
+<p>&lt;&lt;&lt;&lt;&lt; exception thrown inside this method. See below.</p>
+
+<hr>
+
+<p>the repo class that contains the methods called from the test code:</p>
+
+<pre><code>public class DbUpdateRepository: IDbUpdateRepository
+{
+    readonly IGraphClient graphClient;
+    readonly IMyStoryUserPrincipal principal;
+    readonly IMyStoryUniqueIdGenerator uniqueIdGenerator;
+
+    public DbUpdateRepository (
+        IMyStoryUserPrincipal principal,
+        IGraphClient graphClient,
+        IMyStoryUniqueIdGenerator uniqueIdGenerator)
+    {
+        this.principal = principal;
+        this.graphClient = graphClient;
+        this.uniqueIdGenerator = uniqueIdGenerator;
+    }
+
+    public IEnumerable&lt;DbUpdate&gt; GetAllDbUpdates ()
+    {
+        var query = graphClient
+            .RootNode
+            .StartCypher(""root"")
+            .Match(""root-[:"" + HasDbUpdates.TypeKey + ""]-dbUpdates"")
+            .Return(dbUpdates =&gt; dbUpdates.As&lt;DbUpdate&gt;());
+
+        return query.Results;      &lt;&lt;&lt;&lt;&lt; exception thrown here
+    }
+
+
+    public long CreateDbUpdate (DbUpdate dbUpdate)
+    {
+        dbUpdate.UniqueId = uniqueIdGenerator.NextDbUpdateId();
+
+        graphClient.Create(dbUpdate,
+                            new HasDbUpdates(graphClient.RootNode)
+                            {
+                                Direction = RelationshipDirection.Incoming
+                            });
+
+        return dbUpdate.UniqueId;
+    }
+}
+</code></pre>
+","1147862","","211747","","2014-02-12 06:22:40","2014-02-12 06:22:40","Another exception thrown by Neo4jclient","<neo4jclient>","1","0","","","","CC BY-SA 3.0"
+"21718806","1","21756258","","2014-02-12 04:39:58","","1","377","<p>Is there a COM equivalent API/SDK for developing custom apps for iWork (specifically Numbers) or Mac Excel. I have found that there is only Apple Script (but support for which has been diminished) but I don't think this will be enough for thr real-time financial applications I would like to create. </p>
+
+<p>If there is no COM equivalent API/SDK, what is the preferred way, if any, of achieving such programmatic control over applications in the iWork suite (or Mac Excel)?</p>
+
+<p>Things I would like to achieve, for example, are:</p>
+
+<ul>
+<li>Writing to sheets, cells and ranges</li>
+<li>Pulling data from external real-time sources (sockets etc.)</li>
+<li>Adding custom controls such as ribbons in excel</li>
+</ul>
+
+<p>Thanks</p>
+","948373","","100297","","2020-07-01 19:30:15","2020-07-01 19:30:15","Add-In Development for iWork Applications","<objective-c><excel><macos><applescript><iwork>","1","2","","","","CC BY-SA 3.0"
+"21718813","1","","","2014-02-12 04:40:31","","0","158","<p>I'm using play framework 2.2.1 in production for rest api. After 4-5 hours work app just freeze... and not responding. After restart same things.</p>
+
+<p><strong>jstack</strong> return <code>target process not responding or HotSpot VM not loaded</code></p>
+
+<p>I'm also use MongoDb like database and RabitMQ.</p>
+
+<p>[Edit]</p>
+
+<p>Linux ubuntu 12.04, jdk1.7.0 (not open openjdk);</p>
+
+<p>Nginx as proxy 80 to 9000</p>
+
+<p><code>kill -3</code> - return nothing</p>
+
+<p>Nginx error.log</p>
+
+<pre><code>*39806 upstream timed out (110: Connection timed out) while reading response header from upstream, client
+</code></pre>
+","478985","","478985","","2014-02-13 10:17:19","2014-02-13 10:17:19","Play app not responding in production","<playframework><playframework-2.0><playframework-2.2>","0","7","","","","CC BY-SA 3.0"
+"21845596","1","","","2014-02-18 06:06:12","","0","439","<p>I am using Python's unittest with simple code like so:</p>
+
+<pre><code>suite = unittest.TestSuite()
+suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(module1))
+suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(module2))
+</code></pre>
+
+<p>I want my test suite to automatically parse all the modules and searches for all the unit test cases files that we have written?
+for e.g.</p>
+
+<p>there are 5 files,</p>
+
+<p>1). f1.py</p>
+
+<p>2). f2.py</p>
+
+<p>3). f3.py</p>
+
+<p>4). f4.py</p>
+
+<p>5). f5.py</p>
+
+<p>we dont know which of this file is the unit test case file. I want a way through which each file will be parsed and only the name of the module that has unit test cases should be returned</p>
+
+<p>NOTE:- I am using python 2.6.6 so could not really make use of <code>unittest.TestLoaded.discover()</code></p>
+","2067419","","2067419","","2014-02-18 06:34:14","2020-08-05 09:46:38","Fecthing unit test cases in python automatically","<python><python-unittest>","2","1","","","","CC BY-SA 3.0"
+"21845597","1","","","2014-02-18 06:06:18","","0","314","<p>Not switching back to the mode what user have used.
+I mean when phone is in silent and i used to ring for some selected numbers but it does not
+switch back to normal mode when phone state is idle.
+here's my piece of code.........</p>
+
+<pre><code>if(IncomingNumber.equals(WhitelistedNumbers)){
+                                    am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+
+                                 System.out.println(""Number Matches......!"");
+                                 System.out.println(""WhitelistedNumber(s): ""+WhitelistedNumbers);
+
+
+                                }else{
+                                    System.out.println(""No Match(s) found.....!"");
+
+                                }
+</code></pre>
+
+<p>and to switch back to normal mode i m using........</p>
+
+<pre><code> case TelephonyManager.CALL_STATE_IDLE:
+                 am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+
+                System.out.println(""Set to Default Ringer Mode....!"");                  
+                break;
+</code></pre>
+
+<p>Thanks in advance if any suggestion to sort the problem........</p>
+","1478187","","","","","2014-02-18 06:20:41","android audio manager in receiver class","<android><telephonymanager><android-audiomanager>","1","0","","","","CC BY-SA 3.0"
+"21845598","1","","","2014-02-18 06:06:21","","0","1488","<p>In below code when i click any of the bullet it will start with that bullet id and just after it will start with the first image means from beginning. Can you update that code in such a way if i click on the second <strong>bullet</strong> after second the loop will start from 3 itself means the next after the clicked one.</p>
+
+<p>here is My <a href=""http://jsfiddle.net/e4STr/1/"" rel=""nofollow"">Demo</a></p>
+
+<pre><code> &lt;ul&gt;
+            &lt;li&gt;&lt;a href=""#"" class=""1"" data-slide=""1""&gt;1&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=""#"" class=""2"" data-slide=""2""&gt;2&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=""#"" class=""3"" data-slide=""3""&gt;3&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=""#"" class=""4"" data-slide=""4""&gt;4&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+</code></pre>
+","3317825","","2768137","","2014-02-18 06:09:11","2014-08-14 23:54:28","Bullet navigation in image slider","<jquery><html><css>","1","3","","","","CC BY-SA 3.0"
+"21845604","1","","","2014-02-18 06:06:37","","0","36","<p>How to expand image to fullscreen, after the user clicked on it thumbnail? Which XAML element I should use? And how to close it back, when user clicked this fullscreen image? I try to create the mechanism that is similar to fancybox on jQuery, but on C#/XAML for Windows Phone 8.</p>
+
+<p>Thank you!</p>
+","1818628","","","","","2014-02-18 06:06:37","How to show images to fullscreen in Windows Phone 8?","<c#><xaml><windows-phone-8><fancybox>","0","2","","2014-02-18 09:44:25","","CC BY-SA 3.0"
+"21845605","1","21848994","","2014-02-18 06:06:42","","2","769","<p>In Visual Studio (v100, v110) it is possible to specify the version of .NET framework that a project targets using the TargetFrameworkVersion element in the project file. (If there is no TargetFrameworkVersion element, the IDE just uses its default .NET version.) The specified TargetFrameworkVersion is then used to choose the (default) tool-chain which will be used to build the project.</p>
+
+<p>The above is true for both CLR and native C++ projects. I find this really weird and confusing. If Visual Studio knows a project is native then why does it care what the TargetFrameworkVersion is?</p>
+","220192","","63550","","2015-07-22 18:55:21","2015-07-23 07:39:36","Why do native C++ projects have a TargetFrameworkVersion?","<c++><.net><visual-studio>","2","0","","","","CC BY-SA 3.0"
+"21845608","1","","","2014-02-18 06:06:45","","5","5729","<p>I deleted a file from my Eclipse work space but that file is in <strong>SVN repository</strong>. Could any one help me to get my deleted file from <strong>SVN</strong> without using the command line?</p>
+","2164981","","855838","","2014-09-10 14:46:07","2021-06-21 07:53:26","How to get deleted file from SVN Repository","<eclipse><svn>","3","7","","","","CC BY-SA 3.0"
+"21845609","1","","","2014-02-18 06:06:49","","1","2427","<p>I'm trying to get a Scrapy spider to crawl a website but one of the elements I need for the items I want is written in Spanish, using a vowel with a tilde (í).</p>
+
+<p>titulo=title.select(u'.//[""Título Original:""]/text()'.extract()</p>
+
+<p>I've found similar issues here but the answers accepted for them didn't work for me.</p>
+
+<p>Adding the u at the beginning of the string took care of some of the problems but gives me the error</p>
+
+<pre><code>UnicodeEncodeError: 'ascii' codec can't encode character u'\xed' in position 21: ordinal not in range(128)
+</code></pre>
+
+<p>I found other questions here suggesting using '.../text()'.decode('utf-8) but doing so or  using .encode('utf-8') instead gives me the error </p>
+
+<pre><code>    exceptions.ValueError: All strings must be XML compatible: Unicode or ASCII, no NULL bytes or control characters
+</code></pre>
+
+<p>Is there something I'm missing or some other way or am I better off crafting a regex to catch every other part of my string but that letter?</p>
+
+<p>Here's the code I have so far:</p>
+
+<pre><code> def parse(self, response):
+    #change the response to an HtmlResponse to allow for utf-8 encoding of the body.
+response = HtmlResponse(url=response.url, status=response.status, headers=response.headers, body=response.body)
+
+print '\n\nresponse encoding', response.encoding ##the page is encoded in utf-8
+
+hxs = HtmlXPathSelector(response)
+    titles = hxs.select('//div[@class=""datosespectaculo""]')
+
+    items = []
+    for title in titles:          
+        item = CarteleraItem()
+        titulo=title.select(u'.//[""Título Original:""]/text()'.encode('utf-8')).extract()
+        Ano=title.select('.//span[@itemprop=""copyrightYear""]/text').extract()
+        item [""title""] = titulo
+        item [""Ano""] = Ano   
+        items.append(item)
+</code></pre>
+
+<p>And here's the source for the webpage for reference</p>
+
+<pre><code>&lt;div id=""contgeneral""&gt;
+&lt;div class=""contyrasca""&gt;
+&lt;div id=""contfix""&gt;
+&lt;div class=""contespectaculo""&gt;
+
+&lt;div class=""colizq""&gt;&lt;div itemscope itemtype=""http://schema.org/Movie""&gt;
+&lt;h1 class=""titulo"" itemprop=""name""&gt;15.361&lt;/h1&gt;
+
+&lt;img class=""afiche"" src=""http://www.cartelera.com.uy/imagenes_espectaculos/musicdetail13/14770.jpg""/&gt;
+&lt;div class=""datosespectaculo""&gt;
+
+&lt;strong&gt;Título Original:&lt;/strong&gt; &lt;em&gt;15.361&lt;/em&gt;&lt;br /&gt;
+
+&lt;strong&gt;Año: &lt;/strong&gt;&lt;span itemprop=""copyrightYear""&gt;2014&lt;/span&gt;&lt;br /&gt;
+&lt;strong&gt;Género: &lt;/strong&gt;&lt;span itemprop=""genre""&gt;Comedia/Drama&lt;/span&gt;&lt;br /&gt;
+&lt;strong&gt;Duración: &lt;/strong&gt;&lt;span itemprop=""duration""&gt;60&amp;#39;&lt;/span&gt;&lt;br /&gt;
+&lt;strong&gt;Calificación: &lt;/strong&gt;+18 años&lt;br /&gt;
+</code></pre>
+","1633265","","","","","2014-02-21 08:27:30","scrapy selector string won't accept international characters","<python><encoding><utf-8><scrapy>","2","0","0","","","CC BY-SA 3.0"
+"21845613","1","21862029","","2014-02-18 06:07:22","","2","989","<p>I'm trying to write a basic Wavefront OBJ loader for my Android OpenGL ES 2.0 program.  For now, I'm ignoring everything in an OBJ file except for vertices, normals, and faces.  Here's what I've written so far:</p>
+
+<pre><code>InputStream inputStream = context.getResources().openRawResource(resourceID);
+
+BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+String line;
+
+while((line = reader.readLine()) != null)
+{
+    if(line.startsWith(""v ""))
+    {
+        Float x = Float.valueOf(line.split("" "")[1]);
+        Float y = Float.valueOf(line.split("" "")[2]);
+        Float z = Float.valueOf(line.split("" "")[3]);
+        verticesArrayList.add(x);
+        verticesArrayList.add(y);
+        verticesArrayList.add(z);
+    }
+    else if(line.startsWith(""vn ""))
+    {
+        Float x = Float.valueOf(line.split("" "")[1]);
+        Float y = Float.valueOf(line.split("" "")[2]);
+        Float z = Float.valueOf(line.split("" "")[3]);
+        normalsArrayList.add(x);
+        normalsArrayList.add(y);
+        normalsArrayList.add(z);
+    }
+    else if(line.startsWith(""f ""))
+    {
+        // Loop 3 times for the 3 vertices/textures/normals associated with each face
+        for(int i = 1; i &lt;= 3; i++)
+        {
+            Short vertex = (short) (Short.valueOf(line.split("" "")[i].split(""/"")[0]) - 1);
+            indicesArrayList.add(vertex);
+
+            // Make a copy of my normals array list
+            if(normalsArrayList2.size() == 0)
+                normalsArrayList2 = new ArrayList&lt;Float&gt;(normalsArrayList);
+
+            // Attempt to re-arrange the normals to match the order of the vertices
+            int normal = Integer.valueOf(line.split("" "")[i].split(""/"")[2]) - 1;
+            normalsArrayList2.add(vertex * 3, normalsArrayList.get(normal * 3));
+            normalsArrayList2.add((vertex * 3) + 1, normalsArrayList.get((normal * 3) + 1));
+            normalsArrayList2.add((vertex * 3) + 2, normalsArrayList.get((normal * 3) + 2));
+        }
+    }
+}
+reader.close();
+</code></pre>
+
+<p>However, I'm not sure if I'm setting my normals correctly.  You see what I'm doing there at the bottom of my code?  I'm trying to re-arrange the normals so that they match the order of the vertices.  I'm doing this because I'm using the GLES20.glDrawElements() method like so:</p>
+
+<pre><code>// Get handle to vertex shader's aPosition member, enable the handle, and prepare the vertex data
+mPositionHandle = GLES20.glGetAttribLocation(mProgram, ""aPosition"");
+GLES20.glEnableVertexAttribArray(mPositionHandle);
+GLES20.glVertexAttribPointer(mPositionHandle, COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, verticesBuffer);
+
+// Get handle to vertex shader's aNormal member, enable the handle, and prepare the vertex data
+mNormalHandle = GLES20.glGetAttribLocation(mProgram, ""aNormal"");
+GLES20.glEnableVertexAttribArray(mNormalHandle);
+GLES20.glVertexAttribPointer(mNormalHandle, COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, normalsBuffer);
+
+// Draw the cube
+GLES20.glDrawElements(GLES20.GL_TRIANGLES, numberOfIndices, GLES20.GL_UNSIGNED_SHORT, indicesBuffer);
+</code></pre>
+
+<p>I got the idea for this re-arranging from this <a href=""http://aresio.blogspot.com/2009/07/wavefront-obj-files-vertex-buffer.html"" rel=""nofollow"">site</a>, after countless hours of Googling this subject.</p>
+
+<p>However, something isn't going right.  The lighting in my shader works for all the shapes I created manually with OpenGL, just not for the models I read in using my OBJ parser, so I don't think my lighting calculations are the problem, just how the normals are being calculated in my OBJ parser.  Also, I opened my test OBJ files with Maya and used the ""Vertex Normal Edit Tool"" to visually verify that all of the normals are pointing the right way. Are there any glaring problems you can see with any of my code?</p>
+","2258512","","","","","2014-02-18 18:12:00","Writing Wavefront OBJ Parser For Use with OpenGL Indexed Vertex Buffer Objects","<android><opengl-es-2.0><vbo><vertex-shader><wavefront>","1","0","","","","CC BY-SA 3.0"
+"21845615","1","","","2014-02-18 06:07:31","","0","234","<p>I have built my first application for windows phone 7 in Visual Studio 2010 Ultimate. Now i need to launch my application and also want to install it in device. Can anyone please tell me how to do this?</p>
+","3156298","","","","","2014-02-19 17:31:17","how to install my windows phone 7 app in device","<c#><windows-phone-7>","3","0","","","","CC BY-SA 3.0"
+"21845618","1","21846130","","2014-02-18 06:07:55","","1","984","<p>I have a horizontally scrolling listview with image and text in my app. I need to bend the listview at an angle so that the scrolling listview looks like its rotating. Below given is the image of the listview that I want which should scroll horizontally at an angle and enlarge the image at the center of the screen. </p>
+
+<p>How do I achieve this? I have searched a lot through google and SO and could not find any related or appropriate results.</p>
+
+<blockquote>
+  <p><img src=""https://i.stack.imgur.com/a0vyX.png"" alt=""enter image description here""></p>
+</blockquote>
+","2210351","","3317558","","2014-02-18 06:13:09","2014-02-18 06:40:49","How to bend a horizontally scrolling listview at an angle to display it as a rotating listview ?","<android><android-layout><listview><horizontal-scrolling>","1","9","","","","CC BY-SA 3.0"
+"21845624","1","","","2014-02-18 06:08:40","","0","1565","<p>I want to use IFrame with Spring MVC.
+Is it possible without using JQuery?</p>
+","3108116","","","","","2014-02-18 08:26:26","Is it Possible to use IFrame with Spring MVC","<jsp><spring-mvc>","2","0","","","","CC BY-SA 3.0"
+"21845626","1","21902278","","2014-02-18 06:08:51","","0","865","<p>I use a fileReference.browse() to select an image file from the harddrive.</p>
+
+<p>How can I load the selected image on DataGrid column?</p>
+
+<p>Thanks</p>
+
+<p><strong>Edit:</strong></p>
+
+<p>My coding is here:</p>
+
+<pre><code>&lt;?xml version=""1.0"" encoding=""utf-8""?&gt;
+&lt;s:Application xmlns:fx=""http://ns.adobe.com/mxml/2009"" 
+           xmlns:s=""library://ns.adobe.com/flex/spark"" 
+           xmlns:mx=""library://ns.adobe.com/flex/mx"" 
+           minWidth=""955"" minHeight=""600""&gt;
+
+&lt;fx:Script&gt;
+    &lt;![CDATA[
+        import mx.collections.ArrayCollection;
+
+        public var loadFile:FileReference; 
+        [Bindable]
+        private var arrayCollection : ArrayCollection = new ArrayCollection ();
+
+        private function onBrowseButtonClicked(event : MouseEvent) : void
+        {
+            loadFile = new FileReference();
+            loadFile.addEventListener(Event.SELECT, selectHandler);
+            var fileFilter:FileFilter = new FileFilter(""Images: (*.jpeg, *.jpg, *.gif, *.png)"", ""*.jpeg; *.jpg; *.gif; *.png"");
+            loadFile.browse([fileFilter]);
+        }
+
+
+        private function selectHandler(event:Event):void
+        {
+
+            loadFile.addEventListener(Event.COMPLETE, loadCompleteHandler);
+            loadFile.load();
+
+
+            employeeImageName.text =event.target.name;
+
+        }
+
+        private var data:ByteArray;
+        private function loadCompleteHandler(event:Event):void
+        {
+            var fileReference:FileReference=event.target as FileReference;
+            data=fileReference[""data""];
+            employeeImage.source = data;
+        }
+
+
+        private function storeInputs(event:MouseEvent) : void
+        {           
+            arrayCollection.addItem({
+                name : employeeName.text, 
+                id : employeeID.text,
+                email : employeeEmail.text,
+                gender : genderOption.selectedValue,
+                address : employeeAddress.text,
+                img : data
+            });
+
+        }                       
+    ]]&gt;
+&lt;/fx:Script&gt;
+
+&lt;fx:Declarations&gt;
+    &lt;s:RadioButtonGroup id=""genderOption""/&gt;
+
+&lt;/fx:Declarations&gt;
+
+&lt;s:layout&gt;
+    &lt;s:HorizontalLayout/&gt;
+&lt;/s:layout&gt;
+&lt;mx:HDividedBox width=""100%"" height=""100%""&gt;
+    &lt;s:Panel id=""mainPanel"" title=""Employee Details"" height=""100%"" width=""50%""&gt;
+        &lt;s:Form id=""mainForm"" height=""100%"" width=""100%"" left=""10%"" right=""10%"" top=""10%""&gt;
+            &lt;s:FormItem id=""nameLabel"" label=""Employee Name""&gt;
+                &lt;s:TextInput id=""employeeName"" /&gt;
+            &lt;/s:FormItem&gt; 
+            &lt;s:FormItem id=""idLabel"" label=""Embloyee ID""&gt;
+                &lt;s:TextInput id=""employeeID"" maxChars=""6""/&gt;
+            &lt;/s:FormItem&gt;
+            &lt;s:FormItem id=""emailLabel"" label=""Email""&gt;
+                &lt;s:TextInput id=""employeeEmail"" /&gt;
+            &lt;/s:FormItem&gt;
+            &lt;s:FormItem id=""genderLabel"" label=""Gender""&gt;                
+                &lt;s:HGroup&gt;
+                    &lt;s:RadioButton group=""{genderOption}"" label=""Male"" id=""male"" /&gt;
+                    &lt;s:RadioButton group=""{genderOption}"" label=""Female"" id=""female""/&gt;
+                &lt;/s:HGroup&gt;
+            &lt;/s:FormItem&gt;
+
+            &lt;s:FormItem id=""addressLabel"" label=""Address""&gt;
+                &lt;s:TextArea id=""employeeAddress""/&gt;
+            &lt;/s:FormItem&gt;
+            &lt;s:FormItem id=""imageLabel"" label=""Image""&gt;
+                &lt;mx:HBox&gt;
+                    &lt;s:TextInput id=""employeeImageName""/&gt;
+                    &lt;s:Image id=""employeeImage"" height=""100"" width=""100""/&gt;
+                    &lt;s:Button id=""imageButton"" label=""Browse"" click=""onBrowseButtonClicked(event)""/&gt;
+                &lt;/mx:HBox&gt;
+            &lt;/s:FormItem&gt;
+            &lt;s:FormItem&gt;
+                &lt;s:layout&gt;
+                    &lt;s:HorizontalLayout gap=""10""/&gt;
+                &lt;/s:layout&gt;
+                &lt;s:Button id=""submitButton"" label=""Submit"" click=""storeInputs(event)""/&gt;                 
+            &lt;/s:FormItem&gt;
+        &lt;/s:Form&gt;
+    &lt;/s:Panel&gt;  
+
+
+    &lt;s:DataGrid width=""100%"" height=""100%"" dataProvider=""{arrayCollection}"" id=""employeeGrid"" variableRowHeight=""true""&gt;
+        &lt;s:columns&gt;
+            &lt;s:ArrayList&gt;
+                &lt;s:GridColumn headerText=""Name"" dataField=""name"" /&gt;
+                &lt;s:GridColumn headerText=""ID"" dataField=""id""/&gt;
+                &lt;s:GridColumn headerText=""Email"" dataField=""email""/&gt;
+                &lt;s:GridColumn headerText=""Gender"" dataField=""gender"" /&gt;
+                &lt;s:GridColumn headerText=""Address"" dataField=""address"" itemEditor=""mx.controls.TextArea""/&gt;
+                &lt;s:GridColumn headerText=""Employee"" dataField=""img""&gt;
+                    &lt;s:itemRenderer&gt;
+                        &lt;fx:Component&gt;
+                            &lt;s:GridItemRenderer&gt;
+                                &lt;mx:HBox&gt;
+                                    &lt;s:Image id=""image"" source=""outerDocument.data"" /&gt;
+                                &lt;/mx:HBox&gt;
+                            &lt;/s:GridItemRenderer&gt;
+                        &lt;/fx:Component&gt;
+                    &lt;/s:itemRenderer&gt;
+                &lt;/s:GridColumn&gt;
+            &lt;/s:ArrayList&gt;
+        &lt;/s:columns&gt;
+    &lt;/s:DataGrid&gt;
+
+&lt;/mx:HDividedBox&gt;
+</code></pre>
+
+<p></p>
+
+<p>Here, all the controls are worked well in form. I could get the image and i could load the selected image on the image control. But I couldn't display the image in the DataGrid column when the submit button was clicked. This is my problem. </p>
+","2425525","","1213296","","2015-10-12 05:07:16","2015-10-12 05:07:16","How to load an image on spark DataGrid column?","<actionscript-3><apache-flex><flex4>","2","0","","","","CC BY-SA 3.0"
+"21845627","1","","","2014-02-18 06:08:55","","1","704","<p>I have been searching all over the net trying to find some example code to see how to listen for sms and read it. I am new to at commands so I am trying to see some examples. My intentions is to listen for sms and read to content. If the message contained the word: 'forward', I want it to run a certain function. I am using a seeedstudio GPRS v1.4 shield with my arduino uno.</p>
+
+<p>I found a library but I am confused on the readSMS() function. The library is found here: <a href=""https://github.com/Seeed-Studio/Seeeduino_GPRS"" rel=""nofollow"">https://github.com/Seeed-Studio/Seeeduino_GPRS</a>. </p>
+
+<p>I have the current code:</p>
+
+<pre><code>GPRS gprsTest(8,7,9,9600,""1818XXXXXXXXX"");//TX,RX,PWR,BaudRate,PhoneNumber
+
+void setup() {
+  Serial.begin(9600);
+  gprsTest.preInit();
+  delay(1000);
+  while(0 != gprsTest.init()) {
+      delay(1000);
+      Serial.print(""init error\r\n"");
+  }  
+}
+
+void loop() {
+  //nothing to do
+  gprsTest.readSMS();
+}
+</code></pre>
+
+<p>My problem is I am not sure of what to put in the parameters for the readSMS function.</p>
+
+<p>According to the api the function takes a int, string, and another int. </p>
+
+<pre><code>int readSMS(int messageIndex, char *message, int length);
+</code></pre>
+
+<p>Any ideas? Not really any documentation on receiving sms</p>
+","1753319","","","","","2014-02-18 09:43:30","Receiving sms through gprs shield on Arduino","<c++><arduino><gprs>","1","0","","","","CC BY-SA 3.0"
+"21845631","1","21847048","","2014-02-18 06:09:04","","0","1444","<p>Is it possible to automatically display system info of Laravel (such as laravel version, installed dependency, dependency version and etc) onto the webpage? </p>
+
+<p>Thank you. </p>
+","1995781","","","","","2014-02-18 07:37:10","Laravel system info","<php><laravel-4><composer-php>","1","1","","","","CC BY-SA 3.0"
+"21845634","1","21845713","","2014-02-18 06:09:11","","0","2800","<p>I have this method that parses a day and time, the problem is I need to get the day of next week.</p>
+
+<p>Example:</p>
+
+<p>I have this day and time <strong>Monday, 10:00 PM</strong> and the current time is <strong>Monday, 11:00 PM</strong>,</p>
+
+<p>when I parse this <code>parseTime(""M"",""10:00 PM"")</code> it returns me the past date because of the current time.</p>
+
+<p>I want to achieve is the next week's <strong>Monday, 10:00 PM</strong></p>
+
+<pre><code>public static Calendar parseTime(String day, String time) {
+
+    String[] sepa_time_ampm = time.split("" "");
+
+    String[] sepa_time_hr_mn = sepa_time_ampm[0].split("":"");
+
+    Calendar calendar = Calendar.getInstance();
+
+    if (!isNumeric(day)) {
+        calendar.set(Calendar.DAY_OF_WEEK, parseDay(day));
+    }
+
+    if(Integer.parseInt(sepa_time_hr_mn[0]) == 12) sepa_time_hr_mn[0] = ""00"";
+
+    calendar.set(Calendar.HOUR, Integer.parseInt(sepa_time_hr_mn[0]));
+    calendar.set(Calendar.MINUTE, Integer.parseInt(sepa_time_hr_mn[1]));
+    calendar.set(Calendar.SECOND, 0);
+    calendar.set(Calendar.MILLISECOND, 0);
+
+
+
+    if (sepa_time_ampm[1].equals(""AM"")) {
+        calendar.set(Calendar.AM_PM, Calendar.AM);
+    } else {
+        calendar.set(Calendar.AM_PM, Calendar.PM);
+    }
+
+    if((calendar.getTimeInMillis() - System.currentTimeMillis()) &lt; 0) {
+    //It is now in the past
+    }
+
+    return calendar;
+
+}
+</code></pre>
+","1605727","","","","","2014-02-18 06:14:40","Android Calendar : Get day of next week","<android><date>","1","1","0","2014-02-28 02:47:03","","CC BY-SA 3.0"
+"21845635","1","21848678","","2014-02-18 06:09:20","","-2","3521","<p>Below is intended for a merge sort written in Python. It is throwing an error ""RuntimeError: maximum recursion depth exceeded"". Please let me know if I am missing the logic to end the recursion.</p>
+
+<pre><code>  list=[]
+  list1=[]
+  list2=[]
+  def merge(list,list1,list2):
+
+  for k in range(1,len(list1)+len(list2)):
+    i=1
+    j=1
+    if list1[i]&gt;list2[j]:
+        list[k]=list2[j]
+        j=+1
+        k=+1
+    else:
+        list[k]=list2[i]
+        i=+1
+        k=+1
+
+
+    def split(list,list1,list2):
+if len(list)&lt;&gt;1:
+    list1=list[:len(list)/2]
+    list2=list[len(list)/2:]
+return  
+
+
+   def sort(list):
+      split(list,list1,list2)
+      sort(list1)
+      sort(list2)
+      merge(list,list1,list2)
+
+
+      list = [15,8,59,69,45,23]
+      sort(list)
+</code></pre>
+","3224114","","","","","2014-02-18 09:02:54","Merge sort code in Python using recursion","<python><recursion><mergesort>","2","4","0","","","CC BY-SA 3.0"
+"22277291","1","22277787","","2014-03-09 01:26:02","","0","5945","<p>I have chained two animations in a loop. After a lot of tweaking the images scroll in and out without overlapping. The problem is once the animations have finished there is a 3-4 second delay before they restart. I have not set any delays in my code so think there's a problem with the keyframes but when I play around with the values the images start to overlap.</p>
+
+<p>I have made a pen here. Only chrome keyframes at the moment, the animation staggers in codepen but displays fine in chrome :</p>
+
+<p><a href=""http://codepen.io/Nullbreaker/pen/gnkbq"" rel=""nofollow"">http://codepen.io/Nullbreaker/pen/gnkbq</a></p>
+
+<pre><code>&lt;div class=""rightleftloop""&gt;
+&lt;img src=""http://myshoedream.com/dzinehub/Shoefever/LL10173A-BLACK-4.jpg"" class=""imgformat1"" alt=""slide"" /&gt;
+&lt;/div&gt;
+
+&lt;div class=""rightleftloop2""&gt;
+&lt;img src=""http://myshoedream.com/dzinehub/Shoefever/LL10173BJ-IVORY-4.jpg"" class=""imgformat1"" alt=""slide"" /&gt;
+&lt;/div&gt;
+
+.rightleftloop {
+position: absolute;
+-webkit-animation:rightleftloop;
+-webkit-animation-duration: 8.5s;
+-webkit-animation-iteration-count: infinite;
+-webkit-animation-fill-mode: both;
+-moz-animation:rightleftloop;
+-moz-animation-duration: 3.5s;
+-moz-animation-iteration-count: infinite;
+-moz-animation-timing-function: ease-in 0.3s;
+-moz-animation-fill-mode: both;
+animation:rightleftloop;
+animation-duration: 3.5s;
+animation-iteration-count: infinite;
+animation-timing-function: ease-in 0.3s;
+animation-fill-mode: both;
+}
+
+.rightleftloop2 {
+position: absolute;
+-webkit-animation:rightleftloop2;
+-webkit-animation-duration: 8.5s;
+-webkit-animation-iteration-count: infinite;
+-webkit-animation-fill-mode: both;
+-moz-animation:rightleftloop;
+-moz-animation-duration: 3.5s;
+-moz-animation-iteration-count: infinite;
+-moz-animation-timing-function: ease-in 0.3s;
+-moz-animation-fill-mode: both;
+animation:rightleftloop;
+animation-duration: 3.5s;
+animation-iteration-count: infinite;
+animation-timing-function: ease-in 0.3s;
+animation-fill-mode: both;
+}
+
+@-webkit-keyframes rightleftloop {
+0% {right:0%;-webkit-transform: translateX(-2000px);}
+10% {right:20%;}
+20% {right:20%;}
+30% {right:20%;-webkit-transform: translateX(-10px);}
+40% {right:20%;-webkit-transform: translateX(-10px);}
+60% {right:20%;-webkit-transform: translateX(-2000px);}
+100% {right:100%;}
+}
+
+@-webkit-keyframes rightleftloop2 {
+60% {right:0%;-webkit-transform: translateX(-2000px);}
+61%  {right:20%;}
+63%  {right:20%;}
+64%  {right:20%;}
+65% {right:20%;}
+65% {right:20%;}
+66% {right:20%;}
+67% {right:20%;}
+68% {right:20%;-webkit-transform: translateX(-2000px);}
+69% {right:20%;-webkit-transform: translateX(-1000px);}
+}
+</code></pre>
+","3138270","","","","","2014-03-09 02:44:33","Chaining CSS animations with infinite loop delay issue","<css><css-animations>","1","0","0","","","CC BY-SA 3.0"
+"22277296","1","","","2014-03-09 01:26:59","","0","152","<p>I'm trying to create a web application to manage multiple websites. I'm still not sure what platform to built upon this kind of app, Node.js or Laravel (PHP). I want the application to be scalable to millions of users with an average of 2 sites each.</p>
+
+<p>Would you recommend SQLLite3, JSON or MYSQL for storing all individual site's data in separate files or a single database with all individual site's data?</p>
+
+<p>How can I prevent users from hacking into each others site?</p>
+
+<pre><code>mainSite &gt;
+   Common
+   Site1/config.json, content/posts/, layout/
+   Site2/config.json, content/products/, layout/
+   Site3/config.json, content/pages/, layout/
+</code></pre>
+
+<p>I'm still not final on the above structure. Please help me with getting started with this app.</p>
+","2714639","","","","","2014-03-09 01:41:10","How to architect a multisite manager application?","<php><mysql><node.js><express><laravel>","2","0","","","","CC BY-SA 3.0"
+"22277299","1","22283438","","2014-03-09 01:27:13","","1","255","<p>In a Ruby on Rails 4 app, consider this data model:</p>
+
+<pre><code>Question:
+  id: int
+  # [...]
+  has_many: Answers
+
+Answer:
+  id: int
+  question_id: int
+  # [...]
+  belongs_to: Question
+  has_many: Results through AnswerResult
+
+AnswerResult:
+  id: int
+  answer_id: int
+  result_id: int
+
+Result:
+  id: int
+  # [...]
+  has_many: Answers through AnswerResult
+</code></pre>
+
+<p>Using this model, consider this behaviour:</p>
+
+<ol>
+<li>There are multiple questions, all having multiple answers.</li>
+<li>Each specific combination of answers leads to one and only one result.</li>
+</ol>
+
+<p>Now, here is my question:</p>
+
+<p>After the user has answered all my questions, I end up having a hash of question IDs with the user's answer IDs. I want to find the result that belongs to that combination of answers.</p>
+
+<p>How do I do that?</p>
+
+<hr>
+
+<p>EDIT: Example: (as requested in comments)</p>
+
+<p>Questions and answers, and their IDs</p>
+
+<pre><code>Gender:     [Question #1]
+  - Male    [Answer   #1]
+  - Female  [Answer   #2]
+Age:        [Question #2]
+  - &lt; 30    [Answer   #3]
+  - 30 - 65 [Answer   #4]
+  - &gt; 65    [Answer   #5]
+</code></pre>
+
+<p>Results:</p>
+
+<pre><code>Junior man   [#1]  bound to answers [#1, #3]
+Senior man   [#2]  bound to answers [#1, #4]
+Old man      [#3]  bound to answers [#1, #5]
+Junior woman [#4]  bound to answers [#2, #3]
+Senior woman [#5]  bound to answers [#2, #4]
+Old woman    [#6]  bound to answers [#2, #5]
+</code></pre>
+
+<p>Input:</p>
+
+<pre><code>{ 
+  1 =&gt; 2, # Gender: female
+  2 =&gt; 4  # Age:    30-65
+}
+</code></pre>
+
+<p>Function finds the result bound to answers #2 and #4</p>
+
+<p>Output: <code>Result #5: Senior woman</code></p>
+","439592","","439592","","2014-03-09 01:46:29","2014-03-09 14:30:01","Rails: finding a record by a combination of related records","<ruby-on-rails><activerecord>","2","2","","","","CC BY-SA 3.0"
+"22277300","1","22277387","","2014-03-09 01:27:23","","8","12744","<p>When I load Bootstrap popver content with ajax, the popover is not showing. </p>
+
+<p>Javascript:</p>
+
+<pre><code>var id = 1;
+$.post(""load.php?pageid"",
+        {
+          pageid:id;
+        },
+        function(data,status){
+         document.getElementById(""body"").innerHTML=data;
+        });
+</code></pre>
+
+<p>HTML response:</p>
+
+<pre><code>&lt;a href=""#"" id=""example"" class=""btn btn-danger"" rel=""popover"" data-content=""It's so simple to create a tooltop for my website!"" data-original-title=""Twitter Bootstrap Popover""&gt;hover for popover&lt;/a&gt;
+&lt;script&gt;  
+$(function ()  
+{ $(""#example"").popover();  
+});  
+&lt;/script&gt; 
+</code></pre>
+
+<p>When I place the HTML response above directly in the <code>&lt;body id=""body""&gt;&lt;/body&gt;</code> code, the popover works fine. I dont understand what is going wrong here. </p>
+","3377041","","","","","2017-09-25 11:12:47","Bootstrap Popover Not Working When Loaded With Ajax","<javascript><jquery><html><ajax><twitter-bootstrap>","3","0","0","","","CC BY-SA 3.0"
+"22277301","1","","","2014-03-09 01:27:26","","3","8232","<p>I have been stuck trying to write PHP code inside some HTML tags I set up. </p>
+
+<p>I have a variable inside a <code>.php</code> file called <code>$content</code>, and I have a HTML page code inside this variable in the following way: </p>
+
+<p><code>$content = &lt;&lt;&lt;HTML        some html code in here         HTML;</code></p>
+
+<p>Now, within that HTML tag I wanted to add some PHP code, tried using <code>&lt;?php    .....     ?&gt;</code>, however I wasn't successful with it. Can anyone help?</p>
+","1562854","","1586880","","2014-03-09 01:40:00","2014-03-09 01:42:16","PHP tag inside <<<HTML ...... HTML;","<php><html>","3","2","","2014-03-09 03:46:31","","CC BY-SA 3.0"
+"22277302","1","22278676","","2014-03-09 01:27:35","","3","721","<p>I've seen other answers, but none of them seem to work for me.</p>
+
+<p>What I want: when I type the URL <code>.../page.html#two</code> to go to <code>#two</code>, but with a 50px offset from the top of the page.</p>
+
+<p><strong>note: ive added the <code>big space</code> and <code>&lt;a&gt;'s</code> because you can't type the url in jsfiddle. I want it to work with urls, as well as with links.</strong></p>
+
+<pre><code>&lt;body&gt;
+    &lt;section id=""one""&gt;First section&lt;/section&gt;
+    &lt;section id=""two""&gt;Second section&lt;/section&gt;
+    &lt;section id=""three""&gt;Third section&lt;/section&gt;
+    &lt;div id=""big_space""&gt;&lt;/div&gt;
+    &lt;a href=""#one""&gt;one&lt;/a&gt;
+    &lt;a href=""#two""&gt;two&lt;/a&gt;
+    &lt;a href=""#three""&gt;three&lt;/a&gt;
+&lt;/body&gt;
+
+body
+{
+    height: 2000px;
+}
+
+#big_space
+{
+    height: 1000px;
+}
+
+section
+{
+    height: 100px;
+    background-color: lightblue;
+    margin-bottom: 5px;
+}
+</code></pre>
+
+<p>Here's a link to the JSfiddle: <a href=""http://jsfiddle.net/hAmCL/"" rel=""nofollow"">http://jsfiddle.net/hAmCL/</a></p>
+
+<p>I have tried using the <code>section:before</code> but it seems to give the wrong result (i've commented it out in jsfiddle)</p>
+","1867641","","","","","2014-03-09 05:11:24","Offset an anchor section for a fixed header","<html><css>","1","0","","","","CC BY-SA 3.0"
+"22277305","1","22278248","","2014-03-09 01:28:13","","3","2891","<p>I have a raspberry running a server that communicates with a server on my laptop. I've done this through simple socket connections on python.</p>
+
+<p>Like so:</p>
+
+<p>server </p>
+
+<pre><code>HOST = ""192.168.0.115""
+PORT = 5001
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((HOST,PORT))
+s.listen(1)
+
+conn, addr = s.accept()
+while conn:
+    data = conn.recv(1024)
+    print data
+    if not data:
+         break
+conn.close()
+</code></pre>
+
+<p>client</p>
+
+<pre><code>__init__(self,addr,port,timeout):
+   self.addr = addr
+   self.port = port
+   self.timeout = timeout
+   self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+   self.socket.connect((self.addr,self.port))
+
+#in a different file the call to send is made, passes list object as a parameter
+
+send(self,data):
+    if self.socket:
+        self.socket.send(str(data))
+</code></pre>
+
+<p>setting a print statement in the client code results in (x,y,z), which is the expected output. However, upon receiving the data on server it appears in a pattern:</p>
+
+<pre><code>(x,y,z)(x,y,z)
+(x,y,z)
+(x,y,z)
+(x,y,z)(x,y,z)
+...
+</code></pre>
+
+<p>Why is the data being received as duplicates? Is it a property of TCP? If so, how can I counter this to receive the data as one sent string as I had initially. </p>
+","1422631","","1422631","","2014-03-09 01:56:12","2020-02-27 09:52:04","Python socket server receiving duplicate data","<python><sockets>","1","4","0","","","CC BY-SA 3.0"
+"22277311","1","22277354","","2014-03-09 01:29:01","","0","81","<p>I do not know the terminology for my problems. 
+i am writing a (e-commerce) project to display products. I only want to display 30 products on each page. That means product 31-60 should show on the page 2. product 61-90 should show on the page3.
+But now all my products show on a single page. 
+May anyone give me some ideas ? What does those""pages"" called in html?</p>
+
+<p>For example,  the layour show look like below.</p>
+
+<pre><code>page    &lt;&lt; 1 2 3.....12 &gt;&gt;
+</code></pre>
+","3369592","","","","","2014-03-09 01:34:12","html shows products in different pages","<javascript><jquery><html><ajax><e-commerce>","1","0","0","","","CC BY-SA 3.0"
+"22277318","1","22277369","","2014-03-09 01:29:56","","2","287","<p>I've been using this for a while - I can't recall where I found it:</p>
+
+<pre><code>#####
+#  An enumeration is handy for defining types of event 
+#  (which otherwise would messily be just random strings)
+
+def enum(**enums):
+    return type('Enum', (), enums)
+
+#####
+#   The control events that the Controller can process
+#   Usually this would be in a module imported by each of M, V and C
+#   These are the possible values for the ""event"" parameter of an APP_EVENT message
+
+AppEvents = enum(APP_EXIT = 0,
+                 CUSTOMER_DEPOSIT = 1,
+                 CUSTOMER_WITHDRAWAL = 2)
+</code></pre>
+
+<p>How does it work?  </p>
+","554807","","","","","2014-03-09 01:48:49","How does this ""enumeration"" idiom work?","<python><python-2.7><enumeration>","1","4","","","","CC BY-SA 3.0"
+"22277320","1","22280162","","2014-03-09 01:30:07","","1","90","<p>I have a child class that inherits from a parent class. This parent class has a property Id. In my child class I want to give that the property Id and change the parents Id property to a different name in my child class.</p>
+
+<pre><code>Public Class Product ' This is the base class
+    Private _iId As Integer
+    Public ReadOnly Property Id As Integer ' This is the Id from the product
+        Get
+            Return _iId
+        End Get
+    End Property
+End Class
+
+Public Class OrderProduct ' This is the child class
+    Inherits Product
+
+    Private _iId As Integer
+    Public ReadOnly Property Id As Integer ' This has to be the Id of the Order
+        Get
+            Return _iId
+        End Get
+    End Property
+
+    Private _iIdProduct As Integer
+    Public ReadOnly Property IdProduct As Integer ' This has to be the Id of the Product
+        Get
+            Return ? ? ?
+        End Get
+    End Property
+End Class
+</code></pre>
+","3357699","","","","","2014-03-10 01:24:47","Property from base class may not be public in child class","<vb.net><inheritance>","1","1","","","","CC BY-SA 3.0"
+"22277323","1","22278102","","2014-03-09 01:30:26","","0","330","<pre><code>ID  ParentID    Name
+1   NULL        Adobe     
+2   1           Adobe Flash
+3   2           Adobe Flash 1
+4   3           Adobe Flash 2
+5   4           Adobe Flash 3
+6   NULL        Visual Studio
+7   6           Visual Studio Beginners
+8   NULL        SQL Server
+9   6           Visual Studio Intermediate
+10  6           Visual Studio Advanced
+</code></pre>
+
+<p>I want to write a query that nests 4 levels deep to display the result-set: </p>
+
+<pre><code>1.      Adobe
+1.1     Adobe Flash
+1.1.1   Adobe Flash 2
+1.1.1.1 Adobe FLash 3
+2.      Visual Studio
+2.1     Visual Studio Beginners
+3.      SQL Server
+2.2     Visual Studio Intermediate
+2.3     Visual Studio Advanced
+</code></pre>
+
+<p>Any help is greatly appreciated</p>
+","107236","","2041092","","2014-03-09 02:10:22","2014-03-09 04:23:53","How do I grab nested data 3 levels deep in SQL Server self-referencing table","<sql><sql-server><tsql>","2","1","0","","","CC BY-SA 3.0"
+"22277324","1","22313519","","2014-03-09 01:30:29","","1","70","<p>Is there a way to get around this? Basically in my user model i have a password validation to check and make sure the user has a minimum password length</p>
+
+<pre><code>validates :password, length: {minimum: 6 }
+</code></pre>
+
+<p>However, when I get the user to update additional info through a form helper, it refuses to update if I dont comment/delete the line above.
+The following is some of my code in my user controller to update some user attributes in a db table</p>
+
+<pre><code> def additional_info
+  @user = User.find params[:id]
+ end
+
+
+ def update
+  @user =  User.find(params[:id])
+  if @user.update(user_addinfo)
+     redirect_to @user
+  else
+     render action: 'additional_info'
+  end
+ end
+ def user_addinfo
+  params.permit(:years_business, :years_relationships, :years_careers, :years_lifeoutlook)
+ end
+end
+</code></pre>
+
+<p>Help is greatly appreciated. My website is structured around Michael Hartl's tutorial but i made some personal modifications.But for the most part, its exactly the same. </p>
+","1105521","","","","","2014-03-10 23:29:44","validates password length conflicting with form_helper user input","<ruby-on-rails>","1","6","","","","CC BY-SA 3.0"
+"22604265","1","22604528","","2014-03-24 08:25:45","","0","2421","<p>I am trying to implement <a href=""http://tympanus.net/Development/ItemTransitions/"" rel=""nofollow noreferrer"">this sideshow</a> on a project, and I want to add some features :</p>
+<ul>
+<li>Auto-play</li>
+<li>Pause on hover</li>
+<li>Multiple instance of the slider</li>
+<li>Go to next slide with keyboard arrow keys</li>
+</ul>
+<p><strong>What I have tried ?</strong></p>
+<p>I have added this code</p>
+<pre><code>        var autoscroll = window.setInterval(function(){ navigate( 'next' )}, 5000);
+
+    component.onmouseover = function(e){
+        autoscroll = clearInterval(autoscroll);
+        console.log('onmouseover');
+    };
+    component.onmouseout = function(e) {
+            clearInterval(autoscroll);
+            var autoscroll = setInterval(function() {navigate( 'next' )}, 5000);
+            console.log('onmouseout');
+    };
+</code></pre>
+<p><em>Live Demo:</em> <a href=""http://jsfiddle.net/M2CwF/1/"" rel=""nofollow noreferrer"">http://jsfiddle.net/M2CwF/1/</a></p>
+<p><strong>What is the problem ?</strong></p>
+<ul>
+<li><p>The autoplay works fine until we manually use the control arrow, I see that the interval will change in this case, maybe I need to add a condition like <code>if( isAnimating ) return false;</code></p>
+</li>
+<li><p>The pause on hover does not seems to work, and from the console log I see that the event is fired several times in just one single hover !</p>
+</li>
+<li><p>If I have multiple instance of the slider only the first one works</p>
+</li>
+<li><p>The keyboard keys to pass to next slide</p>
+<p>Thank you for you help.</p>
+</li>
+</ul>
+","2305342","","-1","","2020-06-20 09:12:55","2015-07-25 05:48:37","Implement autoplay, pause on hover, keyboard control on slideshow","<javascript><jquery><slideshow><autoplay>","1","0","0","","","CC BY-SA 3.0"
+"22604268","1","","","2014-03-24 08:25:56","","1","236","<p>I am Doing Project On “<em>Online Railway Reservation System</em>” using <code>C# .net</code> as front End and <code>SQL Server</code> as backend. </p>
+
+<p>In this project I have make one page for Train Inquiry in which I have provided Source and Destination City. </p>
+
+<p>In this Page I had used two gridview, <code>Gridview1</code> and <code>Gridview2</code>:</p>
+
+<ul>
+<li>In <code>Gridview1</code> Trains table is binding.</li>
+<li>In <code>Gridview2</code> I had Seat table binding. </li>
+</ul>
+
+<p>In <code>Gridview1</code> I have used Radio Button in template field and its <code>AutopostBack</code> property set to <code>true</code>.</p>
+
+<p>If I set <code>Autopostback</code> property value of radio button <code>false</code> then I have not get Class value… So I have to set <code>Autopostback</code> property <code>true</code>. So when I am clicking radio button gridview data changed that should not happen so please anybody help me…</p>
+","3443258","","13302","","2018-09-30 07:46:40","2018-09-30 07:46:40","Radio Button in C#.net","<c#><asp.net><gridview><radio-button><postback>","1","3","","","","CC BY-SA 4.0"
+"22604269","1","","","2014-03-24 08:26:02","","1","1258","<p>I'm upgrading a CakePHP application from version 1.3 to version 2.4.6 .I have copied all of my Model, View and Controller maintaining Cake Naming Conventions.The Application is running but showing these Notice And Warning..</p>
+
+<h3>Warnings :</h3>
+
+<blockquote>
+  <p>Warning (2): vsprintf() [function.vsprintf]: Too few arguments [CORE\Cake\basics.php, line 562]</p>
+</blockquote>
+
+<h3>Notice:</h3>
+
+<blockquote>
+  <p>Notice (8): Indirect modification of overloaded property ProspectsController::$paginate has no effect [APP\Controller\ProspectsController.php, line 51]</p>
+  
+  <p>Notice (8): Indirect modification of overloaded property ProspectsController::$paginate has no effect [APP\Controller\ProspectsController.php, line 52]</p>
+</blockquote>
+
+<p>Strict (2048): Declaration of Segment::beforeSave() should be compatible with Model::beforeSave($options = Array) [APP\Model\Segment.php, line 41]</p>
+
+<blockquote>
+  <h3>And Whats wrong with this pagination style ?</h3>
+  
+  <p><img src=""https://i.stack.imgur.com/nrRGS.png"" alt=""enter image description here""></p>
+</blockquote>
+
+<p>Showing These Notice...</p>
+
+<blockquote>
+  <p>Notice (8): Indirect modification of overloaded property ProspectsController::$paginate has no effect [APP\Controller\ProspectsController.php, line 51]</p>
+</blockquote>
+
+<p>Notice (8): Indirect modification of overloaded property ProspectsController::$paginate has no effect [APP\Controller\ProspectsController.php, line 52]</p>
+
+<blockquote>
+  <p>Now what can I do to remove these warnings and Notice ??</p>
+</blockquote>
+","3113904","","","","","2014-03-24 08:26:02","Cake PHP : Warning (2): vsprintf() [function.vsprintf]: Too few arguments [CORE\Cake\basics.php, line 562]","<php><cakephp><cakephp-1.3><cakephp-2.3>","0","2","","","","CC BY-SA 3.0"
+"22604270","1","22641978","","2014-03-24 08:26:06","","3","2287","<p>I have already built a basic node.js user authentication system based on node.js, express.js, passport-local.</p>
+
+<p>I store my username and passwords in a mysql database and I use mongo for persistent storage for the sessions. I now want to move the user registration and login to phonegap.</p>
+
+<p>From the tutorials I have found online, the only way that seems work is is AJAX user authentication. However I have two questions:</p>
+
+<ol>
+<li><p>How do I rewrite the express routes to respond JSON since passport.js relies on redirects?</p>
+
+<p><pre>// process the signup form
+app.post('/register', passport.authenticate('local-signup', {
+        successRedirect : '/home', 
+        failureRedirect : '/register', 
+        failureFlash : true // allow flash messages
+    }));</p>
+
+<pre><code>// process the login form
+app.post('/login', passport.authenticate('local', {
+    successRedirect : '/home', 
+    failureRedirect : '/login', 
+    failureFlash : true // allow flash messages
+}));
+</code></pre>
+
+<p>and in my strategies I have : <br>
+passport.use('local-signup', new LocalStrategy({
+        usernameField : 'email',
+        passwordField : 'password',
+        passReqToCallback : true 
+    },
+    function(req, email, password, done) {
+...
+rest of the code that queries the db</p>
+
+<p>also for login<br>
+//Configure passport Local Strategy for login
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+  var query = 'select * from users where email = '+  connection.escape(username);
+    connection.query(query, function (err, user) {
+      if (err) { return done(err); 
+... rest of code
+}</pre></p></li>
+<li><p>Will the AJAX authentication in PhoneGap work by sending a post to <code>/login</code> and therefore creating a new active session in the express server?</p></li>
+<li><p>How do I handle state in the client. In a normal webapp you use redirects for ie. failed login attempts, logout, etc. In an AJAX authentication how do you handle that? Do you return a status code, return new markup, update part of the view?</p></li>
+</ol>
+","1351437","","4603295","","2019-10-25 08:21:56","2019-10-25 08:21:56","phonegap ajax user authentication with nodejs-expresss-mongo-passportjs","<cordova><express><passport.js>","1","0","0","","","CC BY-SA 4.0"
+"22604272","1","","","2014-03-24 08:26:25","","5","618","<p>So I am currently writing an android app that will get tweets from a particular user, using Twitter's 1.1 <a href=""https://dev.twitter.com/docs/auth/application-only-auth"" rel=""noreferrer"">Application-only-auth</a>, which requires a POST HTTP request to get a bearer token. I have a method set up that uses an <code>HttpsURLConnection</code> to open a connection, but</p>
+
+<ul>
+<li><code>conn.setDoOutput(true);</code> method isn't working</li>
+<li><code>conn.doOutput</code> stays <code>false</code></li>
+<li>the request stays the default <code>GET</code>.</li>
+</ul>
+
+<p>Am I doing something wrong?</p>
+
+<p>This method is called in an <code>AsyncTask</code>'s <code>doInBackground()</code> method:</p>
+
+<pre><code>public String getRequestBearerToken(String endUrl) throws IOException {
+    String encodedCred = encodeKeys(""API-key"", ""API-secret"");
+    HttpsURLConnection connection = null;
+    try {
+        URL url = new URL(endUrl);
+        connection = (HttpsURLConnection) url.openConnection();
+
+        connection.setInstanceFollowRedirects(false);
+        connection.setDoInput(true);
+        connection.setDoOutput(true);
+
+        connection.setRequestMethod(""POST"");
+
+
+            // POST request properties
+            connection.setRequestProperty(""Host"", ""api.twitter.com"");
+            connection.setRequestProperty(""User-Agent"", getResources()
+                    .getString(R.string.app_name));
+            connection.setRequestProperty(""Authorization"", ""Basic ""
+                    + encodedCred);
+            connection.setRequestProperty(""Content-Type"",
+                    ""application/x-www-form-urlencoded;charset=UTF-8"");
+            connection.setRequestProperty(""Content-Length"", ""29"");
+            connection.setUseCaches(false);
+
+            ...
+</code></pre>
+","3321184","","","","","2016-06-03 15:31:56","HttpsURLConnection setDoOutput(true) isn't working","<android><http><twitter><https><httpsurlconnection>","0","5","0","","","CC BY-SA 3.0"
+"22604273","1","","","2014-03-24 08:26:27","","1","58","<p>I have an <code>HTML5</code>&amp;<code>JavaScript</code> application that I am building using <code>PhoneGap</code>'s cloud build. I can't find a way to implement <code>adMob</code> into the app without using <code>Java</code> in some way. </p>
+
+<p>I built the app using <code>notpadd++</code>, and and the <code>PhoneGap</code> <code>cloud</code> with <code>github</code> and i don't have a single line of <code>Java</code>. My research showed me that using <code>AdSense</code> on a mobile application is not allowed, so I'm in a bit of a pickle...</p>
+
+<p>I'm on <code>PhoneGap</code> version <code>3.1.0</code>.</p>
+","1056799","","","","","2014-03-24 14:36:08","adMod with phonegap cloud build","<javascript><android><html><admob><phonegap-build>","1","0","","","","CC BY-SA 3.0"
+"22604278","1","38615998","","2014-03-24 08:26:40","","2","4010","<p>i want to live stream to youtube with ffmpeg but i take error "" av_interleaved_write_frame(): Connection reset by peer"". i send stream with FMLE its works nice. </p>
+
+<pre><code>ffmpeg -re -i /mnt/windows/21.mpg -r 30 -s 854x480 -c:v libx264 -c:a libfdk_aac -f mpegts ""rtmp://a.rtmp.youtube.com/live2/hasanbagcaci.3s3v-pkwx-g64b-5zgz"" -force_key_frames ""expr:gte(t,n_forced*1)"" 
+</code></pre>
+
+<p>thanks for helping</p>
+","2518839","","","","","2019-02-16 10:42:28","av_interleaved_write_frame(): Connection reset by peer youtube.","<youtube><ffmpeg><live-streaming>","1","0","","","","CC BY-SA 3.0"
+"22604279","1","22604393","","2014-03-24 08:26:42","","-4","62","<p>I have UIView .h and .m files and in my main view controller i have this </p>
+
+<pre><code>PopUpRectangle *RectangeView = [[PopUpRectangle alloc] initWithFrame:CGRectMake(0, 538, 320, 30)]
+</code></pre>
+
+<p>this allows me to show the rectangle, but instead of doing this in each function of my view controller, I want to assign this UIView as a local @property - so its available for each function. </p>
+
+<p>How is this done please ? </p>
+","3437628","","","","","2014-03-24 08:34:11","Assigning a local @property for a UIView","<ios><objective-c><uiview>","1","2","","2014-03-24 09:50:27","","CC BY-SA 3.0"
+"22604282","1","22604318","","2014-03-24 08:26:51","","0","1271","<pre><code>db = [('cat',15,22),('dog',28,30),('human',27,80)]
+</code></pre>
+
+<p>Now I want to create search for 'dog' so my returned value will be <code>db[1]</code>. I can't still figure it out (I know I would use sth like <code>for item in db: if 'dog' in item[:]</code> but don't know how to put it together really.</p>
+
+<p>Please help?</p>
+","3056783","","","","","2014-03-24 11:56:44","Search in python tuple list","<python><list><python-2.7><tuples>","4","0","0","","","CC BY-SA 3.0"
+"22604290","1","22604456","","2014-03-24 08:27:42","","0","67","<p>I've got a problem with updating data for each row in the <code>acrticles_pl_vector</code> table using function in set clause and data take from another table.</p>
+
+<p>For example I have a pseudocode:</p>
+
+<pre><code>CREATE OR REPLACE FUNCTION updateTsvector () 
+RETURNS status AS
+$$
+BEGIN
+    FOR EACH ROW otherTable
+     UPDATE acrticles_pl_vector
+     set vector = to_tsvector('polish', otherTable.title || otherTable.content);
+     WHERE id = otherTable.id
+
+END;
+$$
+LANGUAGE plpgsql
+</code></pre>
+
+<p>Thanks in advance!</p>
+","1692130","","1692130","","2014-03-24 08:34:53","2014-03-24 08:37:59","How to update data for each row using function and data from another table?","<sql><postgresql>","1","0","","","","CC BY-SA 3.0"
+"22604293","1","","","2014-03-24 08:27:55","","13","5284","<p><strong>This question refers to the SwipeListView component found here: <a href=""https://github.com/47deg/android-swipelistview"">https://github.com/47deg/android-swipelistview</a></strong></p>
+
+<p>After trying out several implementations and fixes I found on the web I decided to modify the sources a little.</p>
+
+<p>I will post this here since i know it's a known issue and all the versions I found proved to have some issues eventually.</p>
+
+<p><code>SwipeListViewTouchListener.java</code> has suffered the following changes:</p>
+
+<pre><code>...
+/**
+     * Create reveal animation
+     *
+     * @param view      affected view
+     * @param swap      If will change state. If ""false"" returns to the original
+     *                  position
+     * @param swapRight If swap is true, this parameter tells if movement is toward
+     *                  right or left
+     * @param position  list position
+     */
+    private void generateRevealAnimate(final View view, final boolean swap, final boolean swapRight, final int position) {
+        int moveTo = 0;
+        if (opened.get(position)) {
+            if (!swap) {
+                moveTo = openedRight.get(position) ? (int) (viewWidth - rightOffset) : (int) (-viewWidth + leftOffset);
+            }
+        } else {
+            if (swap) {
+                moveTo = swapRight ? (int) (viewWidth - rightOffset) : (int) (-viewWidth + leftOffset);
+            }
+        }
+        final boolean aux = !opened.get(position);
+        if(swap) {
+            opened.set(position, aux);
+            openedRight.set(position, swapRight);
+        }
+
+        animate(view).translationX(moveTo).setDuration(animationTime).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                swipeListView.resetScrolling();
+
+                if (swap) {
+                    if (aux) {
+                        swipeListView.onOpened(position, swapRight);
+                    } else {
+                        swipeListView.onClosed(position, openedRight.get(position));
+                    }
+                }
+                // if (aux || !swap) {
+                // resetCell();
+                // }
+            }
+        });
+    }
+...
+
+/**
+     * Close all opened items
+     */
+
+    void closeOtherOpenedItems() {
+        if (opened != null &amp;&amp; downPosition != SwipeListView.INVALID_POSITION) {
+            int start = swipeListView.getFirstVisiblePosition();
+            int end = swipeListView.getLastVisiblePosition();
+            for (int i = start; i &lt;= end; i++) {
+                if (opened.get(i) &amp;&amp; i != downPosition) {
+                    closeAnimate(swipeListView.getChildAt(i - start).findViewById(swipeFrontView), i);
+                }
+            }
+        }
+
+    }
+...
+
+/**
+     * @see View.OnTouchListener#onTouch(android.view.View,
+     * android.view.MotionEvent)
+     */
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+...
+closeOtherOpenedItems();
+view.onTouchEvent(motionEvent);
+return true;
+}
+</code></pre>
+
+<p>The rest of the code not mentioned is the same.</p>
+
+<p>Any comments highly appreciated, this changes prevent you from having to implement the <code>SwipeListViewOnTouchListener</code> in the activity which inflates the list.</p>
+","2296325","","50476","","2014-04-21 06:19:02","2015-01-13 12:48:12","SwipeListView only one item opened at a time","<android><swipe><ontouchlistener><swipe-gesture>","5","6","0","","","CC BY-SA 3.0"
+"22604300","1","22633641","","2014-03-24 08:28:34","","1","1279","<p>I try to use rabbit on ubuntu 12.04. After installation rabbitmq-server works fine. Than I stop it and add my configuration file.</p>
+
+<pre><code>root@rabbit1:~# tail /etc/rabbitmq/rabbitmq-env.conf 
+RABBITMQ_CONFIG_FILE=/etc/rabbitmq/myrabbitmq
+root@rabbit1:~# tail /etc/rabbitmq/myrabbitmq.config 
+[{rabbit,
+    [{cluster_nodes, {['rabbit@rabbit1', 'rabbit@rabbit2'], disc}}]}].
+</code></pre>
+
+<p>With this files rabbitmq-server says on start:</p>
+
+<pre><code>root@rabbit1:~# rabbitmq-server
+Activating RabbitMQ plugins ...
+0 plugins activated:
+
+
++---+   +---+
+|   |   |   |
+|   |   |   |
+|   |   |   |
+|   +---+   +-------+
+|                   |
+| RabbitMQ  +---+   |
+|           |   |   |
+|   v2.7.1  +---+   |
+|                   |
++-------------------+
+AMQP 0-9-1 / 0-9 / 0-8
+Copyright (C) 2007-2011 VMware, Inc.
+Licensed under the MPL.  See http://www.rabbitmq.com/
+
+node           : rabbit@rabbit1
+app descriptor : /usr/lib/rabbitmq/lib/rabbitmq_server-2.7.1/sbin/../ebin/rabbit.app
+home dir       : /var/lib/rabbitmq
+config file(s) : /etc/rabbitmq/myrabbitmq.config
+cookie hash    : 31CaH3BCSDNL1hDIFQzH2Q==
+log            : /var/log/rabbitmq/rabbit@rabbit1.log
+sasl log       : /var/log/rabbitmq/rabbit@rabbit1-sasl.log
+database dir   : /var/lib/rabbitmq/mnesia/rabbit@rabbit1
+erlang version : 5.8.5
+
+-- rabbit boot start
+starting file handle cache server                                     ...done
+starting worker pool                                                  ...done
+starting database                                                     ...BOOT ERROR: FAILED
+Reason: function_clause
+Stacktrace: [{lists,usort,[{[rabbit@rabbit1,rabbit@rabbit2],disc}]},
+             {rabbit_mnesia,init_db,3},
+             {rabbit_mnesia,init,0},
+             {rabbit,'-run_boot_step/1-lc$^1/1-1-',1},
+             {rabbit,run_boot_step,1},
+             {rabbit,'-start/2-lc$^0/1-0-',1},
+             {rabbit,start,2},
+             {application_master,start_it_old,4}]
+Erlang has closed
+{""Kernel pid terminated"",application_controller,""{application_start_failure,rabbit,{bad_return,{{rabbit,start,[normal,[]]},{'EXIT',{rabbit,failure_during_boot}}}}}""}
+Kernel pid terminated (application_controller) ({application_start_failure,rabbit,{bad_return,{{rabbit,start,[normal,[]]},{'EXIT',{rabbit,failure_during_boot}}}}})
+</code></pre>
+
+<p>Have any suggestion what's wrong with my rabbit?</p>
+","1994618","","","","","2014-03-25 11:47:27","RabbitMQ 2.7.1 doesn't start with configuration file; Reason: function_clause","<rabbitmq>","1","4","","","","CC BY-SA 3.0"
+"22604303","1","","","2014-03-24 08:29:02","","0","284","<p>I tried to add some benchmarking aspect to my java app and configure it using xml,
+but for some reason the I can't get the within designator to work.</p>
+
+<p>the aspect should work for all methods in the components package and sub packages instead of the aspect package (in order to avoid endless loops).</p>
+
+<p></p>
+
+<pre><code>    &lt;aop:aspect id=""aspectBenchmark"" ref=""benchmarkAspect"" &gt;
+
+        &lt;aop:around method=""logAround"" pointcut=""within(com.app.components.**) &amp;amp;&amp;amp; !within(com.app.components.aspect.**)""/&gt;
+    &lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+</code></pre>
+
+<p>BTW,
+when i changed the pointcut expression to ""execution(@javax.ws.rs.POST * *(..))"" (just because I wanted make sure I have nothing wrong with the aspect class), it worked...
+any help would be appreciated.</p>
+","1677638","","2867032","","2014-03-24 09:09:00","2014-03-24 11:01:08","spring Aspectj within pointcut expression","<java><spring><aspectj>","0","4","","","","CC BY-SA 3.0"
+"22604305","1","22604347","","2014-03-24 08:29:04","","155","222367","<p>I am developing an application which will send a request to a bluetooth printer for printing. The code is working fine for real devices, but I want to run it on the Android Emulator. How can I use the emulator for bluetooth testing?</p>
+","2185295","","247702","","2014-03-24 08:41:34","2022-07-31 18:53:30","How to use android emulator for testing bluetooth application?","<android>","5","1","0","","","CC BY-SA 3.0"
+"22604308","1","22611611","","2014-03-24 08:29:11","","12","17129","<p>I need a mock of HttpContext for unit testing. But I'm struggling with it.</p>
+
+<p>I'm making a method that would change sessionId by programmatically with SessionIdManager.
+And SessionIdManager requires HttpContext not HttpContextBase.</p>
+
+<p>But I couldn't find any example to make a mock of HttpContext. All examples out there are only to make HttpContextBase.</p>
+
+<p>I tried below but they didn't work</p>
+
+<pre><code>HttpContext httpContext = Mock&lt;HttpContext&gt;();
+HttpContext httpContext = (HttpContext)GetMockHttpContextBase();
+
+public HttpContextBase GetMockHttpContextBase()
+{
+   var context = new Mock&lt;HttpContextBase&gt;();
+   var request = new Mock&lt;HttpRequestBase&gt;();
+   var response = new Mock&lt;HttpResponseBase&gt;();
+   var session = new Mock&lt;HttpSessionStateBase&gt;();
+   var application = new Mock&lt;HttpApplication&gt;();
+   var httpContext = new Mock&lt;HttpContext&gt;();
+   var server = new Mock&lt;HttpServerUtilityBase&gt;();
+   var user = new Mock&lt;IPrincipal&gt;();
+   var identity = new Mock&lt;IIdentity&gt;();
+   var urlHelper = new Mock&lt;UrlHelper&gt;();
+   var routes = new RouteCollection();
+   var requestContext = new Mock&lt;RequestContext&gt;();
+
+   requestContext.Setup(x =&gt; x.HttpContext).Returns(context.Object);
+   context.Setup(ctx =&gt; ctx.Request).Returns(request.Object);
+   context.Setup(ctx =&gt; ctx.Response).Returns(response.Object);
+   context.Setup(ctx =&gt; ctx.Session).Returns(session.Object);
+   application.Setup(x =&gt; x.Context).Returns(httpContext.Object);
+   context.Setup(ctx =&gt; ctx.ApplicationInstance).Returns(application.Object);
+   context.Setup(ctx =&gt; ctx.Server).Returns(server.Object);
+   context.Setup(ctx =&gt; ctx.User).Returns(user.Object);
+   user.Setup(ctx =&gt; ctx.Identity).Returns(identity.Object);
+   identity.Setup(id =&gt; id.IsAuthenticated).Returns(true);
+   identity.Setup(id =&gt; id.Name).Returns(""test"");
+   request.Setup(req =&gt; req.Url).Returns(new Uri(""http://tempuri.org""));
+   request.Setup(req =&gt; req.RequestContext).Returns(requestContext.Object);
+   requestContext.Setup(x =&gt; x.RouteData).Returns(new RouteData());
+   request.SetupGet(req =&gt; req.Headers).Returns(new NameValueCollection());
+
+   return context.Object;
+}
+</code></pre>
+
+<p>Is there any way to make mock of HttpContext or to use HttpContextBase for HttpContext?</p>
+
+<p>Please help me anyone.</p>
+","3110409","","685467","","2014-03-24 08:32:07","2016-05-25 15:32:02","Mock HttpContext using moq for unit test","<c#><asp.net-mvc-3><unit-testing><mocking><moq>","2","7","0","2014-04-02 04:58:57","","CC BY-SA 3.0"
+"22604311","1","","","2014-03-24 08:29:23","","2","96","<p>Hi i'm a new to memory management,
+           i just thought of finding the logic to find the free heap space. I feel that by finding difference between ""<strong>program break</strong>"" and ""<strong>stack pointer</strong>"" we can get it is it correct? if not please justify and let me know the right logic.</p>
+","3446120","","","","","2014-03-25 08:33:48","Logic behind finding Heap space available","<c><linux><memory-management>","1","1","","","","CC BY-SA 3.0"
+"22604312","1","22604773","","2014-03-24 08:29:27","","1","2833","<p>I have a <code>HTML table</code> and i use<code>PHP</code>.. the data inside the table is came from an <code>CSV file</code>.</p>
+
+<p>I can already add a new data in a new row at the end of file. My problem is, what if i want to delete existing row that is in the middle of the data in the CSV file. How can i do that? By the way i don't use any database here. I just use <code>HTML Table</code> and <code>CSV  file</code>. Below is my code in viewing CSV and adding new data.</p>
+
+<p><strong>View</strong></p>
+
+<pre><code>&lt;?php
+                            $row = 1;
+                                if (($handle = fopen(""bin/pdw_table.csv"", ""r+"")) !== FALSE) {
+
+                        ?&gt;
+                                    &lt;table class=""table table-hover table-striped table-bordered"" id=""table-data""&gt;
+                                        &lt;tr&gt;
+                                            &lt;th&gt;Field 1&lt;/th&gt;
+                                            &lt;th&gt;Field 2&lt;/th&gt;
+                                            &lt;th&gt;Field 3&lt;/th&gt;
+                                            &lt;th&gt;&lt;/th&gt;
+                                            &lt;th&gt;Field 4&lt;/th&gt;
+                                            &lt;th&gt;Field 5&lt;/th&gt;
+                                            &lt;th&gt;&lt;/th&gt;
+                                            &lt;th&gt;&lt;/th&gt;
+                                            &lt;th&gt;Field 6&lt;/th&gt;
+                                            &lt;th&gt;Field 7&lt;/th&gt;
+                                            &lt;th&gt;Field 8&lt;/th&gt;
+                                            &lt;th&gt;Field 9&lt;/th&gt;
+                                            &lt;th&gt;Field 10&lt;/th&gt;
+                                            &lt;th&gt;Field 11&lt;/th&gt;
+                                            &lt;th&gt;Field 12&lt;/th&gt;
+                                            &lt;th&gt;Field 13&lt;/th&gt;
+                                            &lt;th&gt;&lt;/th&gt;
+                                            &lt;th&gt;Field 14&lt;/th&gt;
+                                            &lt;th&gt;Field 15&lt;/th&gt;
+                                            &lt;th&gt;Field 16&lt;/th&gt;
+                                        &lt;/tr&gt;
+                        &lt;?php
+                                        while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+                                            $num = count($data);
+                        ?&gt;
+                                            &lt;tr &lt;?php if($row==0){echo ""style='font-weight:bold; background-color:#CCCCCC'"";} else {echo ""style='background-color:#DDDDDD'"";} ?&gt; style=""background-color:#DDDDDD""&gt;
+                        &lt;?php
+                                                for ($c=0; $c &lt; $num; $c++) {
+                        ?&gt;
+                                                &lt;td&gt;&lt;?php echo $data[$c]; ?&gt;&lt;/td&gt;  
+                        &lt;?php
+                            }
+                        ?&gt;
+                                            &lt;/tr&gt;
+                        &lt;?php
+
+                                        $row++;
+                                        }
+                                        fclose($handle);
+                        ?&gt;
+                                        &lt;form method=""post"" name=""add1"" id=""add1"" action=""&lt;?php echo base_url();?&gt;index.php/datacast_ctr/write_csv"" autocomplete=""off""&gt;
+                                            &lt;tr class=""td1"" id=""td1"" &gt;  
+                                                &lt;td&gt;&lt;input type=""text"" name=""val1"" id=""val1""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val2"" id=""val2""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val3"" id=""val3""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val4"" id=""val4""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val5"" id=""val5""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val6"" id=""val6""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val7"" id=""val7""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val8"" id=""val8""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val9"" id=""val9""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val10"" id=""val10""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val11"" id=""val11""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val12"" id=""val12""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val13"" id=""val13""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val14"" id=""val14""/&gt;&lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val15"" id=""val15""/&gt; &lt;/td&gt;
+                                                &lt;td&gt;&lt;input type=""text"" name=""val16"" id=""val16""/&gt;&lt;/td&gt;
+                                            &lt;/tr&gt;
+                                        &lt;/form&gt;
+                                    &lt;/table&gt;
+                        &lt;?php
+                            }
+                        ?&gt;
+</code></pre>
+
+<p>CONTROLLER (code for adding new data EOF)</p>
+
+<pre><code>function write_csv()
+{
+    $R1 = $this-&gt;input-&gt;post('val1');
+    $R2 = $this-&gt;input-&gt;post('val2');
+    $R3 = $this-&gt;input-&gt;post('val3');
+    $H1 = $this-&gt;input-&gt;post('valh1');
+    $R4 = $this-&gt;input-&gt;post('val4');
+    $R5 = $this-&gt;input-&gt;post('val5');
+    $H2 = $this-&gt;input-&gt;post('valh2');
+    $H3= $this-&gt;input-&gt;post('valh3');
+    $R6 = $this-&gt;input-&gt;post('val6');
+    $R7 = $this-&gt;input-&gt;post('val7');
+    $R8 = $this-&gt;input-&gt;post('val8');
+    $R9 = $this-&gt;input-&gt;post('val9');
+    $R10 = $this-&gt;input-&gt;post('val10');
+    $R11 = $this-&gt;input-&gt;post('val11');
+    $R12 = $this-&gt;input-&gt;post('val12');
+    $R13 = $this-&gt;input-&gt;post('val13');
+    $H4 = $this-&gt;input-&gt;post('valh4');
+    $R14 = $this-&gt;input-&gt;post('val14');
+    $R15 = $this-&gt;input-&gt;post('val15');
+    $R16 = $this-&gt;input-&gt;post('val16');
+    $H5 = $this-&gt;input-&gt;post('valh5');
+
+    $data = $R1."","".$R2."","".$R3."","".$H1."","".$R4."","".$R5."","".$H2."","".$H3."","".$R6."","".$R7."","".$R8."","".$R9."","".$R10."","".$R11."","".$R12."","".$R13."","".$H4."","".$R14."","".$R15."","".$R16;
+    $list = array($data);
+
+    $file = fopen(""./bin/pdw_table.csv"",""a+"");
+
+    foreach ($list as $line)
+    {
+        fputcsv($file,explode(',',$line));
+    }
+
+    fclose($file);
+    redirect('datacast_ctr');
+}
+</code></pre>
+","2962906","","","","","2014-03-26 08:23:27","Delete specific row in CSV file using HTML Table","<php><html><csv>","1","0","","","","CC BY-SA 3.0"
+"22604315","1","22604480","","2014-03-24 08:29:42","","0","71","<p>I am having trouble with a conversion of time.</p>
+
+<p>I have a table called 'TotalTime' which is set to INT and holds the time in seconds only. I want to convert these seconds to days, hours, minutes, seconds e.g. 01d 09:26:43.</p>
+
+<p>Now I will show you the code I am using:</p>
+
+<pre><code>SELECT [BuildID],[Product],[Program],
+
+
+SUM(CASE WHEN [State] = 'Running' THEN cast(TotalTime as INT) ELSE 0 END) AS [Running],
+SUM(CASE WHEN [State] = 'Break' THEN cast(TotalTime as INT) ELSE 0 END) AS [Break]
+
+
+FROM [line_log].[dbo].[Line1Log]
+
+GROUP BY [BuildID], [Product], [Program]
+</code></pre>
+
+<p>So as you can see I am grouping the [State] column and would like to display the results of 'TotalTime' in the format I mentioned above.</p>
+
+<p>Now I have tried this code but it will not work as I cannot convert INT to VARCHAR</p>
+
+<pre><code>SELECT [BuildID],[Product],[Program],
+
+SUM(CASE WHEN [State] = 'Running' THEN CAST(FLOOR(TotalTime / 86400) AS VARCHAR(10))+'d ' + CONVERT(VARCHAR(5), DATEADD(SECOND, TotalTime, '19000101'), 8) ELSE 0 END) AS [Running]
+
+FROM [line_log].[dbo].[Line1Log]
+
+GROUP BY [BuildID], [Product], [Program]
+</code></pre>
+
+<p>The above would not display it in the exact format I wanted either.</p>
+
+<p>Just wondering if someone would be willing to help me on this one?</p>
+
+<p>Thanks for taking the time to read this :)</p>
+","2124009","","","","","2014-03-24 08:38:59","SQL Time Conversion","<sql><sql-server><sql-server-2008>","1","0","","","","CC BY-SA 3.0"
+"22604320","1","","","2014-03-24 08:30:05","","0","107","<p>I wanted, to give some identifier to the app that we create like a kiosk mode in iOS.</p>
+
+<p><strong>i.e.</strong> We make add to home screen and it has an icon on home page which browse further. </p>
+
+<p>Is there any way, where I can give some identifier Name to that link of app getting created so that we can get that app access from our Native and we can provide URL Scheme for the same. </p>
+
+<p>Thanks.</p>
+","1280798","","3275134","","2014-03-24 09:02:51","2014-03-24 09:15:05","Kiosk App in iOS can we provide any identifer to that app to use from URL scheme.","<ios><iphone><url-scheme><kiosk-mode>","2","0","","","","CC BY-SA 3.0"
+"22604329","1","22684470","","2014-03-24 08:30:32","","0","323","<p>I'm diagnosing some user problems with German locales. Running </p>
+
+<pre><code>php -r ""setlocale(LC_ALL, array('de_DE','deu_deu)); echo 10.01;""
+</code></pre>
+
+<p>gives</p>
+
+<pre><code>10.01
+</code></pre>
+
+<p>Running</p>
+
+<pre><code>&lt;?php
+echo(setlocale(LC_ALL,array('de_DE','deu_deu')));
+echo 10.01;
+</code></pre>
+
+<p>via WAMP stack gives </p>
+
+<pre><code>German_Germany.1252 10,01
+</code></pre>
+
+<p>This shows that locale is active and the decimal_point has changed. </p>
+
+<p>Is it a known restricting that <code>setlocale</code> doesn't work in CLI?</p>
+","608395","","608395","","2014-03-24 12:25:16","2014-03-27 10:16:32","PHP 5.5 setlocale() not working in CLI on Windows?","<php>","1","0","","","","CC BY-SA 3.0"
+"22604330","1","22604886","","2014-03-24 08:30:33","","0","1063","<p>Hello I am having problem with the email script on my site.</p>
+
+<p>I used this files</p>
+
+<p><a href=""https://jonbake.com/blog/bootstrap-3-contact-form-with-captcha/"" rel=""nofollow noreferrer"">https://jonbake.com/blog/bootstrap-3-contact-form-with-captcha/</a></p>
+
+<p>but I add some fields. It is sending to my email but I'm not receiving all the data inputted on the fields.</p>
+
+<p>Here is my HTML Form</p>
+
+<pre><code>&lt;form role=""form"" id=""feedbackForm""&gt;
+          &lt;div class=""form-group""&gt;
+            &lt;input type=""text"" class=""form-control"" id=""first_name"" name=""first_name"" placeholder=""First Name""&gt;
+            &lt;span class=""help-block"" style=""display: none;""&gt;Please enter your name.&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=""form-group""&gt;
+            &lt;input type=""text"" class=""form-control"" id=""last_name"" name=""last_name"" placeholder=""Last Name""&gt;
+            &lt;span class=""help-block"" style=""display: none;""&gt;Please enter your name.&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=""form-group""&gt;
+            &lt;input type=""email"" class=""form-control"" id=""email"" name=""email"" placeholder=""Email Address""&gt;
+            &lt;span class=""help-block"" style=""display: none;""&gt;Please enter a valid e-mail address.&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=""form-group""&gt;
+            &lt;input type=""text"" class=""form-control"" id=""company_name"" name=""company_name"" placeholder=""Company""&gt;
+            &lt;span class=""help-block"" style=""display: none;""&gt;Please enter your name.&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=""form-group""&gt;
+            &lt;textarea rows=""10"" cols=""100"" class=""form-control"" id=""message"" name=""message"" placeholder=""Message""&gt;&lt;/textarea&gt;
+            &lt;span class=""help-block"" style=""display: none;""&gt;Please enter a message.&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=""form-group""&gt;
+            &lt;label for=""selectbasic""&gt;How did you hear about us?&lt;/label&gt;
+                &lt;select id=""selectbasic"" name=""selectbasic"" class=""form-control""&gt;
+                    &lt;option&gt;Select&lt;/option&gt;
+                    &lt;option&gt;Search engine&lt;/option&gt;
+                    &lt;option&gt;Microsoft DPE&lt;/option&gt;
+                    &lt;option&gt;Microsoft event&lt;/option&gt;
+                    &lt;option&gt;Social media&lt;/option&gt;
+                    &lt;option&gt;Word of mouth&lt;/option&gt;
+                    &lt;option&gt;Other&lt;/option&gt;
+                &lt;/select&gt;
+            &lt;/div&gt;
+          &lt;img id=""captcha"" src=""library/vender/securimage/securimage_show.php"" alt=""CAPTCHA Image"" /&gt;
+          &lt;a href=""#"" onclick=""document.getElementById('captcha').src = 'library/vender/securimage/securimage_show.php?' + Math.random(); return false"" class=""btn btn-info btn-sm""&gt;Show a Different Image&lt;/a&gt;&lt;br/&gt;
+          &lt;div class=""form-group"" style=""margin-top: 10px;""&gt;
+            &lt;input type=""text"" class=""form-control"" name=""captcha_code"" id=""captcha_code"" placeholder=""For security, please enter the code displayed in the box."" /&gt;
+            &lt;span class=""help-block"" style=""display: none;""&gt;Please enter the code displayed within the image.&lt;/span&gt;
+          &lt;/div&gt;
+
+          &lt;span class=""help-block"" style=""display: none;""&gt;Please enter a the security code.&lt;/span&gt;
+          &lt;button type=""submit"" id=""feedbackSubmit"" class=""btn btn-primary btn-lg"" style=""display: block; margin-top: 10px;""&gt;Send Feedback&lt;/button&gt;
+        &lt;/form&gt;
+</code></pre>
+
+<p>This is my PHP Script </p>
+
+<pre><code>&lt;?php
+ //start a session -- needed for Securimage Captcha check
+ session_start();
+
+ //add you e-mail address here
+ define(""MY_EMAIL"", ""dummyemail@gmail.com"");
+
+/**
+ * Sets error header and json error message response.
+ *
+ * @param  String $messsage error message of response
+ * @return void
+ */
+function errorResponse ($messsage) {
+header('HTTP/1.1 500 Internal Server Error');
+die(json_encode(array('message' =&gt; $messsage)));
+}
+
+/**
+ * Return a formatted message body of the form:
+ * Name: &lt;name of submitter&gt;
+ * Comment: &lt;message/comment submitted by user&gt;
+ *
+ * @param String $name     name of submitter
+ * @param String $messsage message/comment submitted
+ */
+function setMessageBody ($first_name, $last_name, $email, $message, $selectbasic) {
+  $message_body = ""Name: "" . $first_name. $last_name. ""\n\n"";
+  $message_body = ""Email: "" . $email.""\n\n"";
+  $message_body = ""Company Name: "" . $company_name.""\n\n"";
+  $message_body .= ""Message:\n"" . nl2br($message);
+  $message_body .= ""How did you hear about us?:"" . $selectbasic.""\n\n"";
+  return $message_body;
+}
+$first_name = $_POST['first_name'];
+$last_name = $_POST['last_name'];  
+$email = $_POST['email']; 
+$company_name = $_POST['company_name']; 
+$message = $_POST['message'];
+$selectbasic = $_POST['selectbasic'];
+
+header('Content-type: application/json');
+//do some simple validation. this should have been validated on the client-side also
+if (empty($email) || empty($message)) {
+errorResponse('Email or message is empty.');
+}
+
+//do Captcha check, make sure the submitter is not a robot:)...
+include_once './vender/securimage/securimage.php';
+$securimage = new Securimage();
+if (!$securimage-&gt;check($_POST['captcha_code'])) {
+  errorResponse('Invalid Security Code');
+}
+
+//try to send the message
+if(mail(MY_EMAIL, ""Feedback Form Results"", setMessageBody($_POST[""first_name""],         
+$_POST[""last_name""], $_POST[""email""], $_POST[""selectbasic""], $message), ""From:    
+ $first_name, $last_name"")) {
+echo json_encode(array('message' =&gt; 'Your message was successfully submitted.'));
+
+  } else {
+header('HTTP/1.1 500 Internal Server Error');
+echo json_encode(array('message' =&gt; 'Unexpected error while attempting to send e-   
+ mail.'));
+ }
+ ?&gt;
+</code></pre>
+
+<p>I don't know what's wrong but I need to capture all the data.</p>
+
+<p>Thanks for your help.</p>
+
+<p>This what I am getting after putting DOT before equal sign</p>
+
+<p><img src=""https://i.stack.imgur.com/ZqiXQ.png"" alt=""enter image description here""></p>
+
+<p>New Code I'm using achieving the image above </p>
+
+<pre><code>&lt;?php
+ //start a session -- needed for Securimage Captcha check
+ session_start();
+
+ //add you e-mail address here
+ define(""MY_EMAIL"", ""aareyes00@ymail.com"");
+
+ /**
+ * Sets error header and json error message response.
+ *
+ * @param  String $messsage error message of response
+ * @return void
+ */
+ function errorResponse ($messsage) {
+ header('HTTP/1.1 500 Internal Server Error');
+ die(json_encode(array('message' =&gt; $messsage)));
+ }
+
+/**
+ * Return a formatted message body of the form:
+ * Name: &lt;name of submitter&gt;
+ * Comment: &lt;message/comment submitted by user&gt;
+ *
+ * @param String $name     name of submitter
+ * @param String $messsage message/comment submitted
+ */
+ function setMessageBody ($first_name, $last_name, $email, $company_name, $message,    
+ $selectbasic) {
+ $message_body .= ""First Name: "" . $first_name.""\n\n"";
+ $message_body .= ""Last Name: "" . $last_name.""\n\n"";
+ $message_body .= ""Email: "" . $email.""\n\n"";
+ $message_body .= ""Company Name:"" . $company_name.""\n\n"";
+ $message_body .= ""Message:"" . $message. ""\n\n"";
+ $message_body .= ""How did you hear about us?"" . $selectbasic.""\n\n"";
+ return $message_body;
+ }
+ $first_name = $_POST['first_name'];
+ $last_name = $_POST['last_name'];  
+ $email = $_POST['email']; 
+ $company_name = $_POST['company_name']; 
+ $message = $_POST['message'];
+ $selectbasic = $_POST['selectbasic'];
+
+ header('Content-type: application/json');
+ //do some simple validation. this should have been validated on the client-side also
+ if (empty($email) || empty($message)) {
+ errorResponse('Email or message is empty.');
+ }
+ //do Captcha check, make sure the submitter is not a robot:)...
+ include_once './vender/securimage/securimage.php';
+ $securimage = new Securimage();
+ if (!$securimage-&gt;check($_POST['captcha_code'])) {
+ errorResponse('Invalid Security Code');
+ }
+
+ //try to send the message
+ if(mail(MY_EMAIL, ""Feedback Form Results"", setMessageBody($_POST[""first_name""],      
+ $_POST[""last_name""], $_POST[""email""], $_POST[""message""], $_POST[""selectbasic""]), ""From:    
+ $first_name, $last_name"")) {
+ echo json_encode(array('message' =&gt; 'Your message was successfully submitted.'));
+
+ } else {
+ header('HTTP/1.1 500 Internal Server Error');
+ echo json_encode(array('message' =&gt; 'Unexpected error while attempting to send e-   
+ mail.'));
+ }
+ ?&gt;
+</code></pre>
+","1699768","","1699768","","2014-03-24 10:38:41","2014-03-24 11:02:36","Contact Form PHP Email Script","<php><forms><email><twitter-bootstrap>","3","0","","","","CC BY-SA 3.0"
+"22604333","1","22612537","","2014-03-24 08:30:44","","0","784","<p>I am trying to indexing my dataset in arff files with label indexes. I ve got a dataset of mxn dimension which nth column is dedicated to dataset labels. When I am trying to create arff file I am using weka's class Attribute in order to construct proper the arff file. </p>
+
+<pre><code>           int numAtts = data[0].length;                
+           FastVector atts = new FastVector(numAtts);
+
+            for (int att = 0; att &lt; numAtts-1; att++) {
+                atts.addElement(new weka.core.Attribute(""Attribute"" + att, att));
+            }
+            String qwer =""class"";
+            double [] labels = {1, 2, 3m};
+
+            weka.core.Attribute object = new weka.core.Attribute(qwer);
+            atts.addElement(object);
+</code></pre>
+
+<p>My problem is how to construct the last attribute which is labels indexing in arff file in order to take properly a string name ""class"" and values {1,2,3}.</p>
+","1194864","","","","","2014-03-24 14:41:23","Indexing a dataset with labels in weka arff files","<java><class><indexing><weka><label>","1","0","","","","CC BY-SA 3.0"
+"22604334","1","","","2014-03-24 08:30:49","","2","298","<p>I'm currently getting a 404 at <a href=""http://www.youtube.com/get_video?noflv=1&amp;video_id=Heyb3xd1qyE&amp;cpn=B7nL0OlmP"" rel=""nofollow"">http://www.youtube.com/get_video?noflv=1&amp;video_id=Heyb3xd1qyE&amp;cpn=B7nL0OlmP</a>…3A%2F%2Fpoolside.fm%2F&amp;fmt=135&amp;ptk=SonyPicture_LongForm&amp;autoplay=1&amp;splay=1 when using the youtube iframe api. </p>
+
+<p>Interestingly the video still plays. What i've noticed is the ""ptk=SonyPicture_LongForm"" parameter. Can anyone shed any light on what the ptk parameter is?</p>
+
+<p>Thanks. </p>
+","1997741","","1997741","","2014-03-24 09:03:28","2014-03-24 09:03:28","Youtube Iframe API return ""ptk"" parameter","<youtube>","0","2","","","","CC BY-SA 3.0"
+"22604335","1","","","2014-03-24 08:30:51","","1","307","<p>I have some <strong>json data</strong> which is accessed from a third party server. It contains large content and starts like </p>
+
+<pre><code>   [
+   {
+      ""id"":1845,
+      ""title"":""Llm In Transnational Oil, Gas And Energy Law By Online Learning"",
+      ""category_id"":4,
+      ""sub_category_id"":null,
+      ""timestamp"":""2013-05-15T11:56:19.168508Z"",
+      ""start_time"":""2013-09-29T15:00:00+01:00"",
+      ""end_time"":""2014-12-19T19:30:00+00:00"",
+      ""summary"":""Develop a deep, practical understanding of how to resolve the challenges posed\r\nby national authorities to oil, gas and energy production.\r\n""
+...
+</code></pre>
+
+<p>I cannot convert this JSON to XML, even using <code>JSONSerializer</code> and <code>XMLSerializer</code>. I got the following error:
+<code>ncname 0*20 illegal character</code></p>
+
+<p>I also tried some <code>org.json</code> libraries like <code>JSONTokenizer</code> and <code>JSONArray</code> which retrieve only text but do not generate any XML output.</p>
+","2915221","","3270595","","2014-03-24 08:42:28","2014-03-24 08:58:05","Issue while converting JSON to XML in Java","<java><xml><json>","0","3","0","","","CC BY-SA 3.0"
+"22604341","1","23234804","","2014-03-24 08:31:17","","6","270","<p>I want to store with Amber (<a href=""http://amber-lang.net/"">on-line IDE</a>)  an OrderedCollection in the localStorage of a web browser and later retrieve it.</p>
+
+<h3>Creating a test data object</h3>
+
+<pre><code>| coll hcoll |
+
+coll := OrderedCollection new.
+coll add: 'abc'.
+coll add: 'xon'.
+
+hcoll := HashedCollection new.
+hcoll at: 'en' put: 'English'.
+hcoll at: 'fr' put: 'French'.
+hcoll at: 'ge' put: 'German'.
+
+coll add: hcoll.
+</code></pre>
+
+<h3>Storing the test data object in localStorage</h3>
+
+<p>localStorage is a key-value store in the browser. The values have to be strings.</p>
+
+<pre><code>localStorage setItem: 'coll' value: coll asJSONString.
+
+
+""We set coll to nil to indicate that we 
+are going to retrieve it back from the localStorage""
+
+coll := nil.
+</code></pre>
+
+<h3>Getting back the stored value</h3>
+
+<p>a <em>printIt</em> of the following </p>
+
+<pre><code>localStorage getItem: 'coll' 
+</code></pre>
+
+<p>gives</p>
+
+<pre><code> '[""abc"",""xon"",{""en"":""English"",""fr"":""French"",""ge"":""German""}]' 
+</code></pre>
+
+<p>This is a JSON string.</p>
+
+<p>How do I get back the OrderedCollection  <em>coll</em>?</p>
+
+<p>Use the JSON parser built into the browser</p>
+
+<pre><code>JSON parse: (localStorage getItem: 'coll')
+</code></pre>
+
+<p>The result of a <em>printIt</em> is</p>
+
+<pre><code>an Array ('abc' 'xon' [object Object]) 
+</code></pre>
+
+<p>and</p>
+
+<pre><code>(JSON parse: (localStorage getItem: 'coll')) class
+</code></pre>
+
+<p>is</p>
+
+<pre><code>Array 
+</code></pre>
+
+<p>The third element of the Array </p>
+
+<pre><code>((JSON parse: (localStorage getItem: 'coll')) at: 3) class
+</code></pre>
+
+<p>is a</p>
+
+<pre><code>JSObjectProxy
+</code></pre>
+
+<h2>Question</h2>
+
+<p>How do I get back the Smalltalk representation for an arbitrary JSON object (containing JavaScript Arrays and Objects, OrderedCollections and HashedCollections, Dictionaries in Smalltalk)?</p>
+
+<h2>Note</h2>
+
+<p><a href=""http://www.json.org"">http://www.json.org</a></p>
+
+<p>JSON is built on two structures:</p>
+
+<ul>
+<li>A collection of name/value pairs. In various languages, this is realized as an object,  dictionary, hash table,  or associative array.</li>
+<li>An ordered list of values. In many languages, this is realized as an array, list, or sequence.</li>
+</ul>
+","1669111","","1669111","","2014-03-31 12:27:39","2014-04-23 04:38:00","Amber and localstorage, asJSON?","<json><local-storage><smalltalk><amber-smalltalk>","1","0","","","","CC BY-SA 3.0"
+"22604358","1","","","2014-03-24 08:31:59","","0","283","<p>I want to display the posts of a user using the following meta function:</p>
+
+<pre><code>&lt;?php 
+ $user_id = get_current_user_id();
+ $key = '';
+ $single = true;
+ $user_List = get_user_meta( $user_id, $key, $single ); 
+ echo '&lt;p&gt;The '. $key . ' value for user id ' . $user_id . ' is: ' . $user_List . '&lt;/p&gt;'; 
+?&gt;
+</code></pre>
+
+<p>It works fine, when the $key is only one item. I want to use this code to run the same query for multiple keys (as my Key is the post id) so that I can use it to display posts for the that user as follows:</p>
+
+<pre><code>&lt;?php
+$args = array(
+          'post_type' =&gt; 'todo_listing',
+          'posts_per_page' =&gt; 4,
+          'order' =&gt; 'asc',
+          'meta_key' =&gt; '1014',
+          'meta_query' =&gt; array(
+              array(
+                  'key' =&gt; '$id',
+                  'meta_value_num' =&gt; '1',
+
+                  )
+              )
+          );
+  $loop = new WP_Query( $args );
+
+ ?&gt;     
+
+ &lt;?php
+ while ( $loop-&gt;have_posts() ) : $loop-&gt;the_post();
+ ?&gt;
+ &lt;?php echo get_the_ID();?&gt; &lt;?php the_title(); ?&gt;
+
+
+ &lt;?php
+endwhile;
+?&gt;  
+</code></pre>
+
+<p>How can i modify this it achieve this?</p>
+","2798091","","2798091","","2014-03-24 08:50:10","2014-03-24 08:50:10","Displaying User meta in wordpress","<php><wordpress>","0","7","","","","CC BY-SA 3.0"

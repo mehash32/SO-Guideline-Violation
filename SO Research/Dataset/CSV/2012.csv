@@ -1,0 +1,3597 @@
+Id,PostTypeId,AcceptedAnswerId,ParentId,CreationDate,DeletionDate,Score,ViewCount,Body,OwnerUserId,OwnerDisplayName,LastEditorUserId,LastEditorDisplayName,LastEditDate,LastActivityDate,Title,Tags,AnswerCount,CommentCount,FavoriteCount,ClosedDate,CommunityOwnedDate,ContentLicense
+"8732629","1","","","2012-01-04 19:16:09","","4","2963","<p>I´m using axis 1.4 to retrieve information from a (server) webservice.</p>
+
+<p>My WSDL have the following information:</p>
+
+<p>&lt; xs:element name=""ABC""></p>
+
+<p>&lt; xs:complexType></p>
+
+<p>&lt; xs:sequence></p>
+
+<p>&lt; xs:element name=""DEF""></p>
+
+<p>&lt; xs:complexType></p>
+
+<p>&lt; xs:sequence></p>
+
+<p>&lt; xs:element name=""Data"" type=""xs:dateTime""/></p>
+
+<p>I have generated the stubs which origins the following code:</p>
+
+<p>@XmlElement(name = ""Data"", required = true)</p>
+
+<p>@XmlSchemaType(name = ""dateTime"" )</p>
+
+<p>protected XMLGregorianCalendar data;</p>
+
+<p>When i make a call to this webservice i get the following error.</p>
+
+<p>My current request is:</p>
+
+<p>2003-10-27T10:10:10.000Z</p>
+
+<p>Note that i already try using different formats for date (i allways get the same error).</p>
+
+<p>Supposedly, this is the corret format due the CalendarDeserializer [SimpleDateFormat(""yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"")].</p>
+
+<p>Any help? Thanks :)</p>
+
+<p>P.S- Sorry about the text formatation (i was getting crazy with the message ""Your post appears to contain code that is not properly formatted as code. "") </p>
+
+<p>The error is:
+java.lang.NumberFormatException: Invalid date/time
+org.apache.axis.encoding.ser.CalendarDeserializer.makeValue(CalendarDeserializer.java:64)</p>
+","1106986","","958954","","2012-01-07 18:12:37","2020-01-09 20:52:21","Axis 1.4 Webservices Datetime NumberFormatException: Invalid date/time","<web-services><datetime><axis>","1","2","0","","","CC BY-SA 3.0"
+"8732630","1","8734170","","2012-01-04 19:16:10","","0","2551","<p>I want to make a form in which I can update my entity in my REST application. For example I have a User entity whith username and realname fields.</p>
+
+<p>Do I need in my request method do something like this</p>
+
+<pre><code>    @RequestMapping(value = ""/admin/user/update"", method = RequestMethod.POST)
+public String updateHouse(@RequestBody String username, @RequestBody String realname, Model model) 
+</code></pre>
+
+<p>??</p>
+
+<p>I would prefer to make something like this</p>
+
+<pre><code>@RequestMapping(value = ""/admin/house/update"", method = RequestMethod.POST)
+public String updateHouse(@RequestBody User user, Model model) 
+</code></pre>
+
+<p>I mean that I want to send an object not every field. If i`ll have 20 fields in my entity I would have to add 20 params to my method. Thats not to fancy.</p>
+
+<p>I`m using spring form tag</p>
+
+<p>------- UPDATE</p>
+
+<p>thanks for response. below diffrent entity but real case scenario that i`m trying to start</p>
+
+<p>html code</p>
+
+<pre><code>&lt;c:url var=""houseUpdateLink"" value=""/admin/house/update"" /&gt;
+&lt;form:form method=""post"" commandName=""house"" action=""${houseUpdateLink}""&gt;
+    &lt;form:input path=""house.title"" /&gt;
+&lt;input type=""submit"" value=""send"" /&gt;
+&lt;/form:form&gt;
+</code></pre>
+
+<p>controller method</p>
+
+<pre><code>@RequestMapping(value = ""/admin/house/update"", method = RequestMethod.POST)
+public String updateHouse(@RequestBody House house, Model model) {
+    model.addAttribute(""step"", 3);
+
+    logger.info(""test: "" + house.getTitle());
+    return ""houseAdmin"";
+}
+</code></pre>
+
+<p>and i receive</p>
+
+<pre><code>HTTP Status 415 -
+
+type Status report
+
+message
+
+description The server refused this request because the request entity is in a format     not supported by the requested resource for the requested method ().
+</code></pre>
+","825493","","21234","","2012-01-04 21:17:51","2012-01-04 21:17:51","send an object via post","<spring><rest><spring-mvc>","2","3","","","","CC BY-SA 3.0"
+"8732648","1","","","2012-01-04 19:17:51","","1","638","<p>I've built a photography site that displays photos side by side, user scrolls though photos using a horizontal scrollbar. (link removed no longer works)</p>
+
+<p>I have used the jscrollpane plugin to customize the look of the scrollbar, but I have disabled it for the time being as I look for a fix. The container is called .scroll-pane.</p>
+
+<p>Can anyone tell me how to get this to work on an iPhone?</p>
+
+<p>Thank you and happy new year</p>
+","469335","","469335","","2018-02-23 11:22:43","2018-02-23 11:22:43","Website's Horizontal Scrollbar Not Working on iPhone","<iphone><ipad><web><scrollbar>","1","0","","","","CC BY-SA 3.0"
+"8732649","1","8732743","","2012-01-04 19:18:02","","1","5243","<p>I have a csh script and no matter what I do it never echoes the right tab space.<br>
+This is what i want:</p>
+
+<pre><code>header 1    header 2    header 3    header 4
+</code></pre>
+
+<p>Case 1: </p>
+
+<pre><code>echo header 1 header 2 header 3 header 4 | tabify
+</code></pre>
+
+<p>Output: It will replace all spaces to tab  </p>
+
+<p>Case 2:  </p>
+
+<pre><code>echo ""header 1\\theader 2\\theader 3\\theader 4""  
+</code></pre>
+
+<p>or  </p>
+
+<pre><code>echo header 1\\theader 2\\theader 3\\theader 4
+</code></pre>
+
+<p>Output: header 1\\theader 2\\theader 3\\theader 4  </p>
+
+<p>Case 3:</p>
+
+<pre><code>echo -e ""header 1\\theader 2\\theader 3\\theader 4""
+</code></pre>
+
+<p>Output: -e header 1\\theader 2\\theader 3\\theader 4  </p>
+
+<p>Help? T.T</p>
+","949806","","21234","","2012-01-04 19:25:34","2012-01-04 19:25:34","how to echo tab delimited in csh script","<echo><csh>","1","0","","","","CC BY-SA 3.0"
+"8732650","1","","","2012-01-04 19:18:10","","3","3966","<p>With some earlier help, I created a C# script in SSIS to retrieve data from MongoDB to SQL Server.  While regular documents are retrieved easily, nested documents and arrays are problematic.  </p>
+
+<p><strong>Problem 1</strong>: I have shipping_address.country that returns results by using</p>
+
+<pre><code>this.UserDBBuffer.SCountry = document[""shipping_address""].AsBsonDocument[""country""].ToString();
+</code></pre>
+
+<p><strong>However, <em>mlocation.address</em> gives me an error '""country"" not found' using the same code:</strong></p>
+
+<pre><code>this.UserDBBuffer.Country = document[""mlocation""].AsBsonDocument[""country""].ToString();
+</code></pre>
+
+<p><strong>Problem 2</strong>: Retrieving items from arrays.  I have an array that looks like ""devices -> Document -> device_data -> model"" or ""devices -> Document -> device_data -> brand"".  How do I retrieve ""model"" or ""brand"" values in my code?</p>
+
+<p>Thanks a lot for your help.  Below is my entire code:</p>
+
+<pre><code>public override void CreateNewOutputRows()
+{
+    string connectionString = ""mongodb://localhost"";
+    MongoServer myMongo = MongoServer.Create(connectionString);
+    myMongo.Connect();
+    var db = myMongo.GetDatabase(""UserDB"");
+
+    //Declaring variables for Date Created conversions
+    string DateCreatedString;
+    DateTime DateCreatedDateUTC;
+    DateTime DateCreatedDateLocal;
+
+    var fields = Fields.Include(""mlocation.country"", ""mlocation"", ""_id"", ""primary_email"", ""gender"", ""date_created"");
+    var collection = db.GetCollection&lt;BsonDocument&gt;(""users"");
+
+    foreach (var document in collection.FindAll().SetFields(fields))
+    {
+        this.UserDBBuffer.AddRow();
+        this.UserDBBuffer.ID = document[""_id""] == null ? """" : document[""_id""].ToString();
+        this.UserDBBuffer.Country = document[""mlocation""].AsBsonDocument[""country""].ToString();
+        this.UserDBBuffer.PrimaryEmail = document[""primary_email""] == null ? """" : document[""primary_email""].ToString();
+        this.UserDBBuffer.Gender = document[""gender""] == null ? """" : document[""gender""].ToString();
+
+        //Importing Date Created as String for data manipulation
+        DateCreatedString = document[""date_created""] == null ? """" : document[""date_created""].ToString();
+        //First, making sure that we have a UTC datetime
+        DateCreatedDateUTC = DateTime.Parse(DateCreatedString).ToUniversalTime();
+
+        //Second, converting to Local Time
+        DateCreatedDateLocal = DateTime.Parse(DateCreatedString).ToLocalTime();
+
+        //Finally, assigning variables to rows
+        this.UserDBBuffer.DateTimeCreatedUTC = DateCreatedDateUTC;
+        this.UserDBBuffer.DateTimeCreatedLocal = DateCreatedDateLocal;
+    }
+
+    myMongo.Disconnect();
+}
+</code></pre>
+
+<p><strong>For Problem 2,</strong> I found a Java Script that someone used; if I can convert it to C#, it might help a lot:</p>
+
+<pre><code>count = 0;
+
+function user_list(){
+    var cursor = db.users.find()
+
+    //var cursor = db.users.find({""devices"": {""$ne"":[]}})
+    cursor.forEach(function(user) {
+        var deviceInfo = """";
+        if (user.devices){
+            if (user.devices[0]){
+                dd = user.devices[0].device_data; 
+                if (dd) {
+                    deviceInfo = dd.model + "","" + dd.brand  + "","" + dd.model + "","" + dd.device + "","" + dd.pixel_height + "","" + dd.pixel_width + "","" + dd.pixel_format;
+                }
+            }
+        }
+        var location = """";
+        if (user.mlocation) location = user.mlocation.country;
+        print(user._id + "","" + location + "","" + user.primary_email + "","" + user.date_created + "","" + deviceInfo);
+        count++;
+    });
+}
+user_list();
+print(count);
+</code></pre>
+","1119905","","885318","","2013-12-30 19:46:44","2013-12-30 19:46:44","Query nested objects from MongoDB (Part 2)","<c#><mongodb><ssis><nested><mongodb-.net-driver>","4","0","0","","","CC BY-SA 3.0"
+"8732653","1","8732853","","2012-01-04 19:18:19","","2","7255","<p>Say, i have a text field with some text in it, and i want to make it have a backgruond with alpha value (as in partially transparent, not sure how to make it sound good ^^). This text field reacts to mouse events, such as clicks and rolls out/over, and each event changes the background color.</p>
+
+<p>I've done some digging and ran across <code>flash.text.TextField.backgroundColor</code> and <code>flash.text.TextField.background</code> properties of text fields. They're cool, but not enough to solve the problem. And obviously, if I change the text field's alpha value, the text will also become transparent.</p>
+
+<p>I know I can create a movieclip below the text field and alter its properties to acheive my goal, but I'm wondering if there is a simpler way. </p>
+
+<p>Thanks in advance</p>
+","1128452","","","","","2013-02-11 01:29:42","How do I make transparent background in text fields?","<flash><actionscript-3>","1","0","","","","CC BY-SA 3.0"
+"8732654","1","","","2012-01-04 19:18:22","","1","185","<p>I have a DocumentListener that has access to the JTextPane containing the document.  In some cases the DocumentListener wants to pop up a list of commands that start with the string entered by the user.</p>
+
+<p>The DocumentEvent has the character offset, but I need to convert this into an X,Y location to properly position the popup.</p>
+
+<p>Currently the code uses textPane.modelToView(offset) to get a rectangle to get the location, but this is throwing NullPointerExceptions at times.</p>
+
+<p>Is there another way to do this conversion?</p>
+","1130626","","109412","","2012-01-05 02:59:52","2012-01-05 13:35:06","How do I find the display location (x,y) of an offset in a JTextPane?","<java><swing>","2","1","","","","CC BY-SA 3.0"
+"8732655","1","8733364","","2012-01-04 19:18:27","","2","186","<p>Today my wish is to take text form the string. 
+This string must be, between <strong>last slash</strong> and <strong>.partX.rar</strong> or <strong>.rar</strong></p>
+
+<p>First I tried to find edge's end of the word and then the beginning. After I get that two elements I merged them but I got empty results.</p>
+
+<p>String:</p>
+
+<pre><code>http://hosting.xyz/1234/15-game.part4.rar.html
+
+http://hosting.xyz/1234/16-game.rar.html
+</code></pre>
+
+<p>Regex:</p>
+
+<p>Begin:<code>(([^/]*)$)</code> -  start from last <code>/</code></p>
+
+<p>End:<code>(.*(?=.part[0-9]+.rar|.rar))</code> stop before <code>.partX.rar</code> or <code>.rar</code></p>
+
+<p>As you see, if I merge that codes I won't get any result.
+What is more, ""end"" select me only .partX instead of .partX.rar</p>
+
+<p>All what I want is:
+<code>15-game.part4.rar</code> and <code>16-game.rar</code></p>
+
+<hr>
+
+<p>What i tried:</p>
+
+<pre><code>(([^/]*)$)(.*(?=.part[0-9]+.rar|.rar))
+
+(([^/]*)$)
+
+(.*(?=.part[0-9]+.rar|.rar))
+</code></pre>
+
+<p>I tried also </p>
+
+<pre><code>/[a-zA-Z0-9]+
+</code></pre>
+
+<p>but I do not know how select symbols.. This could be the easiest way. But this select only letters and numbers, not <code>-</code> or <code>_</code>.
+If I could select symbols..</p>
+","619673","","548225","","2012-01-04 20:16:48","2012-01-04 20:58:13","Regex between, from the last to specific end","<c#><regex>","4","3","","","","CC BY-SA 3.0"
+"8732659","1","8839698","","2012-01-04 19:18:53","","4","2962","<p>I am trying to write a DLNA application using the Cling Java library. I Can able to search all the media servers  in the DLNA network and play the  content also. But i need to search Media Renderers available in the network and play the content on them. Just like <a href=""https://market.android.com/details?id=cx.hoohol.silanoid&amp;hl=en"" rel=""nofollow"">UPnPlay</a> does. </p>
+
+<p>Thanks in advance.</p>
+","822885","","822885","","2012-01-04 19:24:04","2014-06-23 15:59:08","Search DLNA(Upnp) media renderers for remoteplayback","<android><android-emulator><upnp><dlna>","1","0","0","","","CC BY-SA 3.0"
+"8732661","1","8733004","","2012-01-04 19:18:56","","0","1304","<p>I have a system whereby users can upload sometimes large(100-200 MB) files from within an MVC3 application.  I would like to not block the UI while the file is uploading, and after some research, it looked like the new AsyncController might let me do what I'm trying to do.  Problem is - every example I have seen isn't really doing the same thing, so I seem to be missing one crucial piece.  After much futzing and fiddling, here's my current code:</p>
+
+<pre><code>public void CreateAsync(int CompanyId, FormCollection fc)
+    {
+        UserProfile up = new UserRepository().GetUserProfile(User.Identity.Name);
+        int companyId = CompanyId;
+        // make sure we got a file..
+        if (Request.Files.Count &lt; 1)
+        {
+            RedirectToAction(""Create"");
+        }
+
+        HttpPostedFileBase hpf = Request.Files[0] as HttpPostedFileBase;
+        if (hpf.ContentLength &gt; 0)
+        {
+            AsyncManager.OutstandingOperations.Increment();
+
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork += (o, e) =&gt;
+                {
+                    string fileName = hpf.FileName;
+                    AsyncManager.Parameters[""recipientId""] = up.id;
+                    AsyncManager.Parameters[""fileName""] = fileName;
+                };
+            worker.RunWorkerCompleted += (o, e) =&gt; { AsyncManager.OutstandingOperations.Decrement(); };
+            worker.RunWorkerAsync();
+
+        }
+
+        RedirectToAction(""Uploading"");
+    }
+
+public void CreateCompleted(int recipientId, string fileName)
+    {
+        SystemMessage msg = new SystemMessage();
+        msg.IsRead = false;
+        msg.Message = ""Your file "" + fileName + "" has finished uploading."";
+        msg.MessageTypeId = 1;
+        msg.RecipientId = recipientId;
+        msg.SendDate = DateTime.Now;
+        SystemMessageRepository.AddMessage(msg);
+    }
+
+    public ActionResult Uploading()
+    {
+        return View();
+    }
+</code></pre>
+
+<p>Now the idea here is to have the user submit the file, call the background process which will do a bunch of things (for testing purposes is just pulling the filename for now), while directing them to the Uploading view which simply says ""your file is uploading...carry on and we'll notify you when it's ready"".  The CreateCompleted method is handling that notification by inserting a message into the users's message queue.  </p>
+
+<p>So the problem is, I never get the Uploading view.  Instead I get a blank Create view.  I can't figure out why.  Is it because the CreateCompleted method is getting called which shows the Create view?  Why would it do that if it's returning void?  I just want it to execute silently in the background, insert a message and stop.  </p>
+
+<p>So is this the right approach to take at ALL?  my whole reason for doing it is with some network speeds, it can take 30 minutes to upload a file and in its current version, it blocks the entire application until it's complete.  I'd rather not use something like a popup window if I can avoid it, since that gets into a bunch of support issues with popup-blocking scripts, etc.  </p>
+
+<p>Anyway - I am out of ideas.  Suggestions?  Help?  Alternate methods I might consider?</p>
+
+<p>Thanks in advance.</p>
+","1130634","","727208","","2013-07-05 11:25:43","2013-07-05 11:25:43","is an async controller apropos here?","<asp.net-mvc><asp.net-mvc-3><asynchronous>","1","1","","","","CC BY-SA 3.0"
+"8732662","1","28087443","","2012-01-04 19:18:57","","46","28048","<p>I want to set the background <code>android.R.attr.selectableItemBackground</code> to a <code>LinearLayout</code>. When using XML there are no problems (it works)</p>
+
+<pre><code>&lt;LinearLayout
+    android:id=""@+id/llMiner""
+    android:layout_width=""match_parent""
+    android:layout_height=""match_parent""
+    android:background=""?android:attr/selectableItemBackground""
+    android:clickable=""true"" &gt;
+</code></pre>
+
+<p>... but I have to do this in java code, so I've tried this</p>
+
+<pre><code>llMiner.setClickable(true);
+llMiner.setBackgroundResource(android.R.attr.selectableItemBackground);
+</code></pre>
+
+<p>... and it doesn't work, infact I get a <code>NotFoundException</code> on this second line.
+So after I've tried this variant thinking that the resource is a Color.</p>
+
+<pre><code>llMiner.setClickable(true);
+llMiner.setBackgroundColor(android.R.attr.selectableItemBackground);
+</code></pre>
+
+<p>This one doesn't launch exception, but... doesn't work (there are no changing of background when pressing, but the state change in pressed as it have to do)... any suggestion?</p>
+","1130619","","94363","","2016-01-14 09:38:53","2022-01-17 11:34:56","How to set Ripple effect on a LinearLayout programmatically?","<android><background><android-linearlayout><clickable>","2","6","0","","","CC BY-SA 3.0"
+"8732669","1","8845109","","2012-01-04 19:19:23","","1","1436","<p>Cleo has several different type of lookahead searches which are backed by some very clever indexing strategies. The GenericTypeahead is presumably for the largest of datasets. 
+From <a href=""http://sna-projects.com/cleo/design.php"" rel=""nofollow"">http://sna-projects.com/cleo/design.php</a>:
+""The GenericTypeahead is designed for large data sets, which may contain millions of elements...""
+Unfortunately the documentation doesn't go into how well or how the Typeahead's scale up. Has anyone used Cleo for very large datasets that might have some insight?</p>
+","1028671","","82474","","2013-12-16 15:33:21","2013-12-16 15:33:21","Is Cleo (linkedin's autocomplete solution) suitable for billions of elements?","<java><autocomplete><linkedin-api><typeahead><cleo>","1","0","","","","CC BY-SA 3.0"
+"8732674","1","","","2012-01-04 19:19:34","","0","3745","<p>So I'm learning new things day by day in Java, and I hope one day I should have same knowledge in Java as in PHP. </p>
+
+<p>I'm trying to make a class that is similar to <code>fopen</code>, <code>fwrite</code>, <code>fclose</code> in PHP like:</p>
+
+<pre><code>&lt;?php
+$fp = fopen('data.txt', 'w');
+fwrite($fp, '1');
+fwrite($fp, '23');
+fclose($fp);
+
+// the content of 'data.txt' is now 123 and not 23!
+?&gt;
+</code></pre>
+
+<p>I also need the method of writing</p>
+
+<p><strong>o</strong> - for delete and write/overwrite</p>
+
+<p><strong>a</strong> - for append at end</p>
+
+<p>and a read function that returns the the content line by line, so I can put it into an array , like <strong>file_get_contents(file);</strong></p>
+
+<p>This is what I have so far ...</p>
+
+<pre><code>import java.io.*;
+import java.util.Scanner;
+
+/** 
+Read and write a file using an explicit encoding.
+Removing the encoding from this code will simply cause the 
+system's default encoding to be used instead.  
+**/
+public final class readwrite_txt 
+{
+
+    /** Requires two arguments - the file name, and the encoding to use.  **/
+    public static void main(String[] args) throws IOException 
+    {
+        String fileName = ""text.txt"";
+        String encoding = ""UTF-8"";
+
+        readwrite_txt test = new readwrite_txt(fileName,encoding);
+        test.write(""argument.txt"",""some text"",""UTF-8"",""o"");
+    }
+
+    /** Constructor. **/
+    readwrite_txt(String fileName, String encoding)
+    {
+        String fEncoding = ""text.txt"";
+        String fFileName = ""UTF-8"";
+    }
+
+    /** Write fixed content to the given file. **/
+    public void write(String fileName,String input,String encoding,String writeMethod) throws IOException  
+    {
+        // Method overwrite
+        if(writeMethod == ""o"")
+        {
+            log(""Writing to file named "" + fileName + "". Encoding: "" + encoding);
+            Writer out = new OutputStreamWriter(new FileOutputStream(fileName), encoding);
+            try 
+            {
+                out.write(input);
+            }
+            finally 
+            {
+                out.close();
+            }
+        }
+    }
+
+    /** Read the contents of the given file. **/
+    public void read(String fileName,String output,String encoding,String outputMethod) throws IOException 
+    {
+        log(""Reading from file."");
+        StringBuilder text = new StringBuilder();
+        String NL = System.getProperty(""line.separator"");
+        Scanner scanner = new Scanner(new FileInputStream(fileName), encoding);
+        try 
+        {
+            while (scanner.hasNextLine())
+            {
+            text.append(scanner.nextLine() + NL);
+            }
+        }
+        finally
+        {
+            scanner.close();
+        }
+        log(""Text read in: "" + text);
+    }
+
+    // Why write System.out... when you can make a function like log(""message""); simple!
+    private void log(String aMessage)
+    {
+    System.out.println(aMessage);
+    }
+}
+</code></pre>
+
+<p>also, I don't understand why I must have</p>
+
+<pre><code>readwrite_txt test = new readwrite_txt(fileName,encoding);
+</code></pre>
+
+<p>instead of</p>
+
+<pre><code>readwrite_txt test = new readwrite_txt();
+</code></pre>
+
+<p>I just want to have an simple function similar to that in PHP.</p>
+
+<p><strong>EDITED</strong></p>
+
+<p>So my function must be</p>
+
+<pre><code>$fp = fopen('data.txt', 'w'); ==&gt; readwrite_txt test = new readwrite_txt(filename,encoding,writeMethod);
+
+fwrite($fp, '23');            ==&gt; test.write(""the text"");
+
+fclose($fp);                  ==&gt; ???
+</code></pre>
+","836727","","759866","","2013-12-08 21:40:56","2013-12-08 21:40:56","File write/read function like in PHP","<java><file-io>","3","0","","","","CC BY-SA 3.0"
+"8732675","1","","","2012-01-04 19:19:49","","4","2265","<p>hey I know it's an old question but I'm a little stuck trying to even get Npgsql to work with EF4 at all! I can't seem to register the provider wherever it needs to go in order for it to show up in the the Entity Data Model Wizard.</p>
+
+<p>When trying to create a new model, I try and create the connection to the Postgres database in the ""Change Data Source"" dialog. But the only providers in here are differing flavours of MSSQL and """". The data provider combo on this form doesn't show Npgsql or anything postgres related.</p>
+
+<p>I have already done the usual of registering npgsql and the mono security assemblies in the GAC. I've modified machine.config (32 and 64bit) to have the provider factory entry required.</p>
+
+<p>I'm using VS2010 SP1 on Windows 7 64bit &amp; Npgsql 2.0.11.92. I'm developing for .NET4.</p>
+
+<p>Any ideas of how to get this working would be much appreciated.</p>
+","1011419","","","","","2012-01-08 18:23:33","How to get Npgsql working with EF4?","<postgresql><entity-framework-4><frameworks><entity><npgsql>","1","1","","","","CC BY-SA 3.0"
+"8732678","1","13937244","","2012-01-04 19:19:59","","4","1054","<p>I have a problem with GoogleMap API for Android component MyLocationOverlay. I want to <strong>turn off MyLocationOverlay auto-recenter feature</strong> (to current user location) every time device location changes (and user location goes out of the visible part or the map).</p>
+
+<p>It seems there is no flag to turn off the undesired maps auto-center feature when user location goes out of the screen </p>
+
+<p>e.g.</p>
+
+<pre><code>public class LocationTest extends MapActivity{
+
+  private MapView map;
+  private MapController controller;
+
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    map = (MapView) findViewById(R.id.map);
+    final MyLocationOverlayUpdate overlay = new MyLocationOverlayUpdate(this, map);
+    overlay.enableMyLocation();
+    map.getOverlays().add(overlay);
+  }
+
+  @Override
+  protected boolean isRouteDisplayed() {
+    return false;
+  }
+}
+
+public class MyLocationOverlayUpdate extends MyLocationOverlay {
+
+  public MyLocationOverlayUpdate(Context context, MapView mapView) {
+    super(context, mapView);
+  }
+
+  public void drawMyLocation(Canvas canvas, MapView mapView, 
+              Location location, GeoPoint geoPoint, long when) {}
+}
+</code></pre>
+
+<p>I looked through the net for this problem but didn't found the solution provided.</p>
+
+<p><em>Additional info found:</em></p>
+
+<ul>
+<li><p>I guess that documentation is faulty, buggy, or just outdated saying:</p>
+
+<p>Optionally, the constructor can also take a MapController and use it to keep 
+the ""my location"" dot visible by panning the map when it would go offscreen</p></li>
+</ul>
+
+<p>because there is no constructor accepting MapController as an argument, and it seems that I have no choice over <code>keeping the ""my location"" dot visible</code> or not.</p>
+
+<ul>
+<li>I accidentaly <strong>found a workaround</strong> by overriding method drawMyLocation() with no call to super.drawMyLocation() solves the problem of recentering the map (undesired ""feature"" turns off). However i have to reimplement drawMyLocation() method, therefore changing default appearence (and spending time...)</li>
+</ul>
+
+<p><em>Maybe there is a more clear solution?</em></p>
+","849821","","849821","","2012-12-18 16:25:57","2013-08-01 18:14:44","Turn off auto-recenter feature in MyLocationOverlay component","<android><google-maps-api-3><mylocationoverlay>","2","1","0","","","CC BY-SA 3.0"
+"8732680","1","13317326","","2012-01-04 19:20:04","","3","3165","<p>In Android, i noticed that you can have a fixed view on top of another. For example, when you open your browser, and tap the search box, a keyboard prompt pops up (on top of a listview). However, notice that you can still scroll up and down on the listview without the keyboard going away. Like:</p>
+
+<p><img src=""https://i.stack.imgur.com/ZOE0Q.png"" alt=""example showing keyboard overlaying the listview""></p>
+
+<p>would someone please explain (preferrably some sample code in addition) how this works? </p>
+
+<p>What i'm trying to do is just have a custom listview that always has a floating navigation bar on top of the listview and also on the bottom of the list view (it's not actually a header/footer of the listview, it's more like a header/footer of the screen). It would be similar to the example i just described, where the user can interact with both the navigation bar as well as the listview ""underneath"" the nav bar.</p>
+
+<p>I am somewhat new to Android development, so please be nice and provide a little bit of details if you would :) much thanks in advance!!</p>
+","770452","","","","","2012-11-09 23:04:33","How does overlaying views work in Android?","<android><listview><android-layout><overlay><uinavigationbar>","2","0","","","","CC BY-SA 3.0"
+"8732685","1","","","2012-01-04 19:20:15","","0","83","<p>I want to take all of the files in <code>/media/mdrive/dump/</code>:</p>
+
+<pre><code>1COD-234355.jpg
+MAK-LXT218.jpg
+ZIR-CON145.jpg
+</code></pre>
+
+<p>And create and sort them into the following directories:</p>
+
+<pre><code>/media/mdrive/dump/1/1COD-234355.jpg
+/media/mdrive/dump/M/MAK-LXT218.jpg
+/media/mdrive/dump/Z/ZIR-CON145.jpg
+</code></pre>
+
+<p>How would I do that?</p>
+","1130644","","128421","","2012-01-04 19:28:20","2013-10-17 22:42:24","How do I sort a directory full of pictures into sub-directories based on the image name?","<file><bash><shell>","2","0","","","","CC BY-SA 3.0"
+"8732687","1","8733114","","2012-01-04 19:20:24","","6","546","<p>I tried out an app to test bluetooth communication.  It is a simple app that just sends a message in text form from one iDevice to another.  Originally, this app had about 6 warnings but I fixed all but two.  They are the same but deal with different delegates.  One is for the GKPeerPickerControllerDelegate and the other for the GKSessionDelegate.  Say the Picker error is for the GKPeerPickerController named picker, when you type (more complete example to follow):</p>
+
+<pre><code>picker.delegate = self;
+</code></pre>
+
+<p>the compiler says:</p>
+
+<blockquote>
+  <p>Passing '*const___strong' to parameter of incompatible type 'id'.</p>
+</blockquote>
+
+<p>For the GKSession named session, typing </p>
+
+<pre><code>session.delegate = self;
+</code></pre>
+
+<p>makes the compiler say:</p>
+
+<blockquote>
+  <p>Sending '*const___strong' to parameter of incompatible type 'id'. </p>
+</blockquote>
+
+<p>These only pop in the button to send and peerPickerController.  I know that these warnings do not impede on the app's ability to function but I would like to completely update this for Xcode 4.2.  This app was originally written for Xcode back when iOS 3.0 was new.  Yes, I am a bit picky when it comes to writing or practicing code, it must not contain any errors/warnings whenever possible.</p>
+
+<p>These are the code blocks where the warning occur:</p>
+
+<pre><code>-(IBAction)btnConnect:(id)sender{
+    picker = [[GKPeerPickerController alloc] init];
+    picker.delegate = self;  //Warning here
+    picker.connectionTypesMask = GKPeerPickerConnectionTypeNearby;
+
+    [connect setHidden:YES];
+    [disconnect setHidden:NO];
+    [picker show];
+}
+
+-(void)peerPickerController:(GKPeerPickerController *)PCpicker didConnectPeer:(NSString *)peerID toSession:(GKSession *)session{
+    self.currentSession = session;
+    session.delegate = self;  //Warning here
+    [session setDataReceiveHandler:self withContext:nil];
+    PCpicker.delegate = nil;
+
+    [PCpicker dismiss];
+}
+</code></pre>
+
+<p>Edit:</p>
+
+<p>The header has this:</p>
+
+<pre><code>    @interface BTViewController : UIViewController{
+GKSession *currentSession;
+IBOutlet UITextField *txtMessage;
+IBOutlet UIButton *connect;
+IBOutlet UIButton *disconnect;
+
+GKPeerPickerController *picker;
+</code></pre>
+
+<p>}</p>
+","1130627","","1130627","","2012-01-04 22:02:28","2012-01-04 23:30:53","A bit of annoying warnings that still let the app work but would like to remove","<objective-c><ios><gksession><gkpeerpickercontroller>","2","3","","","","CC BY-SA 3.0"
+"8732692","1","","","2012-01-04 19:20:37","","2","600","<p>I have following FNH mapping:</p>
+
+<pre><code>public class ItemMap : ClassMap&lt;Item&gt;
+{
+   public ItemMap ()
+   {
+       this.HasManyToMany(a =&gt; a.ChildItems).ChildWhere(""IsDeleted = 0"").AsSet();
+   }
+}
+</code></pre>
+
+<p>Result hbm file is:</p>
+
+<pre><code>&lt;hibernate-mapping&gt;
+  &lt;class name=""Item"" table=""Item""&gt;
+    &lt;set name=""ChildItems"" table=""ItemsToChildItems""&gt;
+      ...
+      &lt;many-to-many class=""ChildItem"" where=""IsDeleted = 0""&gt;
+        &lt;column name=""ChildItemId"" /&gt;
+      &lt;/many-to-many&gt;
+    &lt;/set&gt;
+  &lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+</code></pre>
+
+<p>I want to implement the same mapping using <em>""sexy mapping by code feature :-) / conformist approach""</em> of NHibernate 3.2</p>
+
+<p><strong>Note:</strong>
+Following approach doesn't work:</p>
+
+<pre><code>public class ItemMap : ClassMapping&lt;Item&gt;
+{
+   public ItemMap()
+   {
+      this.Set(x =&gt; x.ChildItems
+      , map =&gt;
+      {
+         map.Where(""IsDeleted = 0"");
+      }
+      , action =&gt; action.ManyToMany());
+   }
+}
+</code></pre>
+
+<p><strong>Because:</strong>
+It is following FNH mapping:</p>
+
+<pre><code>public class ItemMap : ClassMap&lt;Item&gt;
+{
+   public ItemMap ()
+   {
+      this.HasManyToMany(a =&gt; a.ChildItems).Where(""IsDeleted = 0"").AsSet();
+   }
+}
+</code></pre>
+
+<p><em><strong>.Where(""IsDeleted = 0"") and .ChildWhere(""IsDeleted = 0"") not the same.</em></strong></p>
+
+<p><strong>HBM differences:</strong></p>
+
+<p>Result hbm file using <code>.ChildWhere(""IsDeleted = 0"")</code> is:</p>
+
+<pre><code>&lt;hibernate-mapping&gt;
+  &lt;class name=""Item"" table=""Item""&gt;
+    &lt;set name=""ChildItems"" table=""ItemsToChildItems""&gt;
+      ...
+      &lt;many-to-many class=""ChildItem"" where=""IsDeleted = 0""&gt;
+        &lt;column name=""ChildItemId"" /&gt;
+      &lt;/many-to-many&gt;
+    &lt;/set&gt;
+  &lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+</code></pre>
+
+<p>Result hbm file using <code>.Where(""IsDeleted = 0"")</code> is:</p>
+
+<pre><code>&lt;hibernate-mapping&gt;
+  &lt;class name=""Item"" table=""Item""&gt;
+    &lt;set name=""ChildItems"" table=""ItemsToChildItems"" where=""IsDeleted = 0""&gt;
+      ...
+      &lt;many-to-many class=""ChildItem""&gt;
+        &lt;column name=""ChildItemId"" /&gt;
+      &lt;/many-to-many&gt;
+    &lt;/set&gt;
+  &lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+</code></pre>
+
+<p>Who have a similar problem or can offer a solution? Need help. </p>
+","1128276","","1128276","","2012-01-05 04:31:54","2012-03-16 14:39:43","How to implement .ChildWhere() mapping with many-to-many relation in NH 3.2","<nhibernate><fluent-nhibernate><nhibernate-mapping><fluent-nhibernate-mapping><conform>","1","0","","","","CC BY-SA 3.0"
+"8732693","1","8735825","","2012-01-04 19:20:40","","1","305","<p>In my program I need to display a JFreeChart.
+I'm adding, over time, series to that JFreeChart.
+I'm having a tree who allows me to switch between different item and displaying them in the chart. What i do is that I update the TimeSeriesCollection. (Update or reset completely with new data)</p>
+
+<p>But I need in a specific case to add data to one of my item, thus displaying the chart with the new data, and at the same time, the user might change item and the program still needs to update my 1st item while displaying the second.</p>
+
+<p>Which mean i have a graph of ""Item1"" to which I'm adding data over time, and while doing that, i want to be able to switch to an ""Item2"" and displaying that item in the graph (while still adding my data to ""item1"")</p>
+
+<p>I tough about using an other TimeSeriesCollections to wich i could put the new data while displaying the first TimeSeriesCollections. But i can't seem to find a way to switch between 2 TimeSeriesCollection.. like a <code>myJFreeChart.setTimeSeriesCollection(TimesSeriesCollections tsc)</code></p>
+
+<p>Any ideas?</p>
+","1130642","","1076164","","2012-01-04 19:42:44","2012-01-04 23:55:19","How to switch between 2 TimeSeriesCollection in the same JFreeChart","<jfreechart>","1","0","","","","CC BY-SA 3.0"
+"8732695","1","8732732","","2012-01-04 19:20:50","","0","2163","<p>I have two tables <code>person</code> and <code>customer</code>. When deleting from <code>person</code> I want to delete from <code>customer</code>:</p>
+
+<pre><code>CREATE TRIGGER DELCUS
+ON Person
+AFTER DELETE
+FOR EACH ROW
+begin
+DELETE FROM customer
+WHERE customer.PersonID_Fk=Person.PersonId;
+end 
+</code></pre>
+
+<p>Here is the error I get:</p>
+
+<pre><code>Msg 156, Level 15, State 1, Procedure DELCUS, Line 5
+Incorrect syntax near the keyword 'FOR'.
+</code></pre>
+
+<p>Why can't it read for each row?</p>
+","974380","","13302","","2012-01-04 20:10:33","2012-01-04 20:10:33","Why do I get ""Incorrect syntax near the keyword 'FOR'""?","<sql-server-2008><triggers>","2","1","","","","CC BY-SA 3.0"
+"8732702","1","8732735","","2012-01-04 19:21:28","","0","396","<p>I am developing an chat application.  The message display is all html, so html tags work for text formatting.  I would like it if tags like <code>&lt;red&gt;&lt;/red&gt;</code> etc. would change the text color.  Is there anyway to define new tags like that, or will I just have to replace the fake tags with actual html?</p>
+","831913","","431880","","2012-01-04 19:22:20","2012-01-04 19:25:05","Custom CSS Tags","<c#><css><html>","3","2","","","","CC BY-SA 3.0"
+"8732703","1","8732909","","2012-01-04 19:21:36","","1","991","<p><strong>I can't remove the _id index, why?</strong></p>
+
+<p>When I try running the <code>dropIndexes</code> command, it removes all indexes but not the _id index.</p>
+
+<p>Doing <code>'db.runCommand'</code> doesn't work either:</p>
+
+<pre><code>&gt; db.runCommand({dropIndexes:'fs_files',index:{_id:1}})
+{ ""nIndexesWas"" : 2, ""errmsg"" : ""may not delete _id index"", ""ok"" : 0 }
+</code></pre>
+
+<p>not ok.</p>
+
+<p><strong>Can i use a field including _id in a composite index?</strong></p>
+
+<p>I couldn't find anything online, the <code>ensureindex</code> command can't do it.</p>
+
+<blockquote>
+  <p>db.fs_files.ensureIndex({'_id':1, 'created':1});</p>
+</blockquote>
+
+<p>the above command just created a new composite index. i haven't found some similar 'create Index' command.</p>
+
+<p><strong>the default _id index is a unique index?</strong></p>
+
+<p>the <code>getIndexes</code> returns it's not a unique index.</p>
+
+<pre><code>{
+     ""v"" : 1,
+     ""key"" : {
+             ""_id"" : 1
+     },
+     ""ns"" : ""gridfs.fs_files"",
+     ""name"" : ""_id_""
+ },
+ {
+     ""v"" : 1,
+     ""key"" : {
+             ""created"" : 1
+     },
+     ""unique"" : true,
+     ""ns"" : ""gridfs.fs_files"",
+     ""name"" : ""created_1""
+ }
+</code></pre>
+","902408","","374420","","2013-06-18 19:21:47","2013-06-18 19:21:47","mongodb:how to add one field to the _id index composed of a Compound index","<mongodb><indexing><mongodb-indexes>","2","1","","","","CC BY-SA 3.0"
+"8732704","1","","","2012-01-04 19:21:49","","0","429","<p>How can this be done with Phonegap? Is this even possible?</p>
+
+<p>See this post for an image of what I'm looking for:</p>
+
+<p><a href=""https://stackoverflow.com/questions/6611598/iphone-camera-choose-from-library-or-take-photo"">iPhone Camera - Choose from Library or Take Photo</a></p>
+
+<p>EDIT:</p>
+
+<p>There's a plugin for this</p>
+
+<p><a href=""https://github.com/purplecabbage/phonegap-plugins/tree/master/iPhone/NativeControls"" rel=""nofollow noreferrer"">https://github.com/purplecabbage/phonegap-plugins/tree/master/iPhone/NativeControls</a></p>
+","494987","","-1","","2017-05-23 12:03:40","2012-02-25 09:29:30","PhoneGap: invoke UIImagePickerController","<xcode><cordova><uiimagepickercontroller>","1","0","","","","CC BY-SA 3.0"
+"8732705","1","8732841","","2012-01-04 19:21:53","","2","2634","<p>i`m having a lot of trouble when i try to save a NSManageObject in the delegate, and worst problems trying to read the objects.
+My Delegate is something like this:</p>
+
+<pre><code>@class ViewController;
+@class RootViewController;
+
+@interface AppDelegate : UIResponder &lt;UIApplicationDelegate&gt;
+{
+NSManagedObjectModel *managedObjectModel;
+NSManagedObjectContext *managedObjectContext;
+NSPersistentStoreCoordinator *persistentStoreCoordinator;
+Trips *trip;
+Garage *car;
+}
+
+@property (strong, nonatomic) UIWindow *window;
+
+@property (strong, nonatomic) ViewController *viewController;
+@property (strong, nonatomic) RootViewController *rootviewcontroller;
+
+@property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, retain) Trips *trip;
+@property (nonatomic, retain) Garage *car;
+
+- (NSString *)applicationDocumentsDirectory;
+- (void) setCar:(Garage *)Car;
+- (void) setTrip:(Trips *)Trip;
+- (Trips *) gettrip;
+- (Garage *) getcar;
+
+@end
+</code></pre>
+
+<p>The complete methods to set and get are like this:</p>
+
+<pre><code>- (void) setCar:(Garage *)Car
+{
+    car = Car;
+}
+- (void) setTrip:(Trips *)Trip
+{
+    trip = Trip;
+}
+- (Trips *) gettrip
+{
+    return trip;
+}
+- (Garage *) getcar
+{
+    return car;
+}
+</code></pre>
+
+<p>In the first view when i do:</p>
+
+<pre><code>AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+trip = (Trips *)[NSEntityDescription insertNewObjectForEntityForName:@""Trips"" inManagedObjectContext:context];
+[appDelegate setTrip:trip];
+</code></pre>
+
+<p>Seems to work OK, even if i do NSLog(@""%@"", [appDelegate gettrip]); , it shows me the object without problemas. But when I try to read the same trip with [appDelegate gettrip] in other view, dosen`t work at all, in fact with NSLog it says that the object is the type Garage instead of Trips.</p>
+
+<p>I don`t know what am i doing wrong. Help.</p>
+","1130631","","","","","2012-01-04 20:14:03","Trying to save NSManagedObject in appDelegate","<iphone><objective-c><ios><core-data><nsmanagedobject>","4","4","","","","CC BY-SA 3.0"
+"8732706","1","8732968","","2012-01-04 19:21:54","","1","7204","<p>I have a form on my page which contains two select dropdowns. The first one lets the user choose a country, and the second one lets the user choose a city from that country. I would like for the second dropdown options to be filled with cities based on the previously selected country. Currently, I have an onChange event that leads to an AJAX script which populates the cities from an external php file. Here is my code so far:</p>
+
+<p><strong>HTML Form</strong></p>
+
+<pre><code>&lt;form method=""post""&gt;
+&lt;select name=""country"" onchange=""dynamic_Select('city.php', this.value)"" /&gt;
+&lt;option value=""#""&gt;-Select-&lt;/option&gt;
+&lt;option value=""India""&gt;India&lt;/option&gt;
+&lt;option value=""USA""&gt;USA&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;div id=""txtResult""&gt;
+&lt;select name=""cityList""&gt;
+&lt;option&gt;&lt;/option&gt;
+&lt;/select&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+
+<p><strong>AJAX Script in Header (dynamic_Select)</strong></p>
+
+<pre><code>&lt;script&gt;
+function dynamic_Select(ajax_page, country) {
+$.ajax({
+type: ""GET"",
+url: ajax_page,
+data: ""ch="" + country,
+dataType: ""text/html"", //&lt;--UPDATE: DELETING THIS LINE FIXES EVERYTHING
+//&lt;--UPDATE2: DON'T DELETE; REPLACE ""test/html"" with ""html""
+success: function(html){       $(""#txtResult"").html(html);     }
+}); 
+}
+&lt;/script&gt;
+//I also have a link to the jquery file
+&lt;script src=""js/jquery.js"" type=""text/javascript""&gt;&lt;/script&gt;
+</code></pre>
+
+<p><strong>External PHP File (city.php)</strong></p>
+
+<pre><code>&lt;?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+// List of cities for India
+if ($_GET['ch'] == 'India') {
+?&gt;
+&lt;select name=""cityList""&gt;
+&lt;option value=""Mumbai""&gt;Mumbai&lt;/option&gt;
+&lt;option value=""Delhi""&gt;Delhi&lt;/option&gt;
+&lt;option value=""Bangalore""&gt;Bangalore&lt;/option&gt;
+&lt;option value=""Patna""&gt;Patna&lt;/option&gt;
+&lt;/select&gt;
+&lt;?php
+}
+// List of cities for USA
+if ($_GET['ch'] == 'USA') {
+?&gt;
+&lt;select name=""cityList""&gt;
+&lt;option value=""Albama""&gt;Albama&lt;/option&gt;
+&lt;option value=""Alaska""&gt;Alaska&lt;/option&gt;
+&lt;option value=""Arizona""&gt;Arizona&lt;/option&gt;
+&lt;option value=""Florida""&gt;Florida&lt;/option&gt;
+&lt;/select&gt;
+&lt;?php
+}
+?&gt;
+</code></pre>
+
+<p>The above set of code isn't working, and I can't figure out why. Two dropdown lists appear on the page (the second one is initially blank), but after choosing a country from the first dropdown the second dropdown remains blank. Any help would be much appreciated!</p>
+","1031445","","1031445","","2012-01-04 19:42:45","2014-05-08 23:11:34","Using AJAX to Change Form Input Options Based on Previous Selection","<php><ajax><forms><dynamic><drop-down-menu>","2","1","","","","CC BY-SA 3.0"
+"8732709","1","8736402","","2012-01-04 19:22:09","","0","538","<p>How can I create an array of items from a generated list using a select box to order the items and deliminate them by a comma. </p>
+
+<p>Example...</p>
+
+<p>I have a list of items generated by the id in the database with a select box associated with the item.</p>
+
+<pre><code>&lt;?php
+$sql = mysql_query(""SELECT id, title FROM songs WHERE id='$id' ORDER BY title ASC"");
+
+  while($row = mysql_fetch_array($sql)){
+    $id = $row['id'];
+    $title = $row['title'];
+    $song_chart .= '
+
+      &lt;div id=""$id""&gt;
+
+        &lt;select&gt;
+          &lt;option val=""1""&gt;1&lt;/option&gt;
+          &lt;option val=""2""&gt;2&lt;/option&gt;
+          &lt;option val=""3""&gt;3&lt;/option&gt;
+          &lt;option val=""4""&gt;4&lt;/option&gt;
+          //etc...
+        &lt;/select&gt;
+
+        &lt;a href=""page.php?id='.$id.'""&gt;'.$title.'&lt;/a&gt;
+
+      &lt;/div&gt;';
+  }
+$song_chart .= '&lt;button&gt;&lt;/button&gt;';
+echo $song_chart;
+?&gt;
+</code></pre>
+
+<p>I have multiple items that I would like to select a value for.</p>
+
+<p>If the value is greater than 0 than I want to grab the 'id' from the item the select is associated with and order all of the items by the selection (not the id).</p>
+
+<p>Then I would like to post the information and place it into a comma delimited array to insert into my database.</p>
+
+<p>I currently do not have any code that I have actually tried, I am really not sure how to go about this. Any help would be greatly appreciated. Thanks in advance!</p>
+
+<p><strong>EDIT</strong></p>
+
+<p>The output of the above would look like this...</p>
+
+<pre><code>&lt;div id=""1""&gt;
+  &lt;select&gt;
+    &lt;option val=""1""&gt;1&lt;/option&gt;
+    &lt;option val=""2""&gt;2&lt;/option&gt;
+    &lt;option val=""3""&gt;3&lt;/option&gt;
+    &lt;option val=""4""&gt;4&lt;/option&gt;
+    //etc...
+  &lt;/select&gt;
+
+  &lt;a href=""page.php?id=1""&gt;one&lt;/a&gt;
+
+&lt;/div&gt;
+&lt;div id=""2""&gt;
+  &lt;select&gt;
+    &lt;option val=""1""&gt;1&lt;/option&gt;
+    &lt;option val=""2""&gt;2&lt;/option&gt;
+    &lt;option val=""3""&gt;3&lt;/option&gt;
+    &lt;option val=""4""&gt;4&lt;/option&gt;
+    //etc...
+  &lt;/select&gt;
+
+  &lt;a href=""page.php?id=2""&gt;two&lt;/a&gt;
+
+&lt;/div&gt;
+&lt;div id=""3""&gt;
+  &lt;select&gt;
+    &lt;option val=""1""&gt;1&lt;/option&gt;
+    &lt;option val=""2""&gt;2&lt;/option&gt;
+    &lt;option val=""3""&gt;3&lt;/option&gt;
+    &lt;option val=""4""&gt;4&lt;/option&gt;
+    //etc...
+  &lt;/select&gt;
+
+  &lt;a href=""page.php?id=3""&gt;three&lt;/a&gt;
+
+&lt;/div&gt;
+&lt;div id=""4""&gt;
+  &lt;select&gt;
+    &lt;option val=""1""&gt;1&lt;/option&gt;
+    &lt;option val=""2""&gt;2&lt;/option&gt;
+    &lt;option val=""3""&gt;3&lt;/option&gt;
+    &lt;option val=""4""&gt;4&lt;/option&gt;
+    //etc...
+  &lt;/select&gt;
+
+  &lt;a href=""page.php?id=4""&gt;four&lt;/a&gt;
+
+&lt;/div&gt;
+
+&lt;button&gt;&lt;/button&gt;
+</code></pre>
+
+<p>Then on submit I would like to reorganize the generated id's accourding to the selected value and place then in an array/string like so...</p>
+
+<pre><code>var arr = '2, 3, 1, 4';
+</code></pre>
+
+<p>and post them to the database.</p>
+","969920","","969920","","2012-01-04 20:48:59","2012-01-05 01:15:18","how to create a comma delimited array from an ordered select box in jquery","<php><jquery><html>","2","0","","","","CC BY-SA 3.0"
+"8732710","1","8732803","","2012-01-04 19:22:10","","41","70688","<p>This isn't a matter of me being stuck, but rather I'm looking for a tidy way to write my code.</p>
+
+<p>Essentially, I'm writing an event driven application. The user triggers an event, the event gets sent to the appropriate objects, and the objects handle the events. Now I'm working on writing the even handler methods, and I was hoping to use switch statements to determine how to handle the event. Right now whilst I'm working on the general structure, the event class is really simple:</p>
+
+<pre><code>public class Event {
+
+    public static enum Action {
+        MOVE, FOO, BAR
+    }
+
+    private Action action;
+    private int duration;
+
+    public Event(Action action, int duration) {
+        this.action = action;
+        this.duration = duration;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+</code></pre>
+
+<p>Then, in another class, I'll have something like:</p>
+
+<pre><code>public void handleEvent(Event evt) {    
+    switch(Event.getAction()) {
+        case MOVE: doSomething(); break;
+        case FOO:  doSomething(); break;
+        case BAR:  doSomething(); break;
+        default: break; 
+    }
+}
+</code></pre>
+
+<p>What I would <em>like</em> to do is something like this (though I would of course stick the switch statements into their own functions to avoid it turning into a nasty hairball of switches and cases):</p>
+
+<pre><code>public void handleEvent(Event evt) {    
+    switch(Event.getAction()) {
+        case MOVE: switch(Event.getAction()) {
+                       case UP:    break;
+                       case DOWN:  break;
+                       case LEFT:  break;
+                       case RIGHT: break;
+                   }
+        case FOO:  break;
+        case BAR:  break;
+        default:   break; 
+    }
+}
+</code></pre>
+
+<p>So, I'd want to create nested enums... like so:</p>
+
+<pre><code>public static enum Action {
+    public enum MOVE {UP, DOWN, LEFT, RIGHT}, FOO, BAR
+}
+</code></pre>
+
+<p>It's not like I can't avoid the scenario, it would just be... convenient. So whilst the above doesn't actually work, is there some similar method to achieve this? It would be nice if I could send an event with the action ""MOVE.UP"", and the method would identify it first as an action of type MOVE, and then further identify that it is specifically in the UP direction. That's just a simple example, it would be grat if I could also make longer chains, something like ""DELETE.PAGE1.PARAGRAPH2.SENTENCE2.WORD11.LETTER3"". The way I see it, I'm just going to have to use Strings and lots of if/else statements. Hoping there's a better way! (Oh, and performance matters in my case, if that helps)</p>
+","962848","","","","","2021-03-29 23:08:16","Enum within an enum","<java><enums><nested>","3","1","0","","","CC BY-SA 3.0"
+"8732712","1","8732785","","2012-01-04 19:22:17","","28","8843","<p>I have a table that includes the following column:</p>
+
+<pre><code> mytable &lt;- data.frame(beta_0 = c(1,2,3)
+</code></pre>
+
+<p>What I want to do is output a table with a column header in latex markup, e.g. <code>$\beta_0$</code></p>
+
+<p>However, I can not seem to figure out how to output the ""$\beta_0$"" using <code>print.xtable</code>:</p>
+
+<pre><code>colnames(mytable) &lt;- ""$\beta_0$""
+library(xtable)
+print(xtable(mytable), include.rownames = F)
+</code></pre>
+
+<p>returns a column header of </p>
+
+<pre><code>\eta\_0\$
+</code></pre>
+
+<p>instead of </p>
+
+<pre><code>$\beta_0$
+</code></pre>
+
+<p>I presume that the answer is the ""sanitize.colnames.function"" argument to <code>print.xtable</code>, but it is not obvious to me how to use this, and <code>?print.xtable</code> provides no examples.</p>
+
+<p>Specifically, I would like to output a latex table like:</p>
+
+<pre><code>\begin{table}[ht]
+ \begin{center}
+  \begin{tabular}{r}
+    \hline
+    $\beta_0$ \\ 
+    \hline
+    1.00 \\ 
+    2.00 \\ 
+    3.00 \\ 
+    \hline
+  \end{tabular}
+ \end{center}
+\end{table}
+</code></pre>
+","199217","","199217","","2012-01-04 19:29:35","2020-10-19 19:31:13","Handling Latex backslashes in xtable","<r><latex><sweave>","2","1","0","","","CC BY-SA 3.0"
+"8732713","1","9365268","","2012-01-04 19:22:27","","0","287","<p>Forgive me if this is a silly question!</p>
+
+<p>But to run trinidad as a daemon does it need to be in the system gems?<br>
+Or can you install just the daemon extension to the system gems?   </p>
+
+<p>If the former is true is it still possible to run different versions of rails?<br>
+My thinking is that <code>Trinidad</code> requires <code>JRuby-Rack</code> which requires <code>Rack</code> and naturally each version of <code>Rails</code> uses a differen version of <code>Rack</code>!</p>
+
+<p>To put this into context i am considering using bundler's <code>--deployment</code> option to manage different versions of gems for each application.</p>
+","415286","","","","","2012-02-20 17:08:33","Can trinidad (running as a daemon) cope with multiple versions of rails (and rack)?","<deployment><jruby><bundler><trinidad-gem>","1","0","","","","CC BY-SA 3.0"
+"8732714","1","8732829","","2012-01-04 19:22:39","","1","2328","<p>My Android application needs to show a dialog on first use of the application. This application also uses a custom Application class that extends Androids Application class. I want to use a DialogFragment for this dialog (because the documentation states that the showDialog() method is deprecated), and show this DialogFragment in the onCreate() method of my custom Applicaton class. The code to show a DialogFragment is as follows:</p>
+
+<pre><code>FragmentManager manager = getSupportFragmentManager();
+DialogFragment firstUseDialog = new FirstUseDialog();
+firstUseDialog.show(manager, ""dialog"");
+</code></pre>
+
+<p>But the getSupportFragmentManager() method is not available in an Application class, only in Activity classes. So my question is if there is another way to show a dialog from the Application class.</p>
+
+<p>I can always move the first use code into my main activity, but I just wanted to check if it is possible to do in an Activity class. I feel like an applicaton first use check should be part of the Application class and not of an Activity class.</p>
+","564440","","","","","2016-07-11 10:37:20","How can I show a dialog fragment in my Android custom application class?","<android><dialog>","1","0","","","","CC BY-SA 3.0"
+"8732717","1","8732749","","2012-01-04 19:22:43","","0","69","<p>I am trying to place cleaned form data into a MySQL database using PDO. However, I cannot seem to get my data array to work properly. Is it possible for a variable to be placed within an array? If not, what are my options? The simplified code is below:</p>
+
+<pre><code>$DBH = new PDO('mysql:host='.HOST.';dbname='.DB_NAME,USER,PASS, array(PDO::MYSQL_ATTR_INIT_COMMAND =&gt; ""SET NAMES utf8""));
+$DBH-&gt;setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+$fname = $clean['fname'];
+$lname = $clean['lname'];
+$data = array( 'FirstName' =&gt; $fname, 'LastName' =&gt; $lname);
+$STH = $DBH-&gt;prepare(""INSERT INTO "" .DB_TABLE. "" (FirstName, LastName) value (:FirstName, :LastName)"");
+$STH-&gt;execute($data);
+</code></pre>
+","","user1048547","","","","2012-01-04 19:24:43","Place a Variable Value Within an Array in PHP?","<php><arrays><variables><pdo>","1","0","","","","CC BY-SA 3.0"
+"8732720","1","","","2012-01-04 19:22:50","","1","610","<p>I want to check if the current li has a ul, if so apply style to the li. is there a way to do this in css?</p>
+","613932","","","","","2012-01-04 19:37:38","Is there a way to check if the current LI element has a certain element, such as UL using css?","<css>","5","0","","","","CC BY-SA 3.0"
+"8732723","1","8732788","","2012-01-04 19:22:58","","1","507","<p>I used this line to execute a python script from a java application:</p>
+
+<pre><code>Process process = Runtime.getRuntime().exec(""python foo.py"", null, directory);
+</code></pre>
+
+<p>The script runs a TCP server that communicates with my java app and other clients.</p>
+
+<p>When I was debugging the script I had a few console prints here and there and everything was fine. As soon as the script was launched from Java Code, after a fixed time my TCP server was not responding. Following some time of debugging and frustration I removed my prints from the script and everything worked as expected.</p>
+
+<p>It seems that there is some memory allocated for the process' standard output and error stream and if you don't consume it the process gets stuck while trying to write to a full buffer.</p>
+
+<p>How to launch the process so that I don't have to consume the standard output stream? I'd like to keep the prints though for debugging, but don't want to start a thread that reads a stream that I don't need.</p>
+","912094","","21234","","2012-01-04 19:27:38","2012-01-04 19:46:10","Launch a process without consuming its output","<java><process><stdout><processbuilder>","3","0","","","","CC BY-SA 3.0"
+"8732726","1","8732856","","2012-01-04 19:23:16","","0","3408","<p><strong>FINAL NOTE</strong>
+<a href=""https://stackoverflow.com/questions/581715/binding-to-a-command-in-a-datagrid"">Final solution found in another post</a></p>
+
+<p>Although I appreciated the clarification that was provided, the ultimate solution was in-fact provided by another solution as linked above.  No matter WHAT I tried, the binding via the ""Element Name"" component was not working.  I had to go based on the ""Relative"" hierarchy up the datagrid...</p>
+
+<pre><code>&lt;Button Name=""btnPrintReport"" 
+   Command=""{Binding DataContext.MyPrintCommand, 
+             RelativeSource={RelativeSource FindAncestor, 
+                             AncestorType={x:Type DataGrid}}}""
+   CommandParameter=""{Binding}""
+   Height=""16"" Width=""16"" HorizontalAlignment=""Center"" &gt;
+   &lt;Image Source=""MyButtonImage.png"" IsHitTestVisible=""True""/&gt;
+&lt;/Button&gt;
+</code></pre>
+
+<p>Hope something not too complicated in WPF / MVVM environment.  Here's the scenario.</p>
+
+<p>I have a Window (.xaml) and a corresponding View Model (.cs).  The form displays fine with all the data bindings no problem. (note: this is NOT done via any commercial ""framework"" )</p>
+
+<p>One of the controls that is in the view window is a custom user control of a datagrid with all pre-defined columns, headings and content to be displayed when the view is shown.  This works all no problem even though the control is not directly ""defined"" in the main window .xaml file, but just dropped on the form as the user control itself (which has its own obvious .cs code-behind).</p>
+
+<p>With the main window's ""DataContext"" pointing to the View Model, and the user control that has a datagrid</p>
+
+<pre><code>&lt;DataGrid AutoGenerateColumns=""False"" 
+    Name=""dataMyStuff""
+    ItemsSource=""{Binding Path=MyTablePropertyOnViewModel, 
+        NotifyOnSourceUpdated=True, 
+        NotifyOnTargetUpdated=True}"" ... /&gt;
+</code></pre>
+
+<p>Now, what I'm looking for.  On this data grid, I have a column that has an image in the first column.  When I click on this image, I want to print a report specific to the record as represented by this row (it has a PK value I use).  So, how do I tell the image ""KeyUp"" event to go to the View Model event handler since that is where the data is, and some other methods I'll need for preparing the call to the report.  The view portion of the grid is for cosmetic display to the user, and thus no ""functionality"" directly in this control.</p>
+
+<p><strong>-- EDIT -- per progress from answers</strong></p>
+
+<p>I've adjusted my datagrid per comments from Josh and Rachel, however, something still does not appear to be quite right...  Seeing the button was using a ""Command"" instance, I interpreted this as it needed to attach to an instance of an ""ICommand"" interface object on my view model.  So, I created an instance.  I know the command handler works as it is also used for common things like Add, Edit, Save, Cancel, Exit, etc...  So I have a new one for this printing purpose.  For simplicity, I have it created as an Always Execute, so there is no method to handle the ""CanExecute"" portion of the control.    I've set the button's ""Command"" to almost all iterations I could think of an still nothing, but here's an update of what I'm seeing going on.</p>
+
+<pre><code>&lt;UserControl&gt;
+   &lt;Data grid columns / template, etc to the button&gt;
+      &lt;DataTemplate&gt; 
+         &lt;Button Name=""btnPrintReport"" 
+            Command=""{Binding DataContext.MyPrintCommand}"" &gt;
+            &lt;Image Source=""myPrintImage.png""/&gt;
+         &lt;/Button&gt;
+      &lt;/DataTemplate&gt;
+   &lt;/Data grid columns, etc&gt;
+&lt;/UserControl&gt;
+</code></pre>
+
+<p>In my ViewModel class (myICommandButtonHandler inherits from ICommand)</p>
+
+<pre><code>private myICommandButtonHandler myPrintCommand;
+public myICommandButtonHandler MyPrintCommand
+{
+   get { if (myPrintCommand == null)
+            myPrintCommand = new myICommandButtonHandler(myPrint);
+         return myPrintCommand;
+       }
+}
+
+private void myPrint()
+{
+   MessageBox.Show( ""Doing the print job..."" );
+}
+</code></pre>
+
+<p>Now, what I'm seeing.  During step through initialization of all the controls and such.  I click menu item to call my Window to be displayed.  FIRST, it creates an instance of the View Model controller.  THEN, it calls the Window and passes in the View Model controller as parameter so it is immediately set at the Window level as the ""DataContext"" of the window.  The main window then goes into it's ""InitializeComponents"" call and starts to build out all the other controls embedded, including this separate class that contains the data grid in question.  At the constructor of this usercontrol (that has the datagrid), there is no ""data context"" set yet as the rest of the controls have not been initialized yet, and I don't know  why / when the ""bindings"" apparently get ""hooked"" in.  So, it appears that trying to do the binding to the data grid's command button are failing. HOWEVER, at run-time, the actual data IS updated in the grid, so I know that much is working.</p>
+
+<p>So, the data grid has its ""ItemsSource"" set to a property of a ""DataView"" property on the view model, but the binding of the ""button"" doesn't appear to see the ""MyPrintCommand"" handler that I thought would get the hit.. and its action is to just display a message box (for now).</p>
+","74195","","-1","","2017-05-23 10:08:34","2012-01-05 12:46:05","How to handle WPF event in MVVM for nested controls in a Window","<c#><wpf><event-handling><nested-controls>","2","1","","","","CC BY-SA 3.0"
+"8732727","1","8733053","","2012-01-04 19:23:32","","1","198","<p>I need to show a dialog after the window has scrolled to a specific element.  Currently, the dialog opens on top of the page and then the window moves to the intended element.  This means the dialog is now hidden on top of the page.</p>
+
+<p>Here is the problem reproduced in jsfiddle: <a href=""http://jsfiddle.net/t5ftM/"" rel=""nofollow"">http://jsfiddle.net/t5ftM/</a></p>
+
+<p>Is there a way I could show the dialog where the current scroll position?</p>
+
+<p>Thanks a ton!</p>
+","956064","","","","","2012-01-04 19:50:14","jQuery dialog goes offscreen when using .scrollto plugin (with jsfiddle reproduction)","<jquery><jquery-ui-dialog><scrollto>","2","0","","","","CC BY-SA 3.0"
+"8732731","1","8734346","","2012-01-04 19:23:37","","1","354","<p>My program has a handful of settings that need to be established before it can operate correctly. I would like the user to be shown a setup wizard either at first run or at install that has them set everything up to their needs. Right now my program does not use an installer, it just runs from its exe file. The program does offer the option to change these settings when it is running, however I want the user to set the settings first before the program runs. My options seem to be:</p>
+
+<ol>
+<li><p>Use a setup wizard (either my own or one created such as this <a href=""http://www.codeproject.com/KB/miscctrl/DesignTimeWizard.aspx"" rel=""nofollow"">link</a>.)</p></li>
+<li><p>Make the program use an MSI and install. Several have pointed out that an MSI will allow for a program set up while installing which would satisfy the need I have. </p></li>
+</ol>
+
+<p>As an MSI option sounds like it is the norm for programs I should perhaps learn about those. But I am still curious for other peoples input on this particular problem. For those who are going to recommend the MSI solution, I'm new to this particular aspect of programming, any recommended links are greatly appreciated.</p>
+","916986","","916986","","2012-01-04 20:17:34","2012-01-04 21:31:55","Should I incorporate a setup wizard at first run, or use an MSI?","<c#><forms><installation><wizard>","2","6","","","","CC BY-SA 3.0"
+"8732742","1","8733847","","2012-01-04 19:24:13","","2","12651","<p>I'm trying to use Jquery Mobile for a web-app, and depending on what button the user clicks, redirect them to a new web page.</p>
+
+<p>Example:</p>
+
+<p>A user visits <code>foo.com/index.php</code>.</p>
+
+<p>When they click login it takes them to <code>foo.com/login.php</code>.</p>
+
+<p>That much I've been able to figure out using:</p>
+
+<pre><code>&lt;a class=""ui-block-a"" data-role=""button"" type=""submit"" onclick=""window.location.replace('./login.php');""&gt;Login&lt;/a&gt;`
+</code></pre>
+
+<p>When I try setting <code>href</code> to <code>""./login.php""</code>, it sends me to <code>foo.com/#./login.php</code>.</p>
+
+<p>That is all well and good, but the web browser is really going to:</p>
+
+<pre><code>foo.com/index.php
+foo.com/index.php#undefined
+foo.com/login.php
+</code></pre>
+
+<p>which is causing a problem because the user has to click the back button twice. </p>
+
+<p>How can I send the user from <code>index.php</code> to <code>login.php</code> without the browser trying to go to <code>#undefined</code> first?</p>
+
+<p>I also tried:</p>
+
+<pre><code>&lt;a class=""ui-block-a"" data-role=""button"" type=""submit"" onclick=""window.location.replace('./login.php');"" href=""""&gt;Login&lt;/a&gt;
+</code></pre>
+
+<p>but it still sends the viewer to <code>foo.com/index.php#</code> before redirecting properly.</p>
+","947267","","128421","","2012-01-04 19:36:06","2012-01-04 20:52:59","How do I get jQuery Mobile to redirect to a  new page?","<redirect><jquery-mobile>","2","0","0","","","CC BY-SA 3.0"
+"8732754","1","8732898","","2012-01-04 19:25:09","","0","260","<p>I'm trying to use a series of string.replaceAlls to swap all the UTF-8 special characters in a text file with ASCII &amp; HTML encoding. Along the way I've hit a particularly stubborn one: \uAC8B, the UTF-8 middot.</p>
+
+<p>Here's the line that cuts out the character, half the time:</p>
+
+<pre><code>  string_out = string_out.replaceAll(""¬ï"", ""&amp;amp;middot;"");
+</code></pre>
+
+<p>(""¬ï"" is how a UTF-8 &middot; appears as extended ASCII. Before stumbling on this line, I'd tried ""\uAC8B"" and many other encodings without success.)</p>
+
+<p>The line cuts out the UTF-8 middot, it doesn't replace it, and it does that only half the time. The other half the time it misses the character, and leaves it unchanged. If I make multiple copies of it or move other lines around it, it doesn't even do that.</p>
+
+<p>This feels like a multithreading issue, but I'm not aware of any multithreading going on. Just a block of replaceAlls in a included .jsp file being run from another .jsp.</p>
+
+<p>What could cause this race-condition like behavior?</p>
+","329443","","","","","2012-01-04 19:37:11","string.replaceAll cutting characters 50% of the time","<java><jsp><replaceall>","1","0","","","","CC BY-SA 3.0"
+"8732757","1","8733761","","2012-01-04 19:25:23","","1","522","<p>OK so I've got a sidebar built using an NSOutlineView. I currently have two sections in the sidebar which can be expanded/contracted. I would like to be able to determine which section the selected row belongs to.</p>
+
+<pre><code>- Section 1
+-- Item 1
+-- Item 2
+-- Item 3
+- Section 2
+-- Item 4
+-- Item 5
+</code></pre>
+
+<p>The problem is that the selectedRow value changes depending on whether sections are expanded or not. Is there no easy way to determine which section the row belongs to without manually keeping track of expansion/contraction and the number of items in each section?</p>
+","58014","","58014","","2012-01-04 19:46:15","2012-06-11 10:08:54","Determine section for selected row from NSOutlineView","<objective-c><cocoa><nsoutlineview>","2","0","","","","CC BY-SA 3.0"
+"8732758","1","8732923","","2012-01-04 19:25:26","","2","2068","<p>I want to prevent a form from being submitted using jQuery and instead run a function when the user wants to submit.</p>
+
+<p>Here's my forms markup:</p>
+
+<pre><code>&lt;form action="""" method=""post"" id=""msg-form""&gt;
+    &lt;p&gt;&lt;textarea name=""msg""&gt;&lt;/textarea&gt;&lt;input type=""submit"" value=""Send""&gt;&lt;/p&gt;
+&lt;/form&gt;
+</code></pre>
+
+<p>And my Javascript code:</p>
+
+<pre><code>$('#msg-form').submit(function() {
+    return false;
+}
+</code></pre>
+
+<p>However, when I press the submit button, the form still gets sent and the page refreshes. How can I properly prevent the form from submitting?</p>
+","974627","","","","","2012-01-04 19:39:07","jQuery not preventing form from being submitted","<javascript><jquery><forms>","6","9","","","","CC BY-SA 3.0"
+"8732759","1","8732840","","2012-01-04 19:25:26","","0","149","<pre><code>public interface DownloadListener {
+    public void onDownloaded();
+}
+
+public class DownloadManager {
+
+    private static DownloadManager instance;
+
+    private DownloadListener mDownloadListener;
+
+    public static synchronized DownloadManager getInstance(){
+        if(instance == null)
+            instance = new DownloadManager();
+        return instance;
+    }
+
+
+    private DownloadManager() {
+        myHandler.sendEmptyMessageDelayed(29, 3 * 1000);
+    }
+
+    public void registerDownloadListener(DownloadListener downloadListener) {
+        mDownloadListener = downloadListener;
+    }
+
+    Handler myHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg.what == 29) {
+                mDownloadListener.onDownloaded();
+                return true;
+            }
+            return false;
+        }
+    });
+}
+
+public class I implements DownloadListener {
+
+    public I() {
+        DownloadManager.getInstance().registerDownloadListener(this);
+    }
+
+    @Override
+    public void onDownloaded() {
+        Log.e(""TAG"", ""I onDownloaded"");
+    }
+}
+
+public class You implements DownloadListener {
+
+    public You() {
+        DownloadManager.getInstance().registerDownloadListener(this);
+    }
+
+    @Override
+    public void onDownloaded() {
+        Log.e(""TAG"", ""You onDownloaded"");
+    }
+
+}
+
+public class PATTERNSActivity extends Activity implements DownloadListener {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+
+        new I();
+        new You();
+
+        DownloadManager.getInstance().registerDownloadListener(this);
+    }
+
+    @Override
+    public void onDownloaded() {
+        Log.e(""TAG"",""PATTERNSActivity onDownloaded"");
+    }
+
+}
+</code></pre>
+
+<p>I am expecting to get:</p>
+
+<blockquote>
+  <p>I onDownloaded </p>
+  
+  <p>You onDownloaded </p>
+  
+  <p>PATTERNSActivity onDownloaded</p>
+</blockquote>
+
+<p>But I am getting only:</p>
+
+<blockquote>
+  <p>PATTERNSActivity onDownloaded</p>
+</blockquote>
+
+<p>What could it be the problem?</p>
+","739712","","438992","","2012-01-04 19:34:37","2012-01-04 19:41:15","Why aren't all my listeners registered?","<java><android>","3","0","","","","CC BY-SA 3.0"
+"8732762","1","8825071","","2012-01-04 19:25:34","","1","867","<p>I have the relevant code posted in a gist:</p>
+
+<p><a href=""https://gist.github.com/1561520"" rel=""nofollow"">https://gist.github.com/1561520</a></p>
+
+<p>I was wondering if someone could tell me what the correct way to call the ReportsController->create() method from my form would be. The only idea I can come up with would be to have form have a random action, something like <code>action=""application/views/reports/new.php""</code> and call my controllers create method from there. The problem is, that defeats the purpose of the <code>__autoload</code> function, unless I am mistaken.</p>
+
+<p>Thanks for your help!</p>
+","528576","","367456","","2012-07-28 14:08:57","2012-07-28 14:08:57","How to call my (tiny) mvc methods from HTML (PHP) forms?","<php><model-view-controller><rest><orm>","2","2","","","","CC BY-SA 3.0"
+"8732768","1","","","2012-01-04 19:25:58","","23","2460","<p>For those distributing Mac apps outside the Mac App Store, how are you planning to support updating and sandboxing? I'm guessing most people's answers for the time being is that they're not, but I hope that eventually non-MAS apps could be sandboxed just like MAS apps.</p>
+
+<p>To use Sparkle, your app would need network access, which could be granted, as well as the ability to overwrite itself in Applications. Currently you could do this with the com.apple.security.temporary-exception.files.absolute-path.read-write entitlement, but that's not a good solution. It will likely go away, and even if it doesn't there's little point in sandboxing an app if you're going to give it full filesystem read-write access as well as network access.</p>
+
+<p>Has anyone already gone down this path and found a good solution? I ask because I try to keep my MAS build and my non-MAS build as identical as possible, and I'm currently looking at having my MAS build sandboxed and my non-MAS build not.</p>
+","13582","","19679","","2012-01-05 19:24:50","2016-10-14 16:27:19","Can you update a sandboxed Mac app using Sparkle or something similar?","<macos><cocoa><sandbox><sparkle>","3","1","0","","","CC BY-SA 3.0"
+"8732769","1","8768960","","2012-01-04 19:26:00","","11","650","<p>This works</p>
+
+<pre><code>open System
+let f = Action(fun () -&gt; Unchecked.defaultof&lt;_&gt;)
+</code></pre>
+
+<p>But this</p>
+
+<pre><code>let f = System.Action(fun () -&gt; Unchecked.defaultof&lt;_&gt;)
+</code></pre>
+
+<p>produces the compilation error</p>
+
+<blockquote>
+  <p>Multiple types exist called 'Action', taking different numbers of generic parameters. Provide a type instantiation to disambiguate the type resolution, e.g. 'Action&lt;<em>,</em>,_,<em>,</em>,_,<em>,</em>,_>'.</p>
+</blockquote>
+
+<p>I know I can fix it by adding a type parameter placeholder (<code>System.Action&lt;_&gt;(...)</code>), but any idea why they behave differently?</p>
+
+<h3>EDIT</h3>
+
+<p>Found this in the spec, section 14.1.9:</p>
+
+<blockquote>
+  <p>When a module or namespace declaration group <code>F</code> is opened, items are added to the name environment as follows:</p>
+  
+  <ul>
+  <li>Add the type to the <em>TypeNames</em> table. If the type has a CLI-mangled generic name such as <code>List'1</code> then an entry is added under both <code>List</code> and <code>List'1</code>.</li>
+  </ul>
+</blockquote>
+
+<p>Is this behavior replicated for fully-qualified types (with omitted type parameters)? It doesn't appear so.</p>
+","162396","","162396","","2012-01-04 21:20:57","2012-01-07 14:53:58","Fully qualified name, unqualified name with import declaration resolve differently","<f#>","1","4","0","","","CC BY-SA 3.0"
+"8732774","1","8740258","","2012-01-04 19:26:44","","0","279","<p>our project has a very detailed authorization pattern</p>
+
+<p>so i had to implement my own JACC provider.</p>
+
+<p>now i have a problem with EJB security.</p>
+
+<p>i have an EJB method and i want to limit access to it based</p>
+
+<p>on its argument values</p>
+
+<p>for example consider the <code>delete(String arg1)</code> EJB method</p>
+
+<p>i want a user be able to run it with <code>arg1=='something'</code></p>
+
+<p>and be not able to run it otherwise</p>
+
+<p>how could i access to method's argument values?</p>
+
+<p>thanks</p>
+","332289","","472792","","2013-02-09 14:42:15","2013-02-09 14:42:15","EJB security custom JACC provider","<security><ejb><jacc>","1","0","0","","","CC BY-SA 3.0"
+"8732776","1","8733049","","2012-01-04 19:26:57","","3","12883","<p>I've been having this trouble for a couple of days. hopefully this is cleaner and someone who's done this before can help me out!</p>
+
+<p>I'm building a webApp with JSF 2.0 in Eclipse running on a tomcat 7.0 server. and have made a servlet I want to go to, but I don't know how to thandle the navigation rules to take me there:</p>
+
+<p>In my project the path is src/com/servlets/PdfServlet so when I run the project on the server this servlet can be accessed through the url localhost:8080/miloWeb/PdfServlet. the servlet actualy creates a Pdf file for me and displays it.</p>
+
+<p>anyway my xhtml has this:</p>
+
+<pre><code>&lt;h:commandButton id=""reportButton""  action=""reportPdf"" styleClass=""button"" value=""get Report"" &gt;&lt;/h:commandButton&gt;
+</code></pre>
+
+<p>my faces-config navigation rules look like this:</p>
+
+<pre><code>&lt;navigation-rule&gt;
+    &lt;navigation-case&gt;
+        &lt;from-outcome&gt;reportPdf&lt;/from-outcome&gt;      
+        &lt;to-view-id&gt;/miloWeb/PdfServlet&lt;/to-view-id&gt;
+        &lt;redirect /&gt;
+    &lt;/navigation-case&gt;
+&lt;/navigation-rule&gt;
+</code></pre>
+
+<p>but it takes me to miloWeb/faces/miloWeb/PdfServlet, and I need it to take me to miloWeb/PdfServlet.</p>
+
+<p>Any ideas on how to accomplish this, or another route or doing this ?</p>
+","929694","","157882","","2012-01-05 14:41:44","2012-01-05 14:42:27","how to redirect to a Servlet from a commandButton in xhtml","<java><jsf><servlets>","2","0","0","","","CC BY-SA 3.0"
+"8732780","1","8732797","","2012-01-04 19:27:11","","6","17952","<p>I have created an apache alias directory so that I can access the directory from outside the root folder with the same url...</p>
+
+<p>The problem is that it refuse to work without a trailing slash.  As an example if the site name is</p>
+
+<ul>
+<li>www.example.com/aa</li>
+</ul>
+
+<p>error <strong>Cannot find server</strong> appears.</p>
+
+<p>However if I enter</p>
+
+<ul>
+<li>www.example.com/aa/</li>
+</ul>
+
+<p>it works.  </p>
+
+<p>Any Idea how to fix this issue?</p>
+","1126720","","420953","","2012-01-04 20:08:07","2012-01-04 20:08:07","Created apache alias directory, but not working","<php><apache><directory><wamp>","3","0","0","","","CC BY-SA 3.0"
+"8732784","1","","","2012-01-04 19:27:51","","1","81","<p>I have just made application which requires BarCode scanner on device. How can I programatically check existing of this application into device? I know package name for BC scanner. </p>
+","1078760","","","","","2012-01-04 19:30:15","How to check existing of application on device?","<java><android>","2","0","","","","CC BY-SA 3.0"
+"8732792","1","8732852","","2012-01-04 19:29:00","","4","3058","<p>I am working on a contact list application I need to create 2 tables because I want to make a join. I am trying to make 2 tables in my database but I get some error when creating a ‘create view’.</p>
+
+<p>This is the stacktrace that I get:</p>
+
+<pre><code>01-04 21:24:32.132: E/Database(4183):           Failure 1 (near ""EXIST"": syntax error) on 0x123c38 when preparing 'CREATE VIEW IF NOT EXIST ViewGroups AS SELECT contactTest1._id AS _id, contactTest1.name, contactTest1.phone, contactTest2.numegrup FROM contactTest1 JOIN contactTest2 ON contactTest1.idgrup =contactTest2._id'.
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   Couldn't open contacte.db for writing (will try read-only):
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   android.database.sqlite.SQLiteException: near ""EXIST"": syntax error: CREATE VIEW IF NOT EXIST ViewGroups AS SELECT contactTest1._id AS _id, contactTest1.name, contactTest1.phone, contactTest2.numegrup FROM contactTest1 JOIN contactTest2 ON contactTest1.idgrup =contactTest2._id
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at android.database.sqlite.SQLiteDatabase.native_execSQL(Native Method)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at android.database.sqlite.SQLiteDatabase.execSQL(SQLiteDatabase.java:1727)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at org.example.dbcontactconsole.DbCreate.onCreate(DbCreate.java:42)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at android.database.sqlite.SQLiteOpenHelper.getWritableDatabase(SQLiteOpenHelper.java:106)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at android.database.sqlite.SQLiteOpenHelper.getReadableDatabase(SQLiteOpenHelper.java:158)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at org.example.dbcontactconsole.DbContactConsole.getContacts(DbContactConsole.java:204)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at org.example.dbcontactconsole.DbContactConsole.showDatabaseContent(DbContactConsole.java:215)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at org.example.dbcontactconsole.DbContactConsole.onCreate(DbContactConsole.java:45)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1047)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2627)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2679)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at android.app.ActivityThread.access$2300(ActivityThread.java:125)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2033)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at android.os.Handler.dispatchMessage(Handler.java:99)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at android.os.Looper.loop(Looper.java:123)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at android.app.ActivityThread.main(ActivityThread.java:4627)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at java.lang.reflect.Method.invokeNative(Native Method)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at java.lang.reflect.Method.invoke(Method.java:521)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:868)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:626)
+01-04 21:24:32.251: E/SQLiteOpenHelper(4183):   at dalvik.system.NativeStart.main(Native Method)
+</code></pre>
+
+<p>Here’s the code for the database that I created:</p>
+
+<pre><code>public class DbCreate extends SQLiteOpenHelper{
+    private static final String DB_NAME = ""contactsdataase.db"";
+    private static final int DB_VERSION = 2;
+
+    /** Create a helper object for the Events database */
+    public DbCreate(Context context) { 
+      super(context, DB_NAME, null,DB_VERSION); 
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) { 
+        db.execSQL(""CREATE TABLE "" + DbConstants.TABLE_NUME + "" "" +
+            ""("" + DbConstants.Group_ID + "" INTEGER PRIMARY KEY , "" + 
+                  DbConstants.GROUP_NAME+"");"");
+        db.execSQL(""CREATE TABLE "" + DbConstants.TABLE_NAME + "" "" +
+            ""("" + _ID + "" INTEGER PRIMARY KEY AUTOINCREMENT, "" + 
+                  DbConstants.NAME + "" TEXT NOT NULL,"" + 
+                  DbConstants.PHONE + "" TEXT NOT NULL,"" +
+                  DbConstants.EMAIL + "" TEXT NOT NULL,"" +
+                  DbConstants.URL_STRING+ "" TEXT NOT NULL,""+
+                  DbConstants.ADRESS+ "" TEXT NOT NULL,""+
+                  DbConstants.Grupid+ ""INTEGER NOT NULL ,FOREIGN KEY (""+DbConstants.Grupid+"") REFERENCES ""+DbConstants.TABLE_NUME+"" (""+DbConstants.Group_ID+""));"");
+
+               db.execSQL(""CREATE TRIGGER fk_empdept_deptid "" +
+            "" BEFORE INSERT ""+
+            "" ON ""+DbConstants.NAME+
+            "" FOR EACH ROW BEGIN""+
+            "" SELECT CASE WHEN ((SELECT ""+DbConstants.Group_ID+"" FROM ""+DbConstants.TABLE_NUME+"" WHERE ""+DbConstants.Group_ID+""=new.""+DbConstants.Grupid+"" ) IS NULL)""+
+            "" THEN RAISE (ABORT,'Foreign Key Violation') END;""+
+        db.execSQL(""CREATE VIEW IF NOT EXIST ""+viewEmps+
+        "" AS SELECT ""+employeeTable+"".""+colID+"" AS _id,""+
+        "" ""+employeeTable+"".""+colName+"",""+
+        "" ""+employeeTable+"".""+colAge+"",""+
+        "" ""+deptTable+"".""+colDeptName+""""+
+        "" FROM ""+employeeTable+"" JOIN ""+deptTable+
+        "" ON ""+employeeTable+"".""+colDept+"" =""+deptTable+"".""+colDeptID
+        );          ""  END;"");     
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(""DROP TABLE IF EXISTS "" + DbConstants.TABLE_NUME);
+        db.execSQL(""DROP TABLE IF EXISTS "" + DbConstants.TABLE_NAME);
+        onCreate(db);
+    }
+}
+</code></pre>
+","956865","","4714","","2012-01-04 20:08:56","2012-01-04 20:08:56","Sqlite failure near ""exist""","<android><sql><sqlite>","2","0","","","","CC BY-SA 3.0"
+"8732798","1","8732954","","2012-01-04 19:29:15","","2","97","<p>I am trying to execute two sql statements in a row.  EDIT:Only the first textbox ""boxes"" posts correctly. It seems that the 3 other variables, bubbleWrap, studentAddress1, and studentAddress2 are all blank.  Both SQL statements work in the mysql workbench.</p>
+
+<p>The textboxes for studentAddress1 and studentAddress 2 are included in the same form as boxes and the bubblewrap (true/false) radio buttons. I can include the form if you would like, but it is pretty straightforward and basic.</p>
+
+<p>AJAX:</p>
+
+<pre><code>$(""#needEmptyBoxesForm"").submit (function() {
+    alert('click');
+    boxes = $(""#boxes"").val();
+    bubbleWrap = $(""#bubbleWrap"").val();
+    studentAddress1 = $(""#studentAddress1"").val();
+    studentAddress2 = $(""#studentAddress2"").val();
+
+    $.post('needEmptyBoxesRequest.php', 'boxes=' + boxes + 'bubbleWrap=' + bubbleWrap + 'studentAddress1=' + studentAddress1 + 'studentAddress2=' + studentAddress2, function (response) {
+    alert('post');
+    $(""#needEmptyBoxesRequestResults"").html(response);
+    alert (response);
+    });
+return false;
+});
+</code></pre>
+
+<p>Processing page (php)</p>
+
+<pre><code>    else {
+    $boxes = mysql_real_escape_string($_POST['boxes']);
+    $bubbleWrap = mysql_real_escape_string($_POST['bubbleWrap']);
+    $studentAddress1 = mysql_real_escape_string($_POST['studentAddress1']);
+    $studentAddress2 = mysql_real_escape_string($_POST['studentAddress2']);
+
+    $email = mysql_real_escape_string($_SESSION[""email""]);
+    $clientId = mysql_real_escape_string($_SESSION[""clientId""]);
+
+    $sql =  ""INSERT INTO supplies (`clientId`, `boxesRequested`, `bubbleWrapRequested`)
+                VALUES ('"".$clientId.""', '"".$boxes.""', '"".$bubbleWrap.""');"";
+
+    //set results to variables
+    $result = mysql_query($sql);
+    $row = mysql_fetch_array($result);
+        //in case query fails
+        if (!$result) { 
+            die(""Database query failed: "" . mysql_error()); 
+        }
+
+    $sql2 =     ""UPDATE `clients` SET `studentAddress1`= '"".$studentAddress1.""',`studentAddress2`= '"".$studentAddress2.""' WHERE clientId = '"".$clientId.""';"";
+
+    //set results to variables
+    $result2 = mysql_query($sql2);
+    $row2 = mysql_fetch_array($result2);
+        //in case query fails
+        if (!$result2) { 
+            die(""Database query failed: "" . mysql_error()); 
+        }
+
+
+    }
+</code></pre>
+
+<p>Form code:</p>
+
+<pre><code>echo
+    '&lt;form id = ""needEmptyBoxesForm""&gt;
+        &lt;table class = ""needEmptyBoxes1""&gt;
+            &lt;tr&gt;
+                &lt;td&gt;
+                    &lt;span class=""buttonText""&gt;
+                        Our free signature boxes are 24""x18""x16"", and double-walled to protect your items.  How many boxes would you like delivered?
+                    &lt;/span&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;
+                    &lt;input      type=""text""
+                                    class=""boxRequestBlank""
+                                    id=""boxes""
+                                    name=""boxes""&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;
+                    &lt;span class=""buttonText""&gt;
+                        Free tape will be delivered with the boxes.
+                    &lt;/span&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;
+                    &lt;span class=""buttonText""&gt;
+                        Would you like to purchase bubble wrap for $5?
+                    &lt;/span&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;
+                    &lt;input      type=""radio""
+                                    class=""radioButton""
+                                    name=""bubbleWrap""
+                                    value=""1""&gt;
+                        &lt;span class=""buttonText""&gt;
+                            Yes
+                        &lt;/span&gt;
+                    &lt;input      type=""radio""
+                                    class=""radioButton""
+                                    name=""bubbleWrap""
+                                    value=""0""&gt;
+                        &lt;span class=""buttonText""&gt;
+                            No
+                        &lt;/span&gt;
+                &lt;/td&gt;
+                            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;
+                    &lt;img        src=""images/arrow.png""
+                                    class=""needEmptyBoxesFormForward1""
+                                    id=""needEmptyBoxesFormForward1""&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+
+        &lt;table class = ""needEmptyBoxes2""&gt;
+            &lt;tr&gt;
+                &lt;td&gt;
+                    &lt;span class=""buttonText""&gt;
+                        Please confirm  your address:
+                    &lt;/span&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;';
+
+                        $sql = ""SELECT  A.studentAddress1, A.studentAddress2
+                        FROM clients A
+                        WHERE '"".$_SESSION[""email""].""' = A.studentEmail"";
+
+                include ""databaseConnection.php"";
+
+                //Close connection 
+                mysql_close($connection); 
+
+                    echo
+                    '&lt;input
+                                    type=""text""
+                                    class=""needEmptyBoxesTextbox""
+                                    name=""studentAddress1""
+                                    value=""'.$row[""studentAddress1""].'""&gt;
+                    &lt;input
+                                    type=""text""
+                                    class=""needEmptyBoxesTextbox""
+                                    name=""studentAddress2""
+                                    value=""'.$row[""studentAddress2""].'""&gt;
+
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+  &lt;input        type=""submit""
+                    src=""images/arrow.png""
+                    class=""needEmptyBoxesFormForward2""
+                    id=""needEmptyBoxesFormForward2""&gt;
+&lt;/form&gt;';
+</code></pre>
+","1091703","","1091703","","2012-01-04 20:08:53","2012-01-04 20:08:53","Second SQL statement is not inserting/updating, but first is","<php><javascript><jquery><ajax><post>","3","8","","","","CC BY-SA 3.0"
+"8732799","1","8732983","","2012-01-04 19:29:30","","2","4472","<p>I've a Django project and I want to add test data to database. When I make syncdb like this</p>
+
+<pre><code>python ~/django/foo/manage.py syncdb
+</code></pre>
+
+<p>After tables are installed I've got an error </p>
+
+<pre><code>Problem installing fixture '~/django/foo/shop/fixtures/initial_data.json': 
+Traceback (most recent call last):
+raise JSONDecodeError(""No JSON object could be decoded"", s, idx)
+JSONDecodeError: No JSON object could be decoded: line 1 column 0 (char 0)
+</code></pre>
+
+<p>My model is here:</p>
+
+<pre><code># -*- coding: utf-8 -*-
+from django.db import models
+
+class Image(models.Model):
+    file = models.ImageField(upload_to = ""img/"")
+    title = models.CharField(
+        max_length=128, 
+        blank = True
+    )
+    slug = models.SlugField(max_length=128, blank = True)
+    def __unicode__(self):
+        return unicode(self.title)
+</code></pre>
+
+<p>My fixture is this:</p>
+
+<pre><code>[
+    {
+        ""pk"": 2, 
+        ""model"": ""shop.image"", 
+        ""fields"": {
+            ""slug"": """", 
+            ""file"": ""img/8_m.jpg"", 
+            ""title"": ""1""
+        }
+    }
+]
+</code></pre>
+
+<p>Where is the problem?</p>
+","752397","","","","","2012-01-04 19:43:36","Django fixtures. JSONDecodeError","<django><django-admin><django-fixtures>","1","0","","","","CC BY-SA 3.0"
+"8732801","1","8732896","","2012-01-04 19:29:34","","0","215","<p>I've just installed Intel PS,XE 2011 Extreme Edition after completing my code hoping Intel compiler would be faster for an Intel processor. I am interested in math functions currently but I am confused with the abundant number of libraries. Even I googled dot product but havent obtained anything useful. Could you direct me to a library and functions for vector operations like dot, vector product... Thank you in advance.</p>
+","1128551","","","","","2012-01-04 19:37:07","Intel math library","<math><intel>","1","0","","","","CC BY-SA 3.0"
+"8732807","1","8733028","","2012-01-04 19:30:01","","0","576","<p>Say I've registered a callback by the following command:</p>
+
+<pre><code>fileevent stdin readable someCallback
+</code></pre>
+
+<p>Now I want to unregister the <code>someCallback</code> so that it will not be called when for the standard input.</p>
+
+<p>How can I do that?</p>
+","371239","","","","","2012-01-04 19:47:43","How to unregister a callback registered with TCL fileevent?","<events><callback><tcl><stdin>","1","0","","","","CC BY-SA 3.0"
+"8732809","1","8735525","","2012-01-04 19:30:05","","1","2402","<p>I am trying to process multiple file writing commands (to seperate files) without hanging the UI. </p>
+
+<p>To put my question in context, imagine the following</p>
+
+<ol>
+<li><p>My main application looks like a file manager. It currently sees 10 files each of about 5MB in size. (Don't worry about how this list works etc.)</p></li>
+<li><p>When I select one file item, I want it to immediately start copying/duplicating the file onto another location on the SD card. Typically this should take a few seconds</p></li>
+<li><p>I want to be able to select a second, or a third etc. file immediately after the first. At the end of everything, all the files which I selected will be duplicated. So I could, for example click 5 files within 5 seconds, but all the copying actions takes a minute.</p></li>
+</ol>
+
+<p>At this moment two options have come to my mind:</p>
+
+<p>The first is to simply put the file writing commands of each file in a seperate thread. Pseudocode will look like this</p>
+
+<pre><code>Onclick
+   new Thread()
+      write file
+</code></pre>
+
+<p>If this works, there can be scenarios where I have 10 threads running simultaneously, writing to 10 seperate files. I would like to know if anyone has done this before, and what I should be looking out for</p>
+
+<p>The second option, of course, is if there is already a certain data structure/known methods that can address this problem. Some sort of a pending queue system that gets larger as I add requests, but gets smaller as the system writes the data away.</p>
+","728438","","","","","2012-04-10 00:29:38","Multiple File Writing Threads","<android><multithreading><file-io>","3","1","0","","","CC BY-SA 3.0"
+"8732811","1","8737405","","2012-01-04 19:30:13","","0","896","<p>I really like the approach in GWT where you can define ""divs"", ""spans"" etc in a regular html page, then in the GWT entry point simply push a button or some other component inside the div. </p>
+
+<p>So small example, here is a snippet of a gwt html page:</p>
+
+<pre><code>&lt;body class='page'&gt;
+    &lt;iframe src=""javascript:''"" id=""__gwt_historyFrame"" tabIndex='-1' style=""position: absolute; width: 0; height: 0; border: 0""&gt;&lt;/iframe&gt;
+
+    &lt;div&gt;
+        Query Terms: &lt;span id=""txtQuery""&gt;&lt;/span&gt;&amp;nbsp;
+        &lt;span id=""btnQuery""&gt;&lt;/span&gt;&lt;br&gt;
+        ...
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p>And here is a small java snippet contained in the gwt entry point:</p>
+
+<pre><code>ClickHandler clickHandler = ...
+TextBox txtQuery = new TextBox();
+Button btnQuery = new Button(""Query"", clickHandler);
+
+RootPanel.get(""txtQuery"").add(txtQuery);
+RootPanel.get(""btnQuery"").add(btnQuery);
+</code></pre>
+
+<p>One of the reasons I like this approach is that it allows non java coders to design / write the html stuff, and I also like the separation between GWT / java code and the html code.</p>
+
+<p>However... this may work well for a simple web page, but how do you scale this approach up into many webpages? From what I understand, the ""GWT way"" of doing things is to have one webpage and use history to hide and show various GWT components. I have built 2 projects in GWT using this standard technique, but recently discovered that you can do the sort of thing I showed above.</p>
+
+<p>Is there any way of scaling the above 2 snippets into multiple html pages, where GWT injects its components into standard html pages?</p>
+","85116","","","","","2012-01-05 03:48:28","gwt; mixing html pages with java code","<gwt>","2","0","","","","CC BY-SA 3.0"
+"8732816","1","8733409","","2012-01-04 19:30:32","","1","1279","<p>The EnvironmentVariables in ProcessStartInfo.EnvironmentVariables (type <code>StringDictionary</code>) are always set to lower-case when I insert something into it. For example:</p>
+
+<pre><code>proc.StartInfo.EnvironmentVariables.Clear();
+proc.StartInfo.EnvironmentVariables.Add(""REDIRECT_STATUS"", """");
+// [snipped more variables being added here]
+proc.Start();
+</code></pre>
+
+<p>In the process there now is a <code>redirect_status</code>, and not a <code>REDIRECT_STATUS</code> as I wanted. This causes problems.</p>
+
+<p>I already read somewhere else that you could get around this issue by making a batch file, however this is not applicable in my case, as this is meant to be used as CGI (this code could potentially be called 10 times a second.)</p>
+
+<p>Is there a way to get the <code>EnvironmentVariables</code> to not be case insensitive, and just allow me to go all-caps?</p>
+","377618","","","","","2014-10-11 13:39:33","C# System.Diagnostics.ProcessStartInfo EnvironmentVariables being case-insensitive?","<c#><variables><process><environment>","3","0","","","","CC BY-SA 3.0"
+"8732826","1","12712339","","2012-01-04 19:31:07","","3","975","<p>I am a programmer on an MVC/ajax project that receives significant traffic from its customers. We've been seeing one or two isolated instances (per day) of a controller action not receiving parameters from the client.</p>
+
+<p>Long story short: the actions are being called via jQuery ajax, and the action params are only null if the ajax call is made while the browser is navigating to another page. IE click a link and then trigger an ajax call.</p>
+
+<p>I added some crude validation around these calls to ensure that we aren't actually passing nulls in the ajax data, and this hasn't alleviated the problem. An example of one of the calls is below.</p>
+
+<pre><code>    var searchValue = _txtSearch.val().trim();
+
+    if (searchValue === null 
+        || searchValue === undefined 
+        || searchValue.length &lt; _minimumLengthForSearch) {
+        _txtSearch.focus();
+        return;
+    }
+    // clear out the value when launching
+    _txtSearch.val('');
+
+    $.post(_quickSearchUrl,
+        { searchString: searchValue },
+        function (data) {...},
+    ""json"");
+</code></pre>
+
+<p>I found <a href=""http://blogs.msdn.com/b/ie/archive/2008/07/14/ie8-ajax-navigation.aspx"" rel=""nofollow"">an old IEBlog post</a> that suggests IE might handle this situation differently from other browsers. I was curious as to whether anyone else has encountered this phenomena before. Again, I can only reproduce this issue in IE and only during page navigation.</p>
+
+<p>Edit: It is difficult to reproduce this exception with Fiddler active for some reason, but when I manage to Fiddler displays the following error message: </p>
+
+<p>Fiddler has detected a protocol violation in session #4.
+Content-Length mismatch: Request Header indicated 24 bytes, but client sent 0 bytes.</p>
+","424492","","424492","","2012-01-04 19:52:04","2012-10-03 16:01:06","Null parameters in MVC action from jQuery ajax call during navigation (IE only)","<model-view-controller><internet-explorer><jquery>","1","2","0","","","CC BY-SA 3.0"
+"8732835","1","8813512","","2012-01-04 19:31:44","","2","652","<p>I created a new rails 3.2.0.rc1 app and generated a welcome controller with an index action.  I fixed the routes so that root points to this action and I removed the index.html placeholder file.  When I try and load the root page I am getting an error ""wrong number of arguments (3 for 2)"" related to welcome.css.scss and the stylesheet_link_tag line in application.html.erb.  If I rename the welcome.css.scss file to welcome.css, the page loads fine.  </p>
+
+<p>Did I miss a special config step for the release candidate?  I am using ruby 1.9.2.</p>
+
+<p>Thanks.</p>
+","135692","","","","","2012-01-11 02:42:17","ArgumentError with rails 3.2.0.rc1 stylesheet_link_tag in skeleton application","<ruby-on-rails><ruby-on-rails-3>","2","1","","","","CC BY-SA 3.0"
+"8732837","1","8825902","","2012-01-04 19:31:49","","0","1215","<p>I am trying t use the multihandlesliderextender (from the Ajax Toolkit) to make a filter option on the price in a webshop. When a new price is selected, it has to reload everything (and do a lot of behind the scenes code).</p>
+
+<p>I've used this article here <a href=""http://forums.asp.net/p/1397694/3022998.aspx"" rel=""nofollow"">http://forums.asp.net/p/1397694/3022998.aspx</a> as inspiration, and the primary idea is to use JavaScript to make the postback.</p>
+
+<p>I have the following error when running my page: <em>""Microsoft JScript runtime error: Unable to set value of the property 'Handle': object is null or undefined""</em>. </p>
+
+<p>I guess it's because the JavaScript can't find the control, but I don't get why it doens't work as I use ClientIdMode to make sure ID should match (and looking in the generated HTML it should work).</p>
+
+<p>Thanks!</p>
+
+<p>I've the following markup:</p>
+
+<pre><code> &lt;asp:TextBox ID=""txtSlider"" runat=""server"" AutoPostBack=""true"" &gt;&lt;/asp:TextBox&gt;
+        &lt;asp:MultiHandleSliderExtender ID=""MultiHandleSliderExtender1"" BehaviorID=""MultiHandleSliderExtender1""
+            runat=""server"" TargetControlID=""txtSlider"" Length=""120"" TooltipText=""{0}"" OnClientDragEnd=""ValueChangedHandler""&gt;
+        &lt;MultiHandleSliderTargets&gt;
+                &lt;asp:MultiHandleSliderTarget ControlID=""LeftHandle"" /&gt;
+&lt;asp:MultiHandleSliderTarget ControlID=""RightHandle"" /&gt;
+
+            &lt;/MultiHandleSliderTargets&gt;
+
+        &lt;/asp:MultiHandleSliderExtender&gt;
+
+        &lt;br/&gt;&lt;br/&gt;
+            &lt;asp:TextBox ID=""LeftHandle"" runat=""server"" ClientIDMode=""Static""&gt;&lt;/asp:TextBox&gt;
+            &lt;asp:HiddenField ID=""HiddenField1"" runat=""server"" ClientIDMode=""Static"" /&gt;
+
+
+&lt;asp:Label ID=""RightHandle"" runat=""server"" ClientIDMode=""Static""&gt;&lt;/asp:Label&gt;
+ &lt;asp:HiddenField ID=""HiddenField2"" runat=""server"" ClientIDMode=""Static"" /&gt;
+
+
+        &lt;asp:Button ID=""Button1"" runat=""server"" Text=""Button"" 
+    Style=""display: none"" onclick=""Button1_Click"" /&gt;
+        &lt;asp:Label ID=""Label1"" runat=""server"" Text=""""&gt;&lt;/asp:Label&gt;
+</code></pre>
+
+<p>And in my header the following JavaScript:</p>
+
+<pre><code> &lt;script type=""text/javascript""&gt;
+
+     function ValueChangedHandler(sender, args) {
+         $get(""HiddenField1"").value = $get(""LeftHandle"").value;
+         $get(""HiddenField2"").value = $get(""RightHandle"").value;
+         __doPostBack(""Button1"", ""Click"");
+     }
+
+&lt;/script&gt;
+</code></pre>
+","197304","","","","","2012-01-11 20:09:10","MultiHandleSliderExtender and postback javascript issues","<javascript><asp.net><html><ajax>","1","0","","","","CC BY-SA 3.0"
+"8732838","1","","","2012-01-04 19:31:51","","0","959","<p>I have probed some informations about the Windows 8 and Metro style apps and i have few questions,</p>
+
+<ol>
+<li>How does the Metro style apps evolve in the future or dominate in the market? Does it be the future of Windows? </li>
+<li>How about the existing and future desktop mode apps?</li>
+<li>How will it affect the silverlight and WPF's future?</li>
+</ol>
+","552249","","325514","","2012-01-24 21:39:00","2012-01-24 21:39:00","Metro style apps vs Desktop mode apps vs Silverlight","<.net><wpf><windows><silverlight><microsoft-metro>","1","0","","2012-01-04 22:38:59","","CC BY-SA 3.0"
+"8732846","1","","","2012-01-04 19:32:34","","37","15491","<p>ECMAScript Fifth Edition (released December 2009) introduces a bunch of new methods (see <a href=""http://kangax.github.com/es5-compat-table/"" rel=""noreferrer"">this table</a> for details). However, there still are older browsers out there which do not implement those new methods. </p>
+
+<p>Luckily, there exists a convenient script (written in JavaScript) - <a href=""https://github.com/kriskowal/es5-shim"" rel=""noreferrer"">ES5-shim</a> - which implements those methods manually in environments where they don't exist.</p>
+
+<p>However, I am not sure how to provide ES5-shim... Should I just ""give"" it to all browsers, like so:</p>
+
+<pre><code>&lt;script src=""es5-shim.js""&gt;&lt;/scipt&gt;
+</code></pre>
+
+<p>Or should I include a check in order to only ""bother"" those browsers which really need it, like so:</p>
+
+<pre><code>&lt;script&gt;
+    if ( !Function.prototype.hasOwnProperty( 'bind' ) ) {
+        (function () {
+            var shim = document.createElement( 'script' );
+            shim.src = 'es5-shim.js';
+            var script = document.getElementsByTagName( 'script' )[0];
+            script.parentNode.insertBefore( shim, script );
+        }());
+    }
+&lt;/script&gt;
+</code></pre>
+
+<p>(I'm using <code>Function.prototype.bind</code> to check if a browser implements all new ECMAScript 5 methods. According to the compatibility table which I linked above, <code>bind</code> is the ""last bastion"" when it comes to implementing ECMAScript 5 methods.)</p>
+
+<p>Of course, for this shim to be effective, it has to be executed <em>before</em> all other scripts, which means that we want to include the above mentioned SCRIPT elements early in the page (in the HEAD, before all other SCRIPT elements).</p>
+
+<p>So, would this second example be a good way to provide ECMAScript 5-shim to browsers? Is there a better way to do it?</p>
+","425275","","63550","","2013-03-24 15:20:09","2013-08-31 01:52:55","How to provide ECMAScript 5 (ES 5)-shim?","<javascript><html><browser><ecmascript-5><es5-shim>","3","0","0","","","CC BY-SA 3.0"
+"8732850","1","","","2012-01-04 19:32:55","","1","529","<p>I'm using WCF webservices with WIF. More specification, I'm using WS2007FederationHttpBinding. All works well on the localhost machine used for development.</p>
+
+<p>However, when trying a remote install with the server deployed on IIS and the client being launched from an other PC, my channel Open method fails with the following exception :</p>
+
+<blockquote>
+  <p>The X.509 certificate CN=MyOwnCertificate chain building failed. The certificate that was used has a trust chain that cannot be verified. Replace the certificate or change the certificateValidationMode. </p>
+</blockquote>
+
+<p>(MyOwnCertificate being a self-signed certificate using makecert; the certificate has been inserted in Trusted Root Certification Authorities).</p>
+
+<p>So I first tried to remove this constraint by the following code, for test purposes :</p>
+
+<pre><code>this.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.PeerOrChainTrust; 
+        this.ClientCredentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+</code></pre>
+
+<p>which indeeds removes the initial exception fault. However the InnerSecurityTokenProvider now returns its own exception :</p>
+
+<blockquote>
+  <p>""Le message n'a pas pu être traité car l'action
+  'http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/SCT' n'est pas
+  valide ou non reconnue.""}</p>
+</blockquote>
+
+<p>(sorry for the french message).</p>
+
+<p>Is there a way to make self-signed certificates work in such a remote scenario ? (which I would prefer since I only need the certificate for internal use)</p>
+
+<p>Would it work with a certificate generated with openssl (http://www.freebsdmadeeasy.com/tutorials/freebsd/create-a-ca-with-openssl.php) ?</p>
+
+<p>Your help will be most welcome. Thanks.</p>
+
+<p>EDIT 06/01/2012 : Also tested with a signed certificate as suggested (+ revocation list), works in local but fails in remote. Certs have been defined as explained <a href=""http://msdn.microsoft.com/en-us/library/ms733813.aspx"" rel=""nofollow"">here</a>. I have the CA certificate deployed under Trusted Root. The IP and Server certificates are deployed in MY (with pfx) and Trusted People (with cer). Also IIS has been setup so that the NETWORK account can access private keys deployed under LOCALMACHINE MY.  </p>
+
+<p>EDIT 07/01/2012 : It works when the certificate is issued by an official CA (i.e verisign, thawte ...)</p>
+","599017","","599017","","2012-01-06 23:43:51","2012-01-06 23:43:51","self-signed certificates in an identity federation scenario","<x509certificate><wif><ca>","1","0","","","","CC BY-SA 3.0"
+"8732854","1","8735914","","2012-01-04 19:33:11","","8","32490","<p>I'm working on creating a single command that will run mulitple things on the command line of another machine. Here is what I'm looking to do.</p>
+
+<ul>
+<li>Use psexec to access remote machine</li>
+<li>travel to proper directory and file</li>
+<li>execute ant task</li>
+<li>exit cmd</li>
+<li>run together in one line</li>
+</ul>
+
+<p>I can run the below command from Run to complete what I need accomplished but can't seem to get the format correct for psexec to understand it.</p>
+
+<pre><code>cmd /K cd /d D:\directory &amp; ant &amp; exit
+</code></pre>
+
+<p>I've tried appling this to the psexec example below:</p>
+
+<pre><code>psexec \\machine cmd /K cd /d D:\directory &amp; ant &amp; exit 
+</code></pre>
+
+<p>When executing this it will activate the command line and travel to <code>D:\directory</code> but won't execute the remaining commands.  Adding <code>""""</code> just creates more issues.</p>
+
+<p>Can anyone guide me to the correct format? Or something other than psexec I can use to complete this (free options only)?</p>
+","462237","","1033581","","2018-12-01 11:56:57","2020-06-18 16:45:48","Running multiple commands in cmd via psexec","<ant><cmd><configuration-management><psexec>","5","0","0","","","CC BY-SA 4.0"
+"8732861","1","8733000","","2012-01-04 19:33:47","","0","1777","<p>I have this code which send an image to test.php:</p>
+
+<pre><code> chrome.browserAction.onClicked.addListener(function(tab) {
+   chrome.tabs.captureVisibleTab(null, function(img) {
+
+   $.ajax({
+   type: ""POST"",
+   url: ""http://imap24.pl/tests/dom/testy/test.php"",
+   data: ""img="" + img,
+   success: function(e){
+     alert(e);
+   }});
+
+
+   });
+ });
+</code></pre>
+
+<p>The img is base64 (data:image/jpeg;base64,/9j/4AAQSkZ...). I have this script in test.php</p>
+
+<pre><code>&lt;?php
+if (isset($_POST['img'])) {
+$img = $_POST['img'];
+$data = base64_decode($img);
+$im = imagecreatefromstring($data);
+imagejpeg($im, 'simpletext.jpg');
+imagedestroy($im);
+}
+?&gt;
+</code></pre>
+
+<p>And as the result I get this message </p>
+
+<blockquote>
+  <p>the data is not in a recognised format</p>
+</blockquote>
+
+<p>What's wrong?</p>
+","1011424","","","","","2012-01-04 19:53:16","base64 decoded image from captureVisibleTab. How to save it via GD library to jpg ot png?","<php><gd>","1","2","","","","CC BY-SA 3.0"
+"8732867","1","","","2012-01-04 19:34:34","","4","3551","<p>At times I have a variable that I want to default to something and if something else is set change it to something else.</p>
+
+<p>The question is. What is preferred? Setting the default value and then changing it if the condition is met or setting the condition only once depending on the initial check with an added else?</p>
+
+<p>Example in code. </p>
+
+<pre><code>if x:
+    y = '%s-other' % x
+else:
+    y = 'some_default'
+</code></pre>
+
+<p>The other option would be.</p>
+
+<pre><code>y = 'some_default'
+if x:
+    y = '%s-other' % x
+</code></pre>
+
+<p>This isn't always an argument passed in to a function so kwargs is not something I want to rely on here. </p>
+
+<p>Personally, the second one seems to be a lot more clear to me but what I have yet to find any sort of opinion by anyone on this.</p>
+","260643","","246241","","2012-01-04 19:42:23","2023-04-20 08:59:19","Python default values and setting the value based on other variables. To if else or to not.","<python><coding-style><syntax><default-value>","4","3","","","","CC BY-SA 3.0"
+"8732868","1","28120844","","2012-01-04 19:34:40","","4","4686","<p>I need to read an XML file from internet and re-shape it.
+Here is the XML file and the code I have so far.</p>
+
+<pre><code>library(XML)
+url='http://ClinicalTrials.gov/show/NCT00001400?displayxml=true'  
+doc = xmlParse(url,useInternalNode=TRUE)
+</code></pre>
+
+<p>I was able to use some functions within the XML package with sucess(e.g., getNodeSet), but I am not an expert and there are some examples on the internet but I was not able to crack this problem myself. I also know some XPath but this was 4 years ago and I am not an expert on sapply and similar functions.</p>
+
+<p>But my goal is this:</p>
+
+<ol>
+<li><p>I need to remove a whole set of XML children branches about location, for example: <code>&lt;location&gt;  ... anything &lt;/location&gt;</code>.  There can be multiple nodes with location data. I simply don't need that detail in the output.  The XML file above always complies to an XSD schema. The root node is called <code>&lt;clinical_study&gt;</code>.</p></li>
+<li><p>The resulted simplified file should be written into a new XML file called ""data-changed.xml"".</p></li>
+<li><p>I also need to rename and move one branch from old nested place of </p>
+
+<p><code>&lt;eligibility&gt;
+   &lt;criteria&gt;
+     &lt;textblock&gt;
+       Inclusion criteria are xyz
+     &lt;/textblock/&gt;...</code></p></li>
+<li><p>In new output (""data-changed.xml"") the structure should say a different XML node and be directly under root node: </p>
+
+<p><code>&lt;eligibility_criteria&gt; 
+   Inclusion criteria are xyz
+&lt;/eligibility_criteria&gt;</code></p></li>
+</ol>
+
+<p>So I need to:</p>
+
+<ul>
+<li>read the XML into memory</li>
+<li>manipulate the tree (prune it somewhere)</li>
+<li>move some XML nodes to a new place and under a new name and </li>
+<li>write the resulting XML output file. </li>
+</ul>
+
+<p>Any ideas are greatly appreciated?</p>
+
+<p>Also, if you know about a nice (recent !) tutorial on XML parsing within R (or book chapter which tackles it, please share the reference). (I read the vignettes by Duncan and these are too advanced (too concise)). </p>
+","984532","","573546","","2018-06-04 09:31:39","2018-06-04 09:31:39","How to read an XML input file, manipulate some nodes (remove and rename some) and write the output to a new XML output file?","<xml><r>","3","0","0","","","CC BY-SA 4.0"
+"8732869","1","8732918","","2012-01-04 19:34:44","","-2","1098","<p>I am trying to validate a date in PHP but I am getting an ""Invalid date format"" error even though I supplied the correct date format. My PHP version is 5.3.8.</p>
+
+<p>Here is my code, please let me know what you think:</p>
+
+<pre><code>try
+{   
+    $validDate = new DateTime(""2/2/2011"");
+    echo ""valid format"";
+}
+catch(Exception $e) 
+{   
+    echo ""Date Incident Occurred: Invalid Date format!"";
+}
+</code></pre>
+","949512","","4714","","2012-01-04 19:53:37","2012-01-04 19:53:37","Invalid date issue","<php><date-formatting>","2","4","","","","CC BY-SA 3.0"
+"8732872","1","8732913","","2012-01-04 19:34:51","","3","257","<p>I have a model with a foreign key field <code>user = models.ForeignKey(User)</code> which links to the User model in django.contrib.auth.models. I'd like to do the following:</p>
+
+<pre><code>ModelName.objects.get(user.username=request.user.username)
+</code></pre>
+
+<p>I get the following error at the above point in my code:</p>
+
+<pre><code>SyntaxError: keyword can't be an expression
+</code></pre>
+
+<p>What is the correct syntax for this?</p>
+","690573","","","","","2012-01-04 20:00:04","How to use 'get' method with foreign key field?","<django><model><foreign-keys>","2","0","","","","CC BY-SA 3.0"
+"8732875","1","8735148","","2012-01-04 19:35:06","","3","8722","<p>I have an array of integers <code>1&lt;=N&lt;=100</code>, How can I get permutations of this array? Array may contain duplicates, so resulting set of permutations can be duplicate, so need to get all non-duplicate permutations.</p>
+<ul>
+<li>I've found lot of snippets which would convert the <code>int[]</code> to string and perform permutations and printout, but as I hv here is integers of range <code>1&lt;=N&lt;=100</code>, so converting them into string would spoil integer.</li>
+<li>I can get all permutations with duplicates including, for final set of permutations where duplicates are removed have to check with each other to remove a duplicate or so, it so heavy process.</li>
+</ul>
+<p>Is there any simpler way?</p>
+<p>For example, <code>123</code> would give:</p>
+<pre><code>231
+321
+312
+132
+213
+123
+</code></pre>
+<p>Similarly for <code>112</code> program would give:</p>
+<pre><code>121
+211
+211
+121
+112
+112
+</code></pre>
+<p>So, for <code>n</code>-set of elements, permutations will be of <code>n!</code>
+With duplicates in elements, would decrease tht.
+I'm asking how can I remove those duplicate sets. (duplicate set of permutation arr[])</p>
+","1065448","","","user15766209","2021-04-29 06:52:09","2021-04-29 06:52:09","Getting permutations of an int[] removing duplicates sets","<java><duplicates><integer><permutation>","5","7","","","","CC BY-SA 4.0"
+"8732878","1","8732911","","2012-01-04 19:35:17","","-1","7651","<p>The following error is achieved on Vmware Installation when installing on an x64 Windows 7:</p>
+
+<p>vmware
+mcisocket64.msi failed</p>
+","543770","","881229","","2014-12-08 19:18:18","2014-12-08 19:18:18","Vmware Install Error - vmwarer mcisocket64.msi failed","<vmware-player>","1","0","","2012-01-10 20:35:32","","CC BY-SA 3.0"
+"8732881","1","8732948","","2012-01-04 19:35:34","","1","109","<p>Suppose I have the following function, the value it produces is needed by many other functions in the code:</p>
+
+<pre><code>float mean(foo param1, bar param2);
+</code></pre>
+
+<p>My other functions look like this:</p>
+
+<pre><code>float foobar(foo param1, bar param2, float meanValue);
+</code></pre>
+
+<p>What I want to do is the following:</p>
+
+<pre><code>float foobar(foo param1, bar param2, float meanValue = mean(param1, param2));
+</code></pre>
+
+<p>While passing in a function as a default parameter is legal, the compiler (VS2008) complains that <em>param1</em> and <em>param2</em> are not declared - because the parameters get pushed onto the stack right-to-left, starting with <em>meanValue</em>. Of course, I can't reverse the order of parameters, since in that case I wouldn't be able to specify a default value for the first parameter.</p>
+
+<p>I could pass in some value like -10000 for the mean to tell myself to call the mean() function; or I could overload every function (and there are 10+ to overload), but that's not very neat. I think it's really cool that you can call a function as a default parameter and I'm wondering if there's a neat way to accomplish what I'm trying to do.</p>
+","476203","","","","","2012-01-04 22:33:50","Function call as default parameter - possible to use other parameters in the footprint?","<c++><function-parameter><default-parameters>","1","0","","","","CC BY-SA 3.0"
+"8732882","1","8732979","","2012-01-04 19:35:38","","1","303","<p>I've managed to get my routes set up (with help from these questions <a href=""https://stackoverflow.com/questions/8729270/routing-without-the-model-name"">Routing without the model name</a> and <a href=""https://stackoverflow.com/questions/2077032/permalinks-with-ruby-on-rails-dynamic-routes"">Permalinks with Ruby on Rails (dynamic routes)</a>)  so that articles can be accessed via <code>my-domain/permalink</code> rather than <code>my-domain/articles/permalink</code> or, the original <code>my-domain/articles/id</code></p>
+
+<p>Now I would like to make the paths that the link_to helper gives point to <code>/permalink</code> rather than <code>/articles/permalink</code>.  I've looked at <a href=""http://guides.rubyonrails.org/routing.html#overriding-the-named-helpers"" rel=""nofollow noreferrer"">http://guides.rubyonrails.org/routing.html#overriding-the-named-helpers</a> and see how I could redirect to eg. <code>/images/permalink</code>, but can't see how to have no model name present.</p>
+
+<p>Can anyone suggest a way to do this?</p>
+","1010582","","-1","","2017-05-23 11:55:48","2012-01-04 19:43:26","Change paths for link_to missing out the model name","<ruby-on-rails><ruby-on-rails-3><ruby-on-rails-3.1><routes>","1","0","0","","","CC BY-SA 3.0"
+"8732884","1","8734209","","2012-01-04 19:35:55","","0","410","<p>I am trying to use the Phaxio API to include the ability to send faxes to customers from my Rails app, however I am having difficulty trying to implement it.  I know Phaxio is new and there doesn't seem to be much on it except for what is provided by their online docs, which don't really cover too much and have no examples using rails.</p>
+
+<p>From what I can gather from their docs is that I need to send a request to <a href=""https://api.phaxio.com/v1/send"" rel=""nofollow"">https://api.phaxio.com/v1/send</a> along with some parameters.  In their example they use curl to do this but how would I do this from a rails controller?  Is their any helper libraries out there for this or will I have to write it from scratch?  I might be swinging in the dark here but any help on this subject matter would be greatly appreciated.</p>
+
+<p>Thanks</p>
+","1054494","","1786","","2012-01-04 21:14:36","2012-01-04 21:20:11","Using Phaxio with Rails 3.1 app","<ruby-on-rails><ruby-on-rails-3>","1","0","","","","CC BY-SA 3.0"
+"8732888","1","8739762","","2012-01-04 19:36:28","","0","115","<p>I have about 50 images with in a grid view within my Android app. When I click on an image, I want the description of that image to be displayed.</p>
+
+<p>This is the code I have so far:</p>
+
+<pre><code>public class HarryActivity extends Activity
+     {    
+    //---the images to display---
+    Integer[] imageIDs = {
+            R.drawable.pic1,
+            R.drawable.pic2,
+            R.drawable.pic3,
+            R.drawable.pic4,
+            R.drawable.pic5,
+            R.drawable.pic6,
+            R.drawable.pic7                    
+    };
+
+    public void onCreate(Bundle savedInstanceState) 
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+
+        GridView gridView = (GridView) findViewById(R.id.gridview);
+        gridView.setAdapter(new ImageAdapter(this));
+
+        gridView.setOnItemClickListener(new OnItemClickListener() 
+        {
+            public void onItemClick(AdapterView parent, 
+            View v, int position, long id) 
+            {                
+                Toast.makeText(getBaseContext(), 
+                        ""pic"" + (position + 1) + "" selected"", 
+                        Toast.LENGTH_SHORT).show();
+            }
+        });        
+    }
+
+    public class ImageAdapter extends BaseAdapter 
+    {
+        private Context context;
+
+        public ImageAdapter(Context c) 
+        {
+            context = c;
+        }
+
+        //---returns the number of images---
+        public int getCount() {
+            return imageIDs.length;
+        }
+
+        //---returns the ID of an item--- 
+        public Object getItem(int position) {
+            return position;
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        //---returns an ImageView view---
+        public View getView(int position, View convertView, ViewGroup parent) 
+        {
+            ImageView imageView;
+            if (convertView == null) {
+                imageView = new ImageView(context);
+                imageView.setLayoutParams(new GridView.LayoutParams(150, 150));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setPadding(8, 8, 8, 8);
+            } else {
+                imageView = (ImageView) convertView;
+            }
+            imageView.setImageResource(imageIDs[position]);
+            return imageView;
+        }
+    }    
+}
+</code></pre>
+
+<p>How can I add this functionality to my Android app?</p>
+","1130676","","19679","","2012-01-09 18:12:25","2012-01-09 18:12:25","How can I display 20-25 lines of text when I click on an image in a gridview?","<android>","1","5","","","","CC BY-SA 3.0"
+"8732890","1","9717342","","2012-01-04 19:36:44","","0","1342","<p>I have <code>sloccount.sc</code> in my workspace which was generated during the build process and is now filled with relevant data. The code for generating it looks like this:</p>
+
+<pre><code>sloccount --wide --details workspace/$JOB_NAME &gt; sloccount.sc
+</code></pre>
+
+<p>I also have the <code>Publish SLOCCount analysis results</code> checkbox in settings checked which seem to suggest that it will pickup <code>**/sloccount.sc</code> but when I after hitting build the <code>SLOCCount</code> graph or tab doesn't seem to pick it up.</p>
+
+<p>The Jenkins user is the owner of the <code>sloccount.sc</code> file, and clicking the little link under <code>SLOCCount reports</code> textfield that says <code>the workspace root</code> I end up looking at the directory that has the <code>sloccount.sc</code> file.</p>
+
+<p>Any idea what might be going wrong?</p>
+","29347","","29347","","2012-03-25 20:28:02","2012-03-25 20:28:02","Jenkins is not picking up my sloccount.sc file","<jenkins>","1","1","","","","CC BY-SA 3.0"
+"8732891","1","8736724","","2012-01-04 19:36:49","","69","15112","<p>I am building an app with SBT (0.11.0) using a Scala build definition like so:</p>
+
+<pre><code>object MyAppBuild extends Build {
+
+  import Dependencies._
+
+  lazy val basicSettings = Seq[Setting[_]](
+    organization  := ""com.my"",
+    version       := ""0.1"",
+    description   := ""Blah"",
+    scalaVersion  := ""2.9.1"",
+    scalacOptions := Seq(""-deprecation"", ""-encoding"", ""utf8""),
+    resolvers     ++= Dependencies.resolutionRepos
+  )
+
+  lazy val myAppProject = Project(""my-app-name"", file("".""))
+    .settings(basicSettings: _*)
+    [...]
+</code></pre>
+
+<p>I'm packaging a .jar at the end of the process.</p>
+
+<p>My question is a simple one: is there a way of accessing the application's name (""my-app-name"") and version (""0.1"") programmatically from my Scala code? I don't want to repeat them in two places if I can help it.</p>
+
+<p>Any guidance greatly appreciated!</p>
+","255627","","3827","","2014-02-25 22:32:59","2023-01-12 14:21:17","Can I access my Scala app's name and version (as set in SBT) from code?","<scala><sbt><sbt-buildinfo>","3","5","0","","","CC BY-SA 3.0"
+"8732892","1","8732992","","2012-01-04 19:36:53","","0","410","<p>I'm trying to reset flash content within my slider powered by jQuery Cycle Plugin.</p>
+
+<p>What I want to do:</p>
+
+<ul>
+<li>replace every "".flash"" in previous "".slide"" with an empty div,</li>
+<li>replace created empty div with previous .flash data.</li>
+</ul>
+
+<p>I know this sounds stupid, but it's an amazing way of resetting working flash content, the best alternative (removing and appending) causes a lot of styling issues, and I don't want to use any swfobject.js and other APIs. Of course hiding isn't an option also.</p>
+
+<p>Everything works perfectly using ""after"" callback provided by Cycle Plugin, but somehow I'm not able to retrieve the original .flash content, the last line of my callback function just simply does nothing and .flash is being replaced with empty div permanently:</p>
+
+<pre><code>jQuery(""#slider"").cycle({
+  after: callbackAfter,
+});
+
+function callbackAfter(){
+   var FlashContent = jQuery(this).prev('.slide').find('.flash'); //find any flash content in previous slide
+   var FlashContentHolder = jQuery(""&lt;div&gt;&lt;/div&gt;""); //place empty div instead
+   FlashContent.replaceWith(FlashContentHolder ); //replace the flash content with empty div
+   FlashContent.replaceWith(FlashContent); //This doesn't work - replace the empty div with stored flash content
+}
+</code></pre>
+
+<p><strong>The issue is the last line that does not display original FlashContent.</strong></p>
+
+<p>I was trying to set FlashContent &amp; FlashContentHolder variables out of the function to change scope, but that's not the point, I guess the first line is the issue, because I'm removing something then searching for it, so I'm getting nothing in return?</p>
+
+<p>This function works and does exactly what I need (but doesn't display .flash videos in original positions, and I can't use absolute positioning):</p>
+
+<pre><code>function callbackAfter(){
+   var stopFlash = jQuery(this).prev('div').find('.flash').remove();
+   jQuery(this).prev('div').append(stopFlash); 
+}
+</code></pre>
+
+<p><strong>This actually works with small issue (see above).</strong></p>
+
+<p>Any ideas?</p>
+","683068","","","","","2012-01-04 19:46:39","jQuery replaceWith() trouble","<jquery><variables><callback><replacewith>","1","1","","","","CC BY-SA 3.0"
+"8732899","1","8733116","","2012-01-04 19:37:14","","2","561","<p>Here's my HTML code.</p>
+
+<pre><code>&lt;table cellspacing=""0"" class=""assets_table""&gt;
+&lt;tbody&gt;
+&lt;tr class=""table_header""&gt;&lt;td&gt;ID&lt;/td&gt;&lt;td&gt;Title&lt;/td&gt;&lt;td&gt;Regarding&lt;/td&gt;&lt;td&gt;Status&lt;/td&gt;&lt;td&gt;Date&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;Testing&lt;/td&gt;&lt;td&gt;hijacked account&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt; 4 Jan, 2012&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre>
+
+<p>and here's the CSS for it.</p>
+
+<pre><code>.assets_table{width:100%;border-radius:4px 4px 0 0;border:1px solid #ccc;overflow:hidden}
+.assets_table .table_header{background:grey;height:30px;font-weight:bold;padding:0;border-top:1px solid #f9f9f9;}
+.assets_table td {padding:5px 10px}
+.assets_table tr {border-top:1px solid #ddd;padding:0 10px;}
+</code></pre>
+
+<p>But no paddings or borders or border-radius's practicably nothing will work on the <code>tr</code>'s. Here is what I get. <a href=""http://pastehtml.com/view/bjmptfulh.html"" rel=""nofollow"">http://pastehtml.com/view/bjmptfulh.html</a></p>
+
+<p>I have tried everything I can think of but nothing works? I tried <code>display:table</code> and <code>display:block</code> but it just kinda messes up the table. Any help here?</p>
+","1048466","","927408","","2015-10-29 11:05:52","2015-10-29 11:05:52","HTML table css border issues","<html><css>","2","2","","","","CC BY-SA 3.0"
+"8732908","1","8732924","","2012-01-04 19:38:06","","1","127","<p>I have a <code>VARCHAR</code> column that contains comma separated values and I would like to know if I could match a number within these comma separated values?</p>
+
+<p>Like, I would have a row:</p>
+
+<pre><code>id | numbers
+1  | 1,2,4,5
+2  | 2,3,4,6
+</code></pre>
+
+<p>And I would like to match all the rows with the number 2 in the list.</p>
+","451938","","707795","","2012-01-04 19:39:45","2012-01-04 19:39:45","MySQL column IN","<mysql>","3","0","","","","CC BY-SA 3.0"
+"8732912","1","8749633","","2012-01-04 19:38:23","","1","843","<p>Say I have a Web service, called <em>JokeService</em>, which is a Rack/Rails3 app deployed on Heroku. And lets say I have an application, called <em>ComedyApp</em>. Now, I want <em>JokeService</em> to only entertain requests from <em>ComedyApp</em>. To do so, I would like <em>ComedyApp</em> to use a client certificate, which it uses to authenticate itself with <em>JokeService</em>.</p>
+
+<p>My question is, how the heck can I configure the <em>JokeService</em> (again, a Rack/Rails3 app on Heroku) to check the validity of the client certificate?</p>
+
+<p>This is related, but unanswered: <a href=""https://stackoverflow.com/questions/7726182/how-to-access-ssl-client-certificate-from-rack-app"">How to access SSL client certificate from rack app</a></p>
+","129622","","-1","","2017-05-23 12:12:09","2012-01-05 20:53:19","How do you configure a Heroku Rack/Rails app to authenticate the client certificate of an incoming request?","<ruby-on-rails><authentication><ssl><heroku><rack>","1","2","0","","","CC BY-SA 3.0"
+"8732914","1","8732973","","2012-01-04 19:38:34","","2","276","<p>This is a follow up to a question I asked earlier seen here:</p>
+
+<p><a href=""https://stackoverflow.com/questions/8728357/confused-about-passing-expression-vs-func-arguments/8728441#8728441"">Confused about passing Expression vs. Func arguments</a></p>
+
+<p>The accepted answerer there suggests refactoring an Expression referencing local objects into something that Linq to Entities can actually execute against the backing store (in my case SQL Server)</p>
+
+<p>I've spent a long time trying to come up with something that will work for what I'm doing. My original</p>
+
+<pre><code>Func&lt;Thing, bool&gt; whereClause
+</code></pre>
+
+<p>was referencing a local Dictionary object which Linq to Entities or SQL could not understand at runtime. I tried refactoring into multiple lists which faked a dictionary, and Arrays after that. Each time, I got runtime errors complaining about the context doesn't recognize things like the methods on a List, or array indexers.</p>
+
+<p>Eventually I gave up and just provided an additional method which takes a Func argument for when I cannot come up with the proper Expression.</p>
+
+<p>I'm not trying to find a solution to my specific problem, I'm just wondering in general if it is <em>always</em> possible to convert, say a </p>
+
+<pre><code>Func&lt;Thing, bool&gt;
+</code></pre>
+
+<p>to an equivalent </p>
+
+<pre><code>Expression&lt;Func&lt;Thing, bool&gt;&gt;
+</code></pre>
+
+<p>which can run against Linq to Entities.
+Or if there are many examples of querys where you simply <em>must</em> pull the data into memory first.</p>
+","116846","","-1","","2017-05-23 12:27:39","2012-01-04 19:55:17","Are some Funcs impossible to convert to equivalent Expressions?","<c#><linq><sql-server-2008><c#-4.0><linq-to-entities>","2","0","","","","CC BY-SA 3.0"
+"8732917","1","","","2012-01-04 19:38:48","","0","115","<p>I have a line of code like this in my php:</p>
+
+<pre><code>$val = preg_replace('/&lt;\/?div.*?&gt;/', '', str_replace(""&lt;br /&gt;"", "" - "", $item-&gt;getItemName()));
+</code></pre>
+
+<p>When I run the Aptana PHP formatter on it I get:</p>
+
+<pre><code>$val = preg_replace('/&lt;\/?div.*
+?&gt;/
+', '', str_replace(""
+&lt;br /&gt;
+"", "" - "", $item-&gt;getItemName()));
+</code></pre>
+
+<p>I created a custom formatter and enabled on/off tags and setup my code like so:</p>
+
+<pre><code>//@formatter:off
+$val = preg_replace('/&lt;\/?div.*?&gt;/', '', str_replace(""&lt;br /&gt;"", "" - "", $item-&gt;getItemName()));
+//@formatter:on    
+</code></pre>
+
+<p>But it still formats it. Obviously it's the HTML formatter getting triggered, so I even tried turning that off just in the off chance it was the problem:</p>
+
+<pre><code>//&lt;!--@formatter:off--&gt;
+$val = preg_replace('/&lt;\/?div.*?&gt;/', '', str_replace(""&lt;br /&gt;"", "" - "", $item-&gt;getItemName()));
+//&lt;!--@formatter:on--&gt;
+</code></pre>
+
+<p>Still no luck. Any thoughts on what I'm doing wrong?</p>
+","724081","","","","","2012-01-04 22:11:54","Unable to prevent formatting in PHP string literals","<regex><string><aptana><literals><formatter>","1","0","","","","CC BY-SA 3.0"
+"8732919","1","","","2012-01-04 19:38:50","","2","1059","<p>From the book:</p>
+
+<blockquote>
+  <p>Write declarations for the following: a pointer to a character, an
+  array of 10 integers, a ref-erence to an array of 10 integers, a
+  pointer to an array of character strings, a pointer to a pointer to a
+  character, a constant integer, a pointer to a constant integer, and a
+  constant pointer to an integer. Initialize each one.</p>
+</blockquote>
+
+<p>I'm confused by ""a pointer to an array of character strings"". What does Stroustrup want? Is this to be meant literally? In which way?</p>
+
+<p>The straight and simple solution:</p>
+
+<pre><code>char* c[] = {""foo"", ""bar"", ""baz""};
+char** c_ptr;
+</code></pre>
+
+<p>Or this one:</p>
+
+<pre><code>typedef char carray[20];
+typedef array* carray_ptr;
+carray_ptr ptr = new carray[10];
+</code></pre>
+
+<p>What do you think? (Okay, a pointer to pointer isn't very straight.)</p>
+","1054324","","322","","2012-01-04 19:41:32","2012-01-04 19:49:33","the c++ programming language, chapter 5.9 exercise 1","<c++>","4","2","0","","","CC BY-SA 3.0"
+"8732920","1","","","2012-01-04 19:38:55","","1","1365","<p>Can someone please explain why the following does not work?</p>
+
+<p>I have a domain object with several transient fields that contain complex POJOs. When the comain object is saved, I want to serialize these objects to XML (using Xstream), and store them into a PersistentMap in my database.</p>
+
+<p>So i create a @PrePersist/@PreUpdate method on my domain object, and in those methods serialize the values and place them into the persistent map in the domain object. When the persist is called, I can see the values get serialized, the map gets updated, but the actual values saved are the original values, not the updated ones.</p>
+
+<p>My assumption is that since the change is happening in the PrePersist/PreUpdate methods, the underlying persistence provider (in my case Hibernate 3) determines the changed fields in the domain prior to calling the PrePersist/PreUpdate method, and so when the actual save is done, the original values are never updated.</p>
+
+<p>Can anyone give me a clue on how to make this work? Is there some other mechanism I can use other than the PrePersist/PreUpdate hooks?</p>
+
+<p>Any pointers would be greatly appreciated.</p>
+
+<p>Thanks</p>
+","136449","","136449","","2012-01-04 19:50:04","2012-08-02 14:07:42","PrePersist method fails to save modified values in JPA","<hibernate><jpa>","2","0","","","","CC BY-SA 3.0"
+"8732935","1","","","2012-01-04 19:39:35","","0","1086","<p>I'm new to jQuery, used Mootools for the last 5 years. I like the jQuery ColorBox modal, but I need to extend it to inlcude onCancel and onConfirm events. Can someone point out how these events can be extended to ColorBox.</p>
+
+<p>Something like this:</p>
+
+<pre><code>$("".element"").colorbox({
+    onConfirm:function(){
+        // some function 
+    },
+    onCancel:function(){ 
+        // some function
+    }
+});
+</code></pre>
+","275558","","","","","2012-01-04 19:52:29","How do you extend jQuery ColorBox to add events?","<jquery><colorbox><extend>","1","3","","","","CC BY-SA 3.0"
+"8732937","1","8732990","","2012-01-04 19:39:40","","-1","173","<p>How can I destroy such a thread that perform very long operation?</p>
+
+<p>I need to solve this problem without setting timeouts for SQL query. I know that <code>Thread.destroy()</code> is deprecated.</p>
+
+<pre><code>import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Sample {
+
+    public static void main(String[] args) {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Class.forName(""com.mysql.jdbc.Driver"");
+                    Connection conn = DriverManager
+                            .getConnection(""jdbc:mysql://localhost:3306/db"");
+                    conn.createStatement().execute(""SELECT * FROM some_table"");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+    }
+
+}
+</code></pre>
+","553164","","","user177800","2012-01-04 20:01:46","2012-01-04 20:01:46","how to destroy thread in Java without using destroy() method?","<java><sql><multithreading>","2","1","","","","CC BY-SA 3.0"
+"8732943","1","8732986","","2012-01-04 19:40:01","","3","141","<p>I have the function:</p>
+
+<pre><code>((lambda (x) (x x))
+ (lambda (x) (x x)))
+</code></pre>
+
+<p>and it produces an infinite loop. My question is about the memory map. We know that the stack would overflow, because I open a new frame each call. But what will be on the heap? As I understood it, on every call a new closure would be created on the heap, but I'm not sure about this. </p>
+","1029733","","349661","","2012-01-09 15:38:58","2012-01-09 15:38:58","Scheme - infinte loop and memory","<scheme>","1","0","","","","CC BY-SA 3.0"
+"8732944","1","8739684","","2012-01-04 19:40:04","","11","11610","<p>I have some problem while trying to use the schemagen tool from JAXB library to generate a Schema for my project. The problem is that the annotation <code>@XmlAttribute</code> is not being parsed properlly.</p>
+
+<pre><code>- src
+ - teste
+  - entity
+</code></pre>
+
+<p>So, the problem is that for some classes, the flag <code>required</code> in <code>XmlAttribute</code> is being ignored completly by the schemagen task.</p>
+
+<p>I'll paste here some examples of classes and the generated schema so you can understand what is going on</p>
+
+<pre><code>package teste.entity;
+
+import javax.xml.bind.annotation.XmlAttribute;
+
+public abstract class Class2 {
+
+    @XmlAttribute(required=false)
+    public String stringNotRequired;
+
+    @XmlAttribute(required=true)
+    public String stringRequired;
+
+    @XmlAttribute(required=false)
+    public int anotherIntNotRequired;
+
+    @XmlAttribute(required=true)
+    public int anotherIntRequired;
+
+}
+
+package teste.entity;
+
+import javax.xml.bind.annotation.XmlAttribute;
+
+public class Class1 extends Class2 {
+
+    @XmlAttribute(required=true)
+    public Integer integerRequired;
+
+    @XmlAttribute(required=false)
+    public Integer integerNotRequired;
+
+    @XmlAttribute(required=false)
+    public int intNotRequired;
+
+    @XmlAttribute(required=true)
+    public int intRequired;
+
+    public Class1() {
+    }
+}
+</code></pre>
+
+<p>My package-info.java</p>
+
+<pre><code>@XmlSchema(xmlns = @XmlNs(prefix = ""t"", namespaceURI = ""http://test.com""),
+namespace = ""http://test.com"",
+elementFormDefault = XmlNsForm.UNQUALIFIED,
+attributeFormDefault = XmlNsForm.UNQUALIFIED)
+package teste.entity;
+
+import javax.xml.bind.annotation.XmlNs;
+import javax.xml.bind.annotation.XmlNsForm;
+import javax.xml.bind.annotation.XmlSchema;
+</code></pre>
+
+<p>When I run the <code>schemagen</code> task, I got this output:</p>
+
+<pre><code>&lt;?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?&gt;
+&lt;xs:schema attributeFormDefault=""unqualified"" elementFormDefault=""unqualified"" version=""1.0"" targetNamespace=""http://test.com"" xmlns:t=""http://test.com"" xmlns:tns=""http://test.com"" xmlns:xs=""http://www.w3.org/2001/XMLSchema""&gt;
+
+  &lt;xs:complexType name=""class1""&gt;
+    &lt;xs:complexContent&gt;
+      &lt;xs:extension base=""tns:class2""&gt;
+        &lt;xs:sequence/&gt;
+        &lt;xs:attribute name=""integerRequired"" type=""xs:int"" use=""required""/&gt;
+        &lt;xs:attribute name=""integerNotRequired"" type=""xs:int""/&gt;
+        &lt;xs:attribute name=""intNotRequired"" type=""xs:int"" use=""required""/&gt;
+        &lt;xs:attribute name=""intRequired"" type=""xs:int"" use=""required""/&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:complexContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=""class2"" abstract=""true""&gt;
+    &lt;xs:sequence/&gt;
+    &lt;xs:attribute name=""stringNotRequired"" type=""xs:string""/&gt;
+    &lt;xs:attribute name=""stringRequired"" type=""xs:string"" use=""required""/&gt;
+    &lt;xs:attribute name=""anotherIntNotRequired"" type=""xs:int"" use=""required""/&gt;
+    &lt;xs:attribute name=""anotherIntRequired"" type=""xs:int"" use=""required""/&gt;
+  &lt;/xs:complexType&gt;
+&lt;/xs:schema&gt;
+</code></pre>
+
+<p>Here is my Ant Task</p>
+
+<pre><code>&lt;target name=""generate-schema"" &gt;
+    &lt;path id=""mycp""&gt;
+        &lt;fileset dir=""lib/jaxb/lib\""&gt;
+            &lt;include name=""*.jar""/&gt;
+        &lt;/fileset&gt;
+        &lt;fileset dir=""lib"" &gt;
+            &lt;include name=""*.jar""/&gt;
+        &lt;/fileset&gt;
+        &lt;fileset dir=""dist"" &gt;
+            &lt;include name=""*.jar""/&gt;
+        &lt;/fileset&gt;
+    &lt;/path&gt;
+
+    &lt;taskdef name=""schemagen"" classname=""com.sun.tools.jxc.SchemaGenTask""&gt;
+        &lt;classpath refid=""mycp""/&gt;
+    &lt;/taskdef&gt;
+
+    &lt;mkdir dir=""schema""/&gt;
+
+    &lt;schemagen srcdir=""src/teste/entity"" destdir=""schema"" &gt;
+        &lt;classpath refid=""mycp""/&gt;
+        &lt;schema namespace=""http://test.com"" file=""full.xsd"" /&gt;            
+    &lt;/schemagen&gt;
+&lt;/target&gt;
+</code></pre>
+","897112","","897112","","2012-01-10 17:26:41","2018-05-10 20:30:06","JAXB - flag 'required' from XmlAttribute being ignored on primitive types","<java><jaxb><xsd>","1","13","0","","","CC BY-SA 3.0"
+"8732947","1","","","2012-01-04 19:40:25","","-2","2346","<p>How to print a square <em>precisely</em> with 1 by 1 inch?</p>
+
+<p>I mean, <code>.strong { width: 1in; height: 1in; }</code> won't work! What really goes wrong? How to calculate this error?</p>
+
+<p>edit: everybody talks about screen pixel and the 1/72 ratio. What happens when it goes to the printer?</p>
+","423335","","423335","","2012-01-04 19:59:13","2012-01-04 19:59:13","How to print a square using HTML (on a printer)?","<html><css><printing>","4","8","","2012-01-04 22:37:40","","CC BY-SA 3.0"
+"8732955","1","8733150","","2012-01-04 19:41:08","","0","148","<p>I'm building a web form that populates dynamically from a stored procedure.  It is a table with a dropdown list and a text box and one label.  I can successfully grab the data from the dropdown and the text box, but I cannot grab the data from the label.  Here is the code that populates the data section of the table.</p>
+
+<pre><code>        sb.Append(""&lt;td style='border-top: 1px solid black; border-left: 1px solid black;'&gt;&lt;select name='select_"" + count + ""'&gt;&lt;option value='Pending'&gt;Pending&lt;/option&gt;&lt;option value='Approve'&gt;Approve&lt;/option&gt;&lt;option value='Deny'&gt;Deny&lt;/option&gt;&lt;/select&gt;&lt;/td&gt;"");
+        sb.Append(""&lt;td style='border-top: 1px solid black; border-left: 1px solid black;'&gt;&lt;input type='text' name='comments_"" + count + ""' /&gt;&lt;/td&gt;"");
+        sb.Append(""&lt;td style='border-top: 1px solid black; border-left: 1px solid black;'&gt;"" + locationNum + ""&lt;/td&gt;"");
+        sb.Append(""&lt;td style='border-top: 1px solid black; border-left: 1px solid black;'&gt;"" + shipToNum + ""&lt;/td&gt;"");
+        sb.Append(""&lt;td style='border-top: 1px solid black; border-left: 1px solid black;'&gt;"" + address + ""&lt;/td&gt;"");
+        sb.Append(""&lt;td style='border-top: 1px solid black; border-left: 1px solid black;'&gt;"" + city + ""&lt;/td&gt;"");
+        sb.Append(""&lt;td style='border-top: 1px solid black; border-left: 1px solid black;'&gt;"" + state + ""&lt;/td&gt;"");
+        sb.Append(""&lt;td style='border-top: 1px solid black; border-left: 1px solid black;'&gt;"" + zip + ""&lt;/td&gt;"");
+        sb.Append(""&lt;td style='border-top: 1px solid black; border-left: 1px solid black;'&gt;"" + soldToName + ""&lt;/td&gt;"");
+        sb.Append(""&lt;td style='border-top: 1px solid black; border-left: 1px solid black;'&gt;"" + exemptionDescription + ""&lt;/td&gt;"");
+        sb.Append(""&lt;td style='border-top: 1px solid black; border-left: 1px solid black;'&gt;&lt;label for='select_"" + count + ""' name='label_"" + count + ""'&gt;"" + exemptionRequestDetailID + ""&lt;label&gt;&lt;/td&gt;"");
+        sb.Append(""&lt;td style='border-top: 1px solid black; border-left: 1px solid black;'&gt;"" + reason + ""&lt;/td&gt;"");
+</code></pre>
+
+<p>Here is the code that grabs the needed data from the table in the aspx page and sends it to the codebehind for manipulation.</p>
+
+<pre><code>function SendForm() {
+        var count = 0;
+        var elLength = form1.elements.length;
+        for (i = 0; i &lt; elLength; i++) {
+            var type = form1.elements[i].type;
+            alert(type);
+            if ((type == ""select-one"") &amp;&amp; (form1.elements[i].value != ""Pending"")) {
+                count++
+            }
+        }
+        var data = new Array(count);
+        var text = new Array(count);
+        var exempID = new Array(count);
+        for (i = 0; i &lt; elLength; i++) {
+            var type = form1.elements[i].type;
+            if ((type == ""select-one"") &amp;&amp; (form1.elements[i].value != ""Pending"")) {
+                data[i] = form1.elements[i].value;
+            }
+            if ((type == ""text"") &amp;&amp; ((form1.elements[i-1].value == ""Approve"") || (form1.elements[i-1].value == ""Deny""))) {
+                text[i] = form1.elements[i].value;
+            }
+            if ((type == ""label"") &amp;&amp; ((form1.elements[i-2].value == ""Approve"") || (form1.elements[i-2].value == ""Deny""))) {
+                alert(form1.elements[i].value);
+            }
+
+
+        }
+
+
+        PageMethods.SendForm(data, text, OnSucceeded, OnFailed);
+    }
+</code></pre>
+
+<p>I have alerts set up to check if it is grabbing the label values, but it is showing nothing at all for the label.  Any help would be appreciated.</p>
+","1069832","","4370109","","2017-04-18 09:33:59","2017-04-18 09:33:59","Grabbing a field from an HTML Table with Javascript","<javascript><c#><html><asp.net><html-table>","3","2","","","","CC BY-SA 3.0"
+"8732959","1","10589005","","2012-01-04 19:41:32","","0","1583","<p>I am working on custom SharePoint calendar which uses .NET code to render VCALENDAR payload with the email which I send to all attendees.</p>
+
+<p>So far my implementation is working great except for updating recurring events. Outlook didn't able to recognize modified DTSTART/DTEND when I send updated VCALENDAR with same UID. Look like I am missing particular field for recurring events.</p>
+
+<p>Here is sample of my VCALENDAR which I am sending to all attendees to update existing recurring event:</p>
+
+<pre><code>BEGIN:VCALENDAR
+METHOD:REQUEST
+PRODID:Microsoft CDO for Microsoft Exchange
+VERSION:2.0
+BEGIN:VTIMEZONE
+    TZID:tz
+    X-MICROSOFT-CDO-TZID:10
+    LAST-MODIFIED:20111229T172655Z
+    BEGIN:STANDARD
+        DTSTART:20111106T020000
+        TZOFFSETTO:+0000
+        TZOFFSETFROM:+0000
+    END:STANDARD
+    BEGIN:DAYLIGHT
+        DTSTART:20120313T020000
+        TZOFFSETTO:+0100
+        TZOFFSETFROM:+0000
+    END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+    SUMMARY:Simple Event\, Attendees:Tin Tin 
+    ORGANIZER:MAILTO:tin.tin@acme.com
+    ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=;X-NUM-GUESTS=0:mailto:tin.tin@acme.com
+    ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=;X-NUM-GUESTS=0:mailto:tin.tin@acme.com
+    LOCATION:Conference Room
+    DTSTAMP:20111229T172652Z
+    UID:D26B0632-8496-4E76-977F-E7A04AF4CF4D
+    SEQUENCE:1
+    URL;VALUE=URI:http://acme/Lists/Conf/DispForm.aspx?ID=1178
+    DTSTART;TZID=tz:20111229T140000
+    DTEND;TZID=tz:20111229T150000
+    RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=TH;WKST=SU
+    END:VEVENT
+END:VCALENDAR
+</code></pre>
+","1100452","","","","","2012-05-14 18:30:08","Updating Recurring vCalendar Event","<sharepoint-2010><vcalendar>","1","0","0","","","CC BY-SA 3.0"
+"8732961","1","","","2012-01-04 19:41:36","","8","4298","<p>I'm trying to construct a proper destructible terrain, just for research purposes.
+Well, everything went fine, but resolution is not satisfying me enough.
+I have seen a lot of examples how people implement MC algorithm, but most of them,
+as far as I understand, uses functions to triangulate final mesh, which is not 
+appropriate for me.</p>
+
+<p>I will try briefly to explain how I'm constructing my terrain, and maybe someone
+of you will give me suggestion how to improve, or to increase resolution of final terrain.</p>
+
+<h3>1) Precalculating MC triangles.</h3>
+
+<p>I'm running simple loop through MC lookup tables for each case(0-255) and calculating triangles
+   in rage: [0,0,0] - [1,1,1].
+   No problems here.</p>
+
+<h3>2) Terrain</h3>
+
+<p>I have terrain class, which stores my voxels.
+   In general, it looks like this:</p>
+
+<pre><code>int size = 32;//Size of each axis.
+unsigned char *voxels = new unsigned char[(size * size * size)/8];
+</code></pre>
+
+<p>So, each axis is 32 units of size long, but, I store voxel information per bit.
+   Meaning if bit is turned on (1), there is something, and there should be draw something.</p>
+
+<p>I have couple of functions:</p>
+
+<pre><code>TurnOn(x,y,z);
+TurnOff(x,y,z);
+</code></pre>
+
+<p>to turn location of voxel on or off. (Helps to work with bits).</p>
+
+<p>Once terrain is allocated, I'm running perlin noise, and turning bits on or off.</p>
+
+<p>My terrain class has one more function, to extract Marching Cubes case number (0-255) from x,y,z location:</p>
+
+<pre><code>unsigned char GetCaseNumber(x,y,z);
+</code></pre>
+
+<p>by determining if neighbours of that voxel is turned on or off.
+   No problems here.</p>
+
+<h3>3) Rendering part</h3>
+
+<p>I'm looping for each axis, extracting case number, then getting precalculated triangles by case,
+   translating to x,y,z coordinates, and drawing those triangles.
+   no problems here.</p>
+
+<p>So result looks like this: </p>
+
+<p><img src=""https://i.imgur.com/KtW6O.png"" alt=""terrain""></p>
+
+<p>But as you can see, in any single location, resolution is not comparable to for example this:
+<a href=""https://i.stack.imgur.com/EsRog.gif"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/EsRog.gif"" alt=""MC""></a><br>
+<sub>(source: <a href=""http://www.angelfire.com/linux/myp/MCAdvanced/mcnormal.gif"" rel=""nofollow noreferrer"">angelfire.com</a>)</sub>  </p>
+
+<p>I have seen in MC examples that people are using something called ""iso values"", which I don't understand.
+Any suggestions how to improve my work, or what is iso values, and how to implement it in uniform grid would be truly lovely.</p>
+","861117","","4751173","","2019-08-16 01:15:05","2019-08-16 01:15:05","Marching Cubes, voxels, need a bit of suggestions","<c++><math><opengl><terrain><marching-cubes>","1","2","0","","","CC BY-SA 4.0"
+"8732963","1","","","2012-01-04 19:41:55","","3","1822","<p>I'm trying to setup Maven to start Tomcat (using Cargo) and deploy my project in preparation for integration tests.</p>
+
+<p>Here is my POM:</p>
+
+<pre><code>&lt; ... &gt;
+&lt;plugin&gt;
+    &lt;groupId&gt;org.codehaus.cargo&lt;/groupId&gt;
+    &lt;artifactId&gt;cargo-maven2-plugin&lt;/artifactId&gt;
+    &lt;version&gt;1.1.3&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;container&gt;
+            &lt;containerId&gt;tomcat6x&lt;/containerId&gt;
+            &lt;type&gt;installed&lt;/type&gt;
+            &lt;home&gt;/Dev/apache-tomcat-6.0.29/&lt;/home&gt;
+        &lt;/container&gt;
+        &lt;configuration&gt;
+            &lt;type&gt;existing&lt;/type&gt;
+            &lt;home&gt;/Dev/apache-tomcat-6.0.29/&lt;/home&gt;
+        &lt;/configuration&gt;
+    &lt;/configuration&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;id&gt;start&lt;/id&gt;
+            &lt;phase&gt;pre-integration-test&lt;/phase&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;start&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+        &lt;execution&gt;
+            &lt;id&gt;stop&lt;/id&gt;
+            &lt;phase&gt;post-integration-test&lt;/phase&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;stop&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;
+&lt; .... &gt;
+</code></pre>
+
+<p>When I clean and build, it can't find Catalina.jar which is in my Tomcat /lib directory:</p>
+
+<pre><code>[talledLocalContainer] java.lang.ClassNotFoundException: org.apache.catalina.startup.Catalina
+[talledLocalContainer]  at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+[talledLocalContainer]  at java.security.AccessController.doPrivileged(Native Method)
+[talledLocalContainer]  at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+[talledLocalContainer]  at java.lang.ClassLoader.loadClass(ClassLoader.java:307)
+[talledLocalContainer]  at java.lang.ClassLoader.loadClass(ClassLoader.java:248)
+[talledLocalContainer]  at org.apache.catalina.startup.Bootstrap.init(Bootstrap.java:216)
+[talledLocalContainer]  at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:391)
+</code></pre>
+
+<p>When running clean and build with debug enabled, it shows that it is looking for Catalina.jar in tomcat/server/lib:</p>
+
+<pre><code>[talledLocalContainer] Failed to find Tomcat version, base error [\Dev\apache-tomcat-6.0.29\server\lib\catalina.jar (The system cannot find the path specified)]
+[talledLocalContainer] Parsed Tomcat version = [6.x]
+[talledLocalContainer] Tomcat 6.x starting...
+[talledLocalContainer] Project base dir set to:  C:\Users\Colin\Documents\NetBeansProjects\HousingWeb
+[talledLocalContainer] Executing 'C:\Program Files\Java\jdk1.6.0_22\jre\bin\java.exe' with arguments:
+</code></pre>
+
+<p>My tomcat directory looks like this:</p>
+
+<pre><code>- apache-tomcat-6.0.29
+   + bin
+   + conf
+   - lib
+       - Catalina.jar
+       - [bunch of other .jars]
+   + logs
+   + temp
+   + webapps
+   + work
+   - [other files]
+</code></pre>
+
+<p>Why might Cargo be looking for Tomcat's lib folder under /server/lib instead of just /lib? </p>
+
+<p>Is there a way to override this behavior?</p>
+
+<p><em>UPDATE:</em></p>
+
+<p>After looking through the different versions of Tomcat (5.5, 6.0, 7.0) it looks like the directory structure for 5.5 had /server/lib and /common/lib where 6.0 and 7.0 just have /lib. </p>
+
+<p>Cargo seems to be trying to instantiate a Tomcat 5.5 app. How do I configure it to use 6.0?</p>
+","965150","","965150","","2012-01-05 14:33:03","2012-01-05 16:20:22","Cargo-Maven2-Plugin not finding Tomcat /lib directory","<java><tomcat6><cargo><maven-cargo>","1","0","0","","","CC BY-SA 3.0"
+"8732965","1","8733710","","2012-01-04 19:42:11","","0","277","<p>How does one handle image downloads in a mobi site - using jquery mobile and asp.net mvc 3 and have a requirement to allow a user to download wallpapers to their mobile.</p>
+
+<p>Can you trigger a download or is best to simply simple the image to them and let them handle the saving?</p>
+
+<p>Any input appreciated.</p>
+","62282","","","","","2012-01-04 20:42:32","How to handle downloads in mobile site","<asp.net-mvc-3><jquery-mobile>","1","0","","","","CC BY-SA 3.0"
+"8732966","1","8733739","","2012-01-04 19:42:13","","0","584","<p>I'm developing a rails 3.0.9 app, I'm using ""accept nested attributes
+for"" to add dynamically new ""child"" items to its ""parentW. the thing is
+every child has the same id (html attribute), and I need every child with its own id,
+because I need to make some jquery functions to work with them.</p>
+
+<p>Is there a way to achieve this?</p>
+
+<p>Tanks for your help </p>
+","858726","","","","","2012-03-21 06:30:22","Rails 3 - How to set different id (html attribute) in nested form attributes","<html><ruby-on-rails-3><nested-forms><nested-attributes>","1","0","","","","CC BY-SA 3.0"
+"8732967","1","","","2012-01-04 19:42:16","","0","230","<p>I'm creating a new appdomain for loading some libraries and it seems to have problem finding some files. I'm using the event</p>
+
+<pre><code>ReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs args)
+</code></pre>
+
+<p>In one of them, the event was raised with the assembly below requested.</p>
+
+<pre><code>System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+</code></pre>
+
+<p>This is how all the needed assembly will be requested. </p>
+
+<p>My question is given the full name, how can I get the location of the actually library to load? If that is also not necessary and there is another way to load the libraries, I'll appreciate that as well.</p>
+
+<p>PS: The main application is a .net 4.0 application. </p>
+","439803","","351982","","2012-01-04 19:44:25","2012-01-04 19:54:05","Locating a system assembly given the full name","<.net><reflection><appdomain>","1","0","","","","CC BY-SA 3.0"
+"8732969","1","8733610","","2012-01-04 19:42:30","","1","324","<p>trying to solve a bug! I have an ajax powered social network (with like and comments etc). I have a working comment script but when i have tested it I am getting a duplication of the original post and comment. Instead of adding a comment to just the post it is adding the comments and duplicating the post and comments each time when the data is output.</p>
+
+<p>I have used jquery for ajax which works fine and PHP, probably something obvious as i new to jquery and php I was hoping for some help? Sorry for the armount of code I can reduce if required</p>
+
+<p>Thanks
+jquery </p>
+
+<pre><code>       $("".editable"").live('click', function(){
+
+
+        $(this).empty();
+
+        $(this).mouseout(function() {
+
+            var comment = $(this).html();
+            var postid = $(this).attr(""pid"");
+            var commentuserid = $(""#loggedin"").attr(""uid"");
+
+
+            if(comment == """"){
+
+                return false;
+
+
+            }else{
+
+
+                    //alert(comment);
+                    //alert(postid);
+                    //alert(commentuserid);
+
+
+                    var datastring = 'comment=' + comment + '&amp;postid=' + postid + '&amp;commentuserid=' + commentuserid;
+
+
+                    //save with ajax clear box and then load back in
+                    $.ajax({
+                    type: ""POST"",
+                    url: ""uploadcomment.php"",
+                    data: datastring,
+                    success: function(data){
+
+
+                    $("".usermsg"").html(data);
+
+
+
+
+                    }
+
+                    });
+
+
+            }
+});
+
+
+
+});
+</code></pre>
+
+<p>php giving double post when comment uploaded</p>
+
+<pre><code>     &lt;?
+
+    $sql = ""SELECT post.post, post.posttime, post.pid_imageurl, post.likes, user.name, 
+    comments.comment, user.uid_imageurl, comments.comment_uid, post.pid
+                FROM post
+                INNER JOIN user
+                ON post.uid=user.uid
+                LEFT JOIN comments
+                ON comments.comment_pid=post.pid
+                ORDER BY pid DESC"";
+
+    $result = mysql_query($sql);
+
+    while($row=mysql_fetch_assoc($result)){?&gt;
+
+    &lt;?
+    $pid = $row['pid'];
+    $formattime = date(""g:i:a"",$row['posttime']);
+    echo '&lt;p class=""speechbubble""&gt;'.$row['post'].'&lt;/p&gt;';
+    echo '&lt;p class=""msgholder"" &gt;Posted by '.$row['name'].' at '.$formattime. '&lt;img class= ""userprofileimage"" src=""'.$row['uid_imageurl'].'"" alt=""user profile image""/&gt;&lt;/p&gt;';
+?&gt;
+
+
+
+    &lt;div class=""editable"" pid=""&lt;? echo $row['pid'];?&gt;"" contentEditable=""true""&gt;
+             add comment...
+    &lt;/div&gt;
+
+    &lt;?
+
+    $sql_comments = ""SELECT comments.comment, comments.comment_time, user.name, user.uid_imageurl FROM comments
+                    INNER JOIN user
+                    ON  comments.comment_uid = user.uid
+                    WHERE comment_pid = '$pid' ORDER BY cid DESC"";
+
+
+    $result_comments = mysql_query($sql_comments);                
+
+      $numrows_comments=mysql_num_rows($result_comments);//num of rows
+
+
+              if($numrows_comments==0) //no comments
+            {
+                 echo '&lt;p&gt;Comments&lt;/p&gt;&lt;hr&gt;&lt;br&gt;';
+                 echo 'This post has no comments yet, be the first!';
+                 echo '&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;hr&gt;&lt;br&gt;&lt;br&gt;';
+
+            }else{
+                  echo '&lt;p&gt;Comments&lt;/p&gt;&lt;hr&gt;&lt;br&gt;';
+                  while($row=mysql_fetch_assoc($result_comments)){
+                  $formattime_comment = date(""g:i:a"",$row['comment_time']);
+                   echo '&lt;p class=""comment""&gt;'.$row['comment'].'&lt;/p&gt;';
+                   echo '&lt;p class=""commentposter""&gt;posted by '.$row['name']. ' at ' .$formattime_comment. '&lt;img class=""commentprofileimage"" src=""'.$row['uid_imageurl'].'"" alt=""user profile image""/&gt;&lt;/p&gt;';
+
+            }//$sql_comments
+
+            echo '&lt;hr&gt;&lt;br&gt;&lt;br&gt;';
+
+      }//else end
+
+    }//$sql
+
+
+    ?&gt;
+
+
+
+
+    &lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;/div&gt;
+</code></pre>
+
+
+        -->
+","1062631","","1062631","","2012-01-04 20:01:12","2012-06-12 14:17:00","duplicate mysql comment entries with ajax powered social network?","<php><jquery><mysql>","3","4","0","","","CC BY-SA 3.0"
+"8732974","1","8733194","","2012-01-04 19:43:05","","2","3381","<p>I cannot figure out how to plot a vector field with only 1 variable. Maybe Mathematica doesn't support this. For example:</p>
+
+<pre><code> r(t) = cost j + sint i
+</code></pre>
+
+<p>same as</p>
+
+<pre><code> &lt;cost, sint&gt;
+</code></pre>
+
+<p>This doesn't work:</p>
+
+<pre><code>VectorPlot[{cos t, sin t}, {t, 0, 2 Pi}] 
+</code></pre>
+
+<p>As a bonus how to take the derivative of a vector?</p>
+","968102","","1028599","","2012-01-04 23:31:44","2014-02-11 08:03:39","Mathematica How do I plot a vector field with 1 variable?","<vector><wolfram-mathematica><plot>","1","2","0","","","CC BY-SA 3.0"
+"8732977","1","8733556","","2012-01-04 19:43:20","","1","735","<p>I am aware of the clone function that could do this, but the thing it would clone what is in the repo, being everything that was pushed.</p>
+
+<p>What we need is to modify some files in our repository template and create a new repo with these modified files, without having to commit these files (that are project-dependant) to our template, so it stays intact.</p>
+
+<p>Is that even possible? Using ""git add"", ""git commit"" and then ""git push"" with an extra parameter that would be the remote repository?</p>
+
+<p>Basically, I want the files, not the repo.</p>
+","1046013","","1046013","","2012-01-04 20:06:15","2012-01-04 20:46:46","Create remote repository from local files that are already on a local repo","<git><bash><deployment><ssh>","2","4","0","","","CC BY-SA 3.0"
+"8732987","1","8733055","","2012-01-04 19:43:54","","2","6316","<p>I need to update UI after certain time period, for which I have create a  timer schedule and inside it I am calling the runOnUiThread. </p>
+
+<pre><code>timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                System.out.println(""1"");
+                    try {
+
+                    System.out.println(""2"");
+                    System.out.println(""3"");
+
+                    runOnUiThread(new  Runnable() {
+
+                        public void run() {
+                            System.out.println(""4"");
+                            System.out.println(""5"");
+                            System.out.println(""6"");
+                            System.out.println(""7"");
+                        }
+                    });
+
+                    System.out.println(""8"");
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+
+            }
+
+        }, delay, period);
+        System.out.println(""9"");
+</code></pre>
+
+<p>I am having the problem that after reaching ""3"", timer thread jumps to ""8"" and after that  the UI thread runs from ""4"". 
+I want to make timer thread to wait till UI thread completes its work  at ""7"" only then it should move to ""8"".</p>
+
+<p>Sample Output</p>
+
+<pre><code>01-05 00:30:16.308: I/System.out(1394): 1
+01-05 00:30:16.308: I/System.out(1394): 2
+01-05 00:30:16.308: I/System.out(1394): 3
+01-05 00:30:16.308: I/System.out(1394): 8
+01-05 00:30:16.308: I/System.out(1394): 4
+01-05 00:30:16.308: I/System.out(1394): 5
+01-05 00:30:16.308: I/System.out(1394): 6
+01-05 00:30:16.308: I/System.out(1394): 7
+01-05 00:30:17.307: I/System.out(1394): 1
+01-05 00:30:17.307: I/System.out(1394): 2
+01-05 00:30:17.307: I/System.out(1394): 3
+01-05 00:30:17.307: I/System.out(1394): 8
+01-05 00:30:17.307: I/System.out(1394): 4
+01-05 00:30:17.323: I/System.out(1394): 5
+01-05 00:30:17.323: I/System.out(1394): 6
+01-05 00:30:17.323: I/System.out(1394): 7
+</code></pre>
+","328518","","","","","2015-08-06 13:59:22","How to make timer task to wait till runOnUiThread completed","<java><android><multithreading><timertask><ui-thread>","2","0","","","","CC BY-SA 3.0"
+"8732988","1","8733019","","2012-01-04 19:44:05","","2","4614","<p>could anybody tell me how can I set a theme for my application which will change when version of Android will change. For example if anybody will use my app on Android 2.1 theme will look like this: <a href=""http://daily-money.googlecode.com/svn/wiki/img/prefs.png"" rel=""nofollow"">http://daily-money.googlecode.com/svn/wiki/img/prefs.png</a></p>
+
+<p>But if anybody will use my app on for example Android 4.0.3 theme will look like this: <a href=""http://img.tapatalk.com/dcff019c-27ba-1e1a.jpg"" rel=""nofollow"">http://img.tapatalk.com/dcff019c-27ba-1e1a.jpg</a>
+I have used minSDK 7.</p>
+
+<p>Thank you.</p>
+","988190","","","","","2012-01-08 07:27:14","How set ICS theme for application with minSDK 7?","<android><styles><themes><android-4.0-ice-cream-sandwich>","3","0","0","","","CC BY-SA 3.0"
+"8732996","1","8833914","","2012-01-04 19:44:39","","2","3198","<p>Background: I need to create an NDIS filter intermediate driver. This driver will pass all traffic while collecting metadata (primarily timing information). The driver will export this information to a user application by inserting its own packets containing the metadata and passing them up the stack. </p>
+
+<p>My question is regarding NDIS versions. Eventually, I will have to write a driver for both Windows XP and 7. However at the moment, I will only be implementing one of these as a proof of concept/prototype. I know that in NDIS 6 they split the filter functionality out from generic intermediate drivers into a separate driver type (lightweight filter) in order to simplify the creation of filter drivers. Microsoft provides examples of passthrough filter drivers in the DDK for both NDIS 5 and 6. I've been looking at these examples and the NDIS 6 LWF only looks somewhat simpler (although admittedly, I'm still new to Windows driver development).</p>
+
+<p>All other things equal, it would be better to support Win XP first (larger installed base, easier access to test machines, etc). However, if NDIS 6 lightweight filters would make for faster/easier development, I might be better off implementing the Win 7 driver first. </p>
+
+<p>In short: In your experience has NDIS 6 noticeably simplified filter driver development compared to NDIS 5?</p>
+
+<p>Thanks for any input.</p>
+","653753","","","","","2012-01-12 10:57:54","NDIS 5/6 intermediate filter driver","<windows><driver><ndis>","2","1","","","","CC BY-SA 3.0"
+"8733007","1","8735528","","2012-01-04 19:45:20","","13","646","<p>I would like to know how to retrieve a file using Vi in MySQL. I logged in using:</p>
+
+<pre><code>mysql -uuser -p -hserver -A database
+</code></pre>
+
+<p>Then I do:</p>
+
+<pre><code>\e
+</code></pre>
+
+<p>The editor opens and I type my query of 200 lines, then I <code>:wq</code> and <code>\G</code> (if I save the file it says: <code>/tmp/sql9SbYQZ saved</code>) and I see the result.</p>
+
+<p>Now, if I make a mistake or run a different query and I try to type <code>\e</code> again, the query is lost.</p>
+
+<pre><code>ll /tmp/sql9SbYQZ
+ls: /tmp/sql9SbYQZ: No such file or directory
+</code></pre>
+
+<p>Is there a way to retrieve the lost file?</p>
+","1051924","","225037","","2012-06-14 11:28:23","2020-08-14 13:57:53","Retrieve lost file using Vi in MySQL","<mysql><vim><command-line><editor><vi>","3","0","0","","","CC BY-SA 3.0"
+"8733011","1","","","2012-01-04 19:45:52","","1","359","<p>My question is very similar to a previous posting (How to reference the child of a many to one relationship in SQLAlchemy?), however the solution was lost on me owing to my inexperience with sqla, python, etc...</p>
+
+<p>I have a flat .csv file (RawData) and I'm trying to normalize this parent table into set-like child (look-up?) tables and then impose referential integrity using python2.7, sqlite3 v.3.7.7 on ubuntu 11.10.</p>
+
+<p>I also realise that my understanding and naming conventions might also be causing problems as it would appear I'm trying to make distinct sets of people, institutions, places, etc. on the unitary side of a many-to-one relationship as children, with the exception being the relation between RawGrant and Grant, which I think should be 1-to-1.</p>
+
+<p>I've a sneaking suspicion that there are a number of problems in my attempts and thought it might be more expedient to ask in the hopes of being cured of my ignorances.</p>
+
+<p>Many thanks in advance,
+christopher</p>
+
+<p>Here is the previous question I was trying to follow:
+<a href=""https://stackoverflow.com/questions/7933166/how-to-reference-the-child-of-a-many-to-one-relationship-in-sqlalchemy"">How to reference the child of a many to one relationship in SQLAlchemy?</a></p>
+
+<p>Here, I think, is what I'm trying to do, but am getting confused with the nomenclature btw class, table and relation:</p>
+
+<pre><code>class Parent(Base):
+    __tablename__ = 'parent'
+    parent_id = Column(Integer, primary_key=True)
+
+    # use a set
+    children = relationship(Child, collection_class=set)
+
+parent = Parent()
+child = Child()
+parent.children.add(child)
+assert child in parent.children
+</code></pre>
+
+<p>And here are my efforts so far (below).</p>
+
+<p>Apologies for the less-than-helpful earlier posting...</p>
+
+<pre><code>from sqlalchemy import create_engine, MetaData, ForeignKey
+from sqlalchemy import Table, Column, Integer, UnicodeText, Date
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, backref, relationship
+from sqlalchemy.orm.collections import collection
+
+Base = declarative_base()
+metadata = MetaData()
+
+class RawData(Base):
+    __tablename__ = 'data'
+    master_id = Column(Integer,primary_key=True, autoincrement=True)
+    dataset = Column(UnicodeText)
+    grant_id_rcid = Column(Integer)
+    grant_id_grantor = Column(UnicodeText)
+    reference_number_nih = Column(UnicodeText)
+    grant_type_nih = Column(UnicodeText)
+    grant_activity_code_nih = Column(UnicodeText)
+    project_status = Column(UnicodeText)
+    area_of_research_nih = Column(UnicodeText)
+    grantor_id_nih = Column(Integer)
+    recipient_id_nih = Column(Integer)
+    pi_id_nih = Column(Integer)
+    bmrcs = Column(UnicodeText)
+    title = Column(UnicodeText)
+    abstract = Column(UnicodeText)
+    background = Column(UnicodeText)
+    project_description = Column(UnicodeText)
+    anticipated_outcomes = Column(UnicodeText)
+    actual_outcomes = Column(UnicodeText)
+    publications = Column(UnicodeText)
+    start_date = Column(Date)
+    end_date = Column(Date)
+    fiscal_year = Column(Date)
+    funding = Column(Integer)
+    currency = Column(UnicodeText)
+    department = Column(UnicodeText)
+    school = Column(UnicodeText)
+    city = Column(UnicodeText)
+    state = Column(UnicodeText)
+    data_source = Column(UnicodeText)
+    data_source_org = Column(UnicodeText)
+    created_by = Column(UnicodeText)
+    created_date = Column(Date) 
+    updated_by = Column(UnicodeText)
+    updated_date = Column(Date)
+    country = Column(UnicodeText)
+    recipient_org_type = Column(UnicodeText)
+    department_combine_name = Column(UnicodeText)
+    keywords = Column(UnicodeText) 
+    active = Column(UnicodeText)
+    access_level = Column(UnicodeText)
+    pi_fullname = Column(UnicodeText)
+    pi_firstname = Column(UnicodeText)
+    pi_midname = Column(UnicodeText)
+    pi_surname = Column(UnicodeText)
+    recipient_org_name = Column(UnicodeText)
+    grantor_name = Column(UnicodeText)
+    grantor_name_short = Column(UnicodeText)
+    co_principal_investigator = Column(UnicodeText)
+    fund_type = Column(UnicodeText)
+    program_area = Column(UnicodeText)
+    grant_id = Column(Integer, ForeignKey('grants.grant_id_master'), onupdate=""cascade"")
+    grant = relationship('Grant', uselist=False, backref='data', passive_updates=False,\ cascade='all', collection_class=set)
+    pi_id = Column(Integer, ForeignKey('investigators.pi_id_master'),\ onupdate=""cascade"")    
+    pi = relationship('PI', backref='data', passive_updates=False, cascade='all',\
+collection_class=set)
+    grantor_id = Column(Integer, ForeignKey('grantors.grantor_id_master'),\ onupdate=""cascade"")
+    grantor = relationship('Grantor', backref='data', passive_updates=False, cascade='all',\ collection_class=set)
+    recipient_id = Column(Integer, ForeignKey('recipients.recipient_id_master'),\ onupdate=""cascade"")
+    recipient = relationship('Recipient', backref='data', passive_updates=False,\ cascade='all', collection_class=set)
+    address_id = Column(Integer, ForeignKey('addresses.address_id_master'),\ onupdate=""cascade"")
+    address = relationship('Address', backref='data', passive_updates=False, cascade='all',\ collection_class=set)
+    gac_id = Column(Integer, ForeignKey('grant_activity_codes.gac_id_master'),\ onupdate=""cascade"")
+    gac = relationship('GAC', backref='data', passive_updates=False, cascade='all',\ collection_class=set)
+    gt_id = Column(Integer, ForeignKey('grant_types.gt_id_master'), onupdate=""cascade"")
+    gt = relationship('GT', backref='data', passive_updates=False,cascade='all',\ collection_class=set)
+
+class Grant(Base):
+##    __emulates__ = set
+    __tablename__ = 'grants'
+    grant_id_master = Column(Integer, primary_key=True, autoincrement=True)
+    dataset = Column(UnicodeText)
+    grant_id_rcid = Column(Integer)
+
+    grant_id_grantor = Column(UnicodeText)
+    reference_number_nih = Column(UnicodeText)
+    bmrcs = Column(UnicodeText)
+    title = Column(UnicodeText)
+    abstract = Column(UnicodeText)
+    start_date = Column(Date)
+    end_date = Column(Date)
+    fiscal_year = Column(Date)
+    funding = Column(Integer)
+    currency = Column(UnicodeText)
+    data_source = Column(UnicodeText)
+    data_source_org = Column(UnicodeText)
+    fund_type = Column(UnicodeText)
+    program_area = Column(UnicodeText)
+
+##    def __init__(self):
+##        self.data = set()
+##    def append(self, item):
+##        self.data.add(item)
+##    def remove(self, item):
+##        self.data.remove(item)
+##    def __iter__(self):
+##        return iter(self.data)
+
+class PI(Base):
+    __tablename__= ""investigators""
+    pi_id_master = Column(Integer, primary_key=True, autoincrement=True)
+    pi_id_nih = Column(Integer)
+    pi_fullname = Column(UnicodeText)
+    pi_firstname = Column(UnicodeText)
+    pi_midname = Column(UnicodeText)
+    pi_surname = Column(UnicodeText)
+
+class Grantor(Base):
+    __tablename__= ""grantors""
+    grantor_id_master = Column(Integer, primary_key=True, autoincrement=True)
+    grantor_id_nih = Column(Integer)
+    grantor_name = Column(UnicodeText)
+    grantor_name_short = Column(UnicodeText)
+
+class Recipient(Base):
+    __tablename__= ""recipients""
+    recipient_id_master = Column(Integer,primary_key=True, autoincrement=True)
+    recipient_id_nih = Column(Integer)
+    department = Column(UnicodeText)
+    school = Column(UnicodeText)
+    recipient_org_type = Column(UnicodeText)
+    department_combine_name = Column(UnicodeText)
+    recipient_org_name = Column(UnicodeText)
+
+class Address(Base):
+    __tablename__= ""addresses""
+    address_id_master = Column(Integer, primary_key=True, autoincrement=True)
+    city = Column(UnicodeText)
+    state = Column(UnicodeText)
+    country = Column(UnicodeText)
+
+class GAC(Base):
+    __tablename__= ""grant_activity_codes""
+    gac_id_master = Column(Integer, primary_key=True, autoincrement=True)
+    grant_activity_code = Column(UnicodeText)
+
+class GT(Base):
+    __tablename__= ""grant_types""
+    gt_id_master = Column(Integer, primary_key=True, autoincrement=True)
+    grant_type = Column(UnicodeText)
+
+data = RawData() # parent = Parent()
+grants = Grant()  # child = Child()
+grantors = Grantor()
+recipients = Recipient()
+investigators = PI()
+addresses = Address()
+grant_activity_codes = GAC()
+grant_types = GT()
+## parent.children.append(Child())
+
+##data.grant.append(Grants())
+##data.grant.append(Grantor())
+##data.grant.append(Recipient())
+##data.grant.append(PI())
+##data.grant.append(Address())
+##data.grant.append(GAC())
+##data.grant.append(GT())
+
+##data.grant.append(grants)  # parent.children.add(child)
+##assert grants in data.grant # assert child in parent.children
+##data.grantor.append(grantors)
+##assert grantors in data.grantor
+##data.recipient.append(recipients)
+##assert recipients in data.recipient
+##data.pi.append(investigators)
+##assert investigators in data.pi
+##data.address.append(addresses)
+##assert addresses in data.address
+##data.gac.append(grant_activity_codes)
+##assert grant_activity_codes in data.gac
+##data.gt.append(grant_types)
+##assert grant_types in data.gt
+
+engine = create_engine('sqlite:///cascade-empty2.db', echo=True)
+Session = sessionmaker(bind=engine)
+session = Session()
+Base.metadata.drop_all(engine)
+Base.metadata.create_all(engine)
+##session.add_all()
+##session.commit()
+</code></pre>
+","636587","","-1","","2017-05-23 12:06:04","2012-01-04 19:45:52","Normalization of flat file, configuring sqlalchemy- setting several many-to-one set-like relationships declaratively","<sqlalchemy><normalization><relationship><declarative>","0","0","0","","","CC BY-SA 3.0"
